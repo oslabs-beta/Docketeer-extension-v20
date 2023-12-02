@@ -5,10 +5,9 @@ services:
   docketeer:
     # Image must be ${DESKTOP_PLUGIN_IMAGE} to be used as an extension
     # image: ${DESKTOP_PLUGIN_IMAGE}
-    build: 
-      context: .. 
-      dockerfile: extension/dockerfile.browser
-    image: docketeer/docketeer-extension:dev
+    build:
+      context: ..
+      dockerfile: extension/dev.Dockerfile
     container_name: docketeer-ext
     environment:
       - MODE=browser
@@ -22,7 +21,6 @@ services:
       - ${PWD}/ui:/ui
       - backend_node:/backend/node_modules
       - ui_node:/ui/node_modules
-
     ports:
       - 4000:4000
       - 3000:3000
@@ -111,10 +109,11 @@ services:
   
   # Store metrics gathered from containers at localhost:5432 
   postgres:
-    build:
-      context: ..
-      dockerfile: ./extension/dockerfile.postgres
-    image: docketeer-postgres
+    # build:
+    #   context: ..
+    #   dockerfile: ./extension/dockerfile.postgres
+    # image: docketeer-postgres
+    image: postgres:16.0-alpine3.18
     container_name: docketeer-ext-postgres
     expose:
       - 5432
