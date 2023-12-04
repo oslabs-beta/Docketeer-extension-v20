@@ -12,6 +12,8 @@ interface ImageController {
    */
   getImages: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
+  scanImages: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+
   /**
    * @method
    * @todo implement
@@ -43,6 +45,7 @@ const imageController: ImageController = {} as ImageController;
 
 /**
  * @todo fix frontend implementation
+ * @todo errObj message should more generic as it will be shown the client and should not reveal too much of the inner workings of the server
  */
 imageController.getImages = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -60,6 +63,25 @@ imageController.getImages = async (req: Request, res: Response, next: NextFuncti
     return next(errObj);
   }
 }
+
+imageController.scanImages = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { stdout, stderr } = await execAsync('grype version');
+    if (stderr) throw new Error(stderr);
+    const CVEInfo = stdout; 
+    console.log('Image Vulnerability Info', CVEInfo);
+    res.locals.CVEInfo = CVEInfo;
+    next()
+
+  } catch (error) {
+    const errObj: ServerError = {
+      log: `imageController.scanImages error ${error}`,
+      status: 500,
+      message: { err: 'internal server error'}
+    }
+    next(errObj);
+  }
+};
 
 /**
  * @todo verify it's working 

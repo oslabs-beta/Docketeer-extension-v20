@@ -43,53 +43,49 @@ const Images = (params?: TestParams): React.JSX.Element => {
   };
 
   const runImageAlert = (image: ImageType) => {
-    {
-      dispatch(
-        createPrompt(
-          `Are you sure you want to run ${image.Repository}?`,
-          () => {
-            runImage(image);
-            dispatch(
-              createAlert(`Running ${image.Repository}...`, 5, 'success')
-            );
-          },
-          () => {
-            dispatch(
-              createAlert(
-                `The request to run ${image.Repository} has been cancelled.`,
-                5,
-                'warning'
-              )
-            );
-          }
-        )
-      );
-    }
+    dispatch(
+      createPrompt(
+        `Are you sure you want to run ${image.Repository}?`,
+        () => {
+          runImage(image);
+          dispatch(
+            createAlert(`Running ${image.Repository}...`, 3, "success")
+          );
+        },
+        () => {
+          dispatch(
+            createAlert(
+              `The request to run ${image.Repository} has been cancelled.`,
+              3,
+              "warning"
+            )
+          );
+        }
+      )
+    );
   };
 
   const removeImageAlert = (image: ImageType) => {
-    {
-      dispatch(
-        createPrompt(
-          `Are you sure you want to remove ${image.Repository}?`,
-          () => {
-            removeImage(image.ID);
-            dispatch(
-              createAlert(`Removing ${image.Repository}...`, 5, 'success')
-            );
-          },
-          () => {
-            dispatch(
-              createAlert(
-                `The request to remove ${image.Repository} has been cancelled.`,
-                5,
-                'warning'
-              )
-            );
-          }
-        )
-      );
-    }
+    dispatch(
+      createPrompt(
+        `Are you sure you want to remove ${image.Repository}?`,
+        () => {
+          removeImage(image.ID);
+          dispatch(
+            createAlert(`Removing ${image.Repository}...`, 3, "success")
+          );
+        },
+        () => {
+          dispatch(
+            createAlert(
+              `The request to remove ${image.Repository} has been cancelled.`,
+              3,
+              "warning"
+            )
+          );
+        }
+      )
+    );
   };
 
   // mock images data
