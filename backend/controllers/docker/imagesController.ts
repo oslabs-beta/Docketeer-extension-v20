@@ -3,6 +3,7 @@ import { ContainerPS, ImageType } from '../../../types';
 import { execAsync } from '../helper';
 import { ServerError } from '../../backend-types';
 import { log } from 'console';
+import { performance } from 'perf_hooks';
 
 interface ImageController {
   /**
@@ -49,11 +50,16 @@ const imageController: ImageController = {} as ImageController;
  * @todo errObj message should more generic as it will be shown the client and should not reveal too much of the inner workings of the server
  */
 imageController.getImages = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const start = performance.now()
   try {
     const { stdout, stderr } = await execAsync('docker images --format "{{json .}},"');
     if (stderr.length) throw new Error(stderr);
     const images: ImageType = JSON.parse(`[${stdout.trim().slice(0, -1)}]`);
     res.locals.images = images;
+    const end = performance.now();
+    const elapsedTime = end-start
+    console.log('getImages elapsed time', elapsedTime);
+    
     return next();
   } catch (error) {
     const errObj: ServerError = {
@@ -66,18 +72,49 @@ imageController.getImages = async (req: Request, res: Response, next: NextFuncti
 }
 
 imageController.scanImages = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const start = performance.now();
+  //get image names from res.locals.images
+  // const imageNames = res.locals.images.map(imageObj => imageObj.Repository + ':' + imageObj.Tag)
+
+  res.locals.images.forEach(imageObj => imageObj.scanName = imageObj.Repository + ':' + imageObj.Tag);
+
   try {
     console.log('scanning images');
     
-    const execArray = [execAsync('GRYPE_DB_AUTO_UPDATE=false; grype mysql'), execAsync('GRYPE_DB_AUTO_UPDATE=false; grype postgres')]
-    // const { stdout, stderr } = await execAsync('grype mysql');
-    console.log('execArray', execArray);
-    console.log('type of execArray', typeof execArray);
+    //run grype scan on each image using custom template in grype/json.tmpl
+    // const { stdout, stderr } = await execAsync(`grype ${imageNames[1]} -o template -t ./controllers/grype/json.tmpl`);
+    async function scanAndCount(image) {
+      const { stdout, stderr } = await execAsync(`grype ${image.scanName} -o template -t ./controllers/grype/json.tmpl`);
+      if (stderr) throw new Error(stderr);
+
+      //parse the vulnerability data and count the number of vulnerabilites
+      const vulnerabilityJSON = JSON.parse(stdout);
+      const countVulnerability = vulnerabilityJSON.reduce((acc, cur) => {
+        acc.hasOwnProperty(cur.Severity) ? acc[cur.Severity]++ : acc[cur.Severity] = 1;
+        return acc
+      }, {});
+
+      image.vulnerabilites = countVulnerability;
+      return image
+    }
+
+    const execArray = res.locals.images.map(image => scanAndCount(image));
+    
+    // const execArray = imageNames.map(imageName => execAsync(`grype ${imageName} -o json`));
+    
+    // const resultArr = await Promise.all(execArray);
+
+    // const execArray = [execAsync('GRYPE_DB_AUTO_UPDATE=false; grype mysql'), execAsync('GRYPE_DB_AUTO_UPDATE=false; grype postgres')]
+
     const resultArr = await Promise.all(execArray);
-    // if (stderr) throw new Error(stderr);
-    const CVEInfo = JSON.stringify(resultArr); 
-    console.log('Image Vulnerability Info', CVEInfo);
-    res.locals.CVEInfo = CVEInfo;
+    console.log('result array type', typeof resultArr);
+    
+    console.log('do not kill my computer', resultArr);
+    
+    const end = performance.now();
+    const elapsedTime = end - start
+    console.log('getImages elapsed time', elapsedTime);
+    res.locals.images = resultArr;
     next()
 
   } catch (error) {

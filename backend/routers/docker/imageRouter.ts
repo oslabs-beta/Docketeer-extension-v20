@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import imageController from '../../controllers/docker/imagesController';
 import containerController from '../../controllers/docker/containersController';
+import { log } from 'console';
 const router = Router();
 
 /**
