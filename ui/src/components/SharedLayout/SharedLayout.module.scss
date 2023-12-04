@@ -7,6 +7,7 @@ $navbar-transition: transform 0.3s ease-in-out;
   top: -$navbar-height;
 
   background-color: color(background, base);
+  display: flex;
   align-items: center;
   position: fixed;
   z-index: 9999;
@@ -16,21 +17,50 @@ $navbar-transition: transform 0.3s ease-in-out;
   height: $navbar-height;
 }
 
+.logo {
+  margin-left: 110px;
+}
+
+.hamburgerIcon {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.hamburgerDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+.bar {
+  width: 30px;
+  height: 4px;
+  background-color: white;
+  margin: 4px 0;
+}
+
 .navSpacer {
   height: $navbar-height;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end; /* or justify-content: space-around; */
+  align-items: flex-end;
 
   ul {
     display: flex;
     align-items: center;
-    text-align: left;
+    text-align: center;
+    margin-left: 100px;
   }
+
   li {
     list-style: none;
     padding: 0.5rem 0rem;
-    margin-right: 1rem;
+    // margin-right: 5rem;
+    margin-right: 2rem;
+    margin-left: 2rem;
+    align-items: center;
   }
+
   a,
   span {
     text-decoration: none;
@@ -40,12 +70,12 @@ $navbar-transition: transform 0.3s ease-in-out;
   }
 }
 
-.navRight {
-  li {
-    margin-right: 0rem;
-    margin-left: 1rem;
-  }
-}
+// .navRight {
+//   li {
+//     margin-right: 0rem;
+//     margin-left: 1rem;
+//   }
+// }
 
 .userName {
   color: color(light, light-gray);
@@ -81,7 +111,7 @@ $navbar-transition: transform 0.3s ease-in-out;
     padding: 0;
   }
   .navButton {
-    text-align:center;
+    text-align: center;
   }
   .navSpacer {
     max-width: $breakpoint-uw;
@@ -90,14 +120,13 @@ $navbar-transition: transform 0.3s ease-in-out;
   }
 }
 
-
 @media screen and (max-width: $breakpoint-md) {
   .logo {
     display: none;
   }
- .navButton {
-   text-align: center;
- }
+  .navButton {
+    text-align: center;
+  }
   .navBar {
     padding: 0px;
   }
@@ -107,9 +136,9 @@ $navbar-transition: transform 0.3s ease-in-out;
   .logo {
     display: none;
   }
-     .navButton {
-       text-align: center;
-     }
+  .navButton {
+    text-align: center;
+  }
   .navBar {
     padding: 0px;
   }
