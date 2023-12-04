@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "module": "CommonJS",
-    "types": ["vitests/globals"]
+    "types": ["vitest/globals"]
   },
   "include": [
     "./**/*.ts",

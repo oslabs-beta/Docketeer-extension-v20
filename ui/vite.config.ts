@@ -12,7 +12,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    css: true,
+    // css: true, // parsing css is slow, only use if necessary
     setupFiles: './__tests__/setup.ts'
   },
   base: './',
