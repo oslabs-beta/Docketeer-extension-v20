@@ -96,7 +96,7 @@ const Images = (params?: TestParams): React.JSX.Element => {
   ];
   console.log('images list: ', imagesList);
 
-  const renderedImages = [];
+  const renderedImages: React.JSX.Element[] = [];
 
   for(let i = 0; i < imagesList.length; i++) {
     renderedImages.push(<ImageCard key={i} imgObj={imagesList[i]}/>)
@@ -104,7 +104,17 @@ const Images = (params?: TestParams): React.JSX.Element => {
 
   return (
     <div>
-      {renderedImages}
+    
+      {/* VULNERABILITY SUMMARY INFO */}
+      <div>
+        <text>SUMMARY INFO</text>
+      </div>
+
+      {/* IMAGE CARDS */}
+      <div>
+        {renderedImages}
+      </div>
+    
     </div>
 
     // <div className={styles.wrapper}>
