@@ -1,7 +1,7 @@
 # Make sure to update versions to whatever the latest is
-EXTENSION_IMAGE?=docketeerxiv/docketeer-extension
+EXTENSION_IMAGE?=docketeerxvii/docketeer-extension
 
-VERSION?=16.0.2
+VERSION?=17.0.0
 
 DEV_EXTENSION_NAME=docketeer-extension-dev
 DOCKERFILEDIRECTORY=extension
@@ -23,7 +23,7 @@ install-extension-dev:
 	docker extension install ${DEV_EXTENSION_NAME} -f
 
 build-extension-dev:
-	docker build -t ${DEV_EXTENSION_NAME} -f ${DOCKERFILEDIRECTORY}/dockerfile.dev .
+	docker build -t ${DEV_EXTENSION_NAME} -f ${DOCKERFILEDIRECTORY}/dev.Dockerfile .
 
 dev-tools:
 	docker extension dev debug ${DEV_EXTENSION_NAME}

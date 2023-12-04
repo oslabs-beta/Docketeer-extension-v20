@@ -9,7 +9,7 @@ const router = Router();
  * @param 
  * @returns
  */
-router.get('/', imageController.getImages, (req, res) => {
+router.get('/', imageController.getImages, imageController.scanImages, (req, res) => {
   return res.status(200).json(res.locals.images);
 });
 
