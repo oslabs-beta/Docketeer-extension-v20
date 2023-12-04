@@ -7,6 +7,7 @@ import { ImageType } from 'types';
 import { fetchImages } from '../../reducers/imageReducer';
 import Client from '../../models/Client';
 import ImageCard from '../ImageCard/ImageCard';
+import ImagesSummary from '../ImagesSummary/ImagesSummary';
 
 /**
  * @module | Images.tsx
@@ -107,7 +108,7 @@ const Images = (params?: TestParams): React.JSX.Element => {
     
       {/* VULNERABILITY SUMMARY INFO */}
       <div>
-        <text>SUMMARY INFO</text>
+        <ImagesSummary/>
       </div>
 
       {/* IMAGE CARDS */}

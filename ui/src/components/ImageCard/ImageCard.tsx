@@ -21,7 +21,7 @@ function ImageCard({ imgObj }: ImageCardProps): React.JSX.Element {
 				<text>Image Name: {imgObj['ImageName']}</text>
 			</div>
 			
-			{/* vulnerability info + run / remove: RIGHT SIDE */}
+			{/* vulnerability info + run / remove functionality: RIGHT SIDE */}
 			<div>
 				{/* RUN / REMOVE */}
 				<div>
