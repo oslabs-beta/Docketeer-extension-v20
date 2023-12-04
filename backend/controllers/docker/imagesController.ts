@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { ContainerPS, ImageType } from '../../../types';
 import { execAsync } from '../helper';
 import { ServerError } from '../../backend-types';
+import { log } from 'console';
 
 interface ImageController {
   /**
@@ -66,9 +67,15 @@ imageController.getImages = async (req: Request, res: Response, next: NextFuncti
 
 imageController.scanImages = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { stdout, stderr } = await execAsync('grype version');
-    if (stderr) throw new Error(stderr);
-    const CVEInfo = stdout; 
+    console.log('scanning images');
+    
+    const execArray = [execAsync('GRYPE_DB_AUTO_UPDATE=false; grype mysql'), execAsync('GRYPE_DB_AUTO_UPDATE=false; grype postgres')]
+    // const { stdout, stderr } = await execAsync('grype mysql');
+    console.log('execArray', execArray);
+    console.log('type of execArray', typeof execArray);
+    const resultArr = await Promise.all(execArray);
+    // if (stderr) throw new Error(stderr);
+    const CVEInfo = JSON.stringify(resultArr); 
     console.log('Image Vulnerability Info', CVEInfo);
     res.locals.CVEInfo = CVEInfo;
     next()
