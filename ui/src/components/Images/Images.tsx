@@ -22,6 +22,7 @@ const Images = (params?: TestParams): React.JSX.Element => {
   console.log('Running images function');
   // const reduxImagesList = useAppSelector((state) => state.images.imagesList);
   // const imagesList = params.imagesListTest ? params.imagesListTest : reduxImagesList;
+  // 
 
   const dispatch = useAppDispatch();
 
