@@ -86,6 +86,7 @@ export interface ImageType{
   ID: string;
   Repository: string;
   SharedSize?: string;
+  ScanName?: string;
   Size: string;
   Tag: string;
   UniqueSize?: string;

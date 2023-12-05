@@ -58,10 +58,10 @@ configController.getTypeOptions = async (req: Request, res: Response, next: Next
 
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'configController.getTypeOptions Error: ': error }),
+      log: { err: `configController.getTypeOptions Error: ${error}` },
       status: 500,
-      message: { err: 'configController.getTypeOptions error' }
-    };
+      message: 'internal server error'
+    }
     return next(errObj); 
   }
 } 
@@ -80,10 +80,10 @@ configController.getDataSources = async (req: Request, res: Response, next: Next
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'configController.getDataSources Error: ': error }),
+      log: { err: `configController.getDataSources Error: ${error}` },
       status: 500,
-      message: { err: 'configController.getDataSources error' }
-    };
+      message: 'internal server error'
+    }
     return next(errObj);
   }
 }
@@ -102,12 +102,11 @@ configController.createDataSource = async (req: Request, res: Response, next: Ne
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'configController.createDataSource Error: ': error }),
+      log: { err: `configController.createDataSource Error: ${error}` },
       status: 500,
-      message: { err: 'configController.createDataSource error' }
-    };
+      message: 'internal server error'
+    }
     return next(errObj);
-    
   }
 }
 
@@ -123,10 +122,10 @@ configController.updateDataSource = async (req: Request, res: Response, next: Ne
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'configController.updateDataSource Error: ': error }),
+      log: { err: `configController.updateDataSource Error: ${error}` },
       status: 500,
-      message: { err: 'configController.updateDataSource error' }
-    };
+      message: 'internal server error'
+    }
     return next(errObj);
 
   }
@@ -142,12 +141,11 @@ configController.deleteDataSource = async (req: Request, res: Response, next: Ne
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'configController.deleteDataSource Error: ': error }),
+      log: { err: `configController.deleteDataSource Error: ${error}` },
       status: 500,
-      message: { err: 'configController.deleteDataSource error' }
-    };
+      message: 'internal server error'
+    }
     return next(errObj);
-
   }
 }
 export default configController;

@@ -41,11 +41,11 @@ volumeController.getContainersOnVolume = async(req: Request, res: Response, next
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'volumeController.getContainersOnVolume Error: ': error }),
+      log: { err: `volumeController.getContainersOnVolume Error: ${error}` },
       status: 500,
-      message: { err: 'volumeController.getContainersOnVolume error' }
+      message: 'internal server error'
     }
-    return next(errObj);
+    next(errObj);
   }
 }
 
@@ -58,11 +58,11 @@ volumeController.getVolumes = async (req: Request, res: Response, next: NextFunc
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'volumeController.getVolumes Error: ': error }),
+      log: { err: `volumeController.getVolumes Error: ${error}` },
       status: 500,
-      message: { err: 'volumeController.getVolumes error' }
+      message: 'internal server error'
     }
-    return next(errObj);
+    next(errObj);
   }
 }
 
@@ -77,11 +77,11 @@ volumeController.removeVolume = async(req: Request, res: Response, next: NextFun
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'volumeController.removeVolume Error: ': error }),
+      log: { err: `volumeController.removeVolume Error: ${error}` },
       status: 500,
-      message: { err: 'volumeController.removeVolume error' }
+      message: 'internal server error'
     }
-    return next(errObj);
+    next(errObj);
   }
 }
 

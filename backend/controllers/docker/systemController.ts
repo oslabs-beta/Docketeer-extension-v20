@@ -25,11 +25,11 @@ systemController.prune = async (req: Request, res: Response, next: NextFunction)
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'systemController.prune Error: ': error }),
+      log: { err: `systemController.prune Error: ${error}` },
       status: 500,
-      message: { err: 'systemController.prune error' }
+      message: 'internal server error'
     }
-    return next(errObj);
+    next(errObj);
   }
 }
 export default systemController;
