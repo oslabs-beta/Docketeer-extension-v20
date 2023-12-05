@@ -1,12 +1,9 @@
-// SideBar.tsx
-
 import React from 'react';
 import styles from './SideBar.module.scss';
 import { Outlet, NavLink } from 'react-router-dom';
 
 interface SideBarProps {
   isOpen: boolean;
-  // children: React.ReactNode;
 }
 
 const SideBar = ({ isOpen }: SideBarProps): React.JSX.Element => {
@@ -19,7 +16,6 @@ const SideBar = ({ isOpen }: SideBarProps): React.JSX.Element => {
       style={{ width: isOpen ? '200px' : '0px' }}
       className={sidebarClassName}
     >
-      {/* {children} */}
       {isOpen && (
         <>
           <div>

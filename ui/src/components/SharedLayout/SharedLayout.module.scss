@@ -5,51 +5,46 @@ $navbar-transition: transform 0.3s ease-in-out;
   transition: $navbar-transition;
   transform: translateY($navbar-height);
   top: -$navbar-height;
-
   background-color: color(background, base);
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   position: fixed;
   z-index: 9999;
-  left: 0px;
-  right: 0px;
-  padding: 0 2rem;
+  left: 0%;
+  right: 0%;
+  // padding: 0 0rem;
   height: $navbar-height;
+  width: $navbar-width;
 }
 
-.logo {
-  margin-left: 110px;
-}
+// HAMBURGER ICON STYLING ------------
 
 .hamburgerIcon {
+  align-self: right;
   display: flex;
   flex-direction: column;
   cursor: pointer;
-}
-
-.hamburgerDiv {
-  display: flex;
-  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .bar {
   width: 30px;
-  height: 4px;
+  height: 5px;
   background-color: white;
-  margin: 4px 0;
+  border-radius: 2px;
 }
+// -----------------------------------
 
 .navSpacer {
   height: $navbar-height;
+  align-self: center;
   display: flex;
-  justify-content: flex-end; /* or justify-content: space-around; */
-  align-items: flex-end;
+  justify-content: space-evenly; /* or justify-content: space-around; */
 
   ul {
     display: flex;
     align-items: center;
     text-align: center;
-    margin-left: 100px;
   }
 
   li {
@@ -68,24 +63,6 @@ $navbar-transition: transform 0.3s ease-in-out;
     font-size: 1rem;
     height: 100%;
   }
-}
-
-// .navRight {
-//   li {
-//     margin-right: 0rem;
-//     margin-left: 1rem;
-//   }
-// }
-
-.userName {
-  color: color(light, light-gray);
-}
-
-.userName,
-.navButton,
-.active {
-  text-align: center;
-  display: inline-block;
 }
 
 .navButton,
@@ -143,66 +120,3 @@ $navbar-transition: transform 0.3s ease-in-out;
     padding: 0px;
   }
 }
-
-// @media screen and (max-width: $breakpoint-lg) {
-//   .wrapper {
-//     margin-top: 1rem;
-//   }
-
-//   .navBar {
-//     // animation
-//     transition: $navbar-transition;
-//     transform: translateY(100%);
-//     transform: translateX($sidebar-width);
-//     // position
-//     margin: 0px;
-//     position: fixed;
-//     // position: absolute;
-//     z-index: 9999;
-//     top: 0px;
-//     left: -$sidebar-width;
-//     bottom: 0px;
-//     padding: 0;
-//     width: $sidebar-width;
-//     height: 100%;
-//     // handle left and right navbars
-//     flex-direction: column;
-//     justify-content: flex-start;
-
-//     ul {
-//       display: flex;
-//       align-items: flex-start;
-//       flex-direction: column;
-//     }
-//   }
-//   .navSpacer {
-//     flex-direction: column;
-//   }
-//   .navRight {
-//     li {
-//       margin-left: 0rem;
-//     }
-//   }
-
-//   .userName,
-//   .navButton,
-//   .active {
-//     transition: all 0.1s ease-in;
-//     padding-left: 0rem;
-//     margin-left: 1rem;
-//     margin-top: 0.5rem;
-//     width: calc($sidebar-width - 1rem);
-//     line-height: 100%;
-//     display: flex;
-//     align-items: center;
-//   }
-//   .navButton,
-//   .active {
-//     &:hover {
-//       border-bottom: none;
-//       border-left: 4px solid color(background, darkest);
-//       padding-left: 0.5rem;
-//       border-spacing: 0px 4px;
-//     }
-//   }
-// }

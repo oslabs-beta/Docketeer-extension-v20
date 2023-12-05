@@ -99,21 +99,21 @@ function SharedLayout(): JSX.Element {
   }, [volumes]);
 
   return (
-    <div className={styles.wrapper}>
+    <div>
       <nav className={styles.navBar}>
-      <div className={styles.logo}>
-            <NavLink to="/">
-              <img
-                className={styles.logo}
-                src={docketeerLogo}
-                alt="docketeer-logo"
-                width="45"
-                height="45"
-              ></img>
-            </NavLink>
-          </div>
+        <div className={styles.logo}>
+          {/* LOGO */}
+          <NavLink to="/">
+            <img className={styles.logo}
+              src={docketeerLogo}
+              alt="docketeer-logo"
+              width="45"
+              height="45"
+            ></img>
+          </NavLink>
+        </div>
         <div className={styles.navSpacer}>
-          <ul className={styles.navLeft}>
+          <ul>
             <li>
               <NavLink
                 className={({ isActive }) =>
@@ -144,15 +144,13 @@ function SharedLayout(): JSX.Element {
                 IMAGES
               </NavLink>
             </li>
-            <li>
-              <div className={styles.hamburgerIcon} onClick={toggleSidebar}>
-                <div className={styles.bar} />
-                <div className={styles.bar} />
-                <div className={styles.bar} />
-              </div>
-              {isOpen && <SideBar isOpen={isOpen}/>}
-            </li>
           </ul>
+        </div>
+          <div className={styles.hamburgerIcon} onClick={toggleSidebar}>
+            <div className={styles.bar} />
+            <div className={styles.bar} />
+            <div className={styles.bar} />
+          {isOpen && <SideBar isOpen={isOpen} />}
         </div>
       </nav>
       <Alert />

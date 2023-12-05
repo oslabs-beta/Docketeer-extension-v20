@@ -1,19 +1,23 @@
 .summaryCard {
     border: 1px solid white;
+    height: 20vh;
     margin: 10px;
     padding: 10px;
     display: flex;
-    justify-content: space-around;
+    align-content: space-evenly;
+}
+.critical {
+  background-color: #5C1A18;
 }
 
 .high {
-  background-color: red;
+  background-color: #ad312d;
 }
 
 .med {
-  background-color: orange;
+  background-color: #fa8e41;
 }
 
 .low {
-  background-color: yellow;
+  background-color: #fac241;
 }
