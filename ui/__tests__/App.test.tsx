@@ -1,23 +1,58 @@
-import { render, screen } from '@testing-library/react'
+// REACT TESTING LIBRARY
+import { RenderResult, render, screen } from '@testing-library/react';
 
+// REDUX PROVIDER AND STORE
 import { Provider } from 'react-redux';
 import store from '../src/store';
 
+// REACT ROUTER
 import { HashRouter } from 'react-router-dom';
 
-
 // IMPORT THE COMPONENT TO BE TESTED
-import App from '../src/App'
-import React from 'react'
+import App from '../src/App';
+import SharedLayout from '../src/components/SharedLayout/SharedLayout';
+import React from 'react';
 
-it('Should have Routes', () => { 
-  render(
-    <Provider store={store}>
-      <HashRouter>
-        <App />
-      </HashRouter>
-    </Provider>
-  );
-  const message = screen.getByText(/NETWORKS/i);
-  expect(message).toBeVisible()
- })
+describe('Simple App rendering test', () => {
+
+  let app: RenderResult;
+
+  // RENDER THE APP BEFORE ALL THE TESTS
+  beforeEach(async () => { 
+    app = await render(
+      <Provider store={store}>
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </Provider>
+    );
+   })
+
+  describe('Should render the Navbar with Routes', () => {
+
+    it('CONTAINER', () => { 
+      expect(screen.getByRole('link', {name: /containers/i})).toBeVisible();
+    })
+    
+    it('NETWORKS', () => { 
+      expect(screen.getByRole('link', {name: /networks/i})).toBeVisible();
+    })
+    
+    it('IMAGES', () => { 
+      expect(screen.getByRole('link', {name: /images/i})).toBeVisible();
+    })
+    
+    it('HAMBURGER', () => { 
+      expect(screen.getByRole('menubar')).toBeVisible()
+     })
+    
+  });
+
+  describe('Should render the Containers Component', () => { 
+
+    it('Containers Component is visible when rendering the App', () => { 
+      expect(screen.getByTestId('containersComponent')).toBeVisible()
+     })
+
+   })
+});
