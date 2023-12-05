@@ -1,0 +1,23 @@
+.SideBar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+  height: 30vh;
+  position: fixed;
+  right: 240px;
+  top: 60px;
+  background-color: color(background, base);
+  border-radius: 10px;
+}
+
+/* Border styles for open state */
+.SideBar.sidebar-open {
+  border: 2px solid white;
+}
+
+/* No border styles when closed */
+.SideBar.sidebar-closed {
+  border: none;
+}
