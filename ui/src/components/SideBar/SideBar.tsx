@@ -3,10 +3,11 @@ import styles from './SideBar.module.scss';
 import { Outlet, NavLink } from 'react-router-dom';
 
 interface SideBarProps {
-  isOpen: boolean;
+  isOpen: boolean,
+  prune: (e: object) => void;
 }
 
-const SideBar = ({ isOpen }: SideBarProps): React.JSX.Element => {
+const SideBar = ({ isOpen, prune }: SideBarProps): React.JSX.Element => {
   const sidebarClassName = isOpen
     ? `${styles.SideBar} ${styles['sidebar-open']}`
     : `${styles.SideBar} ${styles['sidebar-closed']}`;

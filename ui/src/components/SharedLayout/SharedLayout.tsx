@@ -150,7 +150,7 @@ function SharedLayout(): JSX.Element {
             <div className={styles.bar} />
             <div className={styles.bar} />
             <div className={styles.bar} />
-          {isOpen && <SideBar isOpen={isOpen} />}
+          {isOpen && <SideBar prune={prune}  isOpen={isOpen} />}
         </div>
       </nav>
       <Alert />
