@@ -118,24 +118,59 @@ const Containers = (): JSX.Element => {
   
 
   return (
-    <div>
+    <div data-testid="containersComponent">
       <div className={styles.wrapper}>
         <div className={styles.listHolder}>
-
-    
           <div className={styles.toggle}>
             <div>
-              {activeButton === 1 && <iframe src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=81" width="100%" height="200"></iframe>}
-              {activeButton === 2 && <iframe src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=7" width="100%"></iframe>}
-              {activeButton === 3 && <iframe src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=8" width="100%"></iframe>}
+              {activeButton === 1 && (
+                <iframe
+                  src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=81"
+                  width="100%"
+                  height="200"
+                ></iframe>
+              )}
+              {activeButton === 2 && (
+                <iframe
+                  src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=7"
+                  width="100%"
+                ></iframe>
+              )}
+              {activeButton === 3 && (
+                <iframe
+                  src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=8"
+                  width="100%"
+                ></iframe>
+              )}
             </div>
             <div className={styles.buttons}>
-              <button className={activeButton === 1 ? styles.active : styles.notActive} onClick={() => setActiveButton(1)}>Memory</button>
-              <button className={activeButton === 2 ? styles.active : styles.notActive} onClick={() => setActiveButton(2)}>Block I/O</button>
-              <button className={activeButton === 3 ? styles.active : styles.notActive} onClick={() => setActiveButton(3)}>Net I/O</button>
+              <button
+                className={
+                  activeButton === 1 ? styles.active : styles.notActive
+                }
+                onClick={() => setActiveButton(1)}
+              >
+                Memory
+              </button>
+              <button
+                className={
+                  activeButton === 2 ? styles.active : styles.notActive
+                }
+                onClick={() => setActiveButton(2)}
+              >
+                Block I/O
+              </button>
+              <button
+                className={
+                  activeButton === 3 ? styles.active : styles.notActive
+                }
+                onClick={() => setActiveButton(3)}
+              >
+                Net I/O
+              </button>
             </div>
           </div>
-          
+
           <h2>RUNNING CONTAINERS</h2>
           <p className={styles.count}>Count: {runningList.length}</p>
           <div className={styles.containerList}>
@@ -143,7 +178,7 @@ const Containers = (): JSX.Element => {
               containerList={runningList}
               stopContainer={stopContainer}
               runContainer={runContainer}
-              bashContainer = {bashContainer}
+              bashContainer={bashContainer}
               removeContainer={removeContainer}
               status="running"
             />
@@ -157,7 +192,7 @@ const Containers = (): JSX.Element => {
               containerList={stoppedList}
               stopContainer={stopContainer}
               runContainer={runContainer}
-              bashContainer = {bashContainer}
+              bashContainer={bashContainer}
               removeContainer={removeContainer}
               status="stopped"
             />
