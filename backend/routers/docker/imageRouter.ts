@@ -10,7 +10,7 @@ const router = Router();
  * @param 
  * @returns
  */
-router.get('/', imageController.getImages, imageController.scanImages, (req, res) => {
+router.get('/', imageController.getImages, (req, res) => {
   return res.status(200).json(res.locals.images);
 });
 
@@ -19,6 +19,20 @@ router.get('/', imageController.getImages, imageController.scanImages, (req, res
  * @todo 
  * @param 
  * @returns
+ */
+router.post('/scan', imageController.scanImages, (req, res) => {
+  return res.status(200).json(res.locals.vulnerabilites);
+});
+
+/**
+ * @abstract Scans an using Grype CLI and summarizes the report's vulnerabilities by severity
+ * @todo 
+ * @param req.body.scanName
+ * @returns count of vulnerabilities in this format: {
+    "Low": 19,
+    "Medium": 11,
+    "Negligible": 3
+}
  */
 router.get('/:id');
 

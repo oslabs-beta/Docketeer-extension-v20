@@ -94,12 +94,12 @@ containerController.getContainers = async (req: Request, res: Response, next: Ne
     res.locals.containers = containers;
     return next();
   } catch (error) {
-    const errObj = {
-      log: JSON.stringify({ 'containerController.getContainers Error: ': error }),
+    const errObj: ServerError = {
+      log: { err: `containerController.getContainers Error: ${error}` },
       status: 500,
-      message: { err: 'containerController.getContainers error' }
-    };
-    return next(errObj);
+      message: 'internal server error'
+    }
+    next(errObj);
   }
 }
 
@@ -111,12 +111,12 @@ containerController.getStoppedContainers = async (req: Request, res: Response, n
     res.locals.containers = containers;
     return next();
   } catch (error) {
-    const errObj = {
-      log: JSON.stringify({ 'containerController.getStoppedContainers Error: ': error }),
+    const errObj: ServerError = {
+      log: { err: `containerController.getStoppedContainers  Error: ${error}` },
       status: 500,
-      message: { err: 'containerController.getStoppedContainers error' }
-    };
-    return next(errObj);
+      message: 'internal server error'
+    }
+    next(errObj);
   }
 }
 
@@ -128,13 +128,12 @@ containerController.bashContainer = async (req: Request, res: Response, next: Ne
     if (stderr.length) throw new Error(stderr);
     return next()
   } catch (error) {
-    console.log('Oh no, no bash')
-    const errObj = {
-      log: JSON.stringify({ 'containerController.bashContainer Error: ': error }),
+    const errObj: ServerError = {
+      log: { err: `containerController.bashContainer  Error: ${error}` },
       status: 500,
-      message: { err: 'containerController.bashContainer error' }
-    };
-    return next(errObj);
+      message: 'internal server error'
+    }
+    next(errObj);
   }
 }
 
@@ -146,33 +145,15 @@ containerController.runContainer = async (req: Request, res: Response, next: Nex
     if (stderr.length) throw new Error(stderr);
     return next();
   } catch (error) {
-    const errObj = {
-      log: JSON.stringify({ 'containerController.runContainer Error: ': error }),
+    const errObj: ServerError = {
+      log: { err: `containerController.runContainer  Error: ${error}` },
       status: 500,
-      message: { err: 'containerController.runContainer error' }
-    };
-    return next(errObj);
+      message: 'internal server error'
+    }
+    next(errObj);
   }
 },
-  containerController.bashContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  console.log(req.body)
-    console.log(req.params)
-  try {
-    console.log('You have bashed')
-    const { id } = req.body;
-    const { stdout, stderr } = await execAsync(`docker exec -it ${id} /bin/sh`)
-    return next()
-  } catch (error) {
-    console.log('Oh no, no bash')
-    const errObj = {
-      log: JSON.stringify({ 'containerController.bashContainer Error: ': error }),
-      status: 500,
-      message: { err: 'containerController.bashContainer error' }
-    };
-    return next(errObj);
-  }
-},
-
+  
 containerController.stopContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { id } = req.body;
@@ -180,12 +161,12 @@ containerController.stopContainer = async (req: Request, res: Response, next: Ne
     if (stderr.length) throw new Error(stderr);
     return next();
   } catch (error) {
-    const errObj = {
-      log: JSON.stringify({ 'containerController.stopContainer Error: ': error }),
+    const errObj: ServerError = {
+      log: { err: `containerController.stopContainer  Error: ${error}` },
       status: 500,
-      message: { err: 'containerController.stopContainer error' }
-    };
-    return next(errObj);
+      message: 'internal server error'
+    }
+    next(errObj);
   }
 }
 
@@ -199,12 +180,12 @@ containerController.removeContainer = async (req: Request, res: Response, next: 
     console.log(stdout);
     return next();
   } catch (error) {
-    const errObj = {
-      log: JSON.stringify({ 'containerController.removeContainer Error: ': error }),
+    const errObj: ServerError = {
+      log: { err: `containerController.removeContainer  Error: ${error}` },
       status: 500,
-      message: { err: 'containerController.removeContainer error' }
-    };
-    return next(errObj);
+      message: 'internal server error'
+    }
+    next(errObj);
   }
 }
 
@@ -245,9 +226,9 @@ containerController.getAllLogs = async (req: Request<unknown, unknown, unknown, 
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'containerController.getAllLogs Error: ': error }),
+      log: { err: `containerController.getAllLogs Error: ${error}` },
       status: 500,
-      message: { err: 'containerController.getAllLogs Error retrieving logs' }
+      message: 'internal server error'
     }
     return next(errObj);
   }
@@ -276,9 +257,9 @@ containerController.inspectContainer = async (req: Request, res: Response, next:
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'containerController.inspectContainer Error: ': error }),
+      log: { err: `containerController.inspectContainer Error: ${error}` },
       status: 500,
-      message: { err: 'containerController.inspectContainer Error retrieving logs' }
+      message: 'internal server error'
     }
     return next(errObj);
   }
