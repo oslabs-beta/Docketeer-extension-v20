@@ -30,21 +30,21 @@ describe('Simple App rendering test', () => {
 
   describe('Should render the Navbar with Routes', () => {
 
-    it('CONTAINER', () => { 
+    it('CONTAINER link is visible', () => { 
       expect(screen.getByRole('link', {name: /containers/i})).toBeVisible();
     })
     
-    it('NETWORKS', () => { 
-      expect(screen.getByRole('link', {name: /networks/i})).toBeVisible();
-    })
+    it('NETWORKS link is visible', () => {
+      expect(screen.getByRole('link', { name: /networks/i })).toBeVisible();
+    });
     
-    it('IMAGES', () => { 
-      expect(screen.getByRole('link', {name: /images/i})).toBeVisible();
-    })
+    it('IMAGES link is visible', () => {
+      expect(screen.getByRole('link', { name: /images/i })).toBeVisible();
+    });
     
-    it('HAMBURGER', () => { 
-      expect(screen.getByRole('menubar')).toBeVisible()
-     })
+    it('HAMBURGER icon is visible', () => {
+      expect(screen.getByRole('menubar')).toBeVisible();
+    });
     
   });
 

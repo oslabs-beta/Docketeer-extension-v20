@@ -6,7 +6,7 @@ import { Outlet, NavLink } from 'react-router-dom';
 
 interface SideBarProps {
   isOpen: boolean;
-  prune: Function
+  prune: (e: React.MouseEvent) => void;
   // children: React.ReactNode;
 }
 
