@@ -77,9 +77,9 @@ networkController.getNetworks = async (req: Request, res: Response, next: NextFu
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'networkController.getNetworks Error: ': error }),
+      log: { err: `networkController.getNetworks Error: ${error}` },
       status: 500,
-      message: { err: 'networkController.getNetworks error' }
+      message: 'internal server error'
     }
     return next(errObj);
   }
@@ -96,10 +96,11 @@ networkController.createNetwork = async (req: Request, res: Response, next: Next
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'networkController.createNetwork Error: ': error }),
+      log: { err: `networkController.createNetworks Error: ${error}` },
       status: 500,
-      message: { err: 'networkController.createNetwork error' }
+      message: 'internal server error'
     }
+    
     return next(errObj);
   }
 }
@@ -116,9 +117,9 @@ networkController.removeNetwork = async (req: Request, res: Response, next: Next
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'networkController.removeNetwork Error: ': error }),
+      log: { err: `networkController.removeNetworks Error: ${error}` },
       status: 500,
-      message: { err: 'networkController.removeNetwork error' }
+      message: 'internal server error'
     }
     return next(errObj);
   }
@@ -135,9 +136,9 @@ networkController.connectContainerToNetwork = async (req: Request, res: Response
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'networkController.connectContainerToNetwork Error: ': error }),
+      log: { err: `networkController.connectContainerToNetwork Error: ${error}` },
       status: 500,
-      message: { err: 'networkController.connectContainerToNetwork error' }
+      message: 'internal server error'
     }
     return next(errObj);
   }
@@ -154,9 +155,9 @@ networkController.disconnectContainerFromNetwork = async (req: Request, res: Res
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'networkController.disconnectContainerFromNetwork Error: ': error }),
+      log: { err: `networkController.disconnectContainerFromNetwork Error: ${error}` },
       status: 500,
-      message: { err: 'networkController.disconnectContainerFromNetwork error' }
+      message: 'internal server error'
     }
     return next(errObj);
   }
@@ -178,9 +179,9 @@ networkController.getContainersOnNetwork = async (req: Request, res: Response, n
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'networkController.getContainersOnNetwork Error: ': error }),
+      log: { err: `networkController.getContainersOnNetwork Error: ${error}` },
       status: 500,
-      message: { err: 'networkController.getContainersOnNetwork error' }
+      message: 'internal server error'
     }
     return next(errObj);
   }
@@ -199,9 +200,9 @@ networkController.prune = async (req: Request, res: Response, next: NextFunction
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'networkController.prune Error: ': error }),
+      log: { err: `networkController.prune Error: ${error}` },
       status: 500,
-      message: { err: 'networkController.prune error' }
+      message: 'internal server error'
     }
     return next(errObj);
   }
