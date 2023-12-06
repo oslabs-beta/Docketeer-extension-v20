@@ -7,7 +7,7 @@ import styles from './ImagesSummary.module.scss';
  * @description | displays a summary of vulnerabilities across all images
  **/
 
-const ImagesSummary = (): React.JSX.ELement => {
+const ImagesSummary = (): React.JSX.Element => {
 
   const [summary, setSummary] = useState({
     c: 0,
@@ -26,22 +26,22 @@ const ImagesSummary = (): React.JSX.ELement => {
       
       {/* CRITICAL */}
       <div className={styles.critical} style={{ width: summary.c + '%' }}>
-        <text>CRITICAL</text>
+        <p>CRITICAL</p>
       </div>
       
       {/* HIGH */}
       <div className={styles.high} style={{ width: summary.h + '%' }}>
-        <text>HIGH</text>
+        <p>HIGH</p>
       </div>
       
       {/* MED */}
       <div className={styles.med} style={{ width: summary.m + '%' }}>
-        <text>MEDIUM</text>
+        <p>MEDIUM</p>
       </div>
       
       {/* LOW */}
       <div className={styles.low} style={{ width: summary.l + '%' }}>
-        <text>LOW</text>
+        <p>LOW</p>
       </div>
     
     </div>
