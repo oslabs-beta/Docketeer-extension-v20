@@ -1,0 +1,51 @@
+* {
+	color: white;
+}
+
+.imageCard {
+	border: 1px solid white;
+  height: 10vh;
+	margin: 10px;
+	padding: 10px;
+	display: flex;
+	justify-content: space-between;
+}
+
+
+
+
+.imageInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.imageVulnerabilities {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.critical {
+  background-color: #5C1A18;
+  margin: 2px;
+  padding: 2px;
+}
+
+.high {
+  background-color: #ad312d;
+  margin: 2px;
+  padding: 2px;
+}
+
+.med {
+  background-color: #fa8e41;
+  margin: 2px;
+  padding: 2px;
+}
+
+.low {
+  background-color: #fac241;
+  margin: 2px;
+  padding: 2px;
+}
