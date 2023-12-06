@@ -55,6 +55,8 @@ function SharedLayout(): JSX.Element {
   };
 
   const prune = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    toggleSidebar();
+    
     dispatch(
       createPrunePrompt(
         // prompt (first argument in createPrunePrompt)
@@ -62,19 +64,19 @@ function SharedLayout(): JSX.Element {
         // handleSystemPrune (second argument in creatPrunePrompt)
         () => {
           handleSystemPrune(e);
-          dispatch(createAlert('Performing system prune...', 4, 'success'));
+          dispatch(createAlert('Performing system prune...', 2, 'success'));
         },
         // handleNetworkPrune (third argument in creatPrunePrompt)
         () => {
           handleNetworkPrune(e);
-          dispatch(createAlert('Performing network prune...', 4, 'success'));
+          dispatch(createAlert('Performing network prune...', 2, 'success'));
         },
         // handleDeny (fourth argument in creatPrunePrompt)
         () => {
           dispatch(
             createAlert(
               'The request to perform system / network prune has been cancelled.',
-              4,
+              2,
               'warning'
             )
           );
@@ -99,21 +101,21 @@ function SharedLayout(): JSX.Element {
   }, [volumes]);
 
   return (
-    <div className={styles.wrapper}>
+    <div>
       <nav className={styles.navBar}>
-      <div className={styles.logo}>
-            <NavLink to="/">
-              <img
-                className={styles.logo}
-                src={docketeerLogo}
-                alt="docketeer-logo"
-                width="45"
-                height="45"
-              ></img>
-            </NavLink>
-          </div>
+        <div className={styles.logo}>
+          {/* LOGO */}
+          <NavLink to="/">
+            <img className={styles.logo}
+              src={docketeerLogo}
+              alt="docketeer-logo"
+              width="45"
+              height="45"
+            ></img>
+          </NavLink>
+        </div>
         <div className={styles.navSpacer}>
-          <ul className={styles.navLeft}>
+          <ul>
             <li>
               <NavLink
                 className={({ isActive }) =>
@@ -150,7 +152,7 @@ function SharedLayout(): JSX.Element {
                 <div className={styles.bar} />
                 <div className={styles.bar} />
               </div>
-              {isOpen && <SideBar isOpen={isOpen}/>}
+              {isOpen && <SideBar toggleSideBar={toggleSidebar} prune={prune} isOpen={isOpen}/>}
             </li>
           </ul>
         </div>

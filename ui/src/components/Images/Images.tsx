@@ -7,6 +7,7 @@ import { ImageType } from 'types';
 import { fetchImages } from '../../reducers/imageReducer';
 import Client from '../../models/Client';
 import ImageCard from '../ImageCard/ImageCard';
+import ImagesSummary from '../ImagesSummary/ImagesSummary';
 
 /**
  * @module | Images.tsx
@@ -43,21 +44,21 @@ const Images = (params?: TestParams): React.JSX.Element => {
     if (success) dispatch(fetchImages());
   };
 
-  const runImageAlert = (image: ImageType) => {
+  const runImageAlert = (imgObj: ImageType) => {
     dispatch(
       createPrompt(
-        `Are you sure you want to run ${image.Repository}?`,
+        `Are you sure you want to run ${imgObj.Repository}?`,
         () => {
-          runImage(image);
+          runImage(imgObj);
           dispatch(
-            createAlert(`Running ${image.Repository}...`, 3, "success")
+            createAlert(`Running ${imgObj.Repository}...`, 2, "success")
           );
         },
         () => {
           dispatch(
             createAlert(
-              `The request to run ${image.Repository} has been cancelled.`,
-              3,
+              `The request to run ${imgObj.Repository} has been cancelled.`,
+              2,
               "warning"
             )
           );
@@ -66,21 +67,21 @@ const Images = (params?: TestParams): React.JSX.Element => {
     );
   };
 
-  const removeImageAlert = (image: ImageType) => {
+  const removeImageAlert = (imgObj: ImageType) => {
     dispatch(
       createPrompt(
-        `Are you sure you want to remove ${image.Repository}?`,
+        `Are you sure you want to remove ${imgObj.Repository}?`,
         () => {
-          removeImage(image.ID);
+          removeImage(imgObj.ID);
           dispatch(
-            createAlert(`Removing ${image.Repository}...`, 3, "success")
+            createAlert(`Removing ${imgObj.Repository}...`, 2, "success")
           );
         },
         () => {
           dispatch(
             createAlert(
-              `The request to remove ${image.Repository} has been cancelled.`,
-              3,
+              `The request to remove ${imgObj.Repository} has been cancelled.`,
+              2,
               "warning"
             )
           );
@@ -91,21 +92,32 @@ const Images = (params?: TestParams): React.JSX.Element => {
 
   // mock images data
   const imagesList = [
-    { 'ImageName': 'ducketeer', 'High': 10, 'Med': 15, 'Low': 5 },
-    { 'ImageName': 'kirby-db', 'High': 20, 'Med': 30, 'Low': 15 },
-    { 'ImageName': 'banana', 'High': 2, 'Med': 10, 'Low': 5 }
+    { 'Repository': 'ducketeer', 'Critical': 10, 'High': 10, 'Med': 15, 'Low': 5 },
+    { 'Repository': 'kirby-db', 'Critical': 2, 'High': 20, 'Med': 30, 'Low': 15 },
+    { 'Repository': 'banana', 'Critical': 4, 'High': 2, 'Med': 10, 'Low': 5 }
   ];
+
   console.log('images list: ', imagesList);
 
-  const renderedImages = [];
+  const renderedImages: React.JSX.Element[] = [];
 
   for(let i = 0; i < imagesList.length; i++) {
-    renderedImages.push(<ImageCard key={i} imgObj={imagesList[i]}/>)
+    renderedImages.push(<ImageCard removeImageAlert={removeImageAlert} runImageAlert={runImageAlert} key={i} imgObj={imagesList[i]}/>)
   }
 
   return (
     <div>
-      {renderedImages}
+    
+      {/* VULNERABILITY SUMMARY INFO */}
+      <div>
+        <ImagesSummary/>
+      </div>
+
+      {/* IMAGE CARDS */}
+      <div>
+        {renderedImages}
+      </div>
+    
     </div>
 
     // <div className={styles.wrapper}>

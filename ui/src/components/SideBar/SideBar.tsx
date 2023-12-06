@@ -1,15 +1,14 @@
-// SideBar.tsx
-
 import React from 'react';
 import styles from './SideBar.module.scss';
-import { Outlet, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 interface SideBarProps {
   isOpen: boolean;
-  // children: React.ReactNode;
+  prune: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  toggleSideBar: (e: React.MouseEvent) => void;
 }
 
-const SideBar = ({ isOpen }: SideBarProps): React.JSX.Element => {
+const SideBar = ({ isOpen, prune, toggleSideBar }: SideBarProps): React.JSX.Element => {
   const sidebarClassName = isOpen
     ? `${styles.SideBar} ${styles['sidebar-open']}`
     : `${styles.SideBar} ${styles['sidebar-closed']}`;
@@ -18,77 +17,79 @@ const SideBar = ({ isOpen }: SideBarProps): React.JSX.Element => {
     <div
       style={{ width: isOpen ? '200px' : '0px' }}
       className={sidebarClassName}
+      data-testid='sidebar'
     >
-      {/* {children} */}
-      {isOpen && (
-        <>
-          <div>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.navButton
-              }
-              to="/metrics"
-            >
-              CONTAINER METRICS
-            </NavLink>
-          </div>
-          <div>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.navButton
-              }
-              to="/snapshots"
-            >
-              SNAPSHOTS
-            </NavLink>
-          </div>
-          <div>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.navButton
-              }
-              to="/K8Metrics"
-            >
-              KUBERNETES METRICS
-            </NavLink>
-          </div>
-          <div>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.navButton
-              }
-              to="/volume"
-            >
-              VOLUMES
-            </NavLink>
-          </div>
-          <div>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.navButton
-              }
-              to="/logs"
-            >
-              PROCESS LOGS
-            </NavLink>
-          </div>
-          <div>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.navButton
-              }
-              to="/configuration"
-            >
-              CONFIGURATIONS
-            </NavLink>
-          </div>
-          <div>
-            <a className={styles.navButton} onClick={(e) => prune(e)}>
-              PRUNE
-            </a>
-          </div>
-        </>
-      )}
+      <div>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? styles.active : styles.navButton
+          }
+          to="/metrics"
+          onClick={toggleSideBar}
+        >
+          CONTAINER METRICS
+        </NavLink>
+      </div>
+      <div>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? styles.active : styles.navButton
+          }
+          to="/snapshots"
+          onClick={toggleSideBar}
+        >
+          SNAPSHOTS
+        </NavLink>
+      </div>
+      <div>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? styles.active : styles.navButton
+          }
+          to="/K8Metrics"
+          onClick={toggleSideBar}
+        >
+          KUBERNETES METRICS
+        </NavLink>
+      </div>
+      <div>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? styles.active : styles.navButton
+          }
+          to="/volume"
+          onClick={toggleSideBar}
+        >
+          VOLUMES
+        </NavLink>
+      </div>
+      <div>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? styles.active : styles.navButton
+          }
+          to="/logs"
+          onClick={toggleSideBar}
+        >
+          PROCESS LOGS
+        </NavLink>
+      </div>
+      <div>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? styles.active : styles.navButton
+          }
+          to="/configuration"
+          onClick={toggleSideBar}
+        >
+          CONFIGURATIONS
+        </NavLink>
+      </div>
+      <div>
+        <a className={styles.navButton} onClick={(e) => prune(e)}>
+          PRUNE
+        </a>
+      </div>
     </div>
   );
 };
