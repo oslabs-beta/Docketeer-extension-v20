@@ -147,7 +147,7 @@ function SharedLayout(): JSX.Element {
               </NavLink>
             </li>
             <li>
-              <div role='menubar' className={styles.hamburgerIcon} onClick={toggleSidebar}>
+              <div className={styles.hamburgerIcon} onClick={toggleSidebar}>
                 <div className={styles.bar} />
                 <div className={styles.bar} />
                 <div className={styles.bar} />
