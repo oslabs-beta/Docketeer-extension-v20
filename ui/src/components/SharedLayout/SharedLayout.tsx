@@ -145,12 +145,12 @@ function SharedLayout(): JSX.Element {
               </NavLink>
             </li>
             <li>
-              <div role='menubar' className={styles.hamburgerIcon} onClick={toggleSidebar}>
+              <div className={styles.hamburgerIcon} onClick={toggleSidebar}>
                 <div className={styles.bar} />
                 <div className={styles.bar} />
                 <div className={styles.bar} />
               </div>
-              {isOpen && <SideBar prune={prune} isOpen={isOpen}/>}
+              {isOpen && <SideBar isOpen={isOpen}/>}
             </li>
           </ul>
         </div>
