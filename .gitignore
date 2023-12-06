@@ -1,5 +1,8 @@
-node_modules/
+/node_modules
+backend/node_modules
 yarn.lock
+ui/node_modules/*
+!ui/node_modules/@docker
 
 .history
 .gitignore
