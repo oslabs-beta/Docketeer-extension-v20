@@ -3,11 +3,8 @@ import styles from './ImageCard.module.scss';
 import { ImageType } from 'types';
 // import * as PlayArrow from '@mui/icons-material/PlayArrow';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-// // import { ThemeProvider, createTheme } from '@mui/material/styles';
-
-import PlayArrow from '@mui/icons-material/PlayArrow'
-
-
+// import { ThemeProvider, createTheme } from '@mui/material/styles';
+// import PlayArrow from '@mui/icons-material/PlayArrow'
 
 // console.log("PlayArrow: ", PlayArrow)
 console.log("DateTimePicker: ", DateTimePicker)
@@ -39,7 +36,7 @@ function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps):
 				
 				{/* RUN / REMOVE */}
 				<div>
-					<PlayArrow onClick={() => runImageAlert(imgObj)} />
+					{/* <PlayArrow onClick={() => runImageAlert(imgObj)} /> */}
 					{/* <i className="material-icons">play_arrow</i> */}
 					<button onClick={() => removeImageAlert(imgObj)}>remove image</button>
 				</div>
