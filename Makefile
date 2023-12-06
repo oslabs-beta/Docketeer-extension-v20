@@ -19,11 +19,11 @@ browser-down:
 
 extension-dev: build-extension-dev install-extension-dev dev-tools
 
-install-extension-dev:
-	docker extension install ${DEV_EXTENSION_NAME} -f
-
 build-extension-dev:
 	docker build -t ${DEV_EXTENSION_NAME} -f ${DOCKERFILEDIRECTORY}/dev.Dockerfile .
+
+install-extension-dev:
+	docker extension install ${DEV_EXTENSION_NAME} -f
 
 dev-tools:
 	docker extension dev debug ${DEV_EXTENSION_NAME}
@@ -37,6 +37,7 @@ remove-dev-extension:
 	
 img_prune:
 	docker image prune -af
+	
 clr_cache:
 	docker buildx prune -f 
 
