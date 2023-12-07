@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from './ImageCard.module.scss';
-import globalStyles from '../global.module.scss';
-import { ImageType } from 'types';
+import { ImageCardProps } from 'types';
 import Client from '../../models/Client';
 
 
@@ -10,12 +9,7 @@ import Client from '../../models/Client';
  * @description | new components for images dashboard
  **/
 
-interface ImageCardProps {
-	imgObj: ImageType,
-	key: number,
-	runImageAlert: (Image: ImageType) => void,
-	removeImageAlert: (Image: ImageType) => void,
-}
+
 
 function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps): React.JSX.Element {
 
@@ -23,15 +17,20 @@ function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps):
 	const [scanObj, setScanObj] = useState({Critical: '-', High: '-', Medium: '-', Low: '-'})
 
 	const getScan = async (scanName: string) => { 
-		// retrieve scan data
+		// check if an image tag is <none>, and if it is, call getScan on this image - this is because scanning an Unused(dangling) image returns an error
+		if (imgObj.Tag === "<none>") {
+			setScanObj({ Critical: '-', High: '-', Medium: '-', Low: '-' })
+			return;
+		}
+		// retrieve scan data - Client.ImageService.getScan creates DDClient Request
     const success = await Client.ImageService.getScan(scanName);
 		console.log(`Success from getScan: ${scanName}`, success);
+
 		// set state with scan data
 		setScanObj(success)
-    // return scan data
-    return success;
   }
 
+	// call getScan upon render for each card
 	// useEffect(() => { 		
 	// 	getScan(imgObj.ScanName)
 	// }, [])

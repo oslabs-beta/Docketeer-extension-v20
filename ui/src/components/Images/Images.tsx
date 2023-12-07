@@ -30,6 +30,7 @@ const Images = (params?: TestParams): React.JSX.Element => {
   
   const dispatch = useAppDispatch();
   
+  // on initial render, send a dispatch that will fetch the list of docker images from the backend
   useEffect(() => {
     dispatch(fetchImages());
   }, []);
@@ -93,6 +94,7 @@ const Images = (params?: TestParams): React.JSX.Element => {
     );
   };
 
+  // declare a constant array of elements and push an image card into this array for each image in the imagesList
   const renderedImages: React.JSX.Element[] = [];
 
   for(let i = 0; i < imagesList.length; i++) {

@@ -86,7 +86,6 @@ export interface ImageType{
   Digest?: string;
   ID: string;
   Repository: string;
-  ScanName: string;
   SharedSize?: string;
   ScanName?: string;
   Size: string;
@@ -96,6 +95,12 @@ export interface ImageType{
   Vulnerabilities?: object;
 }
 
+export interface ImageCardProps {
+  imgObj: ImageType,
+  key: number,
+  runImageAlert: (Image: ImageType) => void,
+  removeImageAlert: (Image: ImageType) => void,
+}
 
 export interface NetworkAndContainer{
   networkName: string;
