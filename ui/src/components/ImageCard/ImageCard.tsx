@@ -28,8 +28,6 @@ function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps):
 		console.log(`Success from getScan: ${scanName}`, success);
 		// set state with scan data
 		setScanObj(success)
-    // return scan data
-    return success;
   }
 
 	useEffect(() => { 		

@@ -86,7 +86,6 @@ export interface ImageType{
   Digest?: string;
   ID: string;
   Repository: string;
-  ScanName: string;
   SharedSize?: string;
   ScanName?: string;
   Size: string;
