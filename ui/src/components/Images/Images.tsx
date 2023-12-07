@@ -114,12 +114,12 @@ const Images = (params?: TestParams): React.JSX.Element => {
   };
 
   // Scan Vulnerability Function: Use individual ScanName of each image
-  const getScan = async (scanName: string) => { 
-    const success = await Client.ImageService.getScan(scanName);
-    console.log(`Success from getScan: ${scanName}`, success);
+  // const getScan = async (scanName: string) => { 
+  //   const success = await Client.ImageService.getScan(scanName);
+  //   console.log(`Success from getScan: ${scanName}`, success);
     
-    return success;
-  }
+  //   return success;
+  // }
 
 
   // mock images data
@@ -134,7 +134,7 @@ const Images = (params?: TestParams): React.JSX.Element => {
   const renderedImages: React.JSX.Element[] = [];
 
   for(let i = 0; i < imagesList.length; i++) {
-    renderedImages.push(<ImageCard getScan={getScan} removeImageAlert={removeImageAlert} runImageAlert={runImageAlert} key={i} imgObj={imagesList[i]}/>)
+    renderedImages.push(<ImageCard removeImageAlert={removeImageAlert} runImageAlert={runImageAlert} key={i} imgObj={imagesList[i]}/>)
   }
 
   return (

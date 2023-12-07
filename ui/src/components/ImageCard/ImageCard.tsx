@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import styles from './ImageCard.module.scss';
+import globalStyles from '../global.module.scss';
 import { ImageType } from 'types';
+import Client from '../../models/Client';
+
 
 /**
  * @module | ImageCard.tsx
@@ -12,22 +15,29 @@ interface ImageCardProps {
 	key: number,
 	runImageAlert: (Image: ImageType) => void,
 	removeImageAlert: (Image: ImageType) => void,
-	getScan: (scanName: string) => Promise<unknown>
+	// getScan: (scanName: string) => Promise<unknown>
 }
 
-function ImageCard({ imgObj, runImageAlert, removeImageAlert, getScan }: ImageCardProps): React.JSX.Element {
+function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps): React.JSX.Element {
 
 	// initialize state variable to store vulnerabilities
 	
 	const [scanObj, setScanObj] = useState({})
 
+	const getScan = async (scanName: string) => { 
+		// retrieve scan data
+    const success = await Client.ImageService.getScan(scanName);
+		console.log(`Success from getScan: ${scanName}`, success);
+		// set state with scan data
+		setScanObj(success)
+    // return scan data
+    return success;
+  }
+
 	// reset scanObj state by adding ScanName prop with results from getScan
 	useEffect(() => { 
-		// setScanObj(getScan(imgObj.ScanName))
-		const gotScan = (async () => { 
-			return await getScan(imgObj.ScanName);
-		 })();
-		setScanObj(gotScan)
+		
+		getScan(imgObj.ScanName)
 	 }, [])
 	
 
@@ -48,8 +58,8 @@ function ImageCard({ imgObj, runImageAlert, removeImageAlert, getScan }: ImageCa
 				
 				{/* RUN / REMOVE */}
 				<div>
-					<button onClick={() => runImageAlert(imgObj)}>run image</button>
-					<button onClick={() => removeImageAlert(imgObj)}>remove image</button>
+					<button className={globalStyles.button1} onClick={() => runImageAlert(imgObj)}>run image</button>
+					<button className={globalStyles.button1} onClick={() => removeImageAlert(imgObj)}>remove image</button>
 				</div>
 				
 				{/* VULNERABILITY */}
