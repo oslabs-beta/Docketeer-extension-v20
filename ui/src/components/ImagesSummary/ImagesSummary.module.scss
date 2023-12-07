@@ -1,23 +1,32 @@
 .summaryCard {
-    border: 1px solid white;
-    height: 20vh;
-    margin: 10px;
-    padding: 10px;
-    display: flex;
-    align-content: space-evenly;
+  border: 1px solid white;
+  height: 20vh;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  align-content: space-evenly;
 }
+
 .critical {
-  background-color: #5C1A18;
+  background: linear-gradient(to right, #5C1A18, #AD312D);
+  color: white;
+  padding: 2px;
 }
 
 .high {
-  background-color: #ad312d;
+  background: linear-gradient(to right, #AD312D, #AE5944);
+  color: white;
+  padding: 2px;
 }
 
 .med {
-  background-color: #AE5944;
+  background: linear-gradient(to right, #AE5944, #D99166);
+  color: white;
+  padding: 2px;
 }
 
 .low {
-  background-color: #D99166;
+  background: linear-gradient(to right, #D99166, #D99180);
+  color: white;
+  padding: 2px;
 }

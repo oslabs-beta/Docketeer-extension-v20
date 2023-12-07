@@ -4,7 +4,8 @@
 
 .imageCard {
 	border: 1px solid white;
-  height: 10vh;
+  border-radius: 5px;
+  height: max-content;
 	margin: 10px;
 	padding: 10px;
 	display: flex;
@@ -15,34 +16,75 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  // border: solid 2px white;
+  height: max-content;
+  align-items: center;
 }
 
 .imageVulnerabilities {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-top: 5px;
+}
+
+.imgVulDiv{
+  height: max-content;
+  width: 70px;
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+}
+
+.imgCardButton{
+  height: max-content;
+  width: max-content;
+  border: 1px solid white;
+  border-radius: 5px;
+  margin-right: 8px;
+  margin-right: 8px;
+  padding: 5px;
+
+  &:hover,
+  &:active {
+    background-color: scale-color(color(blue, dark), $lightness: -10%);
+  }
+
+  &:focus {
+    outline-style: solid;
+    outline-color: transparent;
+    box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
+  }
+
+  &--small {
+    font-size: 1.15rem;
+  }
 }
 
 .critical {
   background-color: #5C1A18;
   margin: 2px;
-  padding: 2px;
+  padding: 5px;
+  text-align: center;
 }
 
 .high {
   background-color: #ad312d;
   margin: 2px;
-  padding: 2px;
+  padding: 5px;
+  text-align: center;
 }
 
-.med {
+.medium {
   background-color: #AE5944;
   margin: 2px;
-  padding: 2px;
+  padding: 5px;
+  text-align: center;
 }
 
 .low {
   background-color: #D99166;
   margin: 2px;
-  padding: 2px;
+  padding: 5px;
+  text-align: center;
 }
