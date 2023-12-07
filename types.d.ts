@@ -78,6 +78,7 @@ export interface NetworkInspect{
   Options?: object;
   Labels?: object;
 }
+
 export interface ImageType{
   Containers?: string;
   CreatedAt?: string;
@@ -85,13 +86,16 @@ export interface ImageType{
   Digest?: string;
   ID: string;
   Repository: string;
+  ScanName: string;
   SharedSize?: string;
   ScanName?: string;
   Size: string;
   Tag: string;
   UniqueSize?: string;
   VirtualSize?: string;
+  Vulnerabilities?: object;
 }
+
 
 export interface NetworkAndContainer{
   networkName: string;

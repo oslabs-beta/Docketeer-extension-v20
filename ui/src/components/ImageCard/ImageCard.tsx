@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './ImageCard.module.scss';
 import { ImageType } from 'types';
 
@@ -8,14 +8,33 @@ import { ImageType } from 'types';
  **/
 
 interface ImageCardProps {
-	imgObj: object,
+	imgObj: ImageType,
 	key: number,
 	runImageAlert: (Image: ImageType) => void,
-	removeImageAlert: (Image: ImageType) => void
+	removeImageAlert: (Image: ImageType) => void,
+	getScan: (scanName: string) => Promise<unknown>
 }
 
-function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps): React.JSX.Element {
-	console.log(imgObj)
+function ImageCard({ imgObj, runImageAlert, removeImageAlert, getScan }: ImageCardProps): React.JSX.Element {
+
+	// initialize state variable to store vulnerabilities
+	
+	const [scanObj, setScanObj] = useState({})
+
+	// reset scanObj state by adding ScanName prop with results from getScan
+	useEffect(() => { 
+		// setScanObj(getScan(imgObj.ScanName))
+		const gotScan = (async () => { 
+			return await getScan(imgObj.ScanName);
+		 })();
+		setScanObj(gotScan)
+	 }, [])
+	
+
+	// gets updated as a promise obj that does not hv the data
+	console.log('scanObj after useEffect: ', scanObj);
+	
+
 	return (
 		<div className={styles.imageCard}>
 			
@@ -35,10 +54,10 @@ function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps):
 				
 				{/* VULNERABILITY */}
 				<div className={styles.imageVulnerabilities}>
-					<p className={styles.critical}>{imgObj['Critical']} Critical</p>
-					<p className={styles.high}>{imgObj['High']} High</p>
-					<p className={styles.med}>{imgObj['Med']} Med</p>
-					<p className={styles.low}>{imgObj['Low']} Low</p>
+					<p className={styles.critical}>{scanObj['Critical']} Critical</p>
+					<p className={styles.high}>{scanObj['High']} High</p>
+					<p className={styles.med}>{scanObj['Medium']} Med</p>
+					<p className={styles.low}>{scanObj['Low']} Low</p>
 				</div>
 		
 			</div>

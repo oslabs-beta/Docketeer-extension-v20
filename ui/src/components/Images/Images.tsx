@@ -14,21 +14,45 @@ import ImagesSummary from '../ImagesSummary/ImagesSummary';
  * @description | Provides ability to pull images from DockerHub image repository, run images, and remove images
  **/
 
-export interface TestParams {
-  imagesListTest?: ImageType[];
-}
+// ---------------------------------------------
 // eslint-disable-next-line react/prop-types
 // optional TestParams for testing only
+
+// export interface TestParams {
+//   imagesListTest?: ImageType[];
+// }
+// ---------------------------------------------
+
 const Images = (params?: TestParams): React.JSX.Element => {
   console.log('Running images function');
-  // const reduxImagesList = useAppSelector((state) => state.images.imagesList);
-  // const imagesList = params.imagesListTest ? params.imagesListTest : reduxImagesList;
+  const reduxImagesList = useAppSelector((state) => state.images.imagesList);
+  const imagesList: ImageType[] = params.imagesListTest ? params.imagesListTest : reduxImagesList;
 
+  // const [imagesList, setImagesList] = useState(reduxImagesList);
+  
   const dispatch = useAppDispatch();
-
+  
+    useEffect(() => {
+      // async function updateImages() {
+        dispatch(fetchImages());
+      // }
+      // updateImages()
+      console.log('imageList in fetch: ', imagesList)
+      // imagesList.forEach((image) => {
+      //   getScan(image.ScanName)
+      // });
+    }, []);
+  
   // useEffect((): void => {
-  //   dispatch(fetchImages());
-  // }, []);
+  //   imagesList.forEach((image) => {
+  //     image.Vulnerabilities = getScan(image.ScanName)
+  //   })
+  //   // setImagesList(imagesList)
+  // }, [])
+
+  // 
+  // localhost:4000/api/docker/image/scan (POST REQUEST BODY: {scanName: imageName + tab})
+  // scanName 
 
   const runImage = async (image: ImageType) => {
     const success = await Client.ImageService.runImage(
@@ -89,19 +113,28 @@ const Images = (params?: TestParams): React.JSX.Element => {
     );
   };
 
+  // Scan Vulnerability Function: Use individual ScanName of each image
+  const getScan = async (scanName: string) => { 
+    const success = await Client.ImageService.getScan(scanName);
+    console.log(`Success from getScan: ${scanName}`, success);
+    
+    return success;
+  }
+
+
   // mock images data
-  const imagesList = [
-    { 'Repository': 'ducketeer', 'Critical': 10, 'High': 10, 'Med': 15, 'Low': 5 },
-    { 'Repository': 'kirby-db', 'Critical': 2, 'High': 20, 'Med': 30, 'Low': 15 },
-    { 'Repository': 'banana', 'Critical': 4, 'High': 2, 'Med': 10, 'Low': 5 }
-  ];
+  // const imagesList = [
+  //   { 'Repository': 'ducketeer', 'Critical': 10, 'High': 10, 'Med': 15, 'Low': 5 },
+  //   { 'Repository': 'kirby-db', 'Critical': 2, 'High': 20, 'Med': 30, 'Low': 15 },
+  //   { 'Repository': 'banana', 'Critical': 4, 'High': 2, 'Med': 10, 'Low': 5 }
+  // ];
 
   console.log('images list: ', imagesList);
 
   const renderedImages: React.JSX.Element[] = [];
 
   for(let i = 0; i < imagesList.length; i++) {
-    renderedImages.push(<ImageCard removeImageAlert={removeImageAlert} runImageAlert={runImageAlert} key={i} imgObj={imagesList[i]}/>)
+    renderedImages.push(<ImageCard getScan={getScan} removeImageAlert={removeImageAlert} runImageAlert={runImageAlert} key={i} imgObj={imagesList[i]}/>)
   }
 
   return (
