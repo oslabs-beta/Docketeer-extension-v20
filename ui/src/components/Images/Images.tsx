@@ -30,6 +30,7 @@ const Images = (params?: TestParams): React.JSX.Element => {
   
   const dispatch = useAppDispatch();
   
+  // on initial render, send a dispatch that will fetch the list of docker images from the backend
   useEffect(() => {
     dispatch(fetchImages());
   }, []);
