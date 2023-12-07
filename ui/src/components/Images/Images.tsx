@@ -100,13 +100,13 @@ const Images = (params?: TestParams): React.JSX.Element => {
   }
 
   return (
-    <div>
+    <div className={styles.ImagesContainer}>
       {/* VULNERABILITY SUMMARY INFO */}
       <div>
         <ImagesSummary/>
       </div>
       {/* IMAGE CARDS */}
-      <div>
+      <div className={styles.ImagesCardsView}>
         {renderedImages}
       </div>
     
