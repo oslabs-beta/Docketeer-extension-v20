@@ -1,8 +1,11 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import express, { Router, Request, Response, NextFunction } from 'express';
 import imageController from '../../controllers/docker/imagesController';
 import containerController from '../../controllers/docker/containersController';
 import { log } from 'console';
 const router = Router();
+
+router.use(express.json());
+
 
 /**
  * @abstract 
@@ -15,16 +18,6 @@ router.get('/', imageController.getImages, (req, res) => {
 });
 
 /**
- * @abstract 
- * @todo 
- * @param 
- * @returns
- */
-router.post('/scan', imageController.scanImages, (req, res) => {
-  return res.status(200).json(res.locals.vulnerabilites);
-});
-
-/**
  * @abstract Scans an using Grype CLI and summarizes the report's vulnerabilities by severity
  * @todo 
  * @param req.body.scanName
@@ -34,7 +27,11 @@ router.post('/scan', imageController.scanImages, (req, res) => {
     "Negligible": 3
 }
  */
-router.get('/:id');
+router.post('/scan', imageController.scanImages, (req, res) => {
+  res.set({ 'content-type': 'application/json' });
+  return res.status(200).json(res.locals.vulnerabilites);
+});
+
 
 /**
  * @abstract 

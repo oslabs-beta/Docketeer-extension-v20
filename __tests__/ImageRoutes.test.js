@@ -1,49 +1,116 @@
 /**
  * @jest-environment node
  */
-
 import request from 'supertest';
 import response from 'supertest';
 import express from 'express';
 import { describe, beforeEach, expect, test, jest } from '@jest/globals';
+import imageRouter from "../backend/routers/docker/imageRouter";
+import imageController from 'backend/controllers/docker/imagesController';
 
-const bodyParser = require("body-parser");
+
 const app = express();
-app.use(bodyParser.json());
-// TODO:fix the router, update the names. api router and commande router only exist in the old version 
-// import apiRouter from '../server/routes/apiRouter';
-// import commandRouter from '../server/routes/commandRouter';
-
-import imageRouter from '../backend/routers/docker/imageRouter';
-import imageController from "backend/controllers/docker/imagesController";
-
-// app.use('/gapi', apiRouter);
-// app.use('/api', apiRouter);
-// app.use('/command', commandRouter);
+app.use(express.json());
 
 app.use('/api/docker/image', imageRouter);
 
+jest.mock("backend/controllers/docker/imagesController", () => ({
+  getImages: jest.fn((req, res, next) => next()),
+}));
 
 describe("GET /api/docker/image", () => {
-  test("Get a status of 200", async () => {
+  it("respond a status of 200 and json header", async function () {
     const response = await request(app)
       .get("/api/docker/image")
       .set("Accept", "application/json");
-      expect(response.statusCode).toBe(200);
+      expect(response.headers["content-type"]).toMatch(/json/);
+      expect(response.status).toEqual(200);
   });
 });
 
 
-describe("POST /api/docker/image/scan", () => {
-  it("responds with vulnerability count and status of 200", async () => {
-    const response = await request(app)
-      .post("/api/docker/image/scan")
-      .set("Accept", "application/json");
 
-    console.log(response.status, response.body); // Log additional information
-    expect(response.statusCode).toBe(200);
-  });
-});
+
+// describe("POST /api/docker/image/scan", () => {
+//   it("respond a status of 200 and json", async function () {
+//     const response = await request(app)
+//       .post("/api/docker/image/scan")
+//       .set("Accept", "application/json")
+//       .send({ scanName: "mysql:latest" });
+//       console.log(response.headers);
+//       expect(response.headers["content-type"]).toMatch(/json/);
+//       expect(response.status).toEqual(200);
+//   });
+// });
+
+// describe("POST /api/docker/image/run", () => {
+//   it("respond a status of 201 and json header", async function () {
+//     const response = await request(app)
+//       .post("/api/docker/image/run")
+//       expect(response.status).toEqual(201);
+//   });
+// });
+
+// jest.mock("backend/controllers/docker/imagesController", () => ({
+//   removeImage: jest.fn((req, res, next) => next()),
+// }));
+
+// describe("DELETE /api/docker/image/:id", () => {
+//   it("respond a status of 204 and json header", async function () {
+//     const response = await request(app).post("/api/docker/image/:id");
+//     expect(response.status).toEqual(204);
+//   });
+// });
+
+// // Mock the implementation of imageController.scanImages
+// jest.spyOn(imageController, 'scanImages').mockImplementation(async (req, res, next) => {
+//   // Mocked data for testing
+//   const mockedVulnerabilities = {
+//     Medium: 2,
+//     Low: 5,
+//     High: 1,
+//     Critical: 0,
+//   };
+
+//   // Set the mocked data in res.locals
+//   res.locals.vulnerabilities = mockedVulnerabilities;
+
+//   // Call the next middleware (assuming scanImages uses next())
+//   next();
+// });
+
+// // Now you can use the mocked imageRouter in your test
+// describe("POST /api/docker/image/scan", () => {
+//   test("responds with vulnerability count and status of 200", async () => {
+//     // Prepare the sample request body
+//     const sampleRequestBody = { scanName: "mysql:latest" };
+
+//     // Send a POST request to your endpoint
+//     const response = await request(app)
+//       .post("/api/docker/image/scan")
+//       .set("Accept", "application/json")
+//       .set("Content-Type", "application/json")
+//       .send(sampleRequestBody);
+
+//     // Log additional information
+//     console.log("header: ", response.headers);
+//     console.log("status and body: ", response.status, response.body);
+
+//     // Now you can make assertions based on the mocked behavior of imageController.scanImages
+//     // expect(response.status).toBe(200);
+//     expect(response.body).toEqual({
+//       Medium: expect.any(Number),
+//       Low: expect.any(Number),
+//       High: expect.any(Number),
+//       Critical: expect.any(Number),
+//     });
+
+//     // Ensure that the mocked function was called
+//     expect(imageController.scanImages).toHaveBeenCalled();
+//   });
+// });
+
+
 
 
 

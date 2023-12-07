@@ -80,28 +80,42 @@ imageController.scanImages = async (req: Request, res: Response, next: NextFunct
   const { scanName }: { scanName: string } = req.body;
 
   try {
-    //runs Grype on scanName and outputs result based on a custom Go Template in ./controllers/grype/json.tmpl
-    const { stdout, stderr } = await execAsync(`grype ${scanName} -o template -t ./controllers/grype/json.tmpl`);
-    if (stderr) throw new Error(stderr);
+    console.log('Received scan request for:', scanName);
 
-    //parse the vulnerability data and count the number of vulnerabilites
+    // runs Grype on scanName and outputs result based on a custom Go Template in ./controllers/grype/json.tmpl
+    const { stdout, stderr } = await execAsync(`grype ${scanName} -o template -t ./controllers/grype/json.tmpl`);
+    
+    if (stderr) {
+      console.error('Grype command failed with error:', stderr);
+      throw new Error(stderr);
+    }
+
+    // parse the vulnerability data and count the number of vulnerabilities
     const vulnerabilityJSON: GrypeScan[] = JSON.parse(stdout);
+    console.log('Vulnerability JSON:', vulnerabilityJSON);
+
     const countVulnerability: countVulnerability = vulnerabilityJSON.reduce((acc, cur) => {
       acc.hasOwnProperty(cur.Severity) ? acc[cur.Severity]++ : acc[cur.Severity] = 1;
-      return acc
+      return acc;
     }, {});
-    
+
+    console.log('Vulnerabilities Count:', countVulnerability);
+
     res.locals.vulnerabilites = countVulnerability;
-    next()
+    next();
   } catch (error) {
+    console.error('Error in imageController.scanImages:', error);
+
     const errObj: ServerError = {
       log: { err: `imageController.scanImages Error: ${error}` },
       status: 500,
       message: 'internal server error'
-    }
+    };
+
     next(errObj);
   }
 };
+
 
 /**
  * @todo verify it's working 
