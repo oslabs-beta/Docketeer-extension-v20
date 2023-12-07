@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {SetStateAction, useEffect, useState} from 'react';
 import styles from './ImageCard.module.scss';
 import { ImageCardProps } from 'types';
 import Client from '../../models/Client';
@@ -14,7 +14,7 @@ import Client from '../../models/Client';
 function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps): React.JSX.Element {
 
 	// initialize state variable to store vulnerabilities
-	const [scanObj, setScanObj] = useState({Critical: '-', High: '-', Medium: '-', Low: '-'})
+	const [scanObj, setScanObj] = useState({})
 
 	const getScan = async (scanName: string) => { 
 		// check if an image tag is <none>, and if it is, call getScan on this image - this is because scanning an Unused(dangling) image returns an error
@@ -31,9 +31,9 @@ function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps):
   }
 
 	// call getScan upon render for each card
-	// useEffect(() => { 		
-	// 	getScan(imgObj.ScanName)
-	// }, [])
+	useEffect(() => { 		
+		getScan(imgObj.ScanName)
+	}, [])
 
 	return (
 		<div className={styles.imageCard}>
