@@ -17,7 +17,7 @@ function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps):
 	const [scanObj, setScanObj] = useState({})
 
 	const getScan = async (scanName: string) => { 
-		// check if an image tag is <none>, and if it is, call getScan on this image
+		// check if an image tag is <none>, and if it is, call getScan on this image - this is because scanning an Unused(dangling) image returns an error
 		if (imgObj.Tag === "<none>") {
 			setScanObj({ Critical: '-', High: '-', Medium: '-', Low: '-' })
 			return;
