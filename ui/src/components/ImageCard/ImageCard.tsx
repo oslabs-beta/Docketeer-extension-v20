@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from './ImageCard.module.scss';
-import globalStyles from '../global.module.scss';
-import { ImageType } from 'types';
+import { ImageCardProps } from 'types';
 import Client from '../../models/Client';
 
 
@@ -10,12 +9,7 @@ import Client from '../../models/Client';
  * @description | new components for images dashboard
  **/
 
-interface ImageCardProps {
-	imgObj: ImageType,
-	key: number,
-	runImageAlert: (Image: ImageType) => void,
-	removeImageAlert: (Image: ImageType) => void,
-}
+
 
 function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps): React.JSX.Element {
 
@@ -23,24 +17,31 @@ function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps):
 	const [scanObj, setScanObj] = useState({})
 
 	const getScan = async (scanName: string) => { 
-		// retrieve scan data
+		// check if an image tag is <none>, and if it is, call getScan on this image
+		if (imgObj.Tag === "<none>") {
+			setScanObj({ Critical: '-', High: '-', Medium: '-', Low: '-' })
+			return;
+		}
+		// retrieve scan data - Client.ImageService.getScan creates DDClient Request
     const success = await Client.ImageService.getScan(scanName);
 		console.log(`Success from getScan: ${scanName}`, success);
+
 		// set state with scan data
 		setScanObj(success)
   }
 
+	// call getScan upon render for each card
 	useEffect(() => { 		
 		getScan(imgObj.ScanName)
 	}, [])
 
 	return (
 		<div className={styles.imageCard}>
-			{/* image name: LEFT SIDE */}
+			{/* image name */}
 			<div>
 				<p>Image Name: {imgObj['Repository']}</p>
 			</div>
-			{/* vulnerability info + run / remove functionality: RIGHT SIDE */}
+			{/* vulnerability info + run / remove image functionality */}
 			<div className={styles.imageInfo}>
 				{/* RUN / REMOVE */}
 				<div>
@@ -48,7 +49,7 @@ function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps):
 					<button className={styles.imgCardButton} onClick={() => removeImageAlert(imgObj)}>remove image</button>
 				</div>
 				
-				{/* VULNERABILITY */}
+				{/* VULNERABILITY INFO */}
 				<div className={styles.imageVulnerabilities}>
 					<div className={styles.imgVulDiv}>
 						<p className={styles.critical}>Critical</p>

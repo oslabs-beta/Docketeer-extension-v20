@@ -95,6 +95,12 @@ export interface ImageType{
   Vulnerabilities?: object;
 }
 
+export interface ImageCardProps {
+  imgObj: ImageType,
+  key: number,
+  runImageAlert: (Image: ImageType) => void,
+  removeImageAlert: (Image: ImageType) => void,
+}
 
 export interface NetworkAndContainer{
   networkName: string;
