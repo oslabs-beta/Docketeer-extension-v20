@@ -18,6 +18,17 @@ router.get('/', imageController.getImages, (req, res) => {
 });
 
 /**
+ * @abstract 
+ * @todo 
+ * @param 
+ * @returns
+ */
+router.post('/scan', imageController.scanImages, (req, res) => {
+  res.set('Cache-control', 'public, max-age=86400')
+  return res.status(200).json(res.locals.vulnerabilites);
+});
+
+/**
  * @abstract Scans an using Grype CLI and summarizes the report's vulnerabilities by severity
  * @todo 
  * @param req.body.scanName

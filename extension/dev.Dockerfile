@@ -2,7 +2,7 @@
 # install the corresponding node:18.12 based on the platform of the machine
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS builder
 
-#within the /backend folder, copy the packages, install with cache, and then 
+#within the /backend folder, copy the packages, install with cache 
 WORKDIR /backend
 COPY backend/package*.json .
 RUN --mount=type=cache,target=/usr/src/app/.npm \
@@ -10,7 +10,7 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm install
 COPY backend/. ./
 
-# Builds everything in UI folder
+#within the /backend folder, copy the packages, install with cache
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS client-builder
 WORKDIR /ui
 
@@ -32,7 +32,7 @@ COPY ui/. ./
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16
 # Extension information that is displayed in the sidebar/extension menu
 LABEL org.opencontainers.image.title="Docketeer" \
-  org.opencontainers.image.description="Docker extension for monitoring and managing your containers, images, and networks" \
+  org.opencontainers.image.description="Docker extension for monitoring and managing your containers, images, networks, and logs" \
   org.opencontainers.image.vendor="Docketeer team" \
   com.docker.desktop.extension.api.version="0.3.0" \
   com.docker.desktop.extension.icon="https://i.ibb.co/VqkYZPy/docketeer-logo-light.png" \
@@ -46,7 +46,7 @@ LABEL org.opencontainers.image.title="Docketeer" \
   <p>Greetings, fellow space traveler! We're thrilled that you've chosen our application to help you navigate and explore the vast universe of Docker infrastructure. As a Docketeer, you know that real-time tracking of metrics and logs is essential for staying ahead of potential issues and optimizing your workflows. Our extension provides you with the tools you need to take control of your Docker images, containers, volumes, and logs. With an intuitive interface, you can easily make the necessary adjustments to ensure a smooth journey through the cosmos of your Docker environment.</p> \
   <h4>About us</h4> \
   <p>As a team of passionate engineers, we are dedicated to improving the workflow of developers as they explore the vast universe of Docker infrastructure. We know that space travel can be complex and challenging, but with the right tools and support, you can navigate the stars with ease.</p> \
-  <p>Our mission is to provide Docketeers like you with the tools and support you need to make your Docker journey as smooth as possible. We strive to make our application intuitive, powerful, and user-friendly so that you can focus on exploring the Docker universe without worrying about the technical details.</p>" \
+<p>Our mission is to provide Docketeers like you with the tools and support you need to make your Docker journey as smooth as possible. We strive to make our application intuitive, powerful, and user-friendly so that you can focus on exploring the Docker universe without worrying about the technical details.</p>" \
   com.docker.extension.publisher-url="https://docketeer.io/" \
   com.docker.extension.additional-urls='[{"title":"Extension-Github","url":"https://github.com/oslabs-beta/docketeer-extension"},{"title":"Browser-Based-Github","url":"https://github.com/open-source-labs/Docketeer"},{"title":"Email","url":"mailto:docketeerxii@gmail.com"},{"title":"LinkedIn","url":"https://www.linkedin.com/company/docketeer/"}]' \
   com.docker.extension.categories="utility-tools" \
@@ -62,6 +62,7 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
   && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1 -C /usr/local/bin docker/docker \
   && rm docker-${DOCKERVERSION}.tgz
 
+#install grype to run image vulnerability scans
 RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
 
 # Copies necessary files into extension directory
