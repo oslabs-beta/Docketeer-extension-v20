@@ -15,6 +15,10 @@ $navbar-transition: transform 0.3s ease-in-out;
   // padding: 0 0rem;
   height: $navbar-height;
   width: $navbar-width;
+
+    .logo {
+    margin-left: 100px;
+  }
 }
 
 // HAMBURGER ICON STYLING ------------
@@ -26,6 +30,8 @@ $navbar-transition: transform 0.3s ease-in-out;
   cursor: pointer;
   justify-content: space-evenly;
 }
+
+
 
 // .bar {
 //   width: 30px;
@@ -92,7 +98,7 @@ $navbar-transition: transform 0.3s ease-in-out;
   }
   .navSpacer {
     max-width: $breakpoint-uw;
-    margin: 0 auto;
+    margin-right: 350px;
     padding: 0 2rem;
   }
 }
@@ -103,6 +109,7 @@ $navbar-transition: transform 0.3s ease-in-out;
   }
   .navButton {
     text-align: center;
+    align-items: center;
   }
   .navBar {
     padding: 0px;
@@ -115,6 +122,7 @@ $navbar-transition: transform 0.3s ease-in-out;
   }
   .navButton {
     text-align: center;
+    align-items: center;
   }
   .navBar {
     padding: 0px;
