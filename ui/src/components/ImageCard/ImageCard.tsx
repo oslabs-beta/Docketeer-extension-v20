@@ -3,6 +3,8 @@ import styles from './ImageCard.module.scss';
 import { ImageCardProps } from 'types';
 import Client from '../../models/Client';
 
+import DeleteIcon from '../../../assets/delete_outline_white_24dp.svg';
+import PlayIcon from '../../../assets/play_arrow_white_24dp.svg';
 
 /**
  * @module | ImageCard.tsx
@@ -47,7 +49,7 @@ function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps):
 				
 				{/* VULNERABILITY */}
 				<div className={styles.VulnerabilitiesBlock}>
-					<p className={styles.VulnerabilitiesTitle}>Vulnerabilities</p>
+					{/* <p className={styles.VulnerabilitiesTitle}>Vulnerabilities</p> */}
 					<div className={styles.imageVulnerabilities}>
 						<div className={styles.imgVulDiv}>
 							<p className={styles.critical}>Critical</p>
@@ -71,8 +73,8 @@ function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps):
 
 				{/* RUN / REMOVE */}
 				<div className={styles.buttons}>
-					<button className={styles.imgCardButton} onClick={() => runImageAlert(imgObj)}>RUN</button>
-					<button className={styles.imgCardButton} onClick={() => removeImageAlert(imgObj)}>DELETE IMAGE</button>
+				<img src={PlayIcon} className={styles.imgCardButton} onClick={() => runImageAlert(imgObj)}></img>
+				<img src={DeleteIcon} className={styles.imgCardButton} onClick={() => removeImageAlert(imgObj)}></img>
 				</div>
 		</div>
 	)

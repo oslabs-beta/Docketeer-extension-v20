@@ -10,7 +10,7 @@ import SideBar from '../../components/SideBar/SideBar';
 
 import styles from './SharedLayout.module.scss';
 import docketeerLogo from '../../../assets/docketeer-logo-light.png';
-import MenuIcon from '../../../assets/menu_icon.svg';
+import MenuIcon from '../../../assets/menu_icon_36dp.svg';
 import {
   fetchRunningContainers,
   fetchStoppedContainers,
