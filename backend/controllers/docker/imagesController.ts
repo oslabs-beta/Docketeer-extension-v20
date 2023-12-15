@@ -2,7 +2,12 @@ import { Request, Response, NextFunction } from 'express';
 import { ImageType } from '../../../types';
 import { execAsync } from '../helper';
 import { GrypeScan, ServerError, countVulnerability } from '../../backend-types';
+import path from 'path';
 
+// Storing the path to the grype data template file
+const templatePath = path.resolve(__dirname, '../grype/json.tmpl')
+
+// Types of our ImageController methods
 interface ImageController {
   /**
    * @method GET
@@ -13,12 +18,16 @@ interface ImageController {
   getImages: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
   /**
- * @method POST
- * @todo 
- * @param {string} req.body.scanName
- * @returns {void}
- */
-  scanImages: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+   * @method POST
+   * @todo
+   * @param {string} req.body.scanName
+   * @returns {void}
+   */
+  scanImages: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<void>;
 
   /**
    * @method POST
@@ -27,8 +36,11 @@ interface ImageController {
    * @param {string} req.body.tag
    * @returns {void}
    */
-  buildContainerFromImage: (req: Request, res: Response, next: NextFunction) => Promise<void>;
-
+  buildContainerFromImage: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<void>;
 
   /**
    * @method
@@ -44,7 +56,13 @@ interface ImageController {
    * @param {string} req.params.id
    * @returns
    */
-  removeImage: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+  removeImage: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<void>;
+
+  dbStatus: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 }
 
 const imageController: ImageController = {} as ImageController;
@@ -89,8 +107,11 @@ imageController.scanImages = async (req: Request, res: Response, next: NextFunct
   const { scanName }: { scanName: string } = req.body;
 
   try {
-    //runs Grype on scanName and outputs result based on a custom Go Template in ./controllers/grype/json.tmpl
-    const { stdout, stderr } = await execAsync(`grype ${scanName} -o template -t ./controllers/grype/json.tmpl`);
+    //Development mode: runs Grype on scanName and outputs result based on a custom Go Template in ./controllers/grype/json.tmpl
+    //Production: runs Grype on scanName and outputs result based on a custom Go Template in backend/dist/controllers/grype/json.tmpl
+    const { stdout, stderr } = await execAsync(`grype ${scanName} -o template -t ${templatePath}`);
+
+    // Throw an error if the executet command is not successful
     if (stderr) throw new Error(stderr);
 
     //parse the vulnerability data and count the number of vulnerabilites
@@ -155,5 +176,25 @@ imageController.removeImage =async (req: Request, res: Response, next: NextFunct
     return next(errObj);
   }
 }
+
+imageController.dbStatus = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { stdout, stderr } = await execAsync('grype db update');
+    if (stderr) throw new Error(stderr);
+    res.locals.dbStatus = stdout;
+    next();
+  } catch (error) {
+    const errObj: ServerError = {
+      log: { err: `imageController.dbStatus Error: ${error}` },
+      status: 500,
+      message: 'internal server error',
+    };
+    next(errObj);
+  }
+};
 
 export default imageController;
