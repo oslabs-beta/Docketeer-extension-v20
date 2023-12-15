@@ -14,20 +14,32 @@ import Client from '../../models/Client';
 function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps): React.JSX.Element {
 
 	// initialize state variable to store vulnerabilities
-	const [scanObj, setScanObj] = useState({})
+	const [scanObj, setScanObj] = useState({
+    Critical: '-',
+    High: '-',
+    Medium: '-',
+    Low: '-',
+  });
 
-	const getScan = async (scanName: string) => { 
-		// check if an image tag is <none>, and if it is, call getScan on this image - this is because scanning an Unused(dangling) image returns an error
-		if (imgObj.Tag === "<none>") {
-			setScanObj({ Critical: '-', High: '-', Medium: '-', Low: '-' })
+	const getScan = async (scanName: string) => {
+    // check if an image tag is <none>, and if it is, call getScan on this image - this is because scanning an Unused(dangling) image returns an error
+    if (imgObj.Tag === '<none>') {
+      setScanObj({ Critical: '-', High: '-', Medium: '-', Low: '-' });
+      return;
+    }
+
+    try {
+      // retrieve scan data - Client.ImageService.getScan creates DDClient Request
+      const success = await Client.ImageService.getScan(scanName);
+      console.log(`Success from getScan: ${scanName}`, success);
+
+      // set state with scan data
+			setScanObj(success);
 			return;
-		}
-		// retrieve scan data - Client.ImageService.getScan creates DDClient Request
-    const success = await Client.ImageService.getScan(scanName);
-		console.log(`Success from getScan: ${scanName}`, success);
-
-		// set state with scan data
-		setScanObj(success)
+    } catch (error) {
+      // Log error if failed
+      console.log('getScan has failed to get vulnerabilities: ', error);
+    }
   }
 
 	// call getScan upon render for each card
