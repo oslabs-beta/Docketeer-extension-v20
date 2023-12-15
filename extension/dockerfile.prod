@@ -73,6 +73,8 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
 
 #install grype to run image vulnerability scans
 RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+# Build and update the grype db
+RUN grype db update
 
 # Copies necessary files into extension directory
 # COPY extension/docker-compose-prod.yaml ./docker-compose.yaml
