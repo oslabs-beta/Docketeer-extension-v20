@@ -115,6 +115,20 @@ export interface ImagesStateType {
   imagesList: ImageType[];
 }
 
+// Type for vulnerability object sent to the reducer inside action argument
+export interface VulnerabilityPayload {
+	success: object,
+	scanName: string
+}
+
+// Type of the scanned image vulnerabilities object: Used for the success variable in ImageCard.tsx
+export interface ScanObject {
+  Critical?: number | string;
+  High?: number | string;
+  Medium?: number | string;
+  Low?: number | string;
+}
+
 // ==============================================
 // LOGS TYPES
 // ==============================================

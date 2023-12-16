@@ -1,7 +1,10 @@
-import React, {SetStateAction, useEffect, useState} from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
+import { useAppDispatch } from '../../reducers/hooks';
 import styles from './ImageCard.module.scss';
 import { ImageCardProps } from 'types';
+import { VulnerabilityPayload, ScanObject } from 'ui/ui-types';
 import Client from '../../models/Client';
+import { updateVulnerabilities } from '../../reducers/imageReducer';
 
 
 /**
@@ -9,32 +12,26 @@ import Client from '../../models/Client';
  * @description | new components for images dashboard
  **/
 
-
-
-function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps): React.JSX.Element {
-
-	// initialize state variable to store vulnerabilities
-	const [scanObj, setScanObj] = useState({
-    Critical: '-',
-    High: '-',
-    Medium: '-',
-    Low: '-',
-  });
+const ImageCard = ({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps): React.JSX.Element => {
+	const dispatch = useAppDispatch();
 
 	const getScan = async (scanName: string) => {
-    // check if an image tag is <none>, and if it is, call getScan on this image - this is because scanning an Unused(dangling) image returns an error
-    if (imgObj.Tag === '<none>') {
-      setScanObj({ Critical: '-', High: '-', Medium: '-', Low: '-' });
-      return;
-    }
-
+		
     try {
       // retrieve scan data - Client.ImageService.getScan creates DDClient Request
-      const success = await Client.ImageService.getScan(scanName);
-      console.log(`Success from getScan: ${scanName}`, success);
-
-      // set state with scan data
-			setScanObj(success);
+      const success: ScanObject = await Client.ImageService.getScan(scanName);
+			console.log(`Success from getScan: ${scanName}`, success);
+			// if the image failed to be scanned for vulnerabilities, update the image card state to have a default vulnerability object
+			if (success === undefined) {
+			const defaultVul: VulnerabilityPayload = {success:{ Critical: '-', High: '-', Medium: '-', Low: '-' }, scanName: scanName}
+			dispatch(updateVulnerabilities(defaultVul));
+      return;
+    }
+			// create an object of type VulnerabilityPayload with the returned vulnerability object and the scanName
+			const updateVul: VulnerabilityPayload = {success, scanName: scanName}
+			// dispatch VulnerabilityPayload to update the imgObj in the store with the vulnerability info
+			dispatch(updateVulnerabilities(updateVul))
+			console.log('after reducuer invoked', imgObj)
 			return;
     } catch (error) {
       // Log error if failed
@@ -63,19 +60,19 @@ function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps):
 					<div className={styles.imageVulnerabilities}>
 						<div className={styles.imgVulDiv}>
 							<p className={styles.critical}>Critical</p>
-							<p className={styles.critical}>{scanObj['Critical']} </p>
+							{imgObj.Vulnerabilities && <p className={styles.critical}>{imgObj.Vulnerabilities['Critical']} </p>}
 						</div>
 						<div className={styles.imgVulDiv}>
 							<p className={styles.high}>High</p>
-							<p className={styles.high}>{scanObj['High']} </p>
+							{imgObj.Vulnerabilities && <p className={styles.high}>{imgObj.Vulnerabilities['High']} </p>}
 						</div>
 						<div className={styles.imgVulDiv}>
 							<p className={styles.medium}>Med</p>
-							<p className={styles.medium}>{scanObj['Medium']} </p>
+							{imgObj.Vulnerabilities && <p className={styles.medium}>{imgObj.Vulnerabilities['Medium']} </p>}
 						</div>
 						<div className={styles.imgVulDiv}>
 							<p className={styles.low}>Low</p>
-							<p className={styles.low}>{scanObj['Low']} </p>
+							{imgObj.Vulnerabilities && <p className={styles.low}>{imgObj.Vulnerabilities['Low']} </p>}
 						</div>
 					</div>
 				</div>
