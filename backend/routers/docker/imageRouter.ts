@@ -1,7 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import imageController from '../../controllers/docker/imagesController';
-import containerController from '../../controllers/docker/containersController';
-import { log } from 'console';
 const router = Router();
 
 /**
@@ -10,7 +8,8 @@ const router = Router();
  * @param 
  * @returns
  */
-router.get('/', imageController.getImages, (req, res) => {
+router.get('/', imageController.getImages, imageController.dbStatus, (req, res) => {
+  console.log('db status', res.locals.dbStatus);
   return res.status(200).json(res.locals.images);
 });
 
