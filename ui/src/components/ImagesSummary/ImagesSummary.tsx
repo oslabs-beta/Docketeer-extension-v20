@@ -23,29 +23,27 @@ const ImagesSummary = (): React.JSX.Element => {
 
   return (
     <div className={styles.summaryCard}>
-      
       {/* CRITICAL */}
       <div className={styles.critical} style={{ width: summary.c + '%' }}>
         <p className={styles.textColor}>CRITICAL</p>
       </div>
-      
+
       {/* HIGH */}
       <div className={styles.high} style={{ width: summary.h + '%' }}>
         <p className={styles.textColor}>HIGH</p>
       </div>
-      
+
       {/* MED */}
       <div className={styles.med} style={{ width: summary.m + '%' }}>
         <p className={styles.textColor}>MEDIUM</p>
       </div>
-      
+
       {/* LOW */}
       <div className={styles.low} style={{ width: summary.l + '%' }}>
         <p className={styles.textColor}>LOW</p>
       </div>
-    
     </div>
-  )
+  );
 }
 
 export default ImagesSummary;

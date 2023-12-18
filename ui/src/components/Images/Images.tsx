@@ -103,15 +103,13 @@ const Images = (params?: TestParams): React.JSX.Element => {
 
   return (
     <div className={styles.ImagesContainer}>
+      <h1>Vulnerabilities</h1>
       {/* VULNERABILITY SUMMARY INFO */}
       <div>
-        <ImagesSummary/>
+        <ImagesSummary />
       </div>
       {/* IMAGE CARDS */}
-      <div className={styles.ImagesCardsView}>
-        {renderedImages}
-      </div>
-    
+      <div className={styles.ImagesCardsView}>{renderedImages}</div>
     </div>
   );
 };

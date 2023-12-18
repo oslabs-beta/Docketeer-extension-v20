@@ -6,7 +6,7 @@
   text-align: center;
   height: 30vh;
   position: fixed;
-  right: 240px;
+  // right: 585px;
   top: 60px;
   background-color: color(background, base);
   border-radius: 10px;
@@ -20,4 +20,24 @@
 /* No border styles when closed */
 .SideBar.sidebar-closed {
   border: none;
+}
+
+/* Media Query */
+
+@media screen and (min-width: $breakpoint-uw) {
+  .SideBar {
+    right: 35%; 
+  }
+}
+
+@media screen and (max-width: $breakpoint-md) {
+  .SideBar {
+    right: 35%;
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .SideBar {
+    right: 15%;
+  }
 }
