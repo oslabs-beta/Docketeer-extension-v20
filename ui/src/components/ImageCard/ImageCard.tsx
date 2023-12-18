@@ -37,6 +37,14 @@ function ImageCard({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps):
 		getScan(imgObj.ScanName)
 	}, [])
 
+	// useEffect(() => {
+  //   getScan(imgObj.ScanName);
+  //   // Cleanup function to reset scanObj when component unmounts
+  //   return () => {
+  //     setScanObj({})
+  //   };
+  // }, [imgObj.ScanName]);
+
 	return (
 		<div className={styles.imageCard}>
 
