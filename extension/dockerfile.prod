@@ -3,6 +3,10 @@ FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS builder
 WORKDIR /
 COPY types.d.ts .
 COPY tsconfig.json .
+
+# Copies the backend package.json files
+# Generates the /dist folder with compiled javascript from ts
+# configures npm to use a cached directory for node_modules to speed up build process
 WORKDIR /backend
 COPY backend/package*.json .
 RUN --mount=type=cache,target=/usr/src/app/.npm \
@@ -10,6 +14,11 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm ci
 COPY backend/. .
 RUN npm run build
+
+# Create a go template file inside /backend/dist/controllers/grype
+# This template is used for the output of vulnerability information
+WORKDIR /backend/dist/controllers/grype
+RUN echo '[{{- range $index, $match := .Matches}}{{if $index}},{{end}}{"Package": "{{.Artifact.Name}}","Version Installed": "{{.Artifact.Version}}","Vulnerability ID": "{{.Vulnerability.ID}}","Severity": "{{.Vulnerability.Severity}}"}{{- end}}]' > json.tmpl
 
 # Builds everything in UI folder
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS client-builder
@@ -64,11 +73,15 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
 
 #install grype to run image vulnerability scans
 RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+# Build and update the grype db
+RUN grype db update
 
 # Copies necessary files into extension directory
-COPY extension/docker-compose-prod.yaml ./docker-compose.yaml
+# COPY extension/docker-compose-prod.yaml ./docker-compose.yaml
+COPY extension/docker-compose-prod.yaml docker-compose.yaml
 WORKDIR /extension
 COPY backend/db/init_prod.sql /extension/.
+
 WORKDIR /
 COPY metadata.json .
 COPY docketeer.svg .
