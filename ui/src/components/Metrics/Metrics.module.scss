@@ -12,33 +12,6 @@
   }
 }
 
-.test {
-  display: flex;
-  flex-direction: column;
-  height: 20px;
-}
-
-.test2 {
-  display:flex;
-}
-
-.snapshotWrapper {
-  display: flex;
-  justify-content: space-around;
-  margin: $default-page-margin;
-  height: 100%;
-
-  h2 {
-    margin-bottom: 8px;
-  }
-  .iframeHeader {
-    display: flex;
-    align-items: end;
-    margin-bottom: 1rem;
-  }
-}
-
-
 .button {
   background-color: #212121;
   border: none;
@@ -104,19 +77,17 @@
   transition: 0.3s;
 }
 
-// .switch:checked+.toggle {
-//   background: #bada55;
-// }
+// ************ FOR GETTING SNAPSHOTS ************
 
-// .switch:checked+.toggle:after {
-//   left: calc(100% - 5px);
-//   transform: translateX(-100%);
-// }
+.switch:checked+.toggle {
+  background: #bada55;
+}
 
-// .toggle:active:after {
-//   width: 40px;
-// }
+.switch:checked+.toggle:after {
+  left: calc(100% - 5px);
+  transform: translateX(-100%);
+}
 
-.snapshotContent{
-  width: max-content;
+.toggle:active:after {
+  width: 30px;
 }
