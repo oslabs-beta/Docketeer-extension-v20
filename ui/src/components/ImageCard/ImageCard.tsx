@@ -1,5 +1,6 @@
 import React, { SetStateAction, useEffect, useState } from 'react';
 import { useAppDispatch } from '../../reducers/hooks';
+import globalStyles from '../global.module.scss';
 import styles from './ImageCard.module.scss';
 import { ImageCardProps } from 'types';
 import { VulnerabilityPayload, ScanObject } from 'ui/ui-types';

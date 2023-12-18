@@ -12,6 +12,16 @@
   }
 }
 
+.test {
+  display: flex;
+  flex-direction: column;
+  height: 20px;
+}
+
+.test2 {
+  display:flex;
+}
+
 .snapshotWrapper {
   display: flex;
   justify-content: space-around;
@@ -43,16 +53,17 @@
   border-radius: 4px;
   outline: none;
   margin-left: 1rem;
+  box-shadow: 1px 1px 10px #9ab4fbc7;
 }
 
 .button:hover {
-  background-color: hsl(190, 72%, 36%);
-  box-shadow: 0 12px 16px 0 rgba(243, 8, 8, 0.24),
-    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  background-color: #9ab4fbc7;
+  // box-shadow: 0 12px 16px 0 rgba(243, 8, 8, 0.24),
+  //   0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 
 .metrics {
-  width: 100%;
+  width: 500px;
   height: calc(100vh - (60px + 6rem));
   min-height: 20rem;
   border: 0px;
@@ -93,19 +104,19 @@
   transition: 0.3s;
 }
 
-.switch:checked+.toggle {
-  background: #bada55;
-}
+// .switch:checked+.toggle {
+//   background: #bada55;
+// }
 
-.switch:checked+.toggle:after {
-  left: calc(100% - 5px);
-  transform: translateX(-100%);
-}
+// .switch:checked+.toggle:after {
+//   left: calc(100% - 5px);
+//   transform: translateX(-100%);
+// }
 
-.toggle:active:after {
-  width: 40px;
-}
+// .toggle:active:after {
+//   width: 40px;
+// }
 
 .snapshotContent{
-  
+  width: max-content;
 }

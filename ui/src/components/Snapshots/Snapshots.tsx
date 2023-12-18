@@ -54,26 +54,34 @@ const Snapshots = (): JSX.Element => {
 
   return (
     <div className={styles.snapshotWrapper}>
-      <div>
+
+      <div className={styles.test}>
+
+        <div className={styles.test2}>
         <label>
           <strong>CHOOSE A DATE:</strong>
         </label>
         <select id="select-left">{dropDown}</select>
-
+        </div>
         <button
           className={globalStyles.button1}
           onClick={() => retrieveSnapshot("left")}
         >
           RETRIEVE SNAPSHOT
         </button>
-        <div className={styles.snapshotContent}>
+        
+      
+        <div>
           <iframe
             className={styles.metrics}
             src={iframeLinkLeft}
           />
         </div>
+
       </div>
+
       <div>
+        <div>
         <label>
           <strong>CHOOSE A DATE:</strong>
         </label>
@@ -85,7 +93,8 @@ const Snapshots = (): JSX.Element => {
         >
           RETRIEVE SNAPSHOT
         </button>
-        <div className={styles.snapshotContent}>
+        </div>
+        <div>
           <iframe
             className={styles.metrics}
             src={iframeLinkRight}

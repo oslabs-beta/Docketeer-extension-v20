@@ -1,8 +1,8 @@
 import React, { SyntheticEvent, useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
-import styles from './Images.module.scss';
 import globalStyles from '../global.module.scss';
+import styles from './Images.module.scss';
 import { ImageType } from 'types';
 import { fetchImages } from '../../reducers/imageReducer';
 import Client from '../../models/Client';
@@ -103,7 +103,7 @@ const Images = (params?: TestParams): React.JSX.Element => {
 
   return (
     <div className={styles.ImagesContainer}>
-      <h1>Vulnerabilities</h1>
+      <h1 className={styles.VulnerabilitiesTitle}>Vulnerabilities</h1>
       {/* VULNERABILITY SUMMARY INFO */}
       <div>
         <ImagesSummary />

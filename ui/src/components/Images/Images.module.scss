@@ -1,7 +1,8 @@
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  margin: $default-page-margin;
+// @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Open+Sans&family=Prompt&display=swap');
+.VulnerabilitiesTitle{
+  text-align: left;
+  font-size: 30px;
+  margin-left: 10px;
 }
 
 .ImagesContainer {
@@ -16,80 +17,4 @@
   margin-top: 20px;
 }
 
-.imageSearchHolder {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-bottom: 2rem;
 
-  input {
-    min-width: 40%;
-  }
-
-  h2 {
-    margin-bottom: 1rem;
-  }
-}
-
-.availableImagesHolder {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-  
-  h2 {
-    margin-bottom: 1rem;
-  }
-}
-
-.imageHolder {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-}
-
-.imageCard {
-  @extend .card;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  word-wrap: break-word;
-  background: $background-bg;
-}
-
-.image {
-  height: 4rem;
-}
-
-.textHolder {
-  margin-bottom: 3rem;
-}
-
-
-.buttonSpacer {
-  position: absolute;
-  bottom: 1rem;
-  left: 1rem;
-
-  button {
-    margin-right: 0.5rem;
-  }
-}
-
-@media screen and (max-width: $breakpoint-lg) {
-  .imageHolder {
-    margin-top: 5vh;
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-}
-
-@media screen and (max-width: $breakpoint-md) {
-  .imageHolder {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media screen and (max-width: $breakpoint-sm) {
-  .imageHolder {
-    grid-template-columns: 1fr;
-  }
-}

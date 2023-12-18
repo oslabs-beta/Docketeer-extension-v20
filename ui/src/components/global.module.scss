@@ -1,3 +1,28 @@
+// @import url(‘https://fonts.googleapis.com/css2?family=Prompt:wght@400;500&display=swap’);
+// @import url(‘https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;700&display=swap’);
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Open+Sans&family=Prompt&display=swap');
+
+
+* {
+  font-family: 'Prompt', sans-serif !important;
+  color: white;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: white;
+}
+
+// h1,
+// h2,
+// h3 {
+//   font-family: 'Prompt', sans-serif;
+//   color: white;
+//   padding: 0 3vh;
+// }
+
 .input {
   height: 2.5rem;
   align-self: start;
@@ -79,22 +104,23 @@
   line-height: 1.1;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  box-shadow: 1px 1px 10px #9ab4fbc7;
 }
 
 .button1 {
   min-height: 44px;
-  background-color: color(blue, dark);
+  background-color: #212121;
   text-shadow: 1px 1px 2px color(blue, dark);
 
   &:hover,
   &:active {
-    background-color: scale-color(color(blue, dark), $lightness: -10%);
+    background-color: #9ab4fbc7;
   }
 
   &:focus {
     outline-style: solid;
     outline-color: transparent;
-    box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
+    // box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
   }
 
   &--small {
@@ -117,20 +143,16 @@
 
 .button2 {
   min-height: 44px;
-  // color: color(blue, light);
   background-color: transparent;
-  border: 3px solid color(blue, dark);
 
   &:hover,
   &:active {
-    // background-color: scale-color(color(background, darkest), $lightness: 5%);
-    border-color: scale-color(color(blue, dark), $lightness: -15%);
+    background-color: #9ab4fbc7;
   }
 
   &:focus {
-    outline-style: solid;
+    // outline-style: solid;
     outline-color: transparent;
-    box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
   }
 
   &--small {
@@ -144,7 +166,7 @@
   padding: 0.25rem;
   font-size: 0.75rem;
   cursor: pointer;
-  outline-color: scale-color(color(background, darkest), $lightness: 0%);
+  // outline-color: scale-color(color(background, darkest), $lightness: 0%);
 
   &:hover,
   &:active {
@@ -152,7 +174,7 @@
     background-color: scale-color(color(background, darkest), $lightness: 5%);
     outline-style: solid;
     outline-width: 1px;
-    outline-color: scale-color(color(background, darkest), $lightness: -5%);
+    // outline-color: scale-color(color(background, darkest), $lightness: -5%);
   }
 
   &:focus {
@@ -178,17 +200,17 @@
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
-  border: 1px solid color(light, base);
+  // border: 1px solid color(light, base);
   font-size: 0.9rem;
 
   thead {
     position: sticky;
     top: 0;
-    background-color: color(light, base);
+    // background-color: color(light, base);
 
     th {
       text-align: left;
-      color: color(background, dark);
+      // color: color(background, dark);
       padding: 0.5rem;
       white-space: nowrap;
       padding-right: 1rem;
@@ -198,7 +220,7 @@
   tr:nth-child(even) {
     display: inline-block;
     // td:nth-child(even) {
-    background-color: color(background, light);
+    // background-color: color(background, light);
     // }
   }
 
