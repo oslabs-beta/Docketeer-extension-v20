@@ -1,10 +1,9 @@
-import React, { SyntheticEvent, useState, useEffect } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import styles from './Images.module.scss';
-import globalStyles from '../global.module.scss';
-import { ImageType } from 'types';
-import { fetchImages } from '../../reducers/imageReducer';
+import { ImageType } from '../../../../types';
+import { fetchImages, deleteImage } from '../../reducers/imageReducer';
 import Client from '../../models/Client';
 import ImageCard from '../ImageCard/ImageCard';
 import ImagesSummary from '../ImagesSummary/ImagesSummary';
@@ -23,16 +22,19 @@ export interface TestParams {
 }
 // ---------------------------------------------
 
+
 const Images = (params?: TestParams): React.JSX.Element => {
   console.log('Running images function');
-  const reduxImagesList = useAppSelector((state) => state.images.imagesList);
-  const imagesList: ImageType[] = params.imagesListTest ? params.imagesListTest : reduxImagesList;
+  const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
+  // const imagesList: ImageType[] = params.imagesListTest ? params.imagesListTest : reduxImagesList;
   
   const dispatch = useAppDispatch();
   
   // on initial render, send a dispatch that will fetch the list of docker images from the backend
   useEffect(() => {
-    dispatch(fetchImages());
+    if (!imagesList.length) {
+      dispatch(fetchImages());
+    }
   }, []);
 
   const runImage = async (image: ImageType) => {
@@ -45,7 +47,10 @@ const Images = (params?: TestParams): React.JSX.Element => {
 
   const removeImage = async (imageId: string) => {
     const success = await Client.ImageService.removeImage(imageId);
-    if (success) dispatch(fetchImages());
+    // if (success) dispatch(fetchImages());
+    if (success) {
+      dispatch(deleteImage(imageId))
+    };
   };
 
   const runImageAlert = (imgObj: ImageType) => {
@@ -95,11 +100,54 @@ const Images = (params?: TestParams): React.JSX.Element => {
   };
 
   // declare a constant array of elements and push an image card into this array for each image in the imagesList
-  const renderedImages: React.JSX.Element[] = [];
+  let renderedImages: React.JSX.Element[] = [];
 
-  for(let i = 0; i < imagesList.length; i++) {
-    renderedImages.push(<ImageCard removeImageAlert={removeImageAlert} runImageAlert={runImageAlert} key={i} imgObj={imagesList[i]}/>)
-  }
+  // Populate renderedImages if its empty
+  // if (!renderedImages.length) {
+      renderedImages = imagesList.map((imageObj, i) => (
+        <ImageCard
+          removeImageAlert={removeImageAlert}
+          runImageAlert={runImageAlert}
+          key={i}
+          index={i}
+          imgObj={imageObj}
+        />
+      ))
+  // } //else {
+    // iterate through imagesList
+  //   for (let i = 0; i < imagesList.length; i++){
+  //     // check if the obj in renderedImages and imagesList have the same vulnerabilities
+  //     if (imagesList[i].Vulnerabilities !== renderedImages[i].props.imgObj.Vulnerabilities) {
+  //       // setRenderedImages((prev) =>
+  //         renderedImages.splice(
+  //           i,
+  //           1,
+  //           <ImageCard
+  //             removeImageAlert={removeImageAlert}
+  //             runImageAlert={runImageAlert}
+  //             key={i}
+  //             imgObj={imagesList[i]}
+  //           />
+  //         )
+  //       // );
+  //     }
+  //   }
+  // }
+
+  // for (let i = 0; i < imagesList.length; i++) {
+    // If renderedImages === []
+    // push all cards
+
+    //If rendered Images already is populated
+    // check if the card imgObj.Vulnerabilities is different than imagesList[at that same obj].vulnerabilities
+    // 
+    // if (imagesList[i].Vulnerabilities) {
+      // console.log('ImgObj of the element in Rendered Images: ', renderedImages[i].props.imgObj);
+      // renderedImages.push(<ImageCard removeImageAlert={removeImageAlert} runImageAlert={runImageAlert} key={i} imgObj={imagesList[i]} />)
+    // }
+  // }
+  // console.log('Rendered Images: ', renderedImages);
+  
 
   return (
     <div className={styles.ImagesContainer}>
