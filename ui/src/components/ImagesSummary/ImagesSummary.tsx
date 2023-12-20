@@ -27,17 +27,20 @@ const ImagesSummary = (): React.JSX.Element => {
     if (makeSummary) {
       console.log('Entered if statement of ImageSummary useEffect');
       
+      let critical = 0;
       let high = 0;
       let med = 0;
       let low = 0;
-      let critical = 0;
 
       imagesList.forEach(imageObj => {
-        high += imageObj.Vulnerabilities.High || 0;
-        med += imageObj.Vulnerabilities.Medium || 0;
-        low += imageObj.Vulnerabilities.Low || 0;
-        critical += imageObj.Vulnerabilities.Critical || 0;
+        critical += typeof imageObj.Vulnerabilities.Critical === 'number' ? imageObj.Vulnerabilities.Critical : 0;
+        high += typeof imageObj.Vulnerabilities.High === 'number' ? imageObj.Vulnerabilities.High : 0;
+        med += typeof imageObj.Vulnerabilities.Medium === 'number' ? imageObj.Vulnerabilities.Medium : 0;
+        low += typeof imageObj.Vulnerabilities.Low === 'number' ? imageObj.Vulnerabilities.Low : 0;
       })
+
+      console.log(`high: ${high}, med: ${med}, low: ${low}, critical: ${critical}`);
+      
       
       let total = critical + high + med + low;
       console.log('total vulnerabilities: ', total);
