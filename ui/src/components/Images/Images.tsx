@@ -13,24 +13,13 @@ import ImagesSummary from '../ImagesSummary/ImagesSummary';
  * @description | Provides ability to pull images from DockerHub image repository, run images, and remove images
  **/
 
-// ---------------------------------------------
-// eslint-disable-next-line react/prop-types
-// optional TestParams for testing only
-
-export interface TestParams {
-  imagesListTest?: ImageType[];
-}
-// ---------------------------------------------
-
-
-const Images = (params?: TestParams): React.JSX.Element => {
-  console.log('Running images function');
+const Images = (): React.JSX.Element => {
+  console.log('Rendering Images component');
   const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
-  // const imagesList: ImageType[] = params.imagesListTest ? params.imagesListTest : reduxImagesList;
   
   const dispatch = useAppDispatch();
   
-  // on initial render, send a dispatch that will fetch the list of docker images from the backend
+  // If imagesList is not populated, send a dispatch that will fetch the list of docker images from the backend
   useEffect(() => {
     if (!imagesList.length) {
       dispatch(fetchImages());
@@ -47,7 +36,6 @@ const Images = (params?: TestParams): React.JSX.Element => {
 
   const removeImage = async (imageId: string) => {
     const success = await Client.ImageService.removeImage(imageId);
-    // if (success) dispatch(fetchImages());
     if (success) {
       dispatch(deleteImage(imageId))
     };
@@ -100,54 +88,15 @@ const Images = (params?: TestParams): React.JSX.Element => {
   };
 
   // declare a constant array of elements and push an image card into this array for each image in the imagesList
-  let renderedImages: React.JSX.Element[] = [];
-
-  // Populate renderedImages if its empty
-  // if (!renderedImages.length) {
-      renderedImages = imagesList.map((imageObj, i) => (
-        <ImageCard
-          removeImageAlert={removeImageAlert}
-          runImageAlert={runImageAlert}
-          key={i}
-          index={i}
-          imgObj={imageObj}
-        />
-      ))
-  // } //else {
-    // iterate through imagesList
-  //   for (let i = 0; i < imagesList.length; i++){
-  //     // check if the obj in renderedImages and imagesList have the same vulnerabilities
-  //     if (imagesList[i].Vulnerabilities !== renderedImages[i].props.imgObj.Vulnerabilities) {
-  //       // setRenderedImages((prev) =>
-  //         renderedImages.splice(
-  //           i,
-  //           1,
-  //           <ImageCard
-  //             removeImageAlert={removeImageAlert}
-  //             runImageAlert={runImageAlert}
-  //             key={i}
-  //             imgObj={imagesList[i]}
-  //           />
-  //         )
-  //       // );
-  //     }
-  //   }
-  // }
-
-  // for (let i = 0; i < imagesList.length; i++) {
-    // If renderedImages === []
-    // push all cards
-
-    //If rendered Images already is populated
-    // check if the card imgObj.Vulnerabilities is different than imagesList[at that same obj].vulnerabilities
-    // 
-    // if (imagesList[i].Vulnerabilities) {
-      // console.log('ImgObj of the element in Rendered Images: ', renderedImages[i].props.imgObj);
-      // renderedImages.push(<ImageCard removeImageAlert={removeImageAlert} runImageAlert={runImageAlert} key={i} imgObj={imagesList[i]} />)
-    // }
-  // }
-  // console.log('Rendered Images: ', renderedImages);
-  
+  let renderedImages: React.JSX.Element[] = imagesList.map((imageObj, i) => (
+    <ImageCard
+      removeImageAlert={removeImageAlert}
+      runImageAlert={runImageAlert}
+      key={i}
+      index={i}
+      imgObj={imageObj}
+    />
+  ));
 
   return (
     <div className={styles.ImagesContainer}>
