@@ -20,6 +20,11 @@
   font-weight: bold;
 }
 
+.ImageTag {
+  font-size: medium;
+  color: rgba(255, 255, 255, 0.715);
+}
+
 .buttons {
   margin-top: 20px;
   display: flex;
@@ -53,16 +58,19 @@
 .imageVulnerabilities {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  // border: solid white 1px;
+  // width: max-content;
   // margin-top: 20px;
 }
 
 .imgVulDiv{
   height: max-content;
-  width: 70px;
+  width: 85px;
   display: flex;
-  flex-direction: column; 
-  justify-content: center;
+  // border: solid 1px white;
+  // flex-direction: column; 
+  // justify-content: center;
 }
 
 .imgCardButton{
@@ -99,6 +107,9 @@
   text-align: center;
   border-radius: 5px;
   box-shadow: 2px 2px 5px 2px black;
+  width: 100%;
+  font-weight: 700;
+
 }
 
 .high {
@@ -108,6 +119,9 @@
   text-align: center;
   border-radius: 5px;
   box-shadow: 2px 2px 5px 2px black;
+  width: 100%;
+  font-weight: 700;
+
 }
 
 .medium {
@@ -117,6 +131,9 @@
   text-align: center;
   border-radius: 5px;
   box-shadow: 2px 2px 5px 2px black;
+  width: 100%;
+  font-weight: 700;
+
 }
 
 .low {
@@ -126,4 +143,23 @@
   text-align: center;
   border-radius: 5px;
   box-shadow: 2px 2px 5px 2px black;
+  width: 100%;
+  font-weight: 700;
+
+}
+
+.grayOut {
+  background-color: #59595996;
+  margin: 2px;
+  padding: 5px;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px 2px black;
+  width: 100%;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.486);
+}
+
+.vulNum {
+  margin-right: 5px;
 }

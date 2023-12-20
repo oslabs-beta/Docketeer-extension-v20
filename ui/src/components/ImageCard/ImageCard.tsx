@@ -24,16 +24,16 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 		
     try {
       // retrieve scan data - Client.ImageService.getScan creates DDClient Request
-      const success: ScanObject = await Client.ImageService.getScan(scanName);
-			console.log(`Success from getScan: ${scanName}`, success);
+      const vulnerabilityObj: ScanObject = await Client.ImageService.getScan(scanName);
+			console.log(`Success from getScan: ${scanName}`, vulnerabilityObj);
 			// if the image failed to be scanned for vulnerabilities, update the image card state to have a default vulnerability object
-			if (success === undefined) {
-			const defaultVul: VulnerabilityPayload = {success:{ Critical: '-', High: '-', Medium: '-', Low: '-' }, scanName: scanName}
-			dispatch(updateVulnerabilities(defaultVul));
-      return;
-    }
+			if (vulnerabilityObj === undefined) {
+				const defaultVul: VulnerabilityPayload = {vulnerabilityObj:{ Critical: '-', High: '-', Medium: '-', Low: '-' }, scanName: scanName}
+				dispatch(updateVulnerabilities(defaultVul));
+				return;
+    	}
 			// create an object of type VulnerabilityPayload with the returned vulnerability object and the scanName
-			const updateVul: VulnerabilityPayload = {success, scanName: scanName}
+			const updateVul: VulnerabilityPayload = {vulnerabilityObj, scanName: scanName}
 			// dispatch VulnerabilityPayload to update the imgObj in the store with the vulnerability info
 			dispatch(updateVulnerabilities(updateVul))
 			console.log('after reducuer invoked', imgObj)
@@ -59,27 +59,28 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 				{/* image name: LEFT SIDE */}
 				<div>
 					<p className={styles.ImageName}>{imgObj['Repository']}</p>
+					<p className={styles.ImageTag}>{imgObj['Tag']}</p>
 				</div>
 				
 				{/* VULNERABILITY */}
 				<div className={styles.VulnerabilitiesBlock}>
 					<p className={styles.VulnerabilitiesTitle}>Vulnerabilities</p>
 					<div className={styles.imageVulnerabilities}>
+
 						<div className={styles.imgVulDiv}>
-							<p className={styles.critical}>Critical</p>
-							{vulnerabilities && <p className={styles.critical}>{vulnerabilities['Critical']} </p>}
+							<p className={`${ vulnerabilities.Critical ? styles.critical : styles.grayOut}`}>{ vulnerabilities.Critical && <span className={styles.vulNum}>{vulnerabilities.Critical}</span> } C</p>
 						</div>
+
 						<div className={styles.imgVulDiv}>
-							<p className={styles.high}>High</p>
-							{vulnerabilities && <p className={styles.high}>{vulnerabilities['High']} </p>}
+							<p className={`${ vulnerabilities.High ? styles.high : styles.grayOut}`}>{ vulnerabilities.High && <span className={styles.vulNum}>{vulnerabilities.High}</span> } H</p>
 						</div>
+
 						<div className={styles.imgVulDiv}>
-							<p className={styles.medium}>Med</p>
-							{vulnerabilities && <p className={styles.medium}>{vulnerabilities['Medium']} </p>}
+							<p className={`${ vulnerabilities.Medium ? styles.medium : styles.grayOut}`}>{ vulnerabilities.Medium && <span className={styles.vulNum}>{vulnerabilities.Medium}</span> } M</p>
 						</div>
+
 						<div className={styles.imgVulDiv}>
-							<p className={styles.low}>Low</p>
-							{vulnerabilities && <p className={styles.low}>{vulnerabilities['Low']} </p>}
+							<p className={`${ vulnerabilities.Low ? styles.low : styles.grayOut}`}>{ vulnerabilities.Low && <span className={styles.vulNum}>{vulnerabilities.Low}</span> } L</p>
 						</div>
 					</div>
 				</div>

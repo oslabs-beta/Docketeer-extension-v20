@@ -118,7 +118,7 @@ export interface ImagesStateType {
 
 // Type for vulnerability object sent to the reducer inside action argument
 export interface VulnerabilityPayload {
-	success: object,
+	vulnerabilityObj: object,
 	scanName: string
 }
 
