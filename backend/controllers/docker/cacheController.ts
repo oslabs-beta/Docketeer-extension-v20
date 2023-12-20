@@ -19,7 +19,7 @@ cacheController.checkCache = async (req: Request, res: Response, next: NextFunct
   const cachedVulernabilities = await redisClient.get(`${scanName}`);
   if (cachedVulernabilities !== null) {
     console.log(`Cache ${scanName} hit result:`, cachedVulernabilities)
-    res.locals.vulnerabilites = cachedVulernabilities;
+    res.locals.vulnerabilites = JSON.parse(cachedVulernabilities);
     next()
   }
   else {

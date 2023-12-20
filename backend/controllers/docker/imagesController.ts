@@ -105,44 +105,48 @@ imageController.getImages = async (req: Request, res: Response, next: NextFuncti
  * @todo needs performance optimizations when scanning each image
  */
 imageController.scanImages = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  if (res.locals.vulnerabilites !== null) {
-  const { scanName }: { scanName: string } = req.body;
+  if (!res.locals.vulnerabilites) {
+    const { scanName }: { scanName: string } = req.body;
 
-  try {
-    //Development mode: runs Grype on scanName and outputs result based on a custom Go Template in ./controllers/grype/json.tmpl
-    //Production: runs Grype on scanName and outputs result based on a custom Go Template in backend/dist/controllers/grype/json.tmpl
-    const { stdout, stderr } = await execAsync(`grype ${scanName} -o template -t ${templatePath}`);
-
-    // Throw an error if the executet command is not successful
-    if (stderr) throw new Error(stderr);
-
-    //parse the vulnerability data and count the number of vulnerabilites
-    const vulnerabilityJSON: GrypeScan[] = JSON.parse(stdout);
-    const countVulnerability: countVulnerability = vulnerabilityJSON.reduce((acc, cur) => {
-      acc.hasOwnProperty(cur.Severity) ? acc[cur.Severity]++ : acc[cur.Severity] = 1;
-      return acc
-    }, {});
-    
     try {
-      await redisClient.set(`${scanName}`, JSON.stringify(countVulnerability));
-      await redisClient.expire(`${scanName}`, 60 * 60 * 24);
-      const keys = await redisClient.keys(`${scanName}`);
-      console.log('check keys after set in redis', keys)
-      res.locals.vulnerabilites = countVulnerability;
-      next()
-    } catch (err) {
-      console.log(err)
+      //Development mode: runs Grype on scanName and outputs result based on a custom Go Template in ./controllers/grype/json.tmpl
+      //Production: runs Grype on scanName and outputs result based on a custom Go Template in backend/dist/controllers/grype/json.tmpl
+      const { stdout, stderr } = await execAsync(`grype ${scanName} -o template -t ${templatePath}`);
+
+      // Throw an error if the executet command is not successful
+      if (stderr) throw new Error(stderr);
+
+      //parse the vulnerability data and count the number of vulnerabilites
+      const vulnerabilityJSON: GrypeScan[] = JSON.parse(stdout);
+      const countVulnerability: countVulnerability = vulnerabilityJSON.reduce((acc, cur) => {
+        acc.hasOwnProperty(cur.Severity) ? acc[cur.Severity]++ : acc[cur.Severity] = 1;
+        return acc
+      }, {});
+    
+      try {
+        await redisClient.set(`${scanName}`, JSON.stringify(countVulnerability));
+        await redisClient.expire(`${scanName}`, 60 * 60 * 24);
+        const keys = await redisClient.keys(`${scanName}`);
+        console.log('check keys after set in redis', keys)
+        res.locals.vulnerabilites = countVulnerability;
+        next()
+      } catch (err) {
+        console.log(err)
+      }
+    } catch (error) {
+      const errObj: ServerError = {
+        log: { err: `imageController.scanImages Error: ${error}` },
+        status: 500,
+        message: 'internal server error'
+      }
+      next(errObj);
     }
-  } catch (error) {
-    const errObj: ServerError = {
-      log: { err: `imageController.scanImages Error: ${error}` },
-      status: 500,
-      message: 'internal server error'
-    }
-    next(errObj);
   }
+  else {
+    console.log('skipping grype check, res.locals is', res.locals.vulnerabilites);
+    
+    next()
   }
-  else next()
 };
 
 /**
