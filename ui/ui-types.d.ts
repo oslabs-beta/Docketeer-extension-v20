@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { ContainerPS } from 'types';
 import { EndpointType, ImageType, LogObject, NetworkAndContainer, NetworkContainerType, PromDataSource } from 'types';
+// declare module '*.module.scss';
 
 
 // =============================================
@@ -117,7 +118,7 @@ export interface ImagesStateType {
 
 // Type for vulnerability object sent to the reducer inside action argument
 export interface VulnerabilityPayload {
-	success: object,
+	vulnerabilityObj: object,
 	scanName: string
 }
 
