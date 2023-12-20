@@ -1,8 +1,8 @@
 import React, { SetStateAction, useEffect, useState } from 'react';
-import { useAppDispatch } from '../../reducers/hooks';
+import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
 import styles from './ImageCard.module.scss';
-import { ImageCardProps } from 'types';
-import { VulnerabilityPayload, ScanObject } from 'ui/ui-types';
+import { ImageCardProps } from '../../../../types';
+import { VulnerabilityPayload, ScanObject } from '../../../ui-types';
 import Client from '../../models/Client';
 import { updateVulnerabilities } from '../../reducers/imageReducer';
 
@@ -12,8 +12,13 @@ import { updateVulnerabilities } from '../../reducers/imageReducer';
  * @description | new components for images dashboard
  **/
 
-const ImageCard = ({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps): React.JSX.Element => {
+const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCardProps): React.JSX.Element => {
 	const dispatch = useAppDispatch();
+
+	// get vulnerabilities directly from the store
+	let vulnerabilities =
+    useAppSelector((state) => state.images.imagesList[index].Vulnerabilities) ||
+    false;
 
 	const getScan = async (scanName: string) => {
 		
@@ -41,7 +46,9 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps):
 
 	// call getScan upon render for each card
 	useEffect(() => { 		
-		getScan(imgObj.ScanName)
+		if (!vulnerabilities) {
+			getScan(imgObj.ScanName)
+		}
 	}, [])
 
 	return (
@@ -60,19 +67,19 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert }: ImageCardProps):
 					<div className={styles.imageVulnerabilities}>
 						<div className={styles.imgVulDiv}>
 							<p className={styles.critical}>Critical</p>
-							{imgObj.Vulnerabilities && <p className={styles.critical}>{imgObj.Vulnerabilities['Critical']} </p>}
+							{vulnerabilities && <p className={styles.critical}>{vulnerabilities['Critical']} </p>}
 						</div>
 						<div className={styles.imgVulDiv}>
 							<p className={styles.high}>High</p>
-							{imgObj.Vulnerabilities && <p className={styles.high}>{imgObj.Vulnerabilities['High']} </p>}
+							{vulnerabilities && <p className={styles.high}>{vulnerabilities['High']} </p>}
 						</div>
 						<div className={styles.imgVulDiv}>
 							<p className={styles.medium}>Med</p>
-							{imgObj.Vulnerabilities && <p className={styles.medium}>{imgObj.Vulnerabilities['Medium']} </p>}
+							{vulnerabilities && <p className={styles.medium}>{vulnerabilities['Medium']} </p>}
 						</div>
 						<div className={styles.imgVulDiv}>
 							<p className={styles.low}>Low</p>
-							{imgObj.Vulnerabilities && <p className={styles.low}>{imgObj.Vulnerabilities['Low']} </p>}
+							{vulnerabilities && <p className={styles.low}>{vulnerabilities['Low']} </p>}
 						</div>
 					</div>
 				</div>

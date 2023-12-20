@@ -14,5 +14,9 @@
     "strictNullChecks": false,
     "baseUrl": "./",
     "allowSyntheticDefaultImports": true,
-    }
+    },
+    "exclude": [
+      "./__mocks__/",
+      "./__tests__"
+    ]
 } 
