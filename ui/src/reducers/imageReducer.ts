@@ -19,21 +19,20 @@ export const imageSlice = createSlice({
   initialState,
   reducers: {
     updateVulnerabilities(state, action: PayloadAction<VulnerabilityPayload>) {
-      // console.log('action argument: ', action);
 
-      // Updating the image object's Vulnerability property to have the scanned vulnerabilites
-      // console.log(
-      //   'in updateVulnerabilities reducer TOP',
-      //   current(state.imagesList)
-      // );
-      const matchedImg = state.imagesList.find(
-        (imageObj) => imageObj.ScanName === action.payload.scanName
-      );
-      matchedImg.Vulnerabilities = action.payload.vulnerabilityObj;
-      // console.log(
-      //   'in updateVulnerabilities reducer BOTTOM',
-      //   current(matchedImg)
-      // );
+      // handle all cases where images are named and tagged <none>:<none> before moving on to handle active images
+      if (action.payload.scanName === '<none>:<none>') {
+        state.imagesList.forEach((imageObj) => {
+          if (imageObj.ScanName === action.payload.scanName) {
+            imageObj.Vulnerabilities = action.payload.vulnerabilityObj;
+          }
+        })
+      } else {
+        const matchedImg = state.imagesList.find(
+          (imageObj) => imageObj.ScanName === action.payload.scanName
+        );
+        matchedImg.Vulnerabilities = action.payload.vulnerabilityObj;
+      }
     },
     deleteImage(state, action: PayloadAction<string>) {
       console.log('Before deleting image from the list: ', current(state.imagesList));
