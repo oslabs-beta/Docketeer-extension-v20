@@ -1,12 +1,12 @@
 // @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Open+Sans&family=Prompt&display=swap');
 .VulnerabilitiesTitle{
   text-align: left;
-  font-size: 30px;
-  margin-left: 10px;
+  margin-bottom: 10px;
 }
 
 .ImagesContainer {
-  margin-top: 30px;
+  // margin-top: 30px;
+  margin: $default-page-margin;
   // border: solid 1px blue;
 }
 

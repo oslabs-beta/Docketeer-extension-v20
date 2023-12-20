@@ -103,7 +103,7 @@ const Images = (params?: TestParams): React.JSX.Element => {
 
   return (
     <div className={styles.ImagesContainer}>
-      <h1 className={styles.VulnerabilitiesTitle}>Vulnerabilities</h1>
+      <h1 className={styles.VulnerabilitiesTitle}>VULNERABILITIES</h1>
       {/* VULNERABILITY SUMMARY INFO */}
       <div>
         <ImagesSummary />

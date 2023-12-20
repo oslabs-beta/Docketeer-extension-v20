@@ -55,14 +55,15 @@ const Snapshots = (): JSX.Element => {
   return (
     <div className={styles.snapshotWrapper}>
       <div>
-
         <div className={styles.dateAndSnapshot}>
-          <div >
+          <div>
             <label>
               <strong>CHOOSE A DATE:</strong>
             </label>
-            
-            <select id="select-left">{dropDown}</select>
+
+            <select className={styles.dateInput} id="select-left">
+              {dropDown}
+            </select>
           </div>
 
           <button
@@ -72,19 +73,21 @@ const Snapshots = (): JSX.Element => {
             RETRIEVE SNAPSHOT
           </button>
         </div>
-
         <div>
           <iframe className={styles.metrics} src={iframeLinkLeft} />
         </div>
       </div>
 
       <div>
-        <div>
-          <label>
-            <strong>CHOOSE A DATE:</strong>
-          </label>
-          <select id="select-right">{dropDown}</select>
-
+        <div className={styles.dateAndSnapshot}>
+          <div> 
+            <label>
+              <strong>CHOOSE A DATE:</strong>
+            </label>
+            <select className={styles.dateInput} id="select-right">
+              {dropDown}
+            </select>
+          </div>
           <button
             className={globalStyles.button1}
             onClick={() => retrieveSnapshot('right')}
