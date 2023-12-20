@@ -10,26 +10,22 @@
   color: white;
 }
 
+h1 {
+  font-size: 30px !important;
+}
+
 body {
   font-family: 'Open Sans', sans-serif;
   color: white;
 }
 
-// h1,
-// h2,
-// h3 {
-//   font-family: 'Prompt', sans-serif;
-//   color: white;
-//   padding: 0 3vh;
-// }
-
 .input {
   height: 2.5rem;
-  align-self: start;
+  // align-self: start;
   border: none;
   border-radius: 5px;
-  padding: 0 1rem;
-  margin-bottom: 1rem;
+  // padding: 0 1rem;
+  // margin-bottom: 1rem;
   font-size: 1rem;
   color: black;
   background-color: color(light, light-gray);

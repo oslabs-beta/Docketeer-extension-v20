@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from '../Metrics/Metrics.module.scss';
+import styles from './K8Metrics.module.scss';
 
 
 const K8Metrics = (): JSX.Element => {
@@ -13,14 +13,14 @@ const K8Metrics = (): JSX.Element => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.iframeHeader}>
-        <h2>KUBURNETES CLUSTER HEALTH METRICS</h2>
+        <h1 className={styles.kubernetesTitle} >KUBURNETES CLUSTER HEALTH METRICS</h1>
         <div className={styles.iframeControl}>
           <button className={styles.button} onClick={handleHome}>
             HOME
           </button>
         </div>
       </div>
-      <div>
+      <div className={styles.iframeDiv}>
         <iframe
           key={resetIframe}
           className={styles.metrics}

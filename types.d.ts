@@ -92,7 +92,7 @@ export interface ImageType{
   Tag: string;
   UniqueSize?: string;
   VirtualSize?: string;
-  Vulnerabilities?: object;
+  Vulnerabilities?: ScanObject;
 }
 
 export interface ImageCardProps {
@@ -100,6 +100,7 @@ export interface ImageCardProps {
   key: number,
   runImageAlert: (Image: ImageType) => void,
   removeImageAlert: (Image: ImageType) => void,
+  index: number
 }
 
 export interface NetworkAndContainer{

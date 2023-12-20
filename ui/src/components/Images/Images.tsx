@@ -1,10 +1,9 @@
-import React, { SyntheticEvent, useState, useEffect } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
-import globalStyles from '../global.module.scss';
 import styles from './Images.module.scss';
-import { ImageType } from 'types';
-import { fetchImages } from '../../reducers/imageReducer';
+import { ImageType } from '../../../../types';
+import { fetchImages, deleteImage } from '../../reducers/imageReducer';
 import Client from '../../models/Client';
 import ImageCard from '../ImageCard/ImageCard';
 import ImagesSummary from '../ImagesSummary/ImagesSummary';
@@ -14,25 +13,17 @@ import ImagesSummary from '../ImagesSummary/ImagesSummary';
  * @description | Provides ability to pull images from DockerHub image repository, run images, and remove images
  **/
 
-// ---------------------------------------------
-// eslint-disable-next-line react/prop-types
-// optional TestParams for testing only
-
-export interface TestParams {
-  imagesListTest?: ImageType[];
-}
-// ---------------------------------------------
-
-const Images = (params?: TestParams): React.JSX.Element => {
-  console.log('Running images function');
-  const reduxImagesList = useAppSelector((state) => state.images.imagesList);
-  const imagesList: ImageType[] = params.imagesListTest ? params.imagesListTest : reduxImagesList;
+const Images = (): React.JSX.Element => {
+  console.log('Rendering Images component');
+  const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
   
   const dispatch = useAppDispatch();
   
-  // on initial render, send a dispatch that will fetch the list of docker images from the backend
+  // If imagesList is not populated, send a dispatch that will fetch the list of docker images from the backend
   useEffect(() => {
-    dispatch(fetchImages());
+    if (!imagesList.length) {
+      dispatch(fetchImages());
+    }
   }, []);
 
   const runImage = async (image: ImageType) => {
@@ -45,7 +36,9 @@ const Images = (params?: TestParams): React.JSX.Element => {
 
   const removeImage = async (imageId: string) => {
     const success = await Client.ImageService.removeImage(imageId);
-    if (success) dispatch(fetchImages());
+    if (success) {
+      dispatch(deleteImage(imageId))
+    };
   };
 
   const runImageAlert = (imgObj: ImageType) => {
@@ -95,15 +88,19 @@ const Images = (params?: TestParams): React.JSX.Element => {
   };
 
   // declare a constant array of elements and push an image card into this array for each image in the imagesList
-  const renderedImages: React.JSX.Element[] = [];
-
-  for(let i = 0; i < imagesList.length; i++) {
-    renderedImages.push(<ImageCard removeImageAlert={removeImageAlert} runImageAlert={runImageAlert} key={i} imgObj={imagesList[i]}/>)
-  }
+  let renderedImages: React.JSX.Element[] = imagesList.map((imageObj, i) => (
+    <ImageCard
+      removeImageAlert={removeImageAlert}
+      runImageAlert={runImageAlert}
+      key={i}
+      index={i}
+      imgObj={imageObj}
+    />
+  ));
 
   return (
     <div className={styles.ImagesContainer}>
-      <h1 className={styles.VulnerabilitiesTitle}>Vulnerabilities</h1>
+      <h1 className={styles.VulnerabilitiesTitle}>VULNERABILITIES</h1>
       {/* VULNERABILITY SUMMARY INFO */}
       <div>
         <ImagesSummary />

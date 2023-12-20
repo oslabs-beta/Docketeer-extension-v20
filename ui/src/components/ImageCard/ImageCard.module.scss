@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Open+Sans&display=swap');
 
 .imageCard {
-	border: 1px solid rgba(255, 255, 255, 0.629);
-  border-radius: 5px;
+  @extend .card;
+	// border: 1px solid rgba(255, 255, 255, 0.629);
+  // border-radius: 5px;
   height: max-content;
 	margin: 10px;
 	padding: 10px;
@@ -11,11 +12,16 @@
 	justify-content: space-between;
   align-items: flex-start;
   width: 45%;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  // font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .ImageName {
   font-weight: bold;
+}
+
+.ImageTag {
+  font-size: medium;
+  color: rgba(255, 255, 255, 0.715);
 }
 
 .buttons {
@@ -46,16 +52,19 @@
 .imageVulnerabilities {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  // border: solid white 1px;
+  // width: max-content;
   // margin-top: 20px;
 }
 
 .imgVulDiv{
   height: max-content;
-  width: 70px;
+  width: 85px;
   display: flex;
-  flex-direction: column; 
-  justify-content: center;
+  // border: solid 1px white;
+  // flex-direction: column; 
+  // justify-content: center;
 }
 
 .imgCardButton{
@@ -93,6 +102,9 @@
   text-align: center;
   border-radius: 5px;
   box-shadow: 2px 2px 5px 2px black;
+  width: 100%;
+  font-weight: 700;
+
 }
 
 .high {
@@ -102,6 +114,9 @@
   text-align: center;
   border-radius: 5px;
   box-shadow: 2px 2px 5px 2px black;
+  width: 100%;
+  font-weight: 700;
+
 }
 
 .medium {
@@ -111,6 +126,9 @@
   text-align: center;
   border-radius: 5px;
   box-shadow: 2px 2px 5px 2px black;
+  width: 100%;
+  font-weight: 700;
+
 }
 
 .low {
@@ -120,8 +138,26 @@
   text-align: center;
   border-radius: 5px;
   box-shadow: 2px 2px 5px 2px black;
+  width: 100%;
+  font-weight: 700;
+
 }
 
+.grayOut {
+  background-color: #59595996;
+  margin: 2px;
+  padding: 5px;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px 2px black;
+  width: 100%;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.486);
+}
+
+.vulNum {
+  margin-right: 5px;
+}
 @media screen and (max-width: $breakpoint-md) {
   .imageCard {
     width: 100%

@@ -17,7 +17,7 @@ interface SVJSX {
 const SingleVolume = ({volName, onHover, removeClick, containers}: SVJSX): React.JSX.Element => {
 
   return (
-              <div className={`${styles.volumesCard} ${styles.card}`}>
+              <div className={`${styles.volumesCard}`}>
                 <div onMouseOver={onHover}>
                   <h3>{`${volName.substring(0, 20)}...`}</h3>
                 </div>

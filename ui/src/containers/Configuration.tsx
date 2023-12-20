@@ -33,21 +33,20 @@ const Configuration = (): React.JSX.Element => {
 
 
   return (
-   <div>
-     <h2 className={styles.hh1}>CONFIGURATIONS</h2>
-     <div className = {styles.margin}>
-       <div className = {styles.middle}>
-         <ConfigurationForm />
-       </div>
-       <div>
-         <h3 className = {styles.hh}>CONNECTED DATA SOURCES</h3>
-         <div className = {styles.Connect}>
-           {dataSourceElements}
-         </div>
-       </div>
-     </div>
-   </div>
- );
+    <div className={styles.wrapper}>
+      <h1 className={styles.configurationsTitle}>CONFIGURATIONS</h1>
+      <div className={styles.container}>
+        <div>
+          <ConfigurationForm />
+        </div>
+        <div>
+          <h3>CONNECTED DATA SOURCES</h3>
+          <div className={styles.connected}>{dataSourceElements}</div>
+          {/* {dataSourceElements} */}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 
