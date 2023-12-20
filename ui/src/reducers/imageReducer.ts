@@ -29,7 +29,7 @@ export const imageSlice = createSlice({
       const matchedImg = state.imagesList.find(
         (imageObj) => imageObj.ScanName === action.payload.scanName
       );
-      matchedImg.Vulnerabilities = action.payload.success;
+      matchedImg.Vulnerabilities = action.payload.vulnerabilityObj;
       // console.log(
       //   'in updateVulnerabilities reducer BOTTOM',
       //   current(matchedImg)

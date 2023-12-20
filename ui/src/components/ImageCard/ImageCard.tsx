@@ -24,16 +24,16 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 		
     try {
       // retrieve scan data - Client.ImageService.getScan creates DDClient Request
-      const success: ScanObject = await Client.ImageService.getScan(scanName);
-			console.log(`Success from getScan: ${scanName}`, success);
+      const vulnerabilityObj: ScanObject = await Client.ImageService.getScan(scanName);
+			console.log(`Success from getScan: ${scanName}`, vulnerabilityObj);
 			// if the image failed to be scanned for vulnerabilities, update the image card state to have a default vulnerability object
-			if (success === undefined) {
-			const defaultVul: VulnerabilityPayload = {success:{ Critical: '-', High: '-', Medium: '-', Low: '-' }, scanName: scanName}
+			if (vulnerabilityObj === undefined) {
+			const defaultVul: VulnerabilityPayload = {vulnerabilityObj:{ Critical: '-', High: '-', Medium: '-', Low: '-' }, scanName: scanName}
 			dispatch(updateVulnerabilities(defaultVul));
       return;
     }
 			// create an object of type VulnerabilityPayload with the returned vulnerability object and the scanName
-			const updateVul: VulnerabilityPayload = {success, scanName: scanName}
+			const updateVul: VulnerabilityPayload = {vulnerabilityObj, scanName: scanName}
 			// dispatch VulnerabilityPayload to update the imgObj in the store with the vulnerability info
 			dispatch(updateVulnerabilities(updateVul))
 			console.log('after reducuer invoked', imgObj)
