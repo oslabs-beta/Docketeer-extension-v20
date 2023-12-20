@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import imageController from '../../controllers/docker/imagesController';
+import cacheController from '../../controllers/docker/cacheController';
 const router = Router();
 
 /**
@@ -19,8 +20,7 @@ router.get('/', imageController.getImages, imageController.dbStatus, (req, res) 
  * @param 
  * @returns
  */
-router.post('/scan', imageController.scanImages, (req, res) => {
-  res.set('Cache-control', 'public, max-age=86400')
+router.post('/scan', cacheController.checkCache, imageController.scanImages, (req, res) => {
   return res.status(200).json(res.locals.vulnerabilites);
 });
 

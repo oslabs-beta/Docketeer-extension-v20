@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { ImageType } from '../../../types';
 import { execAsync } from '../helper';
 import { GrypeScan, ServerError, countVulnerability } from '../../backend-types';
+import redisClient from '../../cache/redis';
 import path from 'path';
 
 // Storing the path to the grype data template file
@@ -104,6 +105,7 @@ imageController.getImages = async (req: Request, res: Response, next: NextFuncti
  * @todo needs performance optimizations when scanning each image
  */
 imageController.scanImages = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  if (res.locals.vulnerabilites !== null) {
   const { scanName }: { scanName: string } = req.body;
 
   try {
@@ -121,8 +123,16 @@ imageController.scanImages = async (req: Request, res: Response, next: NextFunct
       return acc
     }, {});
     
-    res.locals.vulnerabilites = countVulnerability;
-    next()
+    try {
+      await redisClient.set(`${scanName}`, JSON.stringify(countVulnerability));
+      await redisClient.expire(`${scanName}`, 60 * 60 * 24);
+      const keys = await redisClient.keys(`${scanName}`);
+      console.log('check keys after set in redis', keys)
+      res.locals.vulnerabilites = countVulnerability;
+      next()
+    } catch (err) {
+      console.log(err)
+    }
   } catch (error) {
     const errObj: ServerError = {
       log: { err: `imageController.scanImages Error: ${error}` },
@@ -131,6 +141,8 @@ imageController.scanImages = async (req: Request, res: Response, next: NextFunct
     }
     next(errObj);
   }
+  }
+  else next()
 };
 
 /**
