@@ -28,10 +28,10 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 			console.log(`Success from getScan: ${scanName}`, vulnerabilityObj);
 			// if the image failed to be scanned for vulnerabilities, update the image card state to have a default vulnerability object
 			if (vulnerabilityObj === undefined) {
-			const defaultVul: VulnerabilityPayload = {vulnerabilityObj:{ Critical: '-', High: '-', Medium: '-', Low: '-' }, scanName: scanName}
-			dispatch(updateVulnerabilities(defaultVul));
-      return;
-    }
+				const defaultVul: VulnerabilityPayload = {vulnerabilityObj:{ Critical: '-', High: '-', Medium: '-', Low: '-' }, scanName: scanName}
+				dispatch(updateVulnerabilities(defaultVul));
+				return;
+    	}
 			// create an object of type VulnerabilityPayload with the returned vulnerability object and the scanName
 			const updateVul: VulnerabilityPayload = {vulnerabilityObj, scanName: scanName}
 			// dispatch VulnerabilityPayload to update the imgObj in the store with the vulnerability info
@@ -59,6 +59,7 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 				{/* image name: LEFT SIDE */}
 				<div>
 					<p className={styles.ImageName}>{imgObj['Repository']}</p>
+					<p className={styles.ImageTag}>{imgObj['Tag']}</p>
 				</div>
 				
 				{/* VULNERABILITY */}
