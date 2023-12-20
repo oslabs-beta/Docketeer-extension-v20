@@ -66,21 +66,21 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 				<div className={styles.VulnerabilitiesBlock}>
 					<p className={styles.VulnerabilitiesTitle}>Vulnerabilities</p>
 					<div className={styles.imageVulnerabilities}>
+
 						<div className={styles.imgVulDiv}>
-							<p className={styles.critical}>Critical</p>
-							{vulnerabilities && <p className={styles.critical}>{vulnerabilities['Critical']} </p>}
+							<p className={`${ vulnerabilities.Critical ? styles.critical : styles.grayOut}`}>{ vulnerabilities.Critical && <span className={styles.vulNum}>{vulnerabilities.Critical}</span> } C</p>
 						</div>
+
 						<div className={styles.imgVulDiv}>
-							<p className={styles.high}>High</p>
-							{vulnerabilities && <p className={styles.high}>{vulnerabilities['High']} </p>}
+							<p className={`${ vulnerabilities.High ? styles.high : styles.grayOut}`}>{ vulnerabilities.High && <span className={styles.vulNum}>{vulnerabilities.High}</span> } H</p>
 						</div>
+
 						<div className={styles.imgVulDiv}>
-							<p className={styles.medium}>Med</p>
-							{vulnerabilities && <p className={styles.medium}>{vulnerabilities['Medium']} </p>}
+							<p className={`${ vulnerabilities.Medium ? styles.medium : styles.grayOut}`}>{ vulnerabilities.Medium && <span className={styles.vulNum}>{vulnerabilities.Medium}</span> } M</p>
 						</div>
+
 						<div className={styles.imgVulDiv}>
-							<p className={styles.low}>Low</p>
-							{vulnerabilities && <p className={styles.low}>{vulnerabilities['Low']} </p>}
+							<p className={`${ vulnerabilities.Low ? styles.low : styles.grayOut}`}>{ vulnerabilities.Low && <span className={styles.vulNum}>{vulnerabilities.Low}</span> } L</p>
 						</div>
 					</div>
 				</div>
