@@ -1,20 +1,27 @@
 // @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Open+Sans&family=Prompt&display=swap');
-.VulnerabilitiesTitle{
+.VulnerabilitiesTitle {
   text-align: left;
-  margin-bottom: 10px;
+  font-size: 30px;
+  margin-left: 10px;
+
+  @media screen and (max-width: $breakpoint-lg),
+  (max-width: $breakpoint-md),
+  (max-width: $breakpoint-sm) {
+    margin-top: 50px; 
+  }
 }
 
-.ImagesContainer {
-  // margin-top: 30px;
-  margin: $default-page-margin;
-  // border: solid 1px blue;
-}
+// .ImagesContainer {
+//   margin-top: 5px;
+//   // border: solid 1px blue;
+// }
 
 .ImagesCardsView {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  margin-top: 20px;
+  // margin-top: 20px;
 }
+
 
 

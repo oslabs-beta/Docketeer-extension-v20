@@ -1,21 +1,46 @@
 .wrapper {
   margin: $default-page-margin;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  // justify-content: center;
-  align-items: center;
-  width: 100%;
+
+  h2 {
+    margin-bottom: 8px;
+  }
+  .iframeHeader {
+    display: flex;
+    align-items: end;
+    margin-bottom: 1rem;
+  }
+    @media screen and (max-width: $breakpoint-md),
+  (max-width: $breakpoint-lg),
+  (max-width: $breakpoint-sm) {
+    margin-top: 50px;
+  }
 }
 
-  metricsTitle {
+.test {
+  display: flex;
+  flex-direction: column;
+  height: 20px;
+}
+
+.test2 {
+  display: flex;
+}
+
+.snapshotWrapper {
+  display: flex;
+  justify-content: space-around;
+  margin: $default-page-margin;
+  height: 100%;
+
+  .metricsTitle {
     text-align: left;
   }
   .iframeHeader {
     display: flex;
     margin-top: 30px;
   }
-
+}
 .iframeDiv {
   display: flex;
   justify-content: center;
@@ -41,6 +66,7 @@
   outline: none;
   margin-left: 1rem;
   box-shadow: 1px 1px 10px #9ab4fbc7;
+
 }
 
 .button:hover {
@@ -50,13 +76,16 @@
 }
 
 .metrics {
-  width: 100vw;
+  width: 100%;
   height: calc(100vh - (60px + 6rem));
   min-height: 20rem;
   border: 0px;
 }
 
-@media screen and (max-width: $breakpoint-lg) {
+@media screen and (max-width: $breakpoint-uw),
+  (max-width: $breakpoint-md),
+  (max-width: $breakpoint-lg),
+  (max-width: $breakpoint-sm) {
   .metrics {
     height: calc(100vh - (6rem));
   }
