@@ -100,15 +100,13 @@ const Images = (): React.JSX.Element => {
 
   return (
     <div className={styles.ImagesContainer}>
+      <h1 className={styles.VulnerabilitiesTitle}>VULNERABILITIES</h1>
       {/* VULNERABILITY SUMMARY INFO */}
       <div>
-        <ImagesSummary/>
+        <ImagesSummary />
       </div>
       {/* IMAGE CARDS */}
-      <div className={styles.ImagesCardsView}>
-        {renderedImages}
-      </div>
-    
+      <div className={styles.ImagesCardsView}>{renderedImages}</div>
     </div>
   );
 };

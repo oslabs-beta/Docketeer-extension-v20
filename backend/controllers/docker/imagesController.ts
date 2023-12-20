@@ -114,24 +114,32 @@ imageController.scanImages = async (req: Request, res: Response, next: NextFunct
     // Throw an error if the executet command is not successful
     if (stderr) throw new Error(stderr);
 
-    //parse the vulnerability data and count the number of vulnerabilites
+    // parse the vulnerability data and count the number of vulnerabilities
     const vulnerabilityJSON: GrypeScan[] = JSON.parse(stdout);
+    console.log('Vulnerability JSON:', vulnerabilityJSON);
+
     const countVulnerability: countVulnerability = vulnerabilityJSON.reduce((acc, cur) => {
       acc.hasOwnProperty(cur.Severity) ? acc[cur.Severity]++ : acc[cur.Severity] = 1;
-      return acc
+      return acc;
     }, {});
-    
+
+    console.log('Vulnerabilities Count:', countVulnerability);
+
     res.locals.vulnerabilites = countVulnerability;
-    next()
+    next();
   } catch (error) {
+    console.error('Error in imageController.scanImages:', error);
+
     const errObj: ServerError = {
       log: { err: `imageController.scanImages Error: ${error}` },
       status: 500,
       message: 'internal server error'
-    }
+    };
+
     next(errObj);
   }
 };
+
 
 /**
  * @todo verify it's working 

@@ -1,6 +1,9 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import express, { Router, Request, Response, NextFunction } from 'express';
 import imageController from '../../controllers/docker/imagesController';
 const router = Router();
+
+router.use(express.json());
+
 
 /**
  * @abstract 
@@ -34,7 +37,11 @@ router.post('/scan', imageController.scanImages, (req, res) => {
     "Negligible": 3
 }
  */
-router.get('/:id');
+router.post('/scan', imageController.scanImages, (req, res) => {
+  res.set({ 'content-type': 'application/json' });
+  return res.status(200).json(res.locals.vulnerabilites);
+});
+
 
 /**
  * @abstract 

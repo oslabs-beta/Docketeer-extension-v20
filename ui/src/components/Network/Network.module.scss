@@ -1,5 +1,7 @@
 .wrapper {
   display: flex;
+  // margin-top: 30px;
+  margin: $default-page-margin;
 }
 
 #networkList {

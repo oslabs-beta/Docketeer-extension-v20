@@ -1,7 +1,7 @@
 //
 $base-color: #7a0d43;
 
-$default-page-margin: 1rem 2rem;
+$default-page-margin: 30px 30px;
 
 $navbar-height: 7vh;
 $navbar-width: 100vw;
@@ -156,8 +156,8 @@ $palettes: (
 // card is in variables to allow for easy extending and customization in containers, images, and volume history. Keeps tha base option the same, but allows for easy customization. Simply change things here and it will change everywhere.
 .card {
   background-color: color(background, base);
-  // background: $background-bg;
-  // box-shadow: $shadow;
+  background: $background-bg;
+  box-shadow: $shadow;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border-radius: 10px;

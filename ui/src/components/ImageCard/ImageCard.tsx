@@ -1,11 +1,14 @@
 import React, { SetStateAction, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
+import globalStyles from '../global.module.scss';
 import styles from './ImageCard.module.scss';
 import { ImageCardProps } from '../../../../types';
 import { VulnerabilityPayload, ScanObject } from '../../../ui-types';
 import Client from '../../models/Client';
 import { updateVulnerabilities } from '../../reducers/imageReducer';
 
+import DeleteIcon from '../../../assets/delete_outline_white_24dp.svg';
+import PlayIcon from '../../../assets/play_arrow_white_24dp.svg';
 
 /**
  * @module | ImageCard.tsx
@@ -51,6 +54,14 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 		}
 	}, [])
 
+	// useEffect(() => {
+  //   getScan(imgObj.ScanName);
+  //   // Cleanup function to reset scanObj when component unmounts
+  //   return () => {
+  //     setScanObj({})
+  //   };
+  // }, [imgObj.ScanName]);
+
 	return (
 		<div className={styles.imageCard}>
 
@@ -64,7 +75,7 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 				
 				{/* VULNERABILITY */}
 				<div className={styles.VulnerabilitiesBlock}>
-					<p className={styles.VulnerabilitiesTitle}>Vulnerabilities</p>
+					{/* <p className={styles.VulnerabilitiesTitle}>Vulnerabilities</p> */}
 					<div className={styles.imageVulnerabilities}>
 
 						<div className={styles.imgVulDiv}>
@@ -88,8 +99,8 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 
 				{/* RUN / REMOVE */}
 				<div className={styles.buttons}>
-					<button className={styles.imgCardButton} onClick={() => runImageAlert(imgObj)}>RUN</button>
-					<button className={styles.imgCardButton} onClick={() => removeImageAlert(imgObj)}>DELETE IMAGE</button>
+				<img src={PlayIcon} className={styles.imgCardButton} onClick={() => runImageAlert(imgObj)}></img>
+				<img src={DeleteIcon} className={styles.imgCardButton} onClick={() => removeImageAlert(imgObj)}></img>
 				</div>
 		</div>
 	)

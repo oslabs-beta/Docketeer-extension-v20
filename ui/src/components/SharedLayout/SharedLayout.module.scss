@@ -5,9 +5,11 @@ $navbar-transition: transform 0.3s ease-in-out;
   transition: $navbar-transition;
   transform: translateY($navbar-height);
   top: -$navbar-height;
-  background-color: color(background, base);
+  // background-color: color(background, base);
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin: 10px 50px 0px 50px;
   position: fixed;
   z-index: 9999;
   left: 0%;
@@ -17,15 +19,31 @@ $navbar-transition: transform 0.3s ease-in-out;
   width: $navbar-width;
 }
 
+.logoDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    // margin-left: 50px;
+    h1 {
+      font-size: 3.5vh;
+    }
+}
+
+.logo {
+   margin: 10px;
+  }
 // HAMBURGER ICON STYLING ------------
 
 .hamburgerIcon {
-  align-self: right;
+  // align-self: right;
   display: flex;
   flex-direction: column;
-  cursor: pointer;
   justify-content: space-evenly;
+  cursor: pointer;
+  margin-right: 110px;
 }
+
+
 
 // .bar {
 //   width: 30px;
@@ -37,9 +55,9 @@ $navbar-transition: transform 0.3s ease-in-out;
 
 .navSpacer {
   height: $navbar-height;
-  align-self: center;
+  // align-self: center;
   display: flex;
-  justify-content: space-evenly; /* or justify-content: space-around; */
+  // justify-content: space-evenly; /* or justify-content: space-around; */
 
   ul {
     display: flex;
@@ -50,9 +68,8 @@ $navbar-transition: transform 0.3s ease-in-out;
   li {
     list-style: none;
     padding: 0.5rem 0rem;
-    // margin-right: 5rem;
     margin-right: 2rem;
-    margin-left: 2rem;
+    // margin-left: 1rem;
     align-items: center;
   }
 
@@ -84,16 +101,15 @@ $navbar-transition: transform 0.3s ease-in-out;
 }
 
 @media screen and (min-width: $breakpoint-uw) {
-  .navBar {
-    padding: 0;
-  }
+  // .navBar {
+  //   padding: 0;
+  // }
   .navButton {
     text-align: center;
   }
   .navSpacer {
     max-width: $breakpoint-uw;
-    margin: 0 auto;
-    padding: 0 2rem;
+    // padding: 0 2rem;
   }
 }
 
@@ -103,6 +119,7 @@ $navbar-transition: transform 0.3s ease-in-out;
   }
   .navButton {
     text-align: center;
+    align-items: center;
   }
   .navBar {
     padding: 0px;
@@ -115,6 +132,7 @@ $navbar-transition: transform 0.3s ease-in-out;
   }
   .navButton {
     text-align: center;
+    align-items: center;
   }
   .navBar {
     padding: 0px;
