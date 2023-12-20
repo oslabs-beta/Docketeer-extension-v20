@@ -1,8 +1,8 @@
 import React, { SetStateAction, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
 import styles from './ImageCard.module.scss';
-import { ImageCardProps } from 'types';
-import { VulnerabilityPayload, ScanObject } from 'ui/ui-types';
+import { ImageCardProps } from '../../../../types';
+import { VulnerabilityPayload, ScanObject } from '../../../ui-types';
 import Client from '../../models/Client';
 import { updateVulnerabilities } from '../../reducers/imageReducer';
 
@@ -16,7 +16,7 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 	const dispatch = useAppDispatch();
 
 	// get vulnerabilities directly from the store
-	const vulnerabilities =
+	let vulnerabilities =
     useAppSelector((state) => state.images.imagesList[index].Vulnerabilities) ||
     false;
 
