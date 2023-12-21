@@ -1,29 +1,28 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
 import imageController from '../../controllers/docker/imagesController';
+import cacheController from '../../controllers/docker/cacheController';
 const router = Router();
 
 router.use(express.json());
 
 
 /**
- * @abstract 
+ * @abstract Get current Docker images from user's docker and update Grype's DB
  * @todo 
  * @param 
  * @returns
  */
-router.get('/', imageController.getImages, imageController.dbStatus, (req, res) => {
-  console.log('db status', res.locals.dbStatus);
+router.get('/', cacheController.checkCacheGrypeDb, imageController.getImages, imageController.dbStatus, cacheController.setCacheGrypeDb, (req, res) => {
   return res.status(200).json(res.locals.images);
 });
 
 /**
- * @abstract 
+ * @abstract Check if image vulnerabilities are in the cache, if not perform a Grype scan
  * @todo 
  * @param 
  * @returns
  */
-router.post('/scan', imageController.scanImages, (req, res) => {
-  res.set('Cache-control', 'public, max-age=86400')
+router.post('/scan', cacheController.checkCacheVulnerability, imageController.scanImages, cacheController.setCacheVulnerability,(req, res) => {
   return res.status(200).json(res.locals.vulnerabilites);
 });
 

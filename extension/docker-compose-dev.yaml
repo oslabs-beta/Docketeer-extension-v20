@@ -14,9 +14,10 @@ services:
       - docketeer-ext-prometheus-files:/prometheus
       - docketeer-ext-grafana-files:/grafana
       - docketeer-ext-initsql:/extension
-
     ports:
       - 4000:4000
+    depends_on:
+      - redis
 
 
   cadvisor:
@@ -105,13 +106,19 @@ services:
     volumes:
       - postgres_volume:/var/lib/postgresql/data
       - docketeer-ext-initsql:/docker-entrypoint-initdb.d/
-
     environment:
       - POSTGRES_PASSWORD=admin
       - POSTGRES_USER=admin
       - POSTGRES_DB=docketeer
     depends_on:
       - docketeer
+
+  # Setup redis caching server at port 6379
+  redis:
+    image: redis/redis-stack-server:latest
+    container_name: docketeer-ext-redis
+    ports:
+      - 49258:6379
 
 volumes:
   docketeer-ext-prometheus-data:
