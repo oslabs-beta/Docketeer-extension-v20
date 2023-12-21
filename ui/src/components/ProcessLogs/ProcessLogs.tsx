@@ -346,7 +346,7 @@ const ProcessLogs = (): JSX.Element => {
             for and optionally select the timeframe.
           </p>
           {/* Timeframe Selector */}
-          <div>
+          <div className={styles.timeframe}>
             <ThemeProvider theme={darkTheme}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
@@ -366,7 +366,7 @@ const ProcessLogs = (): JSX.Element => {
               </LocalizationProvider>
             </ThemeProvider>
           </div>
-          <div className={'keyword-search'}>
+          <div className={styles.keywordsearch}>
             <input
               className={globalStyles.input}
               type='text'

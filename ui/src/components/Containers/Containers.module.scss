@@ -8,14 +8,22 @@
   // font-family: 'Roboto';
   margin: $default-page-margin;
   transition: margin-left .5s;
+  
   .listHolder {
       display: flex;
       flex-direction: column;
     }
 }
 
+
 .containersTitle {
   margin-bottom: 10px;
+
+  @media screen and (max-width: $breakpoint-lg),
+  (max-width: $breakpoint-md),
+  (max-width: $breakpoint-sm) {
+    margin-top: 60px; 
+  }
 }
 
 .topMargin{
@@ -106,12 +114,6 @@ iframe {
 }
 
 @media screen and (max-width: $breakpoint-md) {
-  .containerList {
-    grid-template-columns: minmax(480px, 1fr);
-  }
-}
-
-@media screen and (max-width: $breakpoint-sm) {
   .containerList {
     grid-template-columns: minmax(480px, 1fr);
   }

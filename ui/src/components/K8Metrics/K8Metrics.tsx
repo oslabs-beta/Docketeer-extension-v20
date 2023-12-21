@@ -16,7 +16,7 @@ const K8Metrics = (): JSX.Element => {
         <h1 className={styles.kubernetesTitle} >KUBURNETES CLUSTER HEALTH METRICS</h1>
         <div className={styles.iframeControl}>
           <button className={styles.button} onClick={handleHome}>
-            HOME
+            REFRESH
           </button>
         </div>
       </div>

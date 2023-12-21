@@ -7,6 +7,12 @@
 }
 .configurationsTitle {
   text-align: left;
+
+  @media screen and (max-width: $breakpoint-lg),
+  (max-width: $breakpoint-md),
+  (max-width: $breakpoint-sm) {
+    margin-top: 60px; 
+  }
 }
 
 // .hh {
