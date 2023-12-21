@@ -5,6 +5,7 @@ import Client from '../models/Client';
 const initialState: ImagesStateType = {
   imagesList: []
 };
+import { ddClientRequest } from '../models/ddClientRequest';
 
 export const fetchImages = createAsyncThunk(
   'containers/fetchImages',
