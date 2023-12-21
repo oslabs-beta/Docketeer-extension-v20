@@ -199,10 +199,28 @@ imageController.dbStatus = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { stdout, stderr } = await execAsync('grype db update');
-    if (stderr) throw new Error(stderr);
-    res.locals.dbStatus = stdout;
-    next();
+    const cachedDbStatus = await redisClient.get('cachedDbStatus');
+    if (JSON.parse(cachedDbStatus)) {
+      console.log(`Already checked dbStatus today`)
+      next()
+    }
+    else {
+      await redisClient.set('cachedDbStatus', JSON.stringify(true));
+      await redisClient.expire('cachedDbStatus', 60 * 60 * 24);
+      try {
+        const { stdout, stderr } = await execAsync('grype db update');
+        if (stderr) throw new Error(stderr);
+        res.locals.dbStatus = stdout;
+        next();
+      } catch (error) {
+        const errObj: ServerError = {
+          log: { err: `imageController.dbStatus Error: ${error}` },
+          status: 500,
+          message: 'internal server error',
+        };
+        next(errObj);
+      }
+    }
   } catch (error) {
     const errObj: ServerError = {
       log: { err: `imageController.dbStatus Error: ${error}` },
