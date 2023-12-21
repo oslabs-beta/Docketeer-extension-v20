@@ -92,7 +92,6 @@ function SharedLayout(): JSX.Element {
   useEffect(() => {
     dispatch(fetchRunningContainers());
     dispatch(fetchStoppedContainers());
-    // dispatch(fetchImages());
     dispatch(fetchNetworkAndContainer());
     dispatch(fetchAllDockerVolumes());
     // eslint-disable-next-line react-hooks/exhaustive-deps
