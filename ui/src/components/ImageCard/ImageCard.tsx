@@ -54,13 +54,6 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 		}
 	}, [])
 
-	// useEffect(() => {
-  //   getScan(imgObj.ScanName);
-  //   // Cleanup function to reset scanObj when component unmounts
-  //   return () => {
-  //     setScanObj({})
-  //   };
-  // }, [imgObj.ScanName]);
 
 	return (
 		<div className={styles.imageCard}>
@@ -98,10 +91,10 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 			</div>
 
 				{/* RUN / REMOVE */}
-				<div className={styles.buttons}>
+			<div className={styles.buttons}>
 				<img src={PlayIcon} className={styles.imgCardButton} onClick={() => runImageAlert(imgObj)}></img>
 				<img src={DeleteIcon} className={styles.imgCardButton} onClick={() => removeImageAlert(imgObj)}></img>
-				</div>
+			</div>
 		</div>
 	)
 }

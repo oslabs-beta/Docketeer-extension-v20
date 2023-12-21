@@ -85,7 +85,7 @@ imageController.getImages = async (req: Request, res: Response, next: NextFuncti
     res.locals.images = images;
     
     // res.locals.images = images.map(imageObj => imageObj.ScanName = imageObj.Repository + ':' + imageObj.Tag);
-    console.log('This is the Array of Images Objects: ', res.locals.images);
+    // console.log('This is the Array of Images Objects: ', res.locals.images);
     
 
     return next();
@@ -116,14 +116,14 @@ imageController.scanImages = async (req: Request, res: Response, next: NextFunct
 
     // parse the vulnerability data and count the number of vulnerabilities
     const vulnerabilityJSON: GrypeScan[] = JSON.parse(stdout);
-    console.log('Vulnerability JSON:', vulnerabilityJSON);
+    // console.log('Vulnerability JSON:', vulnerabilityJSON);
 
     const countVulnerability: countVulnerability = vulnerabilityJSON.reduce((acc, cur) => {
       acc.hasOwnProperty(cur.Severity) ? acc[cur.Severity]++ : acc[cur.Severity] = 1;
       return acc;
     }, {});
 
-    console.log('Vulnerabilities Count:', countVulnerability);
+    // console.log('Vulnerabilities Count:', countVulnerability);
 
     res.locals.vulnerabilites = countVulnerability;
     next();

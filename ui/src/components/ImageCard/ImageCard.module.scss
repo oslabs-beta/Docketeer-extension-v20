@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Open+Sans&display=swap');
 
 .imageCard {
-  @extend .card;
-	// border: 1px solid rgba(255, 255, 255, 0.629);
-  // border-radius: 5px;
+  // @extend .card;
+	border: 1px solid rgba(255, 255, 255, 0.629);
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.256);
   height: max-content;
 	margin: 10px;
 	padding: 10px;
@@ -68,7 +69,7 @@
 }
 
 .imgCardButton{
-  box-shadow: 1px 1px 10px #9ab4fbc7;
+  // box-shadow: 1px 1px 10px #9ab4fbc7;
   height: max-content;
   width: max-content;
   border: 1px solid white;

@@ -8,7 +8,7 @@ $lowColor: #D99166;
   border: 1px solid rgba(0, 0, 0, 0.301);
   border-radius: 20px;
   height: 30px;
-  margin-top: 10px;
+  // margin-top: 10px;
   display: flex;
   align-content: space-evenly;
   font-weight: bolder;
@@ -66,27 +66,32 @@ $lowColor: #D99166;
   background-color: $criticalColor;
   border-radius: 50%;
   width: 20px;
+  height: 20px;
 }
 .highPercent {
   background-color: $highColor;
   border-radius: 50%;
   width: 20px;
+  height: 20px;
 }
 .medPercent {
   background-color: $medColor;
   border-radius: 50%;
   width: 20px;
+  height: 20px;
 }
 .lowPercent {
   background-color: $lowColor;
   border-radius: 50%;
   width: 20px;
+  height: 20px;
 }
 
 .boxPercent {
   display: flex;
   justify-content: space-evenly;
   width: max-content;
+  align-items: center;
 }
 
 .percentNumber {
@@ -96,4 +101,6 @@ $lowColor: #D99166;
 .loadingMessage {
   text-align: center;
   color: rgba(255, 255, 255, 0.601);
+  // padding-left: 10px;
+  width: 100%;
 }
