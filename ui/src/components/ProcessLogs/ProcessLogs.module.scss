@@ -111,13 +111,17 @@
   }
 }
 
-// .timeframe{
-//   display: flex;
-//   justify-content: space-around;
-// }
+.timeframe {
+  display: flex;
+  flex-direction: row;
+}
 
-// .keywordsearch {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
+
+.timeframe2 {
+  margin-left: 30px;
+}
+
+.keywordsearch {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
