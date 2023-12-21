@@ -17,6 +17,12 @@
     align-items: end;
     margin-bottom: 1rem;
   }
+
+   @media screen and (max-width: $breakpoint-lg),
+  (max-width: $breakpoint-md),
+  (max-width: $breakpoint-sm) {
+    margin-top: 80px; 
+  }
 }
 
 .metrics {
@@ -39,4 +45,12 @@
 .dateInput {
 	margin-left: 10px;
 	width: 120px;
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .snapshotWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
