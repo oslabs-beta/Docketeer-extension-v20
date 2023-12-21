@@ -18,6 +18,12 @@
 .kubernetesTitle {
   text-align: left;
   color: white;
+
+   @media screen and (max-width: $breakpoint-lg),
+  (max-width: $breakpoint-md),
+  (max-width: $breakpoint-sm) {
+    margin-top: 50px; 
+  }
 }
 
 .buttonDiv {
@@ -33,13 +39,18 @@
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  transition-duration: 0.4s;
   cursor: pointer;
   padding: 10px 24px;
   border-radius: 4px;
   outline: none;
   margin-left: 1rem;
   box-shadow: 1px 1px 10px #9ab4fbc7;
+
+   @media screen and (max-width: $breakpoint-lg),
+  (max-width: $breakpoint-md),
+  (max-width: $breakpoint-sm) {
+    margin-top: 50px; 
+  }
 }
 
 .button:hover {

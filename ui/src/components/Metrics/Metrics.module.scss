@@ -10,11 +10,6 @@
     align-items: end;
     margin-bottom: 1rem;
   }
-    @media screen and (max-width: $breakpoint-md),
-  (max-width: $breakpoint-lg),
-  (max-width: $breakpoint-sm) {
-    margin-top: 50px;
-  }
 }
 
 .test {
@@ -25,6 +20,15 @@
 
 .test2 {
   display: flex;
+}
+
+.metricsTitle {
+  margin-left: 10px;
+  @media screen and (max-width: $breakpoint-lg),
+  (max-width: $breakpoint-md),
+  (max-width: $breakpoint-sm) {
+    margin-top: 60px; 
+  }
 }
 
 .snapshotWrapper {

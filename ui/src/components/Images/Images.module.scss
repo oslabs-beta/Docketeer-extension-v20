@@ -3,11 +3,12 @@
   text-align: left;
   font-size: 30px;
   margin-left: 10px;
+  margin-top: 20px;
 
   @media screen and (max-width: $breakpoint-lg),
   (max-width: $breakpoint-md),
   (max-width: $breakpoint-sm) {
-    margin-top: 50px; 
+    margin-top: 80px; 
   }
 }
 
