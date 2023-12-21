@@ -9,14 +9,14 @@ interface SideBarProps {
 }
 
 const SideBar = ({ isOpen, prune, toggleSideBar }: SideBarProps): React.JSX.Element => {
-  const sidebarClassName = isOpen
+  const sidebarConditional = isOpen
     ? `${styles.SideBar} ${styles['sidebar-open']}`
     : `${styles.SideBar} ${styles['sidebar-closed']}`;
 
   return (
     <div
       style={{ width: isOpen ? '200px' : '0px' }}
-      className={sidebarClassName}
+      className={sidebarConditional}
       data-testid='sidebar'
     >
       <div>

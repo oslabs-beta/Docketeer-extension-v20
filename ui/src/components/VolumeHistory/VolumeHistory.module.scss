@@ -2,20 +2,23 @@
   display: flex;
   flex-direction: column;
   margin: $default-page-margin;
-  h2 {
-    margin-bottom: 1rem;
-  }
+}
+
+.volumesTitle {
+  text-align: left;
 }
 
 .buttonHolder {
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
 
 .searchHolder {
   display: flex;
-  flex-direction: column;
-  margin-bottom: 2rem;
+  gap: 20px;
+  align-items: center;
+  // justify-content:space-around;
+  margin-bottom: 20px;
 }
 
 .volumesHolder {
@@ -36,7 +39,8 @@
   justify-content: space-between;
   min-height: 120px;
   word-wrap: break-word;
-  background: $background-bg;
+
+  // background: $background-bg;
   button {
     font-size: .9rem;
     width: 8rem;

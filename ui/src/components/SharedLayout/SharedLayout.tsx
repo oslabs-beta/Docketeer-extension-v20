@@ -7,10 +7,10 @@ import { createPrunePrompt } from '../../reducers/pruneReducer';
 
 import Alert from '../../components/Alert/Alert';
 import SideBar from '../../components/SideBar/SideBar';
-
+import globalStyles from '../global.module.scss';
 import styles from './SharedLayout.module.scss';
 import docketeerLogo from '../../../assets/docketeer-logo-light.png';
-import MenuIcon from '../../../assets/menu_icon.svg';
+import MenuIcon from '../../../assets/menu_icon_36dp.svg';
 import {
   fetchRunningContainers,
   fetchStoppedContainers,
@@ -106,9 +106,10 @@ function SharedLayout(): JSX.Element {
   return (
     <div>
       <nav className={styles.navBar}>
-        <div className={styles.logo}>
+        <div>
           {/* LOGO */}
-          <NavLink to="/">
+          <NavLink to="/" className={styles.logoDiv}>
+            <h1>Docketeer</h1>
             <img className={styles.logo}
               src={docketeerLogo}
               alt="docketeer-logo"
@@ -149,12 +150,12 @@ function SharedLayout(): JSX.Element {
                 IMAGES
               </NavLink>
             </li>
-            <li>
-              <img src={MenuIcon} className={styles.hamburgerIcon} onClick={toggleSidebar}>
+          </ul>
+            <div className={styles.hamburgerIcon}>
+              <img src={MenuIcon} onClick={toggleSidebar}>
               </img>
               {isOpen && <SideBar toggleSideBar={toggleSidebar} prune={prune} isOpen={isOpen}/>}
-            </li>
-          </ul>
+            </div>
         </div>
       </nav>
       <Alert />

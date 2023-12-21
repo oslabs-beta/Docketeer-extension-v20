@@ -149,6 +149,7 @@ imageController.scanImages = async (req: Request, res: Response, next: NextFunct
   }
 };
 
+
 /**
  * @todo verify it's working 
  * @todo change body parameters. It must accept a name for the container and a name for
