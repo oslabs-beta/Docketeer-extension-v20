@@ -20,7 +20,7 @@ browser-down:
 extension-dev: build-extension-dev install-extension-dev dev-tools
 
 build-extension-dev:
-	docker build -t ${DEV_EXTENSION_NAME} -f ${DOCKERFILEDIRECTORY}/dev.Dockerfile .
+	docker build -t ${DEV_EXTENSION_NAME} -f ${DOCKERFILEDIRECTORY}/dockerfile.dev .
 
 install-extension-dev:
 	docker extension install ${DEV_EXTENSION_NAME} -f
