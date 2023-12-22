@@ -38,7 +38,7 @@ LABEL org.opencontainers.image.title="Docketeer" \
   com.docker.desktop.extension.icon="https://i.ibb.co/VqkYZPy/docketeer-logo-light.png" \
   com.docker.extension.screenshots='[{"alt":"Containers page","url":"https://i.ibb.co/jHL5ZSx/docketeer-containers-page.png"}, \
   {"alt":"Network page","url":"https://i.ibb.co/ySvWsdY/docketeer-network-page.png"}, \
-  {"alt":"Image page","url":"https://i.ibb.co/HNDxhZR/docketeer-image-page.png"}, \
+  {"alt":"Image page","url":"https://dz0i85a16ad4a.cloudfront.net/t8267t%2Fpreview%2F55110026%2Fmain_large.gif?response-content-disposition=inline%3Bfilename%3D%22main_large.gif%22%3B&response-content-type=image%2Fgif&Expires=1703282385&Signature=ZR18Bg4cfcY0orYq6Qa0dE1e5h1D2P33bSgDF8CgHyx-8Bh~WfkvT~Lc~FuvqsM8SmHFfczx77g5Qkwz-hOFyR8axXzSgHSqopZD8KN63Hd7J4j71ElFeMiFuHV4OH4vsglYOMLX7hYcHqO2jUb3vU73C8u0SgaohOrU14nuH2hZI2c5SEEb32vJ9I2D9CJX06AD053m-3E-p5NwkYthNr4qDI3Kc7dX2~rRqTU752cTjjuoBIa0gGr5DaRvPUorgws1VOA4dYUKEJQVoWwWo7CGDROesi-vvCPT7rLFUKkb8HS13bZPxoL2xv-zL7fo7s-ERJBp9owwrpdwJi2k7g__&Key-Pair-Id=APKAJT5WQLLEOADKLHBQ"}, \
   {"alt":"Metrics page","url":"https://i.ibb.co/TTkRq7y/docketeer-metrics-page.png"}, \
   {"alt":"Volume History page","url":"https://i.ibb.co/61bmDKf/docketeer-volume-page.png"}, \
   {"alt":"Process Logs page","url":"https://i.ibb.co/4gLFJf9/docketeer-processlogs-page.png"}]' \
