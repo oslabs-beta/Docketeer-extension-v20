@@ -74,7 +74,7 @@
 
 <div align="center" width="100%">
             
-[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url][![D3][D3]][D3-url][![MUI][MUI]][MUI-URL]
+[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Redis][Redis]][Redis-url][![Postgres][Postgres]][Postgres-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url][![D3][D3]][D3-url][![MUI][MUI]][MUI-URL]
 
 </div>
 
@@ -106,9 +106,9 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 - Docketeer is a Docker developer tool that's available as an open-source project on GitHub or as an extension on Docker Desktop.
 - It aims to simplify the development process for projects that use Docker containers.
-- Provides the user the ability to take capture instances of container metrics at any given time.
-- Visualize and compare previously saved health metrics to offer users a comprehensive understanding of historical performance.
+- Visualize and compare previously saved health metric snapshots to offer users a comprehensive understanding of historical performance.
 - Allows you to filter through both your running and stopped container logs.
+- Provides image vulnerability data for each image for enhanced understanding of the security of used images
 - Docketeer provides an easy-to-use GUI for managing Docker containers, images, and networks.
 - With Docketeer, developers can quickly start, stop, and delete containers, as well as manage run Docker images.
 - Docketeer offers the ability to create, delete, and attach containers to networks.
@@ -130,6 +130,8 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 - [ ] More advanced container configuration options within Docketeer.
 - [ ] CI/CD pipeline for Docketeer repo.
+- [ ] Improve test coverage with additional unit tests and integration tests.
+- [ ] Optimize frontend rendering performance with lazy loading and reduced bundle size
 - [ ] Add support for more advanced Docker features, like multi-stage builds or Docker secrets, to expand the capabilities of Docketeer.
 - [ ] Add the ability to control Docker containers deployed in AWS.
 - [ ] Implement endpoint scraping of any kubernetes cluster running prometheus. ([Read more](/docs/dev/features/Configuration(Alpha).md))
@@ -138,7 +140,7 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 - [ ] Setup a error catcher to alert Users of errors that are in the Docker Container Log.
 - [ ] Implement functionality that alerts users when certain metrics reach critical threshold.
 
-See the [Known Issues Docs](/docs/dev/KnownIssues.md) and [open issues](https://github.com/open-source-labs/Docketeer/issues) for a list of known issues.
+See the [Known Issues Docs](/docs/KnownIssues.md) and [open issues](https://github.com/open-source-labs/Docketeer/issues) for a list of known issues.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -149,13 +151,12 @@ For more details, please read the ***docs*** folder, which covers the following:
 
 - API 
 - Assets
-- Changelogs (V1-V15)
+- Changelogs (V1-V17)
 - Features 
   - Configuration.md
   - Models.md
 - DevGettingStarted.md
 - DevWorkingWithGrafana.md
-- Docketeer16.note.md ***(MOST RECENT CHANGES)***
 - KnownIssues.md
 
 When you are ready to launch, make sure to follow the instructions under ***Makefile***.
@@ -181,6 +182,7 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 <br />
 
 ## <b>Read More</b>
+- [Docketeer XVII: Transforming with Security](https://medium.com/@docketeerxii/docketeer-xvii-transforming-with-security-45cd06da061d)
 - [Docketeer XVI: The Journey Continues](https://medium.com/@docketeerxii/introducing-docketeer-xvi-the-journey-continues-f34fc5bf7749)
 - [Docketeer XV: Naviating the Seas of Docker with Docketeer v15](https://medium.com/@christiandoescoding/navigating-the-seas-of-docker-with-docketeer-v15-0-ad5bd9540d14)
 - [Docketeer XIV: Coming Home](https://medium.com/@grantschussler/docketeer-xiv-coming-home-6eb011990a34)
@@ -211,7 +213,11 @@ Please ⭐️ this project if you found it helpful, thank you!
 <br />
 
 ## Contributors
-
+- Chelsea Lau [@chelsea01688](https://github.com/chelsea01688) | [Linkedin](https://www.linkedin.com/in/chelsea-wklau/)
+- Giovanni Morales Cortes [@GiovanniCortes19](https://github.com/GiovanniCortes19) | [Linkedin](https://www.linkedin.com/in/giovanni-cortes/)
+- Jade Chan [@JadeChan03](https://github.com/JadeChan03) | [Linkedin](https://www.linkedin.com/in/jade-melissa-chan/)
+- Jessica Grant [@jessicarobyn10](https://github.com/jessicarobyn10) | [Linkedin](https://www.linkedin.com/in/jessicargrant/)
+- Robin Zhang [@yuchen-z](https://github.com/yuchen-z) | [Linkedin](www.linkedin.com/in/yuchen-robin-zhang)
 - Dan Lin [@DanLin91](https://github.com/DanLin91) | [Linkedin](https://www.linkedin.com/in/danlin91/)
 - Kadir Gundogdu [@kadirgund](https://github.com/kadirgund) | [Linkedin](https://www.linkedin.com/in/kadirgund/)
 - Minchan Jun [@MinchanJun](https://github.com/MinchanJun) | [Linkedin](https://www.linkedin.com/in/minchan-jun/)
@@ -314,6 +320,8 @@ Please ⭐️ this project if you found it helpful, thank you!
 [Vite-url]: https://vitejs.dev/
 [Express]: https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB
 [Express-url]: https://expressjs.com/
+[Redis]: https://img.shields.io/badge/redis-%23DD0031.svg?&style=for-the-badge&logo=redis&logoColor=white
+[Redis-url]: https://redis.com/
 [Redux]: https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white
 [Redux-url]: https://redux.js.org/
 [Postgres]: https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white
