@@ -14,6 +14,8 @@ services:
       - docketeer-ext-initsql:/extension
     ports:
       - 4000:4000
+    depends_on:
+      - redis
 
   cadvisor:
     # Must use cadvisor v0.47.1 instead of latest, latest does not work for macOS
@@ -108,6 +110,12 @@ services:
     depends_on:
       - docketeer
 
+    # Setup redis caching server at port 6379
+  redis:
+    image: redis/redis-stack-server:latest
+    container_name: docketeer-ext-redis
+    ports:
+      - 49258:6379
 
 volumes:
   docketeer-ext-prometheus-data:

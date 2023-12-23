@@ -115,7 +115,7 @@ const VolumeHistory = (props:any): JSX.Element => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.searchHolder}>
-        <h2>SEARCH VOLUMES</h2>
+        <h1 className={styles.volumesTitle} >VOLUMES</h1>
         <input
           className={globalStyles.input}
           type="text"
@@ -142,7 +142,7 @@ const VolumeHistory = (props:any): JSX.Element => {
         </div>
       </div>
       <div className={styles.volumesHolder}>
-        <h2>VOLUMES</h2>
+        {/* <h2>VOLUMES</h2> */}
         <div className={styles.volumesDisplay}>
           {
           volumeComponents

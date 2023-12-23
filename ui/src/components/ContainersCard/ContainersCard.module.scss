@@ -3,6 +3,7 @@
 
 
 .containerCard {
+  @extend .card;
   transition: 0.2s;
   position: relative;
   // display: grid;
@@ -14,9 +15,9 @@
   overflow-x:scroll;
   // width: 500px;
   // height: 15rem;
-  font-family: 'Roboto';
-
-  background-color: color(background, base);
+  // font-family: 'Roboto';
+  
+  // background-color: color(background, base);
   // background: $background-bg;
   // box-shadow: $shadow;
   backdrop-filter: blur(4px);

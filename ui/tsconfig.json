@@ -2,11 +2,13 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "module": "CommonJS"
+    "module": "CommonJS",
+    "allowArbitraryExtensions": true
   },
   "include": [
     "./**/*.ts",
     "./ui-types.d.ts",
-    "./../types.d.ts"
+    "./../types.d.ts",
+    // "src/components"
   ]
 }

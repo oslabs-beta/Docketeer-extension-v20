@@ -1,0 +1,106 @@
+// VARIABLES
+$criticalColor: #5C1A18;
+$highColor: #AD312D;
+$medColor: #AE5944;
+$lowColor: #D99166;
+
+.summaryCard {
+  border: 1px solid rgba(0, 0, 0, 0.301);
+  border-radius: 20px;
+  height: 30px;
+  // margin-top: 10px;
+  display: flex;
+  align-content: space-evenly;
+  font-weight: bolder;
+  box-shadow: 3px 1px 10px 1px rgba(0, 0, 0, 0.79);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.textColor {
+  color: white;
+  width: max-content;
+  border-radius: 20px;
+  font-weight: bold;
+  margin-left: 5px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.critical {
+  background-color: $criticalColor;
+  padding: 2px;
+  padding-left: 10px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  margin-right: 3px;
+}
+
+.high {
+  background-color: $highColor;
+  padding: 2px;
+  margin-right: 3px;
+}
+
+.med {
+  background-color: $medColor;
+  padding: 2px;
+  margin-right: 3px;
+}
+
+.low {
+  background-color: $lowColor;
+  padding: 2px;
+  padding-right: 10px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.percentagesContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.criticalPercent {
+  background-color: $criticalColor;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+.highPercent {
+  background-color: $highColor;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+.medPercent {
+  background-color: $medColor;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+.lowPercent {
+  background-color: $lowColor;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+
+.boxPercent {
+  display: flex;
+  justify-content: space-evenly;
+  width: max-content;
+  align-items: center;
+}
+
+.percentNumber {
+  color: rgba(255, 255, 255, 0.646);
+}
+
+.loadingMessage {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.601);
+  // padding-left: 10px;
+  width: 100%;
+}

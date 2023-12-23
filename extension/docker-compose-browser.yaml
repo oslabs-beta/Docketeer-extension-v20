@@ -5,10 +5,10 @@ services:
   docketeer:
     # Image must be ${DESKTOP_PLUGIN_IMAGE} to be used as an extension
     # image: ${DESKTOP_PLUGIN_IMAGE}
-    build: 
-      context: .. 
-      dockerfile: extension/dockerfile.browser
-    image: docketeer/docketeer-extension:dev
+    # image: docketeer-ext-dev
+    build:
+      context: ..
+      dockerfile: extension/dockerfile.dev
     container_name: docketeer-ext
     environment:
       - MODE=browser
@@ -18,15 +18,15 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - docketeer-ext-prometheus-files:/prometheus
       - docketeer-ext-grafana-files:/grafana
-      - ${PWD}/backend:/backend
-      - ${PWD}/ui:/ui
       - backend_node:/backend/node_modules
       - ui_node:/ui/node_modules
-
+      - ${PWD}/backend:/backend
+      - ${PWD}/ui:/ui
     ports:
       - 4000:4000
       - 3000:3000
-
+    depends_on:
+      - redis
  
   cadvisor:
     # Must use cadvisor v0.47.1 instead of latest, latest does not work for macOS
@@ -111,10 +111,11 @@ services:
   
   # Store metrics gathered from containers at localhost:5432 
   postgres:
-    build:
-      context: ..
-      dockerfile: ./extension/dockerfile.postgres
-    image: docketeer-postgres
+    # build:
+    #   context: ..
+    #   dockerfile: ./extension/dockerfile.postgres
+    # image: docketeer-postgres
+    image: postgres:16.0-alpine3.18
     container_name: docketeer-ext-postgres
     expose:
       - 5432
@@ -128,6 +129,13 @@ services:
       - POSTGRES_DB=docketeer
     depends_on:
       - docketeer
+
+    # Setup redis caching server at port 6379
+  redis:
+    image: redis/redis-stack-server:latest
+    container_name: docketeer-ext-redis
+    ports:
+      - 49258:6379
 
 volumes:
   docketeer-ext-prometheus-data:
