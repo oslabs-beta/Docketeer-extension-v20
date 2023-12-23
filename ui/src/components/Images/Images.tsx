@@ -100,7 +100,7 @@ const Images = (): React.JSX.Element => {
 
   return (
     <div className={styles.ImagesContainer}>
-      <h1 className={styles.VulnerabilitiesTitle}>VULNERABILITIES</h1>
+      <p className={styles.VulnerabilitiesTitle}>VULNERABILITIES</p>
       {/* VULNERABILITY SUMMARY INFO */}
       <div>
         <ImagesSummary />

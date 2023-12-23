@@ -348,22 +348,26 @@ const ProcessLogs = (): JSX.Element => {
           {/* Timeframe Selector */}
           <div className={styles.timeframe}>
             <ThemeProvider theme={darkTheme}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateTimePicker
-                  label='Timeframe Start'
-                  value={startDate}
-                  sx={{ width: '225px' }}
-                  onChange={newStart => setStartDate(newStart)}
-                />
-              </LocalizationProvider>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateTimePicker
-                  label='Timeframe Stop'
-                  value={stopDate}
-                  sx={{ width: '225px' }}
-                  onChange={newStop => setStopDate(newStop)}
-                />
-              </LocalizationProvider>
+              <div className={styles.timeframe1}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DateTimePicker
+                    label='Timeframe Start'
+                    value={startDate}
+                    sx={{ width: '225px' }}
+                    onChange={newStart => setStartDate(newStart)}
+                  />
+                </LocalizationProvider>
+              </div>
+              <div className={styles.timeframe2}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DateTimePicker
+                    label='Timeframe Stop'
+                    value={stopDate}
+                    sx={{ width: '225px' }}
+                    onChange={newStop => setStopDate(newStop)}
+                  />
+                </LocalizationProvider>
+              </div>
             </ThemeProvider>
           </div>
           <div className={styles.keywordsearch}>
