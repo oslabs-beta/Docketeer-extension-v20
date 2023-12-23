@@ -47,7 +47,7 @@ LABEL org.opencontainers.image.title="Docketeer" \
   com.docker.desktop.extension.icon="https://i.ibb.co/VqkYZPy/docketeer-logo-light.png" \
   com.docker.extension.screenshots='[{"alt":"Containers page","url":"https://i.ibb.co/MZLynrG/containers-re-demo.gif"}, \
   {"alt":"Network page","url":"https://i.ibb.co/4fjCsf2/network-tab-demo.gif"}, \
-  {"alt":"Image page","url":"https://i.ibb.co/znmkHhk/images-demo.gif"}, \
+  {"alt":"Image page","url":"https://dz0i85a16ad4a.cloudfront.net/t8267t%2Fpreview%2F55110026%2Fmain_large.gif?response-content-disposition=inline%3Bfilename%3D%22main_large.gif%22%3B&response-content-type=image%2Fgif&Expires=1703282385&Signature=ZR18Bg4cfcY0orYq6Qa0dE1e5h1D2P33bSgDF8CgHyx-8Bh~WfkvT~Lc~FuvqsM8SmHFfczx77g5Qkwz-hOFyR8axXzSgHSqopZD8KN63Hd7J4j71ElFeMiFuHV4OH4vsglYOMLX7hYcHqO2jUb3vU73C8u0SgaohOrU14nuH2hZI2c5SEEb32vJ9I2D9CJX06AD053m-3E-p5NwkYthNr4qDI3Kc7dX2~rRqTU752cTjjuoBIa0gGr5DaRvPUorgws1VOA4dYUKEJQVoWwWo7CGDROesi-vvCPT7rLFUKkb8HS13bZPxoL2xv-zL7fo7s-ERJBp9owwrpdwJi2k7g__&Key-Pair-Id=APKAJT5WQLLEOADKLHBQ"}, \
   {"alt":"Metrics page","url":"https://i.ibb.co/xmPYZ4H/containers-metric-demo.gif"}, \
   {"alt":"Snapshot page","url":"https://i.ibb.co/KwPtDMf/snapshot-demo.gif"}, \
   {"alt":"Process Logs page","url":"https://i.ibb.co/MkgfcC9/processlogs-demo.gif"}]' \
@@ -59,7 +59,7 @@ LABEL org.opencontainers.image.title="Docketeer" \
   com.docker.extension.publisher-url="https://docketeer.io/" \
   com.docker.extension.additional-urls='[{"title":"Extension-Github","url":"https://github.com/open-source-labs/docketeer-extension"},{"title":"Email","url":"mailto:docketeerxii@gmail.com"},{"title":"LinkedIn","url":"https://www.linkedin.com/company/docketeer/"}]' \
   com.docker.extension.categories="utility-tools" \
-  com.docker.extension.changelog="https://github.com/open-source-labs/docketeer-extension/blob/master/docs/dev/changelog.md"
+  com.docker.extension.changelog="https://github.com/open-source-labs/docketeer-extension/blob/master/docs/changelog"
 
 # Installs curl
 RUN apk --no-cache add curl
