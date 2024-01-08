@@ -1,26 +1,45 @@
 import { Request, Response, NextFunction } from 'express';
-import { ContainerPS, ImageType } from '../../../types';
+import { ImageType } from '../../../types';
 import { execAsync } from '../helper';
-import { ServerError } from '../../backend-types';
+import { GrypeScan, ServerError, countVulnerability } from '../../backend-types';
+import path from 'path';
 
+// Storing the path to the grype data template file
+const templatePath = path.resolve(__dirname, '../grype/json.tmpl')
+
+// Types of our ImageController methods
 interface ImageController {
   /**
-   * @method
-   * @todo Reimplement this on frontend as old implementation used a matrix
-   *       instead of array of objects...
-   * @returns @param {ImageType[]} res.locals.images
+   * @method GET
+   * @abstract Gets array of images from docker in json format and adds a ScanName property to each to allow execuation of /scan on imageRouter
+   * @returns {void}
    */
   getImages: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
   /**
-   * @method
+   * @method POST
+   * @abstract Outputs vulnerability information about image scanned
+   * @param {string} req.body.scanName
+   * @returns {void}
+   */
+  scanImages: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<void>;
+
+  /**
+   * @method POST
    * @todo implement
    * @param {string} req.body.name
    * @param {string} req.body.tag
    * @returns {void}
    */
-  buildContainerFromImage: (req: Request, res: Response, next: NextFunction) => Promise<void>;
-
+  buildContainerFromImage: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<void>;
 
   /**
    * @method
@@ -31,35 +50,79 @@ interface ImageController {
   pullImage: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
   /**
-   * @method
+   * @method DELETE
    * @abstract Removes an image based on id
    * @param {string} req.params.id
    * @returns
    */
-  removeImage: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+  removeImage: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<void>;
+
+  dbStatus: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 }
 
 const imageController: ImageController = {} as ImageController;
 
-/**
- * @todo fix frontend implementation
- */
 imageController.getImages = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { stdout, stderr } = await execAsync('docker images --format "{{json .}},"');
-    if (stderr.length) throw new Error(stderr);
-    const images: ImageType = JSON.parse(`[${stdout.trim().slice(0, -1)}]`);
+    if (stderr) throw new Error(stderr);
+    const images: ImageType[] = JSON.parse(`[${stdout.trim().slice(0, -1)}]`);
+
+    // Add new ScanName on each object
+    images.forEach(imageObj => imageObj.ScanName = imageObj.Repository + ':' + imageObj.Tag);
+
+    // Store an array of strings with our images names
     res.locals.images = images;
+    
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'imageController.getImages Error: ': error }),
+      log: { err: `imageController.getImages Error: ${error}` },
       status: 500,
-      message: { err: 'imageController.getImages error' }
+      message: 'internal server error'
     }
     return next(errObj);
   }
 }
+
+imageController.scanImages = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  if (!res.locals.vulnerabilites) {
+    const { scanName }: { scanName: string } = req.body;
+
+    try {
+      //Development mode: runs Grype on scanName and outputs result based on a custom Go Template in ./controllers/grype/json.tmpl
+      //Production: runs Grype on scanName and outputs result based on a custom Go Template in backend/dist/controllers/grype/json.tmpl
+      const { stdout, stderr } = await execAsync(`grype ${scanName} -o template -t ${templatePath}`);
+      if (stderr) throw new Error(stderr);
+
+      //parse the vulnerability data and count the number of vulnerabilites
+      const vulnerabilityJSON: GrypeScan[] = JSON.parse(stdout);
+      const countVulnerability: countVulnerability = vulnerabilityJSON.reduce((acc, cur) => {
+        acc.hasOwnProperty(cur.Severity) ? acc[cur.Severity]++ : acc[cur.Severity] = 1;
+        return acc
+      }, {});
+      res.locals.scanName = scanName
+      res.locals.vulnerabilites = countVulnerability;
+      res.locals.addToCache = true;
+      next()
+    } catch (error) {
+      const errObj: ServerError = {
+        log: { err: `imageController.scanImages Error: ${error}` },
+        status: 500,
+        message: 'internal server error'
+      }
+      next(errObj);
+    }
+  }
+  else {
+    next()
+  }
+};
+
 
 /**
  * @todo verify it's working 
@@ -78,9 +141,9 @@ imageController.buildContainerFromImage = async (req: Request, res: Response, ne
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'imageController.buildContainerFromImage Error: ': error }),
+      log: { err: `imageController.buildContainerFromImage Error: ${error}` },
       status: 500,
-      message: { err: 'imageController.buildContainerFromImage error' }
+      message: 'internal server error'
     }
     return next(errObj);
   }
@@ -97,12 +160,36 @@ imageController.removeImage =async (req: Request, res: Response, next: NextFunct
     return next();
   } catch (error) {
     const errObj: ServerError = {
-      log: JSON.stringify({ 'imageController.removeImage Error: ': error }),
+      log: { err: `imageController.removeImages Error: ${error}` },
       status: 500,
-      message: { err: 'imageController.removeImage error' }
+      message: 'internal server error'
     }
     return next(errObj);
   }
 }
+
+imageController.dbStatus = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  if (!res.locals.cachedDbStatus) {
+    try {
+      const { stdout, stderr } = await execAsync('grype db update');
+      if (stderr) throw new Error(stderr);
+      console.log('grype db update status:', stdout)
+      next();
+    } catch (error) {
+      const errObj: ServerError = {
+        log: { err: `imageController.dbStatus Error: ${error}` },
+        status: 500,
+        message: 'internal server error',
+      };
+      next(errObj);
+    }
+  } else {
+    next()
+  }
+};
 
 export default imageController;

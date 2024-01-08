@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../Metrics/Metrics.module.scss';
+import styles from './Snapshots.module.scss';
+import globalStyles from '../global.module.scss';
 import { ddClientRequest } from '../../models/ddClientRequest'
 import Client from '../../models/Client'
 
@@ -54,43 +55,49 @@ const Snapshots = (): JSX.Element => {
   return (
     <div className={styles.snapshotWrapper}>
       <div>
-        <label>
-          <strong>CHOOSE A DATE:</strong>
-        </label>
-        <select id="select-left">{dropDown}</select>
+        <div className={styles.dateAndSnapshot}>
+          <div>
+            <label>
+              <strong>CHOOSE A DATE:</strong>
+            </label>
 
-        <button
-          className={styles.button}
-          onClick={() => retrieveSnapshot("left")}
-        >
-          RETRIEVE SNAPSHOT
-        </button>
-        <div className={styles.snapshotContent}>
-          <iframe
-            className={styles.metrics}
-            src={iframeLinkLeft}
-          />
+            <select className={styles.dateInput} id="select-left">
+              {dropDown}
+            </select>
+          </div>
+
+          <button
+            className={globalStyles.button1}
+            onClick={() => retrieveSnapshot('left')}
+          >
+            RETRIEVE SNAPSHOT
+          </button>
+        </div>
+        <div>
+          <iframe className={styles.metrics} src={iframeLinkLeft} />
         </div>
       </div>
-      <div>
-        <label>
-          <strong>CHOOSE A DATE:</strong>
-        </label>
-        <select id="select-right">{dropDown}</select>
 
-        <button
-          className={styles.button}
-          onClick={() => retrieveSnapshot("right")}
-        >
-          RETRIEVE SNAPSHOT
-        </button>
-        <div className={styles.snapshotContent}>
-          <iframe
-            className={styles.metrics}
-            src={iframeLinkRight}
-          />
+      <div>
+        <div className={styles.dateAndSnapshot}>
+          <div> 
+            <label>
+              <strong>CHOOSE A DATE:</strong>
+            </label>
+            <select className={styles.dateInput} id="select-right">
+              {dropDown}
+            </select>
+          </div>
+          <button
+            className={globalStyles.button1}
+            onClick={() => retrieveSnapshot('right')}
+          >
+            RETRIEVE SNAPSHOT
+          </button>
         </div>
-      
+        <div>
+          <iframe className={styles.metrics} src={iframeLinkRight} />
+        </div>
       </div>
     </div>
   );

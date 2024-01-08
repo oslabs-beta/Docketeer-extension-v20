@@ -1,20 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
 .wrapper {
-  margin-top: 10px;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  font-family: 'Roboto';
+  // font-family: 'Roboto';
+  margin: $default-page-margin;
   transition: margin-left .5s;
-  margin-top: 10px;
-  margin-left: 20px;
-  margin-right: 20px;
+  
   .listHolder {
       display: flex;
       flex-direction: column;
-      // padding-left: 2rem;
     }
+}
+
+
+.containersTitle {
+  margin-bottom: 10px;
+
+  @media screen and (max-width: $breakpoint-lg),
+  (max-width: $breakpoint-md),
+  (max-width: $breakpoint-sm) {
+    margin-top: 60px; 
+  }
+}
+
+.topMargin{
+  // wrapper default margin doesn't push the top margin enough
+  // this is an extra div to add top margin to better match other pages
+  margin-top: 30px;
+}
+
+iframe {
+  border-radius: 10px;
 }
 
 .listHolder {
@@ -62,7 +81,7 @@
 .toggle {
   display: grid;
   grid-template-columns: .9fr .1fr;
-  margin-left: 5px;
+  // margin-left: 5px;
   gap: 10px;
   margin-bottom: 30px;
 }
@@ -79,11 +98,13 @@
 .notActive {
   color: white;
 }
+
 @media screen and (max-width: $breakpoint-lg) {
   .wrapper {
     display: flex;
     flex-direction: column;
-    margin-top: 70px;
+    margin: $default-page-margin;
+    // margin-top: 70px;
   }
   .containerList {
     grid-template-columns: minmax(480px, 1fr);
@@ -93,12 +114,6 @@
 }
 
 @media screen and (max-width: $breakpoint-md) {
-  .containerList {
-    grid-template-columns: minmax(480px, 1fr);
-  }
-}
-
-@media screen and (max-width: $breakpoint-sm) {
   .containerList {
     grid-template-columns: minmax(480px, 1fr);
   }

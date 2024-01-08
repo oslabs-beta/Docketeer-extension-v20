@@ -52,10 +52,10 @@ const Metrics = (): JSX.Element => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div>
       <div className={styles.iframeHeader}>
-        <h2>METRICS DASHBOARD</h2>
-        <div>
+        <h1 className={styles.metricsTitle}>METRICS DASHBOARD</h1>
+        <div className={styles.buttonDiv}>
           <button className={styles.button} onClick={handleHome}>
             HOME
           </button>
@@ -64,9 +64,9 @@ const Metrics = (): JSX.Element => {
           </button>
         </div>
       </div>
-      <div>
+      <div className={styles.iframeDiv}>
         <iframe
-          key ={resetIframe}
+          key={resetIframe}
           id="iframe"
           className={styles.metrics}
           src="http://localhost:49155/d/metrics_monitoring/docker-and-system-monitoring?orgId=1&refresh=10s&kiosk"

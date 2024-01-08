@@ -93,11 +93,11 @@ export interface NetworkListModalProps {
 // Server-Side Typing
 // ==========================================================
 export interface ServerError {
-  log: string;
-  status: number;
-  message: {
+  log: {
     err: string;
   };
+  status: number;
+  message: string
 };
 
 export interface ContainerNetworkObject {
@@ -120,4 +120,23 @@ export interface MetricsQuery {
   block_io: string;
   pid: string;
   created_at: Date;
+}
+
+// ==============================================
+// BACKEND IMAGE TYPES
+// ==============================================
+//Data generated from running GrypeScan on imageControllers.scanImages
+export interface GrypeScan {
+  Package: string;
+  'Version Installed'?: string;
+  'Vulnerability ID'?: string;
+  Severity?: string;
+}
+
+export interface countVulnerability {
+  Negligible?: number;
+  Low?: number;
+  Medium?: number;
+  High?: number;
+  Critical?: number;
 }

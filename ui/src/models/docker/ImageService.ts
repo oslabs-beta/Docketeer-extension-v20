@@ -1,5 +1,6 @@
 import { ddClientRequest, encodeQuery } from "../ddClientRequest";
 import { ImageType, ContainerPS } from "../../../../types";
+import { ScanObject } from "ui/ui-types";
 export const ImageService = {
   async getImages(): Promise<ImageType[]> {
     const images = await ddClientRequest<ImageType[]>('/api/docker/image');
@@ -24,5 +25,15 @@ export const ImageService = {
       console.error(`Failed to remove image by ID: ${imageId}`);
       return false;
     }
-  }
+  },
+
+  async getScan(scanName: string) :Promise<ScanObject> {
+    try {
+      const scan = await ddClientRequest('/api/docker/image/scan', 'POST', { scanName: scanName })
+      return scan
+    } catch (error) {
+      console.error(`Failed to Scan the image vulnerability for ${scanName}`);
+      return
+    }
+  } 
 }

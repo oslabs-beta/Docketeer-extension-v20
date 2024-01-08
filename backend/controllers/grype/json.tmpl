@@ -1,0 +1,11 @@
+[
+    {{- range $index, $match := .Matches}}
+    {{if $index}},{{end}}
+    {
+        "Package": "{{.Artifact.Name}}",
+        "Version Installed": "{{.Artifact.Version}}",
+        "Vulnerability ID": "{{.Vulnerability.ID}}",
+        "Severity": "{{.Vulnerability.Severity}}"
+    }
+    {{- end}}
+]
