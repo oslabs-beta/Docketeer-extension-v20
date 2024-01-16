@@ -4,7 +4,7 @@
 
 * Go to ***/imageConfigs/grafana*** this is where the Grafana config files are located
 
-* ***grafana.init*** initializes your Grafana instance with settings that allow us to embed dashboards into Docketeer. Do not change this file.
+* ***grafana.init*** initializes your Grafana instance with settings that allow us to embed dashboards into Dcoketeer. Do not change this file.
 
 * Inside the ***/imageConfigs/grafanaprovisioning*** you will find 2 more directories: ***dashboards*** and ***datasources***.
 
