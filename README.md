@@ -131,9 +131,10 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 - [ ] More advanced container configuration options within Docketeer.
 - [ ] CI/CD pipeline for Docketeer repo.
 - [ ] Improve test coverage with additional unit tests and integration tests.
-- [ ] Optimize frontend rendering performance with lazy loading and reduced bundle size
+- [ ] Optimize frontend rendering performance with lazy loading to reduce initial bundle size and eliminating redundant re-renders
 - [ ] Add support for more advanced Docker features, like multi-stage builds or Docker secrets, to expand the capabilities of Docketeer.
 - [ ] Add the ability to control Docker containers deployed in AWS.
+- [ ] Develop aggregation service to collect and cache data from prometheus data sources
 - [ ] Implement endpoint scraping of any kubernetes cluster running prometheus. ([Read more](/docs/dev/features/Configuration(Alpha).md))
 - [ ] Work on improving the connect/disconnnect button under networks button in Containers Tab
 - [ ] Adding additional key metrics to the snapshot functionality
