@@ -16,9 +16,9 @@ import ImagesSummary from '../ImagesSummary/ImagesSummary';
 const Images = (): React.JSX.Element => {
   console.log('Rendering Images component');
   const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
-  
+
   const dispatch = useAppDispatch();
-  
+
   // If imagesList is not populated, send a dispatch that will fetch the list of docker images from the backend
   useEffect(() => {
     if (!imagesList.length) {
@@ -87,14 +87,15 @@ const Images = (): React.JSX.Element => {
     );
   };
 
+  // imagesList = [ {image1}, {image2, ScanName: whatever, Vulnerabilties: {high, med, low, critical:}}, {image3}]
   // declare a constant array of elements and push an image card into this array for each image in the imagesList
   let renderedImages: React.JSX.Element[] = imagesList.map((imageObj, i) => (
     <ImageCard
       removeImageAlert={removeImageAlert}
       runImageAlert={runImageAlert}
       key={i}
-      index={i}
-      imgObj={imageObj}
+      index={i} // 1
+      imgObj={imageObj} //current image in the imagesList
     />
   ));
 

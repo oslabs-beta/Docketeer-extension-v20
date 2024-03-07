@@ -21,11 +21,14 @@ const Containers = (): JSX.Element => {
     (state) => state.containers
   );
 
-  const bashContainer = async (id: string) => await Client.ContainerService.bashContainer(id); 
+  const bashContainer = async (id: string) => await Client.ContainerService.bashContainer(id);
 
-  const stopWrapper = async(id: string) => {
+  const stopWrapper = async (id: string) => {
+    //checks the container list with that specific ID to see if its stopped
     const wasStopped = await Client.ContainerService.stopContainer(id);
+    //if it is stopped then update the state in the store
     if (wasStopped) {
+      //fetchStoppedContainers() returns an array of stopped containers
       dispatch(fetchStoppedContainers());
       dispatch(fetchRunningContainers());
     }
@@ -115,7 +118,7 @@ const Containers = (): JSX.Element => {
   };
 
 
-  
+
 
   return (
     <div className={styles.topMargin}>

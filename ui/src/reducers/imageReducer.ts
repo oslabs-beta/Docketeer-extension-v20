@@ -37,7 +37,7 @@ export const imageSlice = createSlice({
     },
     deleteImage(state, action: PayloadAction<string>) {
       console.log('Before deleting image from the list: ', current(state.imagesList));
-      
+
       // find the index of the image object with the action.payload
       const imageIndex = state.imagesList.findIndex((imageObj) => imageObj.ID === action.payload)
       // splice the store.imageList at the found index, delete 1, insert nothing

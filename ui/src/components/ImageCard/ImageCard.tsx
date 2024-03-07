@@ -24,7 +24,7 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
     false;
 
 	const getScan = async (scanName: string) => {
-		
+
     try {
       // retrieve scan data - Client.ImageService.getScan creates DDClient Request
       const vulnerabilityObj: ScanObject = await Client.ImageService.getScan(scanName);
@@ -36,7 +36,8 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 				return;
     	}
 			// create an object of type VulnerabilityPayload with the returned vulnerability object and the scanName
-			const updateVul: VulnerabilityPayload = {vulnerabilityObj, scanName: scanName}
+			const updateVul: VulnerabilityPayload = { vulnerabilityObj, scanName: scanName }
+			console.log("ALEX TESTING", updateVul.scanName);
 			// dispatch VulnerabilityPayload to update the imgObj in the store with the vulnerability info
 			dispatch(updateVulnerabilities(updateVul))
 			console.log('after reducuer invoked', imgObj)
@@ -48,7 +49,7 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
   }
 
 	// call getScan upon render for each card
-	useEffect(() => { 		
+	useEffect(() => {
 		if (!vulnerabilities) {
 			getScan(imgObj.ScanName)
 		}
@@ -57,7 +58,6 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 
 	return (
 		<div className={styles.imageCard}>
-
 			{/* vulnerability info + run / remove functionality: RIGHT SIDE */}
 			<div className={styles.imageInfo}>
 				{/* image name: LEFT SIDE */}
@@ -65,7 +65,7 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 					<p className={styles.ImageName}>{imgObj['Repository']}</p>
 					<p className={styles.ImageTag}>{imgObj['Tag']}</p>
 				</div>
-				
+
 				{/* VULNERABILITY */}
 				<div className={styles.VulnerabilitiesBlock}>
 					{/* <p className={styles.VulnerabilitiesTitle}>Vulnerabilities</p> */}
