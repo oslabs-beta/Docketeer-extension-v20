@@ -36,7 +36,7 @@ export interface NetworkContainerListType {
 }
 
 // Relates to above interfaces containers property
-// TODO: changed container name and IP to optional to debug test. Need to review. 
+// TODO: changed container name and IP to optional to debug test. Need to review.
 export interface NetworkAttachedContainersInfo {
   containerName?: string;
   containerIP?: string;
@@ -128,6 +128,12 @@ export interface ScanObject {
   High?: number | string;
   Medium?: number | string;
   Low?: number | string;
+}
+
+// Test scan
+export interface ScanReturn {
+  vulnerabilites: ScanObject;
+  everything: GrypeScan[];
 }
 
 // ==============================================

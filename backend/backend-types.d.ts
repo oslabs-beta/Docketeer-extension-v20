@@ -18,7 +18,7 @@ export interface NetworkContainerListType {
   containers: NetworkAttachedContainersInfo[];
 }
 
-// Relates to above interfaces containers property 
+// Relates to above interfaces containers property
 export interface NetworkAttachedContainersInfo {
     containerName: string;
     containerIP: string;

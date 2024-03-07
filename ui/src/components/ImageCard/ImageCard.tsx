@@ -3,12 +3,18 @@ import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
 import globalStyles from '../global.module.scss';
 import styles from './ImageCard.module.scss';
 import { ImageCardProps } from '../../../../types';
-import { VulnerabilityPayload, ScanObject } from '../../../ui-types';
+import {
+  VulnerabilityPayload,
+  ScanObject,
+  ScanReturn,
+} from "../../../ui-types";
+import { GrypeScan } from "../../../../backend/backend-types";
+
 import Client from '../../models/Client';
 import { updateVulnerabilities } from '../../reducers/imageReducer';
-
 import DeleteIcon from '../../../assets/delete_outline_white_24dp.svg';
 import PlayIcon from '../../../assets/play_arrow_white_24dp.svg';
+
 
 /**
  * @module | ImageCard.tsx
@@ -26,15 +32,23 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 	const getScan = async (scanName: string) => {
 
     try {
-      // retrieve scan data - Client.ImageService.getScan creates DDClient Request
-      const vulnerabilityObj: ScanObject = await Client.ImageService.getScan(scanName);
+			// retrieve scan data - Client.ImageService.getScan creates DDClient Request
+
+			// const vulnerabilityObj: ScanObject = await Client.ImageService.getScan(scanName);
+
+			// testing
+			const scanObjectReturn: ScanReturn = await Client.ImageService.getScan(scanName);
+			const vulnerabilityObj: ScanObject = scanObjectReturn.vulnerabilites;
+
+			console.log("scanObjectReturn JSON FOR GRYPE: ", scanObjectReturn);
+
 			console.log(`Success from getScan: ${scanName}`, vulnerabilityObj);
 			// if the image failed to be scanned for vulnerabilities, update the image card state to have a default vulnerability object
 			if (vulnerabilityObj === undefined) {
 				const defaultVul: VulnerabilityPayload = {vulnerabilityObj:{ Critical: '-', High: '-', Medium: '-', Low: '-' }, scanName: scanName}
 				dispatch(updateVulnerabilities(defaultVul));
 				return;
-    	}
+    }
 			// create an object of type VulnerabilityPayload with the returned vulnerability object and the scanName
 			const updateVul: VulnerabilityPayload = { vulnerabilityObj, scanName: scanName }
 			// dispatch VulnerabilityPayload to update the imgObj in the store with the vulnerability info
@@ -54,6 +68,12 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 		}
 	}, [])
 
+	const [dropdown, setDropdown] = useState(false);
+
+	const toggleDropdown = () => {
+		setDropdown(!dropdown);
+	}
+
 
 	return (
 		<div className={styles.imageCard}>
@@ -71,7 +91,7 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 					<div className={styles.imageVulnerabilities}>
 
 						<div className={styles.imgVulDiv}>
-							<p className={`${ vulnerabilities.Critical ? styles.critical : styles.grayOut}`}>{ vulnerabilities.Critical && <span className={styles.vulNum}>{vulnerabilities.Critical}</span> } C</p>
+							<p onClick={toggleDropdown} className={`${ vulnerabilities.Critical ? styles.critical : styles.grayOut}`}>{ vulnerabilities.Critical && <span className={styles.vulNum}>{vulnerabilities.Critical}</span> } C</p>
 						</div>
 
 						<div className={styles.imgVulDiv}>
