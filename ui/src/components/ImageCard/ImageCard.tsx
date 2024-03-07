@@ -37,7 +37,6 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
     	}
 			// create an object of type VulnerabilityPayload with the returned vulnerability object and the scanName
 			const updateVul: VulnerabilityPayload = { vulnerabilityObj, scanName: scanName }
-			console.log("ALEX TESTING", updateVul.scanName);
 			// dispatch VulnerabilityPayload to update the imgObj in the store with the vulnerability info
 			dispatch(updateVulnerabilities(updateVul))
 			console.log('after reducuer invoked', imgObj)
