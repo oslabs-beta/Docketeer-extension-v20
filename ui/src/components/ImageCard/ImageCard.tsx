@@ -16,12 +16,10 @@ import DeleteIcon from '../../../assets/delete_outline_white_24dp.svg';
 import PlayIcon from '../../../assets/play_arrow_white_24dp.svg';
 import { every } from 'd3';
 
-
 /**
  * @module | ImageCard.tsx
  * @description | new components for images dashboard
  **/
-
 
 const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCardProps): React.JSX.Element => {
   const dispatch = useAppDispatch();
@@ -36,8 +34,6 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
   const getScan = async (scanName: string) => {
     try {
       // retrieve scan data - Client.ImageService.getScan creates DDClient Request
-      // const vulnerabilityObj: ScanObject = await Client.ImageService.getScan(scanName);
-
       const scanObjectReturn: ScanReturn = await Client.ImageService.getScan(
         scanName
       );
@@ -76,18 +72,14 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
     }
   };
 
-  const [dropdown, setDropdown] = useState(false);
-
-  const toggleDropdown = () => {
-    setDropdown(!dropdown);
-  };
+  // DROPDOWN INFO CARD
   const [dropDown, setDropDown] = useState({
     critical: false,
     high: false,
     medium: false,
     low: false,
   });
-  const toggleDropdown2 = (criticalType) => {
+  const toggleDropdown = (criticalType: string) => {
     setDropDown((prevState) => {
       // toggle true/false for that criticalType
       prevState[criticalType] = prevState[criticalType] ? false : true;
@@ -120,9 +112,9 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
           ? styles.imageCardDone
           : styles.imageCard
       }>
-      {/* vulnerability info + run / remove functionality: RIGHT SIDE */}
+      {/* vulnerability info card changing border color based on level found */}
       <div className={styles.imageInfo}>
-        {/* image name: LEFT SIDE */}
+        {/* image scanName: LEFT SIDE */}
         <div>
           <p className={styles.ImageName}>{imgObj['Repository']}</p>
           <p className={styles.ImageTag}>{imgObj['Tag']}</p>
@@ -133,7 +125,7 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
           <div className={styles.imageVulnerabilities}>
             <div className={styles.imgVulDiv}>
               <p
-                onClick={() => toggleDropdown2('critical')}
+                onClick={() => toggleDropdown('critical')}
                 className={`${
                   vulnerabilities.Critical
                     ? styles.critical
@@ -151,7 +143,7 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
             </div>
             <div className={styles.imgVulDiv}>
               <p
-                onClick={() => toggleDropdown2('high')}
+                onClick={() => toggleDropdown('high')}
                 className={`${
                   vulnerabilities.High
                     ? styles.high
@@ -167,7 +159,7 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
             </div>
             <div className={styles.imgVulDiv}>
               <p
-                onClick={() => toggleDropdown2('medium')}
+                onClick={() => toggleDropdown('medium')}
                 className={`${
                   vulnerabilities.Medium
                     ? styles.medium
@@ -185,7 +177,7 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
             </div>
             <div className={styles.imgVulDiv}>
               <p
-                onClick={() => toggleDropdown2('low')}
+                onClick={() => toggleDropdown('low')}
                 className={`${
                   vulnerabilities.Low
                     ? styles.low
@@ -223,7 +215,6 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
           )}
         </div>
       </div>
-
       {/* RUN / REMOVE */}
       <div className={styles.buttons}>
         <img
