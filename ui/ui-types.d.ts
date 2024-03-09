@@ -124,6 +124,7 @@ export interface VulnerabilityPayload {
 
 // Type of the scanned image vulnerabilities object: Used for the success variable in ImageCard.tsx
 export interface ScanObject {
+  Negligible?: number | string;
   Critical?: number | string;
   High?: number | string;
   Medium?: number | string;

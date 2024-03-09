@@ -4,8 +4,10 @@ $criticalColor: rgb(255, 8, 0);
 $highColor: #AD312D;
 $medColor: #AE5944;
 $lowColor: #D99166;
+$negligible: #81876096;
 $grayColor: #59595996;
 $greenColor: #326b3096;
+
 
 .imageCard, .imageCardCrit, .imageCardHigh, .imageCardMed, .imageCardLow, .imageCardDone  {
 	border: 1px solid rgba(255, 255, 255, 0.629);
@@ -109,7 +111,7 @@ $greenColor: #326b3096;
   }
 }
 
-.critical, .high, .medium, .low, .grayOut, .green {
+.critical, .high, .medium, .low, .grayOut, .green, .negligible  {
   background-color: $criticalColor;
   margin: 2px;
   padding: 5px;
@@ -121,8 +123,8 @@ $greenColor: #326b3096;
   cursor: pointer;
 }
 
-.critical:hover, .high:hover, .medium:hover, .low:hover, .grayOut:hover, .green:hover {
-  filter: brightness(1.5);
+.critical:hover, .high:hover, .medium:hover, .low:hover, .negligible:hover , .grayOut:hover, .green:hover {
+  filter: brightness(1.3);
 }
 
 .grayOut:hover {
@@ -140,6 +142,10 @@ $greenColor: #326b3096;
 
 .low {
   background-color: $lowColor;
+}
+
+.negligible {
+  background-color: $negligible;
 }
 
 .grayOut {

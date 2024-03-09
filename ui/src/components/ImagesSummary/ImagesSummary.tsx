@@ -18,7 +18,8 @@ const ImagesSummary = (): React.JSX.Element => {
     c: 0,
     h: 0,
     m: 0,
-    l: 0
+    l: 0,
+    n: 0
   });
 
   useEffect(() => {
@@ -33,21 +34,34 @@ const ImagesSummary = (): React.JSX.Element => {
       let high = 0;
       let med = 0;
       let low = 0;
+      let negligible = 0
 
       imagesList.forEach(imageObj => {
         critical += typeof imageObj.Vulnerabilities.Critical === 'number' ? imageObj.Vulnerabilities.Critical : 0;
         high += typeof imageObj.Vulnerabilities.High === 'number' ? imageObj.Vulnerabilities.High : 0;
         med += typeof imageObj.Vulnerabilities.Medium === 'number' ? imageObj.Vulnerabilities.Medium : 0;
         low += typeof imageObj.Vulnerabilities.Low === 'number' ? imageObj.Vulnerabilities.Low : 0;
+        negligible +=
+          typeof imageObj.Vulnerabilities.Negligible === 'number'
+            ? imageObj.Vulnerabilities.Negligible
+            : 0;
       })
 
-      console.log(`high: ${high}, med: ${med}, low: ${low}, critical: ${critical}`);
+      console.log(
+        `high: ${high}, med: ${med}, low: ${low}, critical: ${critical}, negligble: ${negligible}`
+      );
       
-      let total = critical + high + med + low;
+      let total = critical + high + med + low + negligible;
       console.log('total vulnerabilities: ', total);
       
       if (total !== 0) {
-        setSummary({ c: (critical / total) * 100, h: (high / total) * 100, m: (med / total) * 100, l: (low / total) * 100 })
+        setSummary({
+          c: (critical / total) * 100,
+          h: (high / total) * 100,
+          m: (med / total) * 100,
+          l: (low / total) * 100,
+          n: (negligible / total) * 100,
+        });
         setShowInfo(true)
       }
     }
@@ -58,43 +72,91 @@ const ImagesSummary = (): React.JSX.Element => {
     <div>
       <div className={styles.summaryCard}>
         {/* Show Loading message when vulnerabilities have not yet completed */}
-        {!showInfo && <p className={styles.loadingMessage}>Loading...</p> }
+        {!showInfo && <p className={styles.loadingMessage}>Loading...</p>}
 
         {/* CRITICAL */}
-        {showInfo && <div className={styles.critical} style={{ width: summary.c + '%' }}></div>}
+        {showInfo && (
+          <div
+            className={styles.critical}
+            style={{ width: summary.c + '%' }}></div>
+        )}
 
         {/* HIGH */}
-        {showInfo && <div className={styles.high} style={{ width: summary.h + '%' }}></div>}
+        {showInfo && (
+          <div className={styles.high} style={{ width: summary.h + '%' }}></div>
+        )}
 
         {/* MED */}
-        {showInfo && <div className={styles.med} style={{ width: summary.m + '%' }}></div>}
+        {showInfo && (
+          <div className={styles.med} style={{ width: summary.m + '%' }}></div>
+        )}
 
         {/* LOW */}
-        {showInfo && <div className={styles.low} style={{ width: summary.l + '%' }}></div>}
+        {showInfo && (
+          <div className={styles.low} style={{ width: summary.l + '%' }}></div>
+        )}
+
+        {/* NEGLIGIBLE */}
+        {showInfo && (
+          <div
+            className={styles.negligible}
+            style={{ width: summary.n + '%' }}></div>
+        )}
       </div>
       <div className={styles.percentagesContainer}>
         <div className={styles.boxPercent}>
           <div className={styles.criticalPercent}></div>
           <p className={`${styles.textColor}`}>
-            CRITICAL {showInfo && <span className={styles.percentNumber}>{(summary.c).toFixed(2) + '%'}</span>}
+            CRITICAL{' '}
+            {showInfo && (
+              <span className={styles.percentNumber}>
+                {summary.c.toFixed(2) + '%'}
+              </span>
+            )}
           </p>
         </div>
         <div className={styles.boxPercent}>
           <div className={styles.highPercent}></div>
           <p className={`${styles.textColor}`}>
-            HIGH {showInfo && <span className={styles.percentNumber}>{(summary.h).toFixed(2) + '%'}</span>}
+            HIGH{' '}
+            {showInfo && (
+              <span className={styles.percentNumber}>
+                {summary.h.toFixed(2) + '%'}
+              </span>
+            )}
           </p>
         </div>
         <div className={styles.boxPercent}>
           <div className={styles.medPercent}></div>
           <p className={`${styles.textColor}`}>
-            MEDIUM {showInfo && <span className={styles.percentNumber}>{(summary.m).toFixed(2) + '%'}</span>}
+            MEDIUM{' '}
+            {showInfo && (
+              <span className={styles.percentNumber}>
+                {summary.m.toFixed(2) + '%'}
+              </span>
+            )}
           </p>
         </div>
         <div className={styles.boxPercent}>
           <div className={styles.lowPercent}></div>
           <p className={`${styles.textColor}`}>
-            LOW {showInfo && <span className={styles.percentNumber}>{(summary.l).toFixed(2) + '%'}</span>}
+            LOW{' '}
+            {showInfo && (
+              <span className={styles.percentNumber}>
+                {summary.l.toFixed(2) + '%'}
+              </span>
+            )}
+          </p>
+        </div>
+        <div className={styles.boxPercent}>
+          <div className={styles.negPercent}></div>
+          <p className={`${styles.textColor}`}>
+            NEGLIGIBLE{' '}
+            {showInfo && (
+              <span className={styles.percentNumber}>
+                {summary.n.toFixed(2) + '%'}
+              </span>
+            )}
           </p>
         </div>
       </div>
