@@ -37,9 +37,7 @@
   display: flex;
   flex-direction: column;
   margin-top: 20px;
-
 }
-
 
 .imageInfo {
   display: flex;
@@ -96,7 +94,7 @@
   }
 }
 
-.critical {
+.critical, .high, .medium, .low, .grayOut, .green {
   background-color: #5C1A18;
   margin: 2px;
   padding: 5px;
@@ -105,55 +103,27 @@
   box-shadow: 2px 2px 5px 2px black;
   width: 100%;
   font-weight: 700;
-
 }
 
 .high {
   background-color: #ad312d;
-  margin: 2px;
-  padding: 5px;
-  text-align: center;
-  border-radius: 5px;
-  box-shadow: 2px 2px 5px 2px black;
-  width: 100%;
-  font-weight: 700;
-
 }
 
 .medium {
   background-color: #AE5944;
-  margin: 2px;
-  padding: 5px;
-  text-align: center;
-  border-radius: 5px;
-  box-shadow: 2px 2px 5px 2px black;
-  width: 100%;
-  font-weight: 700;
-
 }
 
 .low {
   background-color: #D99166;
-  margin: 2px;
-  padding: 5px;
-  text-align: center;
-  border-radius: 5px;
-  box-shadow: 2px 2px 5px 2px black;
-  width: 100%;
-  font-weight: 700;
-
 }
 
 .grayOut {
   background-color: #59595996;
-  margin: 2px;
-  padding: 5px;
-  text-align: center;
-  border-radius: 5px;
-  box-shadow: 2px 2px 5px 2px black;
-  width: 100%;
-  font-weight: 700;
   color: rgba(255, 255, 255, 0.486);
+}
+
+.green{
+  background-color: #326b3096;
 }
 
 .vulNum {
@@ -167,10 +137,11 @@
 
 .dropDown {
   height: 100px;
-  background-color: whitesmoke;
-  color: black;
+  background-color: rgb(71, 98, 112);
+  color: whitesmoke;
   width: 100%;
-  border: rgb(160, 158, 158);
+  border: rgb(1, 54, 115);
   border-radius: 5px;
   margin:5px;
 }
+

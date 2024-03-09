@@ -24,7 +24,8 @@ import { every } from 'd3';
 
 
 const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCardProps): React.JSX.Element => {
-	const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
+  const [done, setDone] = useState<Boolean>(false);
 	let critical, high, medium, low;
 
 	// get vulnerabilities directly from the store
@@ -39,7 +40,8 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 			// const vulnerabilityObj: ScanObject = await Client.ImageService.getScan(scanName);
 
 			const scanObjectReturn: ScanReturn = await Client.ImageService.getScan(scanName);
-			const vulnerabilityObj: ScanObject = scanObjectReturn.vulnerabilites;
+      const vulnerabilityObj: ScanObject = scanObjectReturn.vulnerabilites;
+      if (!done) setDone(true);
 
 			console.log("scanObjectReturn JSON FOR GRYPE: ", scanObjectReturn);
 			console.log(`Success from getScan: ${scanName}`, vulnerabilityObj);
@@ -56,9 +58,10 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 				const defaultVul: VulnerabilityPayload = {vulnerabilityObj:{ Critical: '-', High: '-', Medium: '-', Low: '-' }, scanName: scanName}
 				dispatch(updateVulnerabilities(defaultVul));
 				return;
-    }
+      }
+
 			// create an object of type VulnerabilityPayload with the returned vulnerability object and the scanName
-			const updateVul: VulnerabilityPayload = { vulnerabilityObj, scanName: scanName }
+			const updateVul: VulnerabilityPayload = { vulnerabilityObj, scanName }
 			// dispatch VulnerabilityPayload to update the imgObj in the store with the vulnerability info
 			dispatch(updateVulnerabilities(updateVul))
 			console.log('after reducuer invoked', imgObj)
@@ -71,10 +74,9 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 
 	// call getScan upon render for each card
 	useEffect(() => {
-		if (!vulnerabilities) {
-			getScan(imgObj.ScanName)
-		}
-	}, [])
+    if (!vulnerabilities) getScan(imgObj.ScanName);
+    else setDone(true); // keep the green check
+  }, [])
 
 	const [dropdown, setDropdown] = useState(false);
 
@@ -101,7 +103,7 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
 
 
 	return (
-		<div className={styles.imageCard}>
+    <div className={styles.imageCard}>
       {/* vulnerability info + run / remove functionality: RIGHT SIDE */}
       <div className={styles.imageInfo}>
         {/* image name: LEFT SIDE */}
@@ -117,12 +119,15 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
               <p
                 onClick={() => toggleDropdown2('critical')}
                 className={`${
-                  vulnerabilities.Critical ? styles.critical : styles.grayOut
-                }`}
-              >
+                  vulnerabilities.Critical
+                    ? styles.critical
+                    : done
+                    ? styles.green
+                    : styles.grayOut
+                }`}>
                 {vulnerabilities.Critical && (
                   <span className={styles.vulNum}>
-                    {vulnerabilities.Critical}
+                    {vulnerabilities.Critical ? vulnerabilities.Critical : ''}
                   </span>
                 )}{' '}
                 C
@@ -132,9 +137,12 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
               <p
                 onClick={() => toggleDropdown2('high')}
                 className={`${
-                  vulnerabilities.High ? styles.high : styles.grayOut
-                }`}
-              >
+                  vulnerabilities.High
+                    ? styles.high
+                    : done
+                    ? styles.green
+                    : styles.grayOut
+                }`}>
                 {vulnerabilities.High && (
                   <span className={styles.vulNum}>{vulnerabilities.High}</span>
                 )}{' '}
@@ -145,9 +153,12 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
               <p
                 onClick={() => toggleDropdown2('medium')}
                 className={`${
-                  vulnerabilities.Medium ? styles.medium : styles.grayOut
-                }`}
-              >
+                  vulnerabilities.Medium
+                    ? styles.medium
+                    : done
+                    ? styles.green
+                    : styles.grayOut
+                }`}>
                 {vulnerabilities.Medium && (
                   <span className={styles.vulNum}>
                     {vulnerabilities.Medium}
@@ -160,9 +171,12 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
               <p
                 onClick={() => toggleDropdown2('low')}
                 className={`${
-                  vulnerabilities.Low ? styles.low : styles.grayOut
-                }`}
-              >
+                  vulnerabilities.Low
+                    ? styles.low
+                    : done
+                    ? styles.green
+                    : styles.grayOut
+                }`}>
                 {vulnerabilities.Low && (
                   <span className={styles.vulNum}>{vulnerabilities.Low}</span>
                 )}{' '}
@@ -173,22 +187,22 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
           {/* toggler drop down info of vulnerability type clicked */}
           {dropDown.critical && (
             <div className={styles.dropDown} id={`test${index}`}>
-              criticalLinks
+              <p>Critical</p>
             </div>
           )}
           {dropDown.high && (
             <div className={styles.dropDown} id={`test${index}`}>
-              highLinks
+              <p>High</p>
             </div>
           )}
           {dropDown.medium && (
             <div className={styles.dropDown} id={`test${index}`}>
-              mediumLinks
+              <p>Medium</p>
             </div>
           )}
           {dropDown.low && (
             <div className={styles.dropDown} id={`test${index}`}>
-              lowLinks
+              <p>Low</p>
             </div>
           )}
         </div>
@@ -199,13 +213,11 @@ const ImageCard = ({ imgObj, runImageAlert, removeImageAlert, index }: ImageCard
         <img
           src={PlayIcon}
           className={styles.imgCardButton}
-          onClick={() => runImageAlert(imgObj)}
-        ></img>
+          onClick={() => runImageAlert(imgObj)}></img>
         <img
           src={DeleteIcon}
           className={styles.imgCardButton}
-          onClick={() => removeImageAlert(imgObj)}
-        ></img>
+          onClick={() => removeImageAlert(imgObj)}></img>
       </div>
     </div>
   );
