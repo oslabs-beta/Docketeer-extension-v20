@@ -1,5 +1,5 @@
 // VARIABLES
-$criticalColor: #5C1A18;
+$criticalColor: rgb(255, 8, 0);
 $highColor: #AD312D;
 $medColor: #AE5944;
 $lowColor: #D99166;
@@ -8,7 +8,6 @@ $lowColor: #D99166;
   border: 1px solid rgba(0, 0, 0, 0.301);
   border-radius: 20px;
   height: 30px;
-  // margin-top: 10px;
   display: flex;
   align-content: space-evenly;
   font-weight: bolder;
