@@ -93,6 +93,8 @@ export interface ImageType{
   UniqueSize?: string;
   VirtualSize?: string;
   Vulnerabilities?: ScanObject;
+  Everything?: GrypeScan[];
+  Top3Obj?: Top3Obj;
 }
 
 export interface ImageCardProps {

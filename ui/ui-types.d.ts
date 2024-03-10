@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { ContainerPS } from 'types';
 import { EndpointType, ImageType, LogObject, NetworkAndContainer, NetworkContainerType, PromDataSource } from 'types';
+
 // declare module '*.module.scss';
 
 
@@ -118,8 +119,14 @@ export interface ImagesStateType {
 
 // Type for vulnerability object sent to the reducer inside action argument
 export interface VulnerabilityPayload {
-	vulnerabilityObj: object,
-	scanName: string
+  vulnerabilityObj: object;
+  scanName: string;
+}
+
+// Type for top3 object
+export interface Top3Payload {
+  top3Obj: object;
+  scanName: string;
 }
 
 // Type of the scanned image vulnerabilities object: Used for the success variable in ImageCard.tsx
@@ -128,10 +135,17 @@ export interface ScanObject {
   Critical?: number | string;
   High?: number | string;
   Medium?: number | string;
-  Low?: number | string;
 }
 
-// Test scan
+export interface Top3Obj {
+	critical?: [string,number][],
+	high?: [string,number][],
+	medium?: [string,number][],
+	low?: [string,number][],
+	negligible?: [string,number][]
+}
+        
+
 export interface ScanReturn {
   vulnerabilites: ScanObject;
   everything: GrypeScan[];
