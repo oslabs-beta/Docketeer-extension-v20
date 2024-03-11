@@ -14,6 +14,8 @@ import { updateVulnerabilities, updateTop3 } from '../../reducers/imageReducer';
 import DeleteIcon from '../../../assets/delete_outline_white_24dp.svg';
 import PlayIcon from '../../../assets/play_arrow_white_24dp.svg';
 import ImageCardDropdown from './ImageCardDropdown/ImageCardDropdown';
+import DropdownIcon from '../../../assets/drop-down-arrow.png';
+import DropupIcon from '../../../assets/drop-up-arrow.png';
 
 /**
  * @module | ImageCard.tsx
@@ -133,6 +135,19 @@ const ImageCard = ({
 		});
 	};
 
+	const toggleArrow = () => {
+		setDropDown((prevState) => {
+			// length is 0 if none opened, >= if one is opened
+			const check = Object.values(dropDown).filter((el) => el).length;
+			if (check) {
+				for (let key in prevState) {
+					prevState[key] = false;
+				}
+			} else prevState.critical = true;
+			return { ...prevState };
+		});
+	};
+
 	// Array to print out all levels
 	const levels: string[] = ['Critical', 'High', 'Medium', 'Low', 'Negligible'];
 	const printVul: React.JSX.Element[] = levels.map((el, i) => {
@@ -195,7 +210,15 @@ const ImageCard = ({
           <p>Severity Levels</p>
 					<div className={styles.imageVulnerabilities}>
 						{printVul}
-						<div></div>
+						<img
+							src={
+								Object.values(dropDown).filter((el) => el).length !== 0
+									? DropupIcon
+									: DropdownIcon
+							}
+							onClick={toggleArrow}
+							className={styles.dropdownIcon}
+						/>
 					</div>
           {/* toggler drop down info of vulnerability type clicked */}
           {dropDown.critical && (
