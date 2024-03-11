@@ -24,10 +24,10 @@ const ImageCard = ({
 	imgObj,
 	runImageAlert,
 	removeImageAlert,
-	index,
+	index, done, setDone
 }: ImageCardProps): React.JSX.Element => {
 	const dispatch = useAppDispatch();
-	const [done, setDone] = useState<Boolean>(false);
+
 
 	// get vulnerabilities directly from the store
 	let vulnerabilities =

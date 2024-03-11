@@ -25,8 +25,42 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  margin-top: 20px;
 }
+
+.buttonDiv {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+.button, .buttonLoad {
+  background-color:  rgba(30, 106, 220, 0.266);
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  padding: 10px 24px;
+  border-radius: 4px;
+  outline: none;
+  margin: 10px;
+  cursor: pointer;
+  
+}
+
+.button {
+  box-shadow: 1px 1px 2px #6186ebc7;
+  &:hover {
+    box-shadow: 1px 1px 10px rgb(132, 149, 175);
+  }
+}
+
+.buttonLoad {
+  background-color: rgb(56, 52, 52);
+}
+
 
 
 

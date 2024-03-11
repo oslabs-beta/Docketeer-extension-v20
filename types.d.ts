@@ -79,7 +79,7 @@ export interface NetworkInspect{
   Labels?: object;
 }
 
-export interface ImageType{
+export interface ImageType {
   Containers?: string;
   CreatedAt?: string;
   CreatedSince?: string;
@@ -102,7 +102,9 @@ export interface ImageCardProps {
   key: number,
   runImageAlert: (Image: ImageType) => void,
   removeImageAlert: (Image: ImageType) => void,
-  index: number
+  index: number,
+  done: boolean,
+  setDone: (boolean) => void
 }
 
 export interface NetworkAndContainer{
