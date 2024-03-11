@@ -73,7 +73,7 @@ $navbar-transition: transform 0.3s ease-in-out;
   a,
   span {
     text-decoration: none;
-    color: white;
+    // color: white;
     font-size: 1rem;
     height: 100%;
 
@@ -88,10 +88,9 @@ $navbar-transition: transform 0.3s ease-in-out;
 .active {
   color: color(light, base);
   cursor: pointer;
-  border-color: color(background, darkest);
+  // border-color: #2351d1;
   &:hover {
-    border-bottom: 4px solid color(background, darkest);
-    cursor: pointer;
+    border-bottom: 4px solid white;
     color: rgba(154, 180, 251);
   }
   
@@ -102,7 +101,9 @@ $navbar-transition: transform 0.3s ease-in-out;
 }
 
 .active {
-  font-weight: 600;
+  color: whitesmoke;
+  font-weight: 1000;
+  border-bottom: 4px solid white;
 }
 
 @media screen and (min-width: $breakpoint-uw) {

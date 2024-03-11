@@ -86,17 +86,28 @@ iframe {
   margin-bottom: 30px;
 }
 
-.active {
-  background-color: #272e35;
+.active, .notActive {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 5px;
   padding-right: 5px;
   color: white;
   border-radius: 10px;
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+.active {
+  background-color: rgba(42, 122, 207, 0.258);
+  box-shadow: 1px 1px 10px rgba(179, 221, 236, 0.2);
+  text-shadow: 0 0 1px white;
 }
 .notActive {
-  color: white;
+  color: rgb(194, 190, 190);  
+  text-shadow: 0 0 1px rgb(194, 190, 190);
+  &:hover {
+    color: white;
+  }
 }
 
 @media screen and (max-width: $breakpoint-lg) {
