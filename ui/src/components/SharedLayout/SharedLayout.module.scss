@@ -41,10 +41,10 @@ $navbar-transition: transform 0.3s ease-in-out;
   cursor: pointer;
   margin-right: 110px;
   &:hover {
-    border-bottom: 4px solid color(background, darkest);
+    border-bottom: 4px solid white;
     color: rgba(154, 180, 251);
   }
-  
+
   &:focus-visible {
     outline: 2px solid color(light, base);
     outline-offset: 2px;
@@ -93,7 +93,7 @@ $navbar-transition: transform 0.3s ease-in-out;
     border-bottom: 4px solid white;
     color: rgba(154, 180, 251);
   }
-  
+
   &:focus-visible {
     outline: 2px solid color(light, base);
     outline-offset: 2px;

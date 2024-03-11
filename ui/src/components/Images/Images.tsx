@@ -102,7 +102,7 @@ const Images = (): React.JSX.Element => {
 
   return (
 		<div className={styles.ImagesContainer}>
-			<p className={styles.VulnerabilitiesTitle}>VULNERABILITIES</p>
+			<h2 className={styles.VulnerabilitiesTitle}>VULNERABILITIES</h2>
 			{/* VULNERABILITY SUMMARY INFO */}
 			<div>
         <ImagesSummary scanDone={scanDone} setScanDone={setScanDone} />
@@ -115,10 +115,13 @@ const Images = (): React.JSX.Element => {
 					}}>
 					RESCAN
 				</button>
-				<button className={styles.button}>LAST SCAN</button>
-			</div>
+        <button className={styles.button}>LAST SCAN</button>
+
+      </div>
+      <h2>Images</h2>
 			{/* IMAGE CARDS */}
-			<div className={styles.ImagesCardsView}>{renderedImages}</div>
+      <div className={styles.ImagesCardsView}>{renderedImages}</div>
+
 		</div>
 	);
 };

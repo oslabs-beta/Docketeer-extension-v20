@@ -1,5 +1,5 @@
 .dropDown {
-  height: 100px;
+  min-height: 130px;
   background-color: hsl(0, 0%, 17%);
   color: whitesmoke;
   width: 98%;
@@ -10,6 +10,9 @@
   box-shadow: 2px 2px 5px 2px black;
   padding: 5px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .learnMore {

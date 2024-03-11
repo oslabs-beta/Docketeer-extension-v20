@@ -3,8 +3,8 @@ import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
 import styles from './ImageCard.module.scss';
 import { ImageCardProps } from '../../../../types';
 import {
-  VulnerabilityPayload,
-  ScanObject,
+	VulnerabilityPayload,
+	ScanObject,
 	ScanReturn,
 	Top3Payload,
 } from '../../../ui-types';
@@ -59,8 +59,8 @@ const ImageCard = ({
 			);
 
 			/* Get top 3 in an obj
-				 {"busybox": count 
-					"crytpo": count, 
+				 {"busybox": count
+					"crytpo": count,
 					"notbusybox": count }
 			 */
 
@@ -137,25 +137,26 @@ const ImageCard = ({
 	const levels: string[] = ['Critical', 'High', 'Medium', 'Low', 'Negligible'];
 	const printVul: React.JSX.Element[] = levels.map((el, i) => {
 		return (
-			<div className={styles.imgVulDiv} key={i}>
-				<p
-					onClick={() => toggleDropdown(el.toLowerCase())}
-					className={`${
-						vulnerabilities[el]
-							? styles[el.toLowerCase()]
-							: done
-							? styles.green
-							: styles.grayOut
-					}`}>
-					{vulnerabilities[el] && (
-						<span className={styles.vulNum}>
-							{vulnerabilities[el] ? vulnerabilities[el] : ''}
-						</span>
-					)}{' '}
-					{`${el[0]}`}
+      <div className={styles.imgVulDiv} key={i}>
+        <p
+          onClick={() => toggleDropdown(el.toLowerCase())}
+          className={`${
+            vulnerabilities[el]
+              ? styles[el.toLowerCase()]
+              : done
+              ? styles.green
+              : styles.grayOut
+          }`}
+        >
+          {vulnerabilities[el] && (
+            <span className={styles.vulNum}>
+              {vulnerabilities[el] ? vulnerabilities[el] : ""}
+            </span>
+          )}{" "}
+          {`${el[0]}`}
 				</p>
-			</div>
-		);
+      </div>
+    );
 	});
 
 	// UPON MOUNTED
@@ -165,81 +166,90 @@ const ImageCard = ({
 	}, []);
 
 	return (
-		<div
-			className={
-				done && Object.keys(vulnerabilities).length >= 4
-					? styles.imageCardCrit
-					: done && Object.keys(vulnerabilities).length === 3
-					? styles.imageCardHigh
-					: done && Object.keys(vulnerabilities).length === 2
-					? styles.imageCardMed
-					: done && Object.keys(vulnerabilities).length === 1
-					? styles.imageCardLow
-					: done && Object.keys(vulnerabilities).length === 0
-					? styles.imageCardDone
-					: styles.imageCard
-			}>
-			{/* vulnerability info card changing border color based on level found */}
-			<div className={styles.imageInfo}>
-				{/* image scanName: LEFT SIDE */}
-				<div style={{ cursor: 'pointer' }}>
-					<p className={styles.ImageName}>{imgObj['Repository']}</p>
-					<p className={styles.ImageTag}>{imgObj['Tag']}</p>
-				</div>
-				{/* VULNERABILITY LEVELS*/}
-				<div className={styles.VulnerabilitiesBlock}>
-					<div className={styles.imageVulnerabilities}>{printVul}</div>
-					{/* toggler drop down info of vulnerability type clicked */}
-					{dropDown.critical && (
-						<ImageCardDropdown
-							severity='critical'
-							scanName={imgObj.ScanName}
-							index={index}
+    <div
+      className={
+        done && Object.keys(vulnerabilities).length >= 4
+          ? styles.imageCardCrit
+          : done && Object.keys(vulnerabilities).length === 3
+          ? styles.imageCardHigh
+          : done && Object.keys(vulnerabilities).length === 2
+          ? styles.imageCardMed
+          : done && Object.keys(vulnerabilities).length === 1
+          ? styles.imageCardLow
+          : done && Object.keys(vulnerabilities).length === 0
+          ? styles.imageCardDone
+          : styles.imageCard
+      }
+    >
+      {/* vulnerability info card changing border color based on level found */}
+
+      <div className={styles.imageInfo}>
+        {/* image scanName: LEFT SIDE */}
+
+        <div style={{ cursor: "pointer" }}>
+          <p className={styles.ImageName}>{imgObj["Repository"]} </p>
+          <p className={styles.ImageTag}>Version: {imgObj["Tag"]}</p>
+        </div>
+        {/* VULNERABILITY LEVELS*/}
+        <div className={styles.VulnerabilitiesBlock}>
+          <p>Severity Levels</p>
+					<div className={styles.imageVulnerabilities}>
+						{printVul}
+						<div></div>
+					</div>
+          {/* toggler drop down info of vulnerability type clicked */}
+          {dropDown.critical && (
+            <ImageCardDropdown
+              severity="critical"
+              scanName={imgObj.ScanName}
+              index={index}
 						/>
-					)}
-					{dropDown.high && (
-						<ImageCardDropdown
-							severity='high'
-							scanName={imgObj.ScanName}
-							index={index}
-						/>
-					)}
-					{dropDown.medium && (
-						<ImageCardDropdown
-							severity='medium'
-							scanName={imgObj.ScanName}
-							index={index}
-						/>
-					)}
-					{dropDown.low && (
-						<ImageCardDropdown
-							severity='low'
-							scanName={imgObj.ScanName}
-							index={index}
-						/>
-					)}
-					{dropDown.negligible && (
-						<ImageCardDropdown
-							severity='negligible'
-							scanName={imgObj.ScanName}
-							index={index}
-						/>
-					)}
-				</div>
-			</div>
-			{/* RUN / REMOVE */}
-			<div className={styles.buttons}>
-				<img
-					src={PlayIcon}
-					className={styles.imgCardButton}
-					onClick={() => runImageAlert(imgObj)}></img>
-				<img
-					src={DeleteIcon}
-					className={styles.imgCardButton}
-					onClick={() => removeImageAlert(imgObj)}></img>
-			</div>
-		</div>
-	);
+          )}
+          {dropDown.high && (
+            <ImageCardDropdown
+              severity="high"
+              scanName={imgObj.ScanName}
+              index={index}
+            />
+          )}
+          {dropDown.medium && (
+            <ImageCardDropdown
+              severity="medium"
+              scanName={imgObj.ScanName}
+              index={index}
+            />
+          )}
+          {dropDown.low && (
+            <ImageCardDropdown
+              severity="low"
+              scanName={imgObj.ScanName}
+              index={index}
+            />
+          )}
+          {dropDown.negligible && (
+            <ImageCardDropdown
+              severity="negligible"
+              scanName={imgObj.ScanName}
+              index={index}
+            />
+          )}
+        </div>
+      </div>
+      {/* RUN / REMOVE */}
+      <div className={styles.buttons}>
+        <img
+          src={PlayIcon}
+          className={styles.imgCardButton}
+          onClick={() => runImageAlert(imgObj)}
+        ></img>
+        <img
+          src={DeleteIcon}
+          className={styles.imgCardButton}
+          onClick={() => removeImageAlert(imgObj)}
+        ></img>
+      </div>
+    </div>
+  );
 };
 
 export default ImageCard;

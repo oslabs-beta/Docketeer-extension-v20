@@ -20,6 +20,7 @@ $greenColor: #326b3096;
   align-items: flex-start;
   width: 45%;
 }
+
 .imageCardCrit {
   border: 1px solid $criticalColor;
   box-shadow: 1px 1px 2px $criticalColor;
@@ -178,4 +179,13 @@ $greenColor: #326b3096;
   .imageCard {
     width: 100%
   }
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+  color: white;
 }
