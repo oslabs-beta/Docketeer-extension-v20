@@ -73,6 +73,7 @@ const RunningContainer = ({
 
 			{status === 'running' && (
 				<div className={styles.containerMetricHolder}>
+					
 					<div className={styles.metricText}>
 						<div className={styles.metricSubtext}>
 							<h5>CPU %</h5>
@@ -87,6 +88,7 @@ const RunningContainer = ({
 							{metrics && metrics.MemPerc}
 						</div>
 					</div>
+
 					<div className={styles.metricText}>
 						<div className={styles.metricSubtext}>
 							<h5>NET I/O</h5>
@@ -106,11 +108,18 @@ const RunningContainer = ({
 			<div className={styles.buttonHolder}>
 				<div className={styles.buttonSpacer}>
 					{status === 'running' && (
-						<button
-							className={styles.buttonSmall}
-							onClick={() => stopContainer(container)}>
-							STOP
-						</button>
+						<>
+							<button
+								className={styles.buttonSmall}
+								onClick={() => stopContainer(container)}>
+								STOP
+							</button>
+							<button
+								className={styles.buttonSmallBottom}
+								onClick={() => openNetworkList()}>
+								NETWORKS
+							</button>
+						</>
 					)}
 					{status === 'stopped' && (
 						<>
@@ -124,20 +133,6 @@ const RunningContainer = ({
 								onClick={() => removeContainer(container)}>
 								REMOVE
 							</button>
-						</>
-					)}
-					{status === 'running' && (
-						<>
-							<button
-								className={styles.buttonSmallBottom}
-								onClick={() => openNetworkList()}>
-								NETWORKS
-							</button>
-							{/* <button
-                className={styles.buttonSmallBottom}
-                onClick={() => bashContainer(container)}>
-                CONSOLE
-            </button> */}
 						</>
 					)}
 				</div>

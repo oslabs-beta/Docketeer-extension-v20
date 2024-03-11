@@ -82,25 +82,24 @@
 
 .metricSubtext {
   font-family: 'Roboto';
-  border: 1px solid rgba(255, 255, 255, 0.283);
+  border: 1px solid rgba(255, 255, 255, 0.313);
   border-radius: 4px;
   display: grid;
   font-size: 12px;
-  background-color: rgba(112, 128, 144, 0.258);
+  background-color: rgba(42, 122, 207, 0.258);
   text-align: center;
   grid-template-rows: 1fr 1fr;
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
       0 4px 5px 0 rgba(0, 0, 0, 0.14),
       0 1px 10px 0 rgba(0, 0, 0, 0.12);
- &:hover {
-   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-   transform: translateY(-.5px);
- }
-
- &:active {
-   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-   transform: translateY(0);
- }
+  &:hover {
+    box-shadow: 1px 1px 10px rgba(179, 221, 236, 0.2);
+    transform: translateY(-1px);
+  }
+  &:active {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
+  }
 }
 
 h5 {
@@ -119,7 +118,6 @@ h5 {
   gap:7px;
   justify-content: center;
   flex-direction: column;
-
   button {
     margin-right: 0.5rem;
   }
@@ -142,29 +140,34 @@ h5 {
       0 1px 10px 0 rgba(0, 0, 0, 0.12);
   position:relative;
   align-items:center;
+  color:white;
   &:hover {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transform: translateY(-.5px);
-    }
-  &::before {
-      content: "";
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border-radius:2px;
-      background-color: #fff;
-      margin-right: 10px;
+    box-shadow: 1px 1px 20px #de273c;
+    transform: translateY(-3px);
   }
-  
-    &:active {
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-      transform: translateY(0);
-    }
-    color:white;
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius:2px;
+    background-color: #fff;
+    margin-right: 10px;
+  }
+  &:active {
+    box-shadow: 0 1px 2px #de273c;
+    transform: translateY(0);
+  }
 }
 
 .buttonRun {
   background-color: #0b7c25;
+  &:hover {
+    box-shadow: 1px 1px 20px #0b7c25;
+    }
+  &:active {
+    box-shadow: 0 1px 2px #0b7c25;
+  }
 }
 
 .buttonSmallBottom, .buttonRemove {
@@ -176,26 +179,31 @@ h5 {
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
       0 4px 5px 0 rgba(0, 0, 0, 0.14),
       0 1px 10px 0 rgba(0, 0, 0, 0.12);
-
   font-size: .75rem;
   display: inline-flex;
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.283);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   align-items: center;
+  color:white;
   &:hover {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transform: translateY(-.5px);
-    }
-   &:active {
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-      transform: translateY(0);
-    }
-    color:white;
+    box-shadow: 1px 1px 20px rgba(226, 222, 222, 0.2);
+    transform: translateY(3px);
+  }
+  &:active {
+    box-shadow: 0 1px 2px rgba(226, 222, 222, 0.2);
+    transform: translateY(0);
+  }
 }
 
 .buttonRemove {
   background-color: #de273c;
+  &:hover {
+    box-shadow: 1px 1px 20px #de273c;
+  }
+  &:active {
+    box-shadow: 0 1px 2px #de273c;
+  }
 }
 
 @media screen and (max-width: $breakpoint-sm) {
@@ -209,10 +217,10 @@ h5 {
     display: grid;
     grid-template-columns: minmax(130px, 1fr) minmax(208px, 1.6fr) minmax(32px, .4fr);
   }
-    .buttonSmall {
-      padding: 4px;
-    }
-    .buttonSmallBottom {
-      padding: 4px;
-    } 
+  .buttonSmall {
+    padding: 4px;
+  }
+  .buttonSmallBottom {
+    padding: 4px;
+  } 
 }

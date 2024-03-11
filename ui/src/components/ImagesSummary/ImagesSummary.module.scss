@@ -65,7 +65,7 @@ $negligible: #81876096;
   width: 100%;
 }
 
-.criticalPercent, .highPercent, .medPercent, .lowPercent, .negPercent {
+.criticalPercent, .highPercent, .mediumPercent, .lowPercent, .negligiblePercent {
   background-color: $criticalColor;
   border-radius: 50%;
   width: 20px;
@@ -75,13 +75,13 @@ $negligible: #81876096;
 .highPercent {
   background-color: $highColor;
 }
-.medPercent {
+.mediumPercent {
   background-color: $medColor;
 }
 .lowPercent {
   background-color: $lowColor;
 }
-.negPercent {
+.negligiblePercent {
   background-color: $negligible;
 }
 
@@ -93,9 +93,10 @@ $negligible: #81876096;
 }
 
 .percentNumber {
-  color: rgba(255, 255, 255, 0.646);
+  color: rgba(222, 232, 248, 0.646);
 }
 
+// Loading Message while Scanning
 .loadingMessage {
   text-align: center;
   color: rgba(255, 255, 255, 0.601);

@@ -10,10 +10,7 @@ import { ImageType } from '../../../../types';
  **/
 
 const ImagesSummary = (): React.JSX.Element => {
-  let makeSummary;
   const [showInfo, setShowInfo] = useState(false)
-  const imagesList: ImageType[] = useAppSelector(state => state.images.imagesList)
-  console.log('makeSummary outside useEffect: ', makeSummary);
   const [summary, setSummary] = useState({
     c: 0,
     h: 0,
@@ -21,15 +18,17 @@ const ImagesSummary = (): React.JSX.Element => {
     l: 0,
     n: 0
   });
+  let makeSummary;
+  console.log('makeSummary outside useEffect: ', makeSummary);
+  const imagesList: ImageType[] = useAppSelector(state => state.images.imagesList);
 
+  // Looping until all cards are done
   useEffect(() => {
     makeSummary = imagesList.every((imageObj) => imageObj.Vulnerabilities !== undefined)
     console.log('makeSummary: Are all vulnerabilities done?: ', makeSummary);
     
     
     if (makeSummary) {
-      console.log('Entered if statement of ImageSummary useEffect');
-      
       let critical = 0;
       let high = 0;
       let med = 0;
@@ -51,7 +50,7 @@ const ImagesSummary = (): React.JSX.Element => {
         `high: ${high}, med: ${med}, low: ${low}, critical: ${critical}, negligble: ${negligible}`
       );
       
-      let total = critical + high + med + low + negligible;
+      const total = critical + high + med + low + negligible;
       console.log('total vulnerabilities: ', total);
       
       if (total !== 0) {
@@ -62,102 +61,63 @@ const ImagesSummary = (): React.JSX.Element => {
           l: (low / total) * 100,
           n: (negligible / total) * 100,
         });
-        setShowInfo(true)
+        setShowInfo(true);
       }
     }
 
-  }, [imagesList])
+  }, [imagesList]);
+
+  const levels: string[] = ['critical', 'high', 'medium', 'low', 'negligible'];
+  const printPercent: React.JSX.Element[] = levels.map((el, i) => { 
+    return (
+      <div className={styles.boxPercent} key={i}>
+        <div className={styles[`${el}Percent`]}></div>
+        <p className={`${styles.textColor}`}>
+          {`${el.toUpperCase()} `}
+          {showInfo && (
+            <span className={styles.percentNumber}>
+              {summary[el[0]].toFixed(2) + '%'}
+            </span>
+          )}
+        </p>
+      </div>
+    )
+  });
 
   return (
-    <div>
-      <div className={styles.summaryCard}>
-        {/* Show Loading message when vulnerabilities have not yet completed */}
-        {!showInfo && <p className={styles.loadingMessage}>Loading...</p>}
+		<div>
+			<div className={styles.summaryCard}>
+				{/* Show Loading message when vulnerabilities have not yet completed */}
+				{!showInfo && <p className={styles.loadingMessage}>Loading...</p>}
 
-        {/* CRITICAL */}
-        {showInfo && (
-          <div className={styles.critical} style={{ width: summary.c + '%' }}></div>
-        )}
+				{/* PERCENT BAR */}
+				{showInfo && (
+					<div
+						className={styles.critical}
+						style={{ width: summary.c + '%' }}></div>
+				)}
+				{showInfo && (
+					<div className={styles.high} style={{ width: summary.h + '%' }}></div>
+				)}
+				{showInfo && (
+					<div className={styles.med} style={{ width: summary.m + '%' }}></div>
+				)}
+				{showInfo && (
+					<div className={styles.low} style={{ width: summary.l + '%' }}></div>
+				)}
+				{showInfo && (
+					<div
+						className={styles.negligible}
+						style={{ width: summary.n + '%' }}></div>
+				)}
+			</div>
 
-        {/* HIGH */}
-        {showInfo && (
-          <div className={styles.high} style={{ width: summary.h + '%' }}></div>
-        )}
-
-        {/* MED */}
-        {showInfo && (
-          <div className={styles.med} style={{ width: summary.m + '%' }}></div>
-        )}
-
-        {/* LOW */}
-        {showInfo && (
-          <div className={styles.low} style={{ width: summary.l + '%' }}></div>
-        )}
-
-        {/* NEGLIGIBLE */}
-        {showInfo && (
-          <div className={styles.negligible} style={{ width: summary.n + '%' }}></div>
-        )}
-      </div>
-      <div className={styles.percentagesContainer}>
-        <div className={styles.boxPercent}>
-          <div className={styles.criticalPercent}></div>
-          <p className={`${styles.textColor}`}>
-            CRITICAL{' '}
-            {showInfo && (
-              <span className={styles.percentNumber}>
-                {summary.c.toFixed(2) + '%'}
-              </span>
-            )}
-          </p>
-        </div>
-        <div className={styles.boxPercent}>
-          <div className={styles.highPercent}></div>
-          <p className={`${styles.textColor}`}>
-            HIGH{' '}
-            {showInfo && (
-              <span className={styles.percentNumber}>
-                {summary.h.toFixed(2) + '%'}
-              </span>
-            )}
-          </p>
-        </div>
-        <div className={styles.boxPercent}>
-          <div className={styles.medPercent}></div>
-          <p className={`${styles.textColor}`}>
-            MEDIUM{' '}
-            {showInfo && (
-              <span className={styles.percentNumber}>
-                {summary.m.toFixed(2) + '%'}
-              </span>
-            )}
-          </p>
-        </div>
-        <div className={styles.boxPercent}>
-          <div className={styles.lowPercent}></div>
-          <p className={`${styles.textColor}`}>
-            LOW{' '}
-            {showInfo && (
-              <span className={styles.percentNumber}>
-                {summary.l.toFixed(2) + '%'}
-              </span>
-            )}
-          </p>
-        </div>
-        <div className={styles.boxPercent}>
-          <div className={styles.negPercent}></div>
-          <p className={`${styles.textColor}`}>
-            NEGLIGIBLE{' '}
-            {showInfo && (
-              <span className={styles.percentNumber}>
-                {summary.n.toFixed(2) + '%'}
-              </span>
-            )}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
+			{/* PERCENT LABELS */}
+			<div className={styles.percentagesContainer}>
+        {printPercent}
+			</div>
+		</div>
+	);
 }
 
 export default ImagesSummary;
