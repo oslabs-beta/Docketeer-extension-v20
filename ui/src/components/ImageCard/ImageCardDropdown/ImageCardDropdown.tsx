@@ -3,8 +3,15 @@ import React, {useState} from 'react';
 import styles from './ImageCardDropdown.module.scss';
 import { useAppSelector } from '../../../reducers/hooks';
 import Modal from '../Modal/Modal.tsx';
+import { constants } from 'os';
 
-function ImageCardDropdown({ severity, scanName, index }) {
+interface ImageCardDropdownProps {
+  severity: string;
+  scanName: string;
+  index: number;
+}
+
+const ImageCardDropdown = ({ severity, scanName, index }: ImageCardDropdownProps): React.JSX.Element => {
   // state for modal popup
   const [modalToggler, setModalToggler] = useState(false);
   
@@ -13,8 +20,7 @@ function ImageCardDropdown({ severity, scanName, index }) {
 		useAppSelector((state) => state.images.imagesList[index].Top3Obj) ||
 		false;
 
-	console.log(`TOP3 FROM STORE ${scanName}: ${JSON.stringify(top3ObjFromStore)}`);
-  
+	// console.log(`TOP3 FROM STORE ${scanName}: ${JSON.stringify(top3ObjFromStore)}`);
   
   function getRandomColor() {
     var letters = "0123456789ABCDEF";
@@ -24,46 +30,48 @@ function ImageCardDropdown({ severity, scanName, index }) {
     }
     return color;
   }
-  
-  
+   
   return (
-    <>
-      <div className={styles.dropDown} id={`test${index}`}>
-        {top3ObjFromStore && top3ObjFromStore[severity].length !== 0 ? (
-          <p
-            style={{
-              textAlign: 'center',
-            }}>{`Top 3 ${capitalString} Packages (count)`}</p>
-        ) : null}
-        <div style={{ margin: '0 0 0 25px' }}>
-          {top3ObjFromStore && top3ObjFromStore[severity].length !== 0 ? (
-            top3ObjFromStore[severity].map(
-              (el: [string, number], i: number) => {
-                return (
-                  <p key={i}>
-                    {`${i + 1}. Package: `}
-                    <span
-                      style={{
-                        color: '#89CFF0',
-                      }}>{`${el[0]} (${el[1]})`}</span>
-                  </p>
-                );
-              }
-            )
-          ) : (
-            <p style={{ textAlign:"center" }}>No vulnerabilites found!</p>
-          )}
-        </div>
-        {top3ObjFromStore && top3ObjFromStore[severity].length !== 0 ? (
-          <p className={styles.learnMore} onClick={() => setModalToggler(true)}>
-            Learn More!
-          </p>
-        ) : null}
-      </div>
-      {/* PopUp for Learn More */}
-      <Modal trigger={modalToggler} setTrigger={setModalToggler} />
-    </>
-  );
+		<>
+			<div className={styles.dropDown} id={`test${index}`}>
+				{top3ObjFromStore && top3ObjFromStore[severity].length !== 0 ? (
+					<div>
+						<p
+							style={{
+								textAlign: 'center',
+							}}>{`Top 3 ${capitalString} Packages (count)`}</p>
+						<div style={{ marginLeft: '25px' }}>
+							{top3ObjFromStore[severity].map(
+								(el: [string, number], i: number) => {
+									return (
+										<p key={i}>
+											{`${i + 1}. Package: `}
+											<span
+												style={{
+													color: '#89CFF0',
+												}}>{`${el[0]} (${el[1]})`}</span>
+										</p>
+									);
+								}
+							)}
+							<p
+								className={styles.learnMore}
+								onClick={() => setModalToggler(true)}>
+								Learn More!
+							</p>
+						</div>
+					</div>
+				) : (
+					<p
+						style={{
+							textAlign: 'center',
+						}}>{`No vulnerabilites found for ${capitalString}`}</p>
+				)}
+			</div>
+			{/* PopUp for Learn More */}
+			<Modal trigger={modalToggler} setTrigger={setModalToggler} />
+		</>
+	);
 }
 
 export default ImageCardDropdown;

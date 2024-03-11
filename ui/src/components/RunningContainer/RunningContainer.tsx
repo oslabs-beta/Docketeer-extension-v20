@@ -38,117 +38,124 @@ const RunningContainer = ({
   if (!container) return (<p>no container</p>);
   
   return (
-    <div className={status === 'running' ? styles.containerCard : styles.containerCardStopped}>
-      <div className={styles.containerTextHolder}>
-        <h2 className={styles.textSpacing}>{container.Names}</h2>
-        <div className = {styles.flexSpacing}>
-        <p className={styles.textSpacing}>
-          <strong>Image:</strong> {container.Image}
-        </p>
-        <p className={styles.textSpacing}>
-          <strong>ID:</strong> {container.ID}
-        </p>
-        {status === 'running' && (
-          <p>
-            <strong>Running since: </strong> {container.RunningFor}
-          </p>
-        )}
-        {status === 'stopped' && (
-          <p>
-            <strong>Stopped: </strong> {container.RunningFor}
-          </p>
-        )}
-        </div>
-      </div>
+		<div
+			className={
+				status === 'running'
+					? styles.containerCard
+					: styles.containerCardStopped
+			}>
+			<div className={styles.containerTextHolder}>
+				<h2 className={styles.textSpacing} style={{ color: '#6cc6f0' }}>
+					{container.Names}
+				</h2>
+				<div className={styles.flexSpacing}>
+					<p className={styles.textSpacing}>
+						<strong style={{ color: '#bfc1e0' }}>Image:</strong>{' '}
+						{container.Image}
+					</p>
+					<p className={styles.textSpacing}>
+						<strong style={{ color: '#bfc1e0' }}>ID:</strong> {container.ID}
+					</p>
+					{status === 'running' && (
+						<p>
+							<strong style={{ color: '#7ee696' }}>Running since: </strong>{' '}
+							{container.RunningFor}
+						</p>
+					)}
+					{status === 'stopped' && (
+						<p>
+							<strong style={{ color: '#e34f61' }}>Stopped: </strong>{' '}
+							{container.RunningFor}
+						</p>
+					)}
+				</div>
+			</div>
 
-      {status === 'running' && (
-        <div className={styles.containerMetricHolder}>
-          <div className={styles.metricText}>
-            <div className={styles.metricSubtext}>
-              <h5>CPU %</h5>
-              {metrics && metrics.CPUPerc}
-            </div>
-            <div className={styles.metricSubtext}>
-              <h5>MEM Usage</h5>
-              {metrics && metrics.MemUsage}
-            </div>
-            <div className={styles.metricSubtext}>
-              <h5>MEM %</h5>
-              {metrics && metrics.MemPerc}
-            </div>
-          </div>
-          <div className={styles.metricText}>
-            <div className={styles.metricSubtext}>
-              <h5>NET I/O</h5>
-              {metrics && metrics.NetIO}
-            </div>
-            <div className={styles.metricSubtext}>
-              <h5>BLOCK I/O</h5>
-              {metrics && metrics.BlockIO}
-            </div>
-            <div className={styles.metricSubtext}>
-              <h5>PID</h5>
-              {metrics && metrics.PIDs}
-            </div>
-          </div>
-        </div>
-      )}
-      <div className={styles.buttonHolder}>
-        <div className={styles.buttonSpacer}>
-          {status === 'running' && (
-            <button
-              className={styles.buttonSmall}
-              onClick={() => stopContainer(container)}
-            >
-              STOP
-            </button>
-          )}
-          {status === 'stopped' && (
-            <>
-              <button
-                className={styles.buttonSmall}
-                onClick={() => runContainer(container)}
-              >
-                RUN
-              </button>
-              <button
-                className={styles.buttonSmallBottom}
-                onClick={() => removeContainer(container)}
-              >
-                REMOVE
-              </button>
-            </>
-          )}
-          {status === 'running' && (
-            <>
-            <button
-              className={styles.buttonSmallBottom}
-              onClick={() => openNetworkList()}
-            >
-              NETWORKS
-            </button>
-              {/* <button
+			{status === 'running' && (
+				<div className={styles.containerMetricHolder}>
+					<div className={styles.metricText}>
+						<div className={styles.metricSubtext}>
+							<h5>CPU %</h5>
+							{metrics && metrics.CPUPerc}
+						</div>
+						<div className={styles.metricSubtext}>
+							<h5>MEM Usage</h5>
+							{metrics && metrics.MemUsage}
+						</div>
+						<div className={styles.metricSubtext}>
+							<h5>MEM %</h5>
+							{metrics && metrics.MemPerc}
+						</div>
+					</div>
+					<div className={styles.metricText}>
+						<div className={styles.metricSubtext}>
+							<h5>NET I/O</h5>
+							{metrics && metrics.NetIO}
+						</div>
+						<div className={styles.metricSubtext}>
+							<h5>BLOCK I/O</h5>
+							{metrics && metrics.BlockIO}
+						</div>
+						<div className={styles.metricSubtext}>
+							<h5>PID</h5>
+							{metrics && metrics.PIDs}
+						</div>
+					</div>
+				</div>
+			)}
+			<div className={styles.buttonHolder}>
+				<div className={styles.buttonSpacer}>
+					{status === 'running' && (
+						<button
+							className={styles.buttonSmall}
+							onClick={() => stopContainer(container)}>
+							STOP
+						</button>
+					)}
+					{status === 'stopped' && (
+						<>
+							<button
+								className={styles.buttonRun}
+								onClick={() => runContainer(container)}>
+								RUN
+							</button>
+							<button
+								className={styles.buttonRemove}
+								onClick={() => removeContainer(container)}>
+								REMOVE
+							</button>
+						</>
+					)}
+					{status === 'running' && (
+						<>
+							<button
+								className={styles.buttonSmallBottom}
+								onClick={() => openNetworkList()}>
+								NETWORKS
+							</button>
+							{/* <button
                 className={styles.buttonSmallBottom}
                 onClick={() => bashContainer(container)}>
                 CONSOLE
             </button> */}
-            </>
-          )}
-        </div>
-      </div>
+						</>
+					)}
+				</div>
+			</div>
 
-
-      {container.Names && connectToNetwork && disconnectFromNetwork && <NetworkListModal
-        Names={container.Names}
-        isOpen={isOpen}
-        closeNetworkList={closeNetworkList}
-        networkContainerList={networkContainerList}
-        connectToNetwork={connectToNetwork}
-        disconnectFromNetwork={disconnectFromNetwork}
-        container={container}
-      />}
-    </div>
-  );
+			{container.Names && connectToNetwork && disconnectFromNetwork && (
+				<NetworkListModal
+					Names={container.Names}
+					isOpen={isOpen}
+					closeNetworkList={closeNetworkList}
+					networkContainerList={networkContainerList}
+					connectToNetwork={connectToNetwork}
+					disconnectFromNetwork={disconnectFromNetwork}
+					container={container}
+				/>
+			)}
+		</div>
+	);
 };
         
 export default RunningContainer;

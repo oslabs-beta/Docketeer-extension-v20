@@ -20,25 +20,40 @@ $greenColor: #326b3096;
   align-items: flex-start;
   width: 45%;
 }
-
 .imageCardCrit {
   border: 1px solid $criticalColor;
   box-shadow: 1px 1px 2px $criticalColor;
+  &:hover {
+    box-shadow: 1px 1px 10px $criticalColor;
+  }
 }
 .imageCardHigh {
   border: 1px solid $highColor;
   box-shadow: 1px 1px 2px $highColor;
+  &:hover {
+    box-shadow: 1px 1px 10px $highColor;
+  }
 }
 .imageCardMed {
   border: 1px solid $medColor;
   box-shadow: 1px 1px 2px $medColor;
+  &:hover {
+    box-shadow: 1px 1px 10px $medColor;
+  }
 }
 .imageCardLow  {
   border: 1px solid $lowColor;
   box-shadow: 1px 1px 2px $lowColor;
+  &:hover {
+    box-shadow: 1px 1px 10px $lowColor;
+  }
 }
+
 .imageCardDone {
   box-shadow: 1px 1px 2px whitesmoke;
+  &:hover {
+    box-shadow: 1px 1px 20px whitesmoke;
+  }
 }
 
 .ImageName {

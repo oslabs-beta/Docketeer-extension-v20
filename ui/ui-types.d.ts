@@ -117,19 +117,19 @@ export interface ImagesStateType {
   imagesList: ImageType[];
 }
 
-// Type for vulnerability object sent to the reducer inside action argument
+// Type for vulnerability object - reducer inside action argument
 export interface VulnerabilityPayload {
   vulnerabilityObj: object;
   scanName: string;
 }
 
-// Type for top3 object
+// Type for top3 object - reducer inside action argument
 export interface Top3Payload {
   top3Obj: object;
   scanName: string;
 }
 
-// Type of the scanned image vulnerabilities object: Used for the success variable in ImageCard.tsx
+// Type of the scanned image vulnerabilities object - ImageCard.tsx
 export interface ScanObject {
   Critical?: number | string;
   High?: number | string;
@@ -138,6 +138,7 @@ export interface ScanObject {
   Negligible?: number | string;
 }
 
+// Type of top 3 package in dropdown - ImageCard.tsx
 export interface Top3Obj {
 	critical?: [string,number][],
 	high?: [string,number][],
@@ -146,6 +147,7 @@ export interface Top3Obj {
 	negligible?: [string,number][]
 }
 
+// Type received from server after calling to '/scan'
 export interface ScanReturn {
   vulnerabilites: ScanObject;
   everything: GrypeScan[];

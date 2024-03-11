@@ -8,7 +8,9 @@
   "scripts": {
     "test": "jest --verbose",
     "jest-preview": "jest-preview",
-    "test:debug": "npm-run-all -p test jest-preview"
+    "test:debug": "npm-run-all -p test jest-preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "dependencies": {
     "@docker/extension-api-client": "^0.3.4",

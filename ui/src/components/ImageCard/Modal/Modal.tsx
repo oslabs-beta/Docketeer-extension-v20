@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './Modal.module.scss';
+import { useAppSelector } from '../../../reducers/hooks';
 
 interface ModalProps {
   trigger: boolean; // Change Boolean to boolean

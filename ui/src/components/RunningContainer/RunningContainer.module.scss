@@ -2,44 +2,34 @@
 
 .containerCard {
   transition: 0.2s;
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(130px, 1fr) minmax(208px, 1.6fr) minmax(32px, .4fr);
-    justify-content: center;
-    // flex-direction: column;
-    word-wrap: break-word;
-    font-family: 'Roboto';
-    // width: 500px;
-    // height: 15rem;
-  
-    background-color: color(background, base);
-    // background: $background-bg;
-    // box-shadow: $shadow;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border-radius: 10px;
-    height: 100%;
-    width: 100%;
-    padding: 1rem;
-    // width: 65rem;
-    gap: 1rem;
-    border-width: 2px;
-    border-style: solid;
-    border-color: color(light, base);
-    // border-color: color(background, base);
-    border-image: initial;
-    transition: border 350ms ease 100ms, background-image 200ms ease;
-    transition: all 0.3s ease-in-out;
+  display: grid;
+  position: relative;
+  grid-template-columns: minmax(130px, 1fr) minmax(208px, 1.6fr) minmax(32px, .4fr);
+  justify-content: center;
+  word-wrap: break-word;
+  font-family: 'Roboto';
+  background-color: rgba(0, 0, 0, 0.256);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+  gap: 1rem;
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgb(192, 221, 192);
+  border-image: initial;
+  transition: border 350ms ease 100ms, background-image 200ms ease;
+  transition: all 0.3s ease-in-out;
 }
-
-
 
 .containerCardStopped {
   transition: 0.2s;
   position: relative;
   display: flex;
   word-wrap: break-word;
-  background-color: color(background, base);
+  background-color: rgba(0, 0, 0, 0.256);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border-radius: 10px;
@@ -50,7 +40,7 @@
   gap: 1rem;
   border-width: 2px;
   border-style: solid;
-  border-color: color(light, base);
+  border-color: rgb(228, 153, 153);
   border-image: initial;
   transition: border 350ms ease 100ms, background-image 200ms ease;
   transition: all 0.3s ease-in-out;
@@ -71,20 +61,6 @@
 .containerTextHolder h2::-webkit-scrollbar {
   display:none;
 }
-
-// .flexSpacing {
-//   display: flex;
-//   flex-direction:column;
-//   justify-content:space-around
-
-// }
-
-
-
-
-// .containerTextHolder {
-
-// }
 
 .textSpacing {
   margin-bottom: 16px;
@@ -135,13 +111,9 @@ h5 {
 .buttonHolder {
   display: flex;
   margin-left: auto;
-  // border: 1px solid white;
 }
 
 .buttonSpacer {
-  // position: absolute;
-  // bottom: 1rem;
-  // left: 1rem;
   padding-top: 0px;
   display: flex;
   gap:7px;
@@ -153,12 +125,10 @@ h5 {
   }
 }
 
-
-
-.buttonSmall {
+.buttonSmall, .buttonRun {
   min-height: 2rem;
   font-size: 12px;
-  background-color: rgba(112, 128, 144, 0.258);
+  background-color: #de273c;
   border-radius: 4px;
   padding: 10px;
   display:inline-flex;
@@ -193,7 +163,11 @@ h5 {
     color:white;
 }
 
-.buttonSmallBottom {
+.buttonRun {
+  background-color: #0b7c25;
+}
+
+.buttonSmallBottom, .buttonRemove {
   min-height: 2rem;
   border-radius: 4px;
   font-size: 12px;
@@ -220,7 +194,9 @@ h5 {
     color:white;
 }
 
-
+.buttonRemove {
+  background-color: #de273c;
+}
 
 @media screen and (max-width: $breakpoint-sm) {
   .containerList {
