@@ -131,10 +131,11 @@ export interface Top3Payload {
 
 // Type of the scanned image vulnerabilities object: Used for the success variable in ImageCard.tsx
 export interface ScanObject {
-  Negligible?: number | string;
   Critical?: number | string;
   High?: number | string;
   Medium?: number | string;
+  Low?: number | string;
+  Negligible?: number | string;
 }
 
 export interface Top3Obj {
@@ -144,7 +145,6 @@ export interface Top3Obj {
 	low?: [string,number][],
 	negligible?: [string,number][]
 }
-        
 
 export interface ScanReturn {
   vulnerabilites: ScanObject;

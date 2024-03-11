@@ -10,12 +10,12 @@ import {
 	Top3Payload,
 } from '../../../ui-types';
 import { GrypeScan } from '../../../../backend/backend-types';
-
 import Client from '../../models/Client';
 import { updateVulnerabilities, updateTop3 } from '../../reducers/imageReducer';
 import DeleteIcon from '../../../assets/delete_outline_white_24dp.svg';
 import PlayIcon from '../../../assets/play_arrow_white_24dp.svg';
 import { every } from 'd3';
+import ImageCardDropdown from './ImageCardDropdown/ImageCardDropdown';
 
 /**
  * @module | ImageCard.tsx
@@ -72,19 +72,19 @@ const ImageCard = ({
 					"notbusybox": count }
 			 */
       
-			//iterate over each array of critical objects and return an array of the top 3
+			// Iterate over each array of critical objects and return an array of the top 3
 			const top3Info = (levelArray: GrypeScan[]) => {
 				const levelObj = {};
 				levelArray.forEach((el) => {
 					levelObj[el.Package] = (levelObj[el.Package] || 0) + 1;
 				});
+				// Ex for entries: [['busybox', 6], ['crypto', 10], ['another package name', 28]]
 				const entries: [string, number][] = Object.entries(levelObj);
 				const sortedEntries = entries.sort((a, b) => b[1] - a[1]);
 				const top3Entries = sortedEntries.slice(0, 3);
 				console.log("top3Entries inside func: ", top3Entries);
 				return top3Entries;
 			};
-			//ex for 1 severity: [['busybox', 6], ['crypto', 10], ['another package name', 28]] for each severity type}
       
 			const criticalTop3 = top3Info(critical);
 			const highTop3 = top3Info(high);
@@ -97,7 +97,7 @@ const ImageCard = ({
 			console.log('TOP 3 - LOW: ', lowTop3);
 			console.log('TOP 3 - NEGLIGIBLE: ', negligibleTop3);
 
-			// Dispatch a top 3 object with 5 levels
+			// Dispatch top 3 object with 5 levels to imageList Store in imageReducer
 			const top3Obj: Top3Payload = {
 				top3Obj: {
 					critical: top3Info(critical),
@@ -108,7 +108,6 @@ const ImageCard = ({
 				},
 				scanName: scanName
 			}
-      
 			dispatch(updateTop3(top3Obj));
 
 			// if the image failed to be scanned for vulnerabilities, update the image card state to have a default vulnerability object
@@ -278,74 +277,19 @@ const ImageCard = ({
 					</div>
 					{/* toggler drop down info of vulnerability type clicked */}
 					{dropDown.critical && (
-						<div className={styles.dropDown} id={`test${index}`}>
-							<div className={styles.dropDownText}>
-								<p>Critical</p>
-								{top3ObjFromStore && top3ObjFromStore.critical.length !== 0 ? (
-									top3ObjFromStore.critical.map((el: [string, number], i: number) => {
-										return <p key={i}>{`${i + 1}. ${el[0]} - ${el[1]}`}</p>;
-									})
-								) : (
-									<p>No vulnerabilites found!</p>
-								)}
-							</div>
-						</div>
+						<ImageCardDropdown severity="critical" scanName={imgObj.ScanName} index={index} />
 					)}
 					{dropDown.high && (
-						<div className={styles.dropDown} id={`test${index}`}>
-							<div className={styles.dropDownText}>
-								<p>High</p>
-								{top3ObjFromStore && top3ObjFromStore.high.length !== 0 ? (
-									top3ObjFromStore.high.map((el: [string, number], i: number) => {
-										return <p key={i}> {`${i + 1}. ${el[0]} - ${el[1]}`}</p>;
-									})
-								) : (
-									<p>No vulnerabilites found!</p>
-								)}
-							</div>
-						</div>
+						<ImageCardDropdown severity="high" scanName={imgObj.ScanName} index={index} />
 					)}
 					{dropDown.medium && (
-						<div className={styles.dropDown} id={`test${index}`}>
-							<div className={styles.dropDownText}>
-								<p>Medium</p>
-								{top3ObjFromStore && top3ObjFromStore.medium.length !== 0 ? (
-									top3ObjFromStore.medium.map((el: [string, number], i: number) => {
-										return <p key={i}>{`${i + 1}. ${el[0]} - ${el[1]}`}</p>;
-									})
-								) : (
-									<p>No vulnerabilites found!</p>
-								)}
-							</div>
-						</div>
+						<ImageCardDropdown severity="medium" scanName={imgObj.ScanName} index={index} />
 					)}
 					{dropDown.low && (
-						<div className={styles.dropDown} id={`test${index}`}>
-							<div className={styles.dropDownText}>
-								<p>Low</p>
-								{top3ObjFromStore && top3ObjFromStore.low.length !== 0 ? (
-									top3ObjFromStore.low.map((el: [string, number], i: number) => {
-										return <p key={i}>{`${i + 1}. ${el[0]} - ${el[1]}`}</p>;
-									})
-								) : (
-									<p>No vulnerabilites found!</p>
-								)}
-							</div>
-						</div>
+						<ImageCardDropdown severity="low" scanName={imgObj.ScanName} index={index} />
 					)}
 					{dropDown.negligible && (
-						<div className={styles.dropDown} id={`test${index}`}>
-							<div className={styles.dropDownText}>
-								<p>Negligible</p>
-								{top3ObjFromStore && top3ObjFromStore.negligible.length !== 0 ? (
-									top3ObjFromStore.negligible.map((el: [string, number], i: number) => {
-										return <p key={i}>{`${i + 1}. ${el[0]} - ${el[1]}`}</p>;
-									})
-								) : (
-									<p>No vulnerabilites found!</p>
-								)}
-							</div>
-						</div>
+						<ImageCardDropdown severity="negligible" scanName={imgObj.ScanName} index={index} />
 					)}
 				</div>
 			</div>
