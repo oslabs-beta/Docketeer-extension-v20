@@ -163,7 +163,7 @@ const ImageCard = ({
 	return (
 		<div
 			className={
-				done && Object.keys(vulnerabilities).length === 4
+				done && Object.keys(vulnerabilities).length >= 4
 					? styles.imageCardCrit
 					: done && Object.keys(vulnerabilities).length === 3
 						? styles.imageCardHigh

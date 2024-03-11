@@ -1,25 +1,22 @@
-import React from 'react';
-import './Modal.module.scss';
+import React from "react";
+import "./Modal.module.scss";
 
 interface ModalProps {
-  isOpen: boolean;
-  handleClose: () => void;
-  content: React.ReactNode;
+  trigger: boolean; // Change Boolean to boolean
+  setTrigger: (value: boolean) => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, content }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className='modal'>
-      <div className='modal-content'>
-        <span className='close' onClick={handleClose}>
-          &times;
-        </span>
-        {content}
+const Modal = ({ trigger, setTrigger }: ModalProps): React.JSX.Element => {
+  return trigger ? ( // if trigger true popup!
+    <div className="popup">
+      <div className="popup-inner">
+        <h2 className="popuptitle">Your Cohort Schedule</h2>
+        <button className="close-btn" onClick={() => setTrigger(false)}>
+          Close
+        </button>
       </div>
     </div>
-  );
+  ) : null; // else return nothing
 };
 
 export default Modal;

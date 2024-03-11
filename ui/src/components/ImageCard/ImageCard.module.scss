@@ -8,7 +8,6 @@ $negligible: #81876096;
 $grayColor: #59595996;
 $greenColor: #326b3096;
 
-
 .imageCard, .imageCardCrit, .imageCardHigh, .imageCardMed, .imageCardLow, .imageCardDone  {
 	border: 1px solid rgba(255, 255, 255, 0.629);
   border-radius: 5px;
@@ -165,18 +164,3 @@ $greenColor: #326b3096;
     width: 100%
   }
 }
-
-.dropDown {
-  height: 100px;
-  background-color: rgb(71, 98, 112);
-  color: whitesmoke;
-  width: 100%;
-  border: rgb(1, 54, 115);
-  border-radius: 5px;
-  margin:5px;
-}
-
-.dropDownText {
-  text-align: center;
-}
-
