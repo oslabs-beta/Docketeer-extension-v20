@@ -154,6 +154,29 @@ const ImageCard = ({
 		});
 	};
 
+	// Array to print out all levels
+	const levels: string[] = ['Critical', 'High', 'Medium', 'Low', 'Negligible'];
+	const printVul: React.JSX.Element[] = levels.map((el, i) => {
+    return (<div className={styles.imgVulDiv} key={i} >
+      <p
+        onClick={() => toggleDropdown(el.toLowerCase())}
+        className={`${
+          vulnerabilities[el]
+            ? styles[el.toLowerCase()]
+            : done
+            ? styles.green
+            : styles.grayOut
+        }`}>
+        {vulnerabilities[el] && (
+          <span className={styles.vulNum}>
+            {vulnerabilities[el] ? vulnerabilities[el] : ''}
+          </span>
+        )}{' '}
+        {`${el[0]}`}
+      </p>
+    </div>)
+  });
+
 	// call getScan upon render for each card
 	useEffect(() => {
 		if (!vulnerabilities) getScan(imgObj.ScanName);
@@ -183,97 +206,10 @@ const ImageCard = ({
 					<p className={styles.ImageName}>{imgObj["Repository"]}</p>
 					<p className={styles.ImageTag}>{imgObj["Tag"]}</p>
 				</div>
-				{/* VULNERABILITY */}
+				{/* VULNERABILITY LEVELS*/}
 				<div className={styles.VulnerabilitiesBlock}>
-					{/* <p className={styles.VulnerabilitiesTitle}>Vulnerabilities</p> */}
 					<div className={styles.imageVulnerabilities}>
-						<div className={styles.imgVulDiv}>
-							<p
-								onClick={() => toggleDropdown("critical")}
-								className={`${vulnerabilities.Critical
-										? styles.critical
-										: done
-											? styles.green
-											: styles.grayOut
-									}`}
-							>
-								{vulnerabilities.Critical && (
-									<span className={styles.vulNum}>
-										{vulnerabilities.Critical ? vulnerabilities.Critical : ""}
-									</span>
-								)}{" "}
-								C
-							</p>
-						</div>
-						<div className={styles.imgVulDiv}>
-							<p
-								onClick={() => toggleDropdown("high")}
-								className={`${vulnerabilities.High
-										? styles.high
-										: done
-											? styles.green
-											: styles.grayOut
-									}`}
-							>
-								{vulnerabilities.High && (
-									<span className={styles.vulNum}>{vulnerabilities.High}</span>
-								)}{" "}
-								H
-							</p>
-						</div>
-						<div className={styles.imgVulDiv}>
-							<p
-								onClick={() => toggleDropdown("medium")}
-								className={`${vulnerabilities.Medium
-										? styles.medium
-										: done
-											? styles.green
-											: styles.grayOut
-									}`}
-							>
-								{vulnerabilities.Medium && (
-									<span className={styles.vulNum}>
-										{vulnerabilities.Medium}
-									</span>
-								)}{" "}
-								M
-							</p>
-						</div>
-						<div className={styles.imgVulDiv}>
-							<p
-								onClick={() => toggleDropdown("low")}
-								className={`${vulnerabilities.Low
-										? styles.low
-										: done
-											? styles.green
-											: styles.grayOut
-									}`}
-							>
-								{vulnerabilities.Low && (
-									<span className={styles.vulNum}>{vulnerabilities.Low}</span>
-								)}{" "}
-								L
-							</p>
-						</div>
-						{/* Test Negligible */}
-						<div className={styles.imgVulDiv}>
-							<p
-								onClick={() => toggleDropdown("negligible")}
-								className={`${vulnerabilities.Negligible
-										? styles.negligible
-										: done
-											? styles.green
-											: styles.grayOut
-									}`}
-							>
-								{vulnerabilities.Negligible && (
-									<span className={styles.vulNum}>
-										{vulnerabilities.Negligible}
-									</span>
-								)}{" "}
-								N
-							</p>
-						</div>
+						{printVul}
 					</div>
 					{/* toggler drop down info of vulnerability type clicked */}
 					{dropDown.critical && (
