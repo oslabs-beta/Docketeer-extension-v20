@@ -76,9 +76,7 @@ const ImagesSummary = (): React.JSX.Element => {
 
         {/* CRITICAL */}
         {showInfo && (
-          <div
-            className={styles.critical}
-            style={{ width: summary.c + '%' }}></div>
+          <div className={styles.critical} style={{ width: summary.c + '%' }}></div>
         )}
 
         {/* HIGH */}
@@ -98,9 +96,7 @@ const ImagesSummary = (): React.JSX.Element => {
 
         {/* NEGLIGIBLE */}
         {showInfo && (
-          <div
-            className={styles.negligible}
-            style={{ width: summary.n + '%' }}></div>
+          <div className={styles.negligible} style={{ width: summary.n + '%' }}></div>
         )}
       </div>
       <div className={styles.percentagesContainer}>
