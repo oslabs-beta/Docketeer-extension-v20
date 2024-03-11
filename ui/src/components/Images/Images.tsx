@@ -15,7 +15,7 @@ import ImagesSummary from '../ImagesSummary/ImagesSummary';
 
 const Images = (): React.JSX.Element => {
   console.log('Rendering Images component');
-  const [done, setDone] = useState(false);
+  const [scanDone, setScanDone] = useState(false);
   const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
 
   const dispatch = useAppDispatch();
@@ -97,8 +97,6 @@ const Images = (): React.JSX.Element => {
       key={i}
       index={i} // 1
       imgObj={imageObj} //current image in the imagesList
-      done={done}
-      setDone={setDone}
     />
   ));
 
@@ -107,14 +105,14 @@ const Images = (): React.JSX.Element => {
 			<p className={styles.VulnerabilitiesTitle}>VULNERABILITIES</p>
 			{/* VULNERABILITY SUMMARY INFO */}
 			<div>
-				<ImagesSummary />
+        <ImagesSummary scanDone={scanDone} setScanDone={setScanDone} />
 			</div>
 			<div className={styles.buttonDiv}>
 				<button
-					className={done ? styles.button : styles.buttonLoad}
-          onClick={() => {
-            if (done) window.location.reload();
-          }}>
+					className={scanDone ? styles.button : styles.buttonLoad}
+					onClick={() => {
+						if (scanDone) window.location.reload();
+					}}>
 					RESCAN
 				</button>
 				<button className={styles.button}>LAST SCAN</button>

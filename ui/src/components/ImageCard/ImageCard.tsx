@@ -24,10 +24,10 @@ const ImageCard = ({
 	imgObj,
 	runImageAlert,
 	removeImageAlert,
-	index, done, setDone
+	index,
 }: ImageCardProps): React.JSX.Element => {
 	const dispatch = useAppDispatch();
-
+	const [done, setDone] = useState(false);
 
 	// get vulnerabilities directly from the store
 	let vulnerabilities =
@@ -182,7 +182,7 @@ const ImageCard = ({
 			{/* vulnerability info card changing border color based on level found */}
 			<div className={styles.imageInfo}>
 				{/* image scanName: LEFT SIDE */}
-				<div style={{ cursor: "pointer" }}>
+				<div style={{ cursor: 'pointer' }}>
 					<p className={styles.ImageName}>{imgObj['Repository']}</p>
 					<p className={styles.ImageTag}>{imgObj['Tag']}</p>
 				</div>
@@ -240,6 +240,6 @@ const ImageCard = ({
 			</div>
 		</div>
 	);
-}
+};
 
 export default ImageCard;

@@ -49,7 +49,8 @@ const ImageCardDropdown = ({ severity, scanName, index }: ImageCardDropdownProps
 											<span
 												style={{
 													color: '#89CFF0',
-												}}>{`${el[0]} (${el[1]})`}</span>
+												}}>{`${el[0]}`}</span>
+											 {` (${el[1]})`}
 										</p>
 									);
 								}

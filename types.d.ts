@@ -98,13 +98,11 @@ export interface ImageType {
 }
 
 export interface ImageCardProps {
-  imgObj: ImageType,
-  key: number,
-  runImageAlert: (Image: ImageType) => void,
-  removeImageAlert: (Image: ImageType) => void,
-  index: number,
-  done: boolean,
-  setDone: (boolean) => void
+	imgObj: ImageType;
+	key: number;
+	runImageAlert: (Image: ImageType) => void;
+	removeImageAlert: (Image: ImageType) => void;
+	index: number;
 }
 
 export interface NetworkAndContainer{
