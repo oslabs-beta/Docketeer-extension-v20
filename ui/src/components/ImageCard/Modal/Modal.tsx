@@ -1,5 +1,5 @@
 import React from "react";
-import "./Modal.module.scss";
+import styles from './Modal.module.scss';
 
 interface ModalProps {
   trigger: boolean; // Change Boolean to boolean
@@ -8,15 +8,15 @@ interface ModalProps {
 
 const Modal = ({ trigger, setTrigger }: ModalProps): React.JSX.Element => {
   return trigger ? ( // if trigger true popup!
-    <div className="popup">
-      <div className="popup-inner">
-        <h2 className="popuptitle">Your Cohort Schedule</h2>
-        <button className="close-btn" onClick={() => setTrigger(false)}>
+    <div className={styles.popup}>
+      <div className={styles.popupInner}>
+        <h2 className={styles.popuptitle}>Hello World</h2>
+        <button className={styles.closeBtn} onClick={() => setTrigger(false)}>
           Close
         </button>
       </div>
     </div>
-  ) : null; // else return nothing
+  ) : <></>; // else return nothing
 };
 
 export default Modal;

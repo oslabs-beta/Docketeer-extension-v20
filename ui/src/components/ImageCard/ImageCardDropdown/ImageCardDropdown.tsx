@@ -29,8 +29,8 @@ function ImageCardDropdown({ severity, scanName, index }) {
   return (
     <>
       <div className={styles.dropDown} id={`test${index}`}>
-        <p style={{ textAlign: "center" }}>{capitalString}</p>
-        <div style={{ margin: "0 0 0 25px" }}>
+        <p style={{ textAlign: 'center' }}>{`Top 3 ${capitalString} Packages (count)`}</p>
+        <div style={{ margin: '0 0 0 25px' }}>
           {top3ObjFromStore && top3ObjFromStore[severity].length !== 0 ? (
             top3ObjFromStore[severity].map(
               (el: [string, number], i: number) => {
@@ -38,8 +38,9 @@ function ImageCardDropdown({ severity, scanName, index }) {
                   <p key={i}>
                     {`${i + 1}. Package: `}
                     <span
-                      style={{ color: "#090F20" }}
-                    >{`${el[0]} (${el[1]})`}</span>
+                      style={{
+                        color: '#89CFF0',
+                      }}>{`${el[0]} (${el[1]})`}</span>
                   </p>
                 );
               }
@@ -48,12 +49,13 @@ function ImageCardDropdown({ severity, scanName, index }) {
             <p>No vulnerabilites found!</p>
           )}
         </div>
-        <p
-          style={{ textAlign: "center" }}
-          onClick={() => setModalToggler(true)}
-        >
+        {top3ObjFromStore && top3ObjFromStore[severity].length !== 0 ? (
+          <p
+          className={styles.learnMore}
+          onClick={() => setModalToggler(true)}>
           Learn More!
-        </p>
+          </p>
+        ) : null}
       </div>
       <Modal trigger={modalToggler} setTrigger={setModalToggler} />
     </>
