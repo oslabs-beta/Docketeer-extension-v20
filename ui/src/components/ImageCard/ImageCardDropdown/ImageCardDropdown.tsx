@@ -1,8 +1,8 @@
 
 import React, {useState} from 'react';
 import styles from './ImageCardDropdown.module.scss';
-import { useAppSelector } from '../../../reducers/hooks';
-import Modal from '../Modal/Modal.tsx';
+import { useAppDispatch, useAppSelector } from '../../../reducers/hooks';
+import Modal from '../Modal/Modal';
 import { constants } from 'os';
 
 interface ImageCardDropdownProps {
@@ -14,21 +14,12 @@ interface ImageCardDropdownProps {
 const ImageCardDropdown = ({ severity, scanName, index }: ImageCardDropdownProps): React.JSX.Element => {
   // state for modal popup
   const [modalToggler, setModalToggler] = useState(false);
+	const dispatch = useAppDispatch();
 
   const capitalString = severity[0].toUpperCase() + severity.slice(1);
 	const top3ObjFromStore =
     useAppSelector((state) => state.images.imagesList[index].Top3Obj) || false;
-
-	// console.log(`TOP3 FROM STORE ${scanName}: ${JSON.stringify(top3ObjFromStore)}`);
-
-  function getRandomColor() {
-    var letters = "0123456789ABCDEF";
-    var color = "#";
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
+  // console.log(`TOP3 FROM STORE ${scanName}: ${JSON.stringify(top3ObjFromStore)}`);
 
   return (
     <>
@@ -57,7 +48,7 @@ const ImageCardDropdown = ({ severity, scanName, index }: ImageCardDropdownProps
                 }
               )}
             </div>
-            <p
+          <p
               className={styles.learnMore}
               onClick={() => setModalToggler(true)}
             >

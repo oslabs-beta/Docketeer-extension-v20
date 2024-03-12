@@ -134,6 +134,7 @@ export interface EverythingPayload {
   scanName: string;
 }
 
+
 // Type of the scanned image vulnerabilities object - ImageCard.tsx
 export interface ScanObject {
   Critical?: number | string;

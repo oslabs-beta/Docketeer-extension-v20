@@ -118,7 +118,7 @@ const Images = (): React.JSX.Element => {
         <button className={styles.button}>LAST SCAN</button>
 
       </div>
-      <h2>Images</h2>
+      <h2 className={styles.VulnerabilitiesTitle}>IMAGES</h2>
 			{/* IMAGE CARDS */}
       <div className={styles.ImagesCardsView}>{renderedImages}</div>
 
