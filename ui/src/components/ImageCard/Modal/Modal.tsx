@@ -66,53 +66,53 @@ const Modal = ({
 
   const entries = Object.entries(everythingFromStore);
 
+  // const result: React.JSX.Element[] = entries.map((innerArray) => {
+  //   return (
+  //     <div>
+  //       <h2>{innerArray[0]}</h2>
+  //       <ol>
+  //         {(innerArray[1] as any[]).length > 0 ? (
+  //           (innerArray[1] as any[]).map(
+  //             (Inner2ndElementObj, innerArrayIndex) => {
+  //               return (
+	// 								<div key={innerArrayIndex}>
+	// 									<li>Package: {Inner2ndElementObj.Package}</li>
+	// 									<p>
+	// 										Version Installed:{' '}
+	// 										{Inner2ndElementObj['Version Installed']}
+	// 									</p>
+	// 									<p>
+	// 										Vulnerability ID: {Inner2ndElementObj['Vulnerability ID']}
+	// 									</p>
+	// 									<br />
+	// 								</div>
+	// 							);
+  //             }
+  //           )
+  //         ) : (
+  //           <p>Nothing to show!</p>
+  //         )}
+  //       </ol>
+  //     </div>
+  //   );
+  // });
+
   const result: React.JSX.Element[] = entries.map((innerArray) => {
-    return (
-      <div>
-        <h2>{innerArray[0]}</h2>
-        <ol>
-          {(innerArray[1] as any[]).length > 0 ? (
-            (innerArray[1] as any[]).map(
-              (Inner2ndElementObj, innerArrayIndex) => {
-                return (
-                  <>
-                    <li>Package: {Inner2ndElementObj.Package}</li>
-                    <p>
-                      Version Installed:{" "}
-                      {Inner2ndElementObj["Version Installed"]}
-                    </p>
-                    <p>
-                      Vulnerability ID: {Inner2ndElementObj["Vulnerability ID"]}
-                    </p>
-                    <br />
-                  </>
-                );
-              }
-            )
-          ) : (
-            <p>Nothing to show!</p>
-          )}
-        </ol>
-      </div>
-    );
-  });
+  const options = (innerArray[1] as any[]).map((Inner2ndElementObj, innerArrayIndex) => (
+    <option key={innerArrayIndex} style={{ color: 'blue' }}>
+      Package: <span style={{ color: 'red' }}>{Inner2ndElementObj.Package}</span>, Version Installed: <span style={{ color: 'green' }}>{Inner2ndElementObj["Version Installed"]}</span>, Vulnerability ID: <span style={{ color: 'orange' }}>{Inner2ndElementObj["Vulnerability ID"]}</span>
+    </option>
+  ));
 
-//   const result: React.JSX.Element[] = entries.map((innerArray) => {
-//   const options = (innerArray[1] as any[]).map((Inner2ndElementObj, innerArrayIndex) => (
-//     <option key={innerArrayIndex} style={{ color: 'blue' }}>
-//       Package: <span style={{ color: 'red' }}>{Inner2ndElementObj.Package}</span>, Version Installed: <span style={{ color: 'green' }}>{Inner2ndElementObj["Version Installed"]}</span>, Vulnerability ID: <span style={{ color: 'orange' }}>{Inner2ndElementObj["Vulnerability ID"]}</span>
-//     </option>
-//   ));
-
-//   return (
-//     <div key={innerArray[0]}>
-//       <h2>{innerArray[0]}</h2>
-//       <select>
-//         {options.length > 0 ? options : <option>Nothing to show!</option>}
-//       </select>
-//     </div>
-//   );
-// });
+  return (
+    <div key={innerArray[0]}>
+      <h2>{innerArray[0]}</h2>
+      <select>
+        {options.length > 0 ? options : <option>Nothing to show!</option>}
+      </select>
+    </div>
+  );
+});
 
   return trigger ? ( // if trigger true popup!
     <div className={styles.popup} ref={modalRef}>
