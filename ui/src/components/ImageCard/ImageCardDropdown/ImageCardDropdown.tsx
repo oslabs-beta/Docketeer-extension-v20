@@ -17,8 +17,7 @@ const ImageCardDropdown = ({ severity, scanName, index }: ImageCardDropdownProps
 
   const capitalString = severity[0].toUpperCase() + severity.slice(1);
 	const top3ObjFromStore =
-		useAppSelector((state) => state.images.imagesList[index].Top3Obj) ||
-		false;
+    useAppSelector((state) => state.images.imagesList[index].Top3Obj) || false;
 
 	// console.log(`TOP3 FROM STORE ${scanName}: ${JSON.stringify(top3ObjFromStore)}`);
 
@@ -74,7 +73,7 @@ const ImageCardDropdown = ({ severity, scanName, index }: ImageCardDropdownProps
         )}
       </div>
       {/* PopUp for Learn More */}
-      <Modal trigger={modalToggler} setTrigger={setModalToggler} />
+      <Modal trigger={modalToggler} setTrigger={setModalToggler} index={index} />
     </>
   );
 }

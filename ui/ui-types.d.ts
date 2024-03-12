@@ -129,6 +129,11 @@ export interface Top3Payload {
   scanName: string;
 }
 
+export interface EverythingPayload {
+  everything: object;
+  scanName: string;
+}
+
 // Type of the scanned image vulnerabilities object - ImageCard.tsx
 export interface ScanObject {
   Critical?: number | string;
@@ -145,6 +150,14 @@ export interface Top3Obj {
 	medium?: [string,number][],
 	low?: [string,number][],
 	negligible?: [string,number][]
+}
+
+export interface EverythingObj {
+  critical: GrypeScan[];
+  high: GrypeScan[];
+  medium: GrypeScan[];
+  low: GrypeScan[];
+  negligible: GrypeScan[];
 }
 
 // Type received from server after calling to '/scan'

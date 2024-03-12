@@ -6,11 +6,12 @@ import {
 	VulnerabilityPayload,
 	ScanObject,
 	ScanReturn,
+	EverythingPayload,
 	Top3Payload,
 } from '../../../ui-types';
 import { GrypeScan } from '../../../../backend/backend-types';
 import Client from '../../models/Client';
-import { updateVulnerabilities, updateTop3 } from '../../reducers/imageReducer';
+import { updateVulnerabilities, updateTop3, addEverything } from '../../reducers/imageReducer';
 import DeleteIcon from '../../../assets/delete_outline_white_24dp.svg';
 import PlayIcon from '../../../assets/play_arrow_white_24dp.svg';
 import ImageCardDropdown from './ImageCardDropdown/ImageCardDropdown';
@@ -60,6 +61,18 @@ const ImageCard = ({
 				(el) => el.Severity === 'Negligible'
 			);
 
+			const everythingObj: EverythingPayload = {
+        everything: {
+          critical,
+          high,
+          medium,
+          low,
+          negligible,
+        },
+        scanName,
+      };
+			dispatch(addEverything(everythingObj));
+
 			/* Get top 3 in an obj
 				 {"busybox": count
 					"crytpo": count,
@@ -68,15 +81,15 @@ const ImageCard = ({
 
 			// Dispatch top 3 object with 5 levels to imageList Store in imageReducer
 			const top3Obj: Top3Payload = {
-				top3Obj: {
-					critical: top3Info(critical).slice(0, 3),
-					high: top3Info(high).slice(0, 3),
-					medium: top3Info(medium).slice(0, 3),
-					low: top3Info(low).slice(0, 3),
-					negligible: top3Info(negligible).slice(0, 3),
-				},
-				scanName: scanName,
-			};
+        top3Obj: {
+          critical: top3Info(critical),
+          high: top3Info(high),
+          medium: top3Info(medium),
+          low: top3Info(low),
+          negligible: top3Info(negligible),
+        },
+        scanName,
+      };
 			dispatch(updateTop3(top3Obj));
 
 			// if the image failed to be scanned for vulnerabilities, update the image card state to have a default vulnerability object
@@ -111,7 +124,7 @@ const ImageCard = ({
 		// Ex for entries: [['busybox', 6], ['crypto', 10], ['another package name', 28]]
 		const entries: [string, number][] = Object.entries(levelObj);
 		const sortedEntries = entries.sort((a, b) => b[1] - a[1]);
-		return sortedEntries;
+		return sortedEntries.slice(0, 3);
 	};
 
 	// DROPDOWN INFO CARD

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
-import { ImagesStateType, VulnerabilityPayload, Top3Payload } from '../../ui-types';
+import { ImagesStateType, VulnerabilityPayload, Top3Payload, EverythingPayload } from '../../ui-types';
 import { ImageType } from '../../../types';
 import Client from '../models/Client';
 const initialState: ImagesStateType = {
@@ -40,7 +40,7 @@ export const imageSlice = createSlice({
       // splice the store.imageList at the found index, delete 1, insert nothing
       state.imagesList.splice(imageIndex, 1)
     },
-    updateTop3(state, action: PayloadAction<Top3Payload>) { 
+    updateTop3(state, action: PayloadAction<Top3Payload>) {
       if (action.payload.scanName === '<none>:<none>') {
         state.imagesList.forEach((imageObj) => {
           if (imageObj.ScanName === action.payload.scanName) {
@@ -53,6 +53,20 @@ export const imageSlice = createSlice({
         );
         matchedImg.Top3Obj = action.payload.top3Obj;
       }
+    },
+    addEverything(state, action: PayloadAction<EverythingPayload>) {
+      if (action.payload.scanName === '<none>:<none>') {
+        state.imagesList.forEach((imageObj) => {
+          if (imageObj.ScanName === action.payload.scanName) {
+            imageObj.Everything = action.payload.everything;
+          }
+        })
+      } else {
+        const matchedImg = state.imagesList.find(
+          (imageObj) => imageObj.ScanName === action.payload.scanName
+        );
+        matchedImg.Everything = action.payload.everything;
+      }
     }
   },
   extraReducers(builder) {
@@ -62,5 +76,5 @@ export const imageSlice = createSlice({
   },
 });
 
-export const {updateVulnerabilities, deleteImage, updateTop3} = imageSlice.actions
+export const {updateVulnerabilities, deleteImage, updateTop3, addEverything} = imageSlice.actions
 export default imageSlice.reducer;
