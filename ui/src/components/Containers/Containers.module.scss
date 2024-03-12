@@ -2,119 +2,134 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
 .wrapper {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  // font-family: 'Roboto';
-  margin: $default-page-margin;
-  transition: margin-left .5s;
-  
-  .listHolder {
-      display: flex;
-      flex-direction: column;
-    }
-}
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	// font-family: 'Roboto';
+	margin: $default-page-margin;
+	transition: margin-left 0.5s;
 
+	.listHolder {
+		display: flex;
+		flex-direction: column;
+	}
+}
 
 .containersTitle {
-  margin-bottom: 10px;
+	margin-bottom: 10px;
 
-  @media screen and (max-width: $breakpoint-lg),
-  (max-width: $breakpoint-md),
-  (max-width: $breakpoint-sm) {
-    margin-top: 60px; 
-  }
+	@media screen and (max-width: $breakpoint-lg),
+		(max-width: $breakpoint-md),
+		(max-width: $breakpoint-sm) {
+		margin-top: 60px;
+	}
 }
 
-.topMargin{
-  // wrapper default margin doesn't push the top margin enough
-  // this is an extra div to add top margin to better match other pages
-  margin-top: 30px;
+.topMargin {
+	// wrapper default margin doesn't push the top margin enough
+	// this is an extra div to add top margin to better match other pages
+	margin-top: 30px;
 }
 
 iframe {
-  border-radius: 10px;
+	border-radius: 10px;
 }
 
 .listHolder {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 .listHolderStopped {
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	margin-top: 20px;
 }
 .listHolderStopped h2 {
-  margin-bottom:5px;
+	margin-bottom: 5px;
 }
 .listHolder h2 {
-  margin-bottom: 5px;
+	margin-bottom: 5px;
 }
 
 .count {
-  margin-bottom: 1rem;
+	margin-bottom: 1rem;
 }
 
 .containerList {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: minmax(480px, 1fr);
-  transform: all 0.5s ease-in-out;
-  width: 100%;
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: minmax(480px, 1fr);
+	transform: all 0.5s ease-in-out;
+	width: 100%;
 }
 
-
 .buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  border-color: #e3e6e8;
-  border: 2px;
-  border-radius: 2px;
-  height: 50px;
-  margin-bottom: 5px;
-  padding-top: 18px;
-  margin-left: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	border-color: #e3e6e8;
+	border: 2px;
+	border-radius: 2px;
+	height: 50px;
+	margin-bottom: 5px;
+	padding-top: 18px;
+	margin-left: 10px;
 }
 
 .toggle {
-  display: grid;
-  grid-template-columns: .9fr .1fr;
-  // margin-left: 5px;
-  gap: 10px;
-  margin-bottom: 30px;
+	display: grid;
+	grid-template-columns: 0.9fr 0.1fr;
+	// margin-left: 5px;
+	gap: 10px;
+	margin-bottom: 30px;
 }
 
+.active,
+.notActive {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: white;
+	border-radius: 4px;
+	&:hover {
+		transform: translateY(-2px);
+	}
+}
 .active {
-  background-color: #272e35;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: white;
-  border-radius: 10px;
+	background-color: rgba(13, 123, 241, 0.794);
+	&:hover {
+		box-shadow: 1px 1px 10px rgba(13, 123, 241, 0.794);
+		text-shadow: 0 0 1px white;
+	}
 }
 .notActive {
-  color: white;
+	background-color: rgba(66, 76, 85, 0.258);
+	box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+		0 1px 10px 0 rgba(0, 0, 0, 0.12);
+	border: 1px solid rgba(255, 255, 255, 0.283);
+	color: white;
+	text-shadow: 0 0 1px rgb(194, 190, 190);
+	&:hover {
+		box-shadow: 1px 1px 20px rgba(226, 222, 222, 0.2);
+	}
 }
 
 @media screen and (max-width: $breakpoint-lg) {
-  .wrapper {
-    display: flex;
-    flex-direction: column;
-    margin: $default-page-margin;
-    // margin-top: 70px;
-  }
-  .containerList {
-    grid-template-columns: minmax(480px, 1fr);
-    transform: all 0.2s ease-in-out;
-  }
-  
+	.wrapper {
+		display: flex;
+		flex-direction: column;
+		margin: $default-page-margin;
+		// margin-top: 70px;
+	}
+	.containerList {
+		grid-template-columns: minmax(480px, 1fr);
+		transform: all 0.2s ease-in-out;
+	}
 }
 
 @media screen and (max-width: $breakpoint-md) {
-  .containerList {
-    grid-template-columns: minmax(480px, 1fr);
-  }
+	.containerList {
+		grid-template-columns: minmax(480px, 1fr);
+	}
 }

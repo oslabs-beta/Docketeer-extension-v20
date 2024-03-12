@@ -1,15 +1,23 @@
 import { ddClientRequest, encodeQuery } from "../ddClientRequest";
 import { ImageType, ContainerPS } from "../../../../types";
-import { ScanObject } from "ui/ui-types";
+import { ScanObject, ScanReturn } from "ui/ui-types";
 export const ImageService = {
   async getImages(): Promise<ImageType[]> {
-    const images = await ddClientRequest<ImageType[]>('/api/docker/image');
+    const images = await ddClientRequest<ImageType[]>("/api/docker/image");
     return images;
   },
 
-  async runImage(imageName: string, imageTag: string, containerName: string = imageName): Promise<boolean>{
+  async runImage(
+    imageName: string,
+    imageTag: string,
+    containerName: string = imageName
+  ): Promise<boolean> {
     try {
-      await ddClientRequest('/api/docker/image/run', 'POST', { imageName, tag: imageTag, containerName });
+      await ddClientRequest("/api/docker/image/run", "POST", {
+        imageName,
+        tag: imageTag,
+        containerName,
+      });
       return true;
     } catch (error) {
       console.error(`Failed to start container from: ${imageName}`);
@@ -17,9 +25,9 @@ export const ImageService = {
     }
   },
 
-  async removeImage(imageId: string): Promise<boolean>{
+  async removeImage(imageId: string): Promise<boolean> {
     try {
-      await ddClientRequest(`/api/docker/image/${imageId}`, 'DELETE')
+      await ddClientRequest(`/api/docker/image/${imageId}`, "DELETE");
       return true;
     } catch (error) {
       console.error(`Failed to remove image by ID: ${imageId}`);
@@ -27,13 +35,20 @@ export const ImageService = {
     }
   },
 
-  async getScan(scanName: string) :Promise<ScanObject> {
+  async getScan(scanName: string): Promise<ScanReturn> {
     try {
-      const scan = await ddClientRequest('/api/docker/image/scan', 'POST', { scanName: scanName })
-      return scan
+      // console.log("FRONTEND TEST HOT RELOADING!");
+      const scan: ScanReturn = await ddClientRequest(
+        "/api/docker/image/scan",
+        "POST",
+        {
+          scanName: scanName,
+        }
+      );
+      return scan;
     } catch (error) {
       console.error(`Failed to Scan the image vulnerability for ${scanName}`);
-      return
+      return;
     }
-  } 
-}
+  },
+};

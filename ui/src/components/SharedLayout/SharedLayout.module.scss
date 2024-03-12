@@ -5,16 +5,15 @@ $navbar-transition: transform 0.3s ease-in-out;
   transition: $navbar-transition;
   transform: translateY($navbar-height);
   top: -$navbar-height;
-  // background-color: color(background, base);
+  background-color: #2351d1;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 10px 50px 0px 50px;
   position: fixed;
   z-index: 9999;
   left: 0%;
   right: 0%;
-  // padding: 0 0rem;
+  padding: 0 0rem;
   height: $navbar-height;
   width: $navbar-width;
 }
@@ -41,23 +40,22 @@ $navbar-transition: transform 0.3s ease-in-out;
   justify-content: space-evenly;
   cursor: pointer;
   margin-right: 110px;
+  &:hover {
+    border-bottom: 4px solid white;
+    color: rgba(154, 180, 251);
+  }
+
+  &:focus-visible {
+    outline: 2px solid color(light, base);
+    outline-offset: 2px;
+  }
 }
 
-
-
-// .bar {
-//   width: 30px;
-//   height: 5px;
-//   background-color: white;
-//   border-radius: 2px;
-// }
 // -----------------------------------
 
 .navSpacer {
   height: $navbar-height;
-  // align-self: center;
   display: flex;
-  // justify-content: space-evenly; /* or justify-content: space-around; */
 
   ul {
     display: flex;
@@ -69,14 +67,13 @@ $navbar-transition: transform 0.3s ease-in-out;
     list-style: none;
     padding: 0.5rem 0rem;
     margin-right: 2rem;
-    // margin-left: 1rem;
     align-items: center;
   }
 
   a,
   span {
     text-decoration: none;
-    color: white;
+    // color: white;
     font-size: 1rem;
     height: 100%;
 
@@ -91,13 +88,12 @@ $navbar-transition: transform 0.3s ease-in-out;
 .active {
   color: color(light, base);
   cursor: pointer;
-  border-color: color(background, darkest);
+  // border-color: #2351d1;
   &:hover {
-    border-bottom: 4px solid color(background, darkest);
-    cursor: pointer;
+    border-bottom: 4px solid white;
     color: rgba(154, 180, 251);
   }
-  
+
   &:focus-visible {
     outline: 2px solid color(light, base);
     outline-offset: 2px;
@@ -105,7 +101,9 @@ $navbar-transition: transform 0.3s ease-in-out;
 }
 
 .active {
-  font-weight: 600;
+  color: whitesmoke;
+  font-weight: 1000;
+  border-bottom: 4px solid white;
 }
 
 @media screen and (min-width: $breakpoint-uw) {

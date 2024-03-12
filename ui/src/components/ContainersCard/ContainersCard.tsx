@@ -117,8 +117,7 @@ const ContainersCard = ({
         }
       }
     }
-
-
+    
     return (
       <RunningContainer
         container={container}

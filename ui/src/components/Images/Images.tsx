@@ -15,10 +15,11 @@ import ImagesSummary from '../ImagesSummary/ImagesSummary';
 
 const Images = (): React.JSX.Element => {
   console.log('Rendering Images component');
+  const [scanDone, setScanDone] = useState(false);
   const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
-  
+
   const dispatch = useAppDispatch();
-  
+
   // If imagesList is not populated, send a dispatch that will fetch the list of docker images from the backend
   useEffect(() => {
     if (!imagesList.length) {
@@ -87,28 +88,42 @@ const Images = (): React.JSX.Element => {
     );
   };
 
+  // imagesList = [ {image1}, {image2, ScanName: whatever, Vulnerabilties: {high, med, low, critical:}}, {image3}]
   // declare a constant array of elements and push an image card into this array for each image in the imagesList
   let renderedImages: React.JSX.Element[] = imagesList.map((imageObj, i) => (
     <ImageCard
       removeImageAlert={removeImageAlert}
       runImageAlert={runImageAlert}
       key={i}
-      index={i}
-      imgObj={imageObj}
+      index={i} // 1
+      imgObj={imageObj} //current image in the imagesList
     />
   ));
 
   return (
-    <div className={styles.ImagesContainer}>
-      <p className={styles.VulnerabilitiesTitle}>VULNERABILITIES</p>
-      {/* VULNERABILITY SUMMARY INFO */}
-      <div>
-        <ImagesSummary />
+		<div className={styles.ImagesContainer}>
+			<h2 className={styles.VulnerabilitiesTitle}>VULNERABILITIES</h2>
+			{/* VULNERABILITY SUMMARY INFO */}
+			<div>
+        <ImagesSummary scanDone={scanDone} setScanDone={setScanDone} />
+			</div>
+			<div className={styles.buttonDiv}>
+				<button
+					className={scanDone ? styles.button : styles.buttonLoad}
+					onClick={() => {
+						if (scanDone) window.location.reload();
+					}}>
+					RESCAN
+				</button>
+        <button className={styles.button}>LAST SCAN</button>
+
       </div>
-      {/* IMAGE CARDS */}
+      <h2 className={styles.VulnerabilitiesTitle}>IMAGES</h2>
+			{/* IMAGE CARDS */}
       <div className={styles.ImagesCardsView}>{renderedImages}</div>
-    </div>
-  );
+
+		</div>
+	);
 };
 
 export default Images;
