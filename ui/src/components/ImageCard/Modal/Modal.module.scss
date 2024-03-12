@@ -8,9 +8,6 @@
 	height: 70vh; /* Fixed height */
 	background-color: hsl(0, 0%, 17%);
 	border-radius: 5px;
-	overflow-x: hidden; /* Hide horizontal overflow */
-	overflow-y: auto; /* Enable vertical scrolling */
-	border: solid 1px rgb(76, 76, 162);
 }
 
 .popupInner {
@@ -18,10 +15,17 @@
 	width: 100%;
 	height: 100%;
 	background-color: rgb(10, 9, 9);
-	box-shadow: 0 5px 20px rgb(238, 238, 194);
-	scrollbar-color: hsl(0, 0%, 17%);
-	overflow-x: hidden; /* Hide horizontal scrollbar */
-	overflow-y: auto; /* Enable vertical scrolling */
+	border: 2px solid rgb(52, 22, 6);
+	box-shadow: 1px 1px 10px rgb(194, 98, 47);
+}
+
+.popuptitle {
+	padding-bottom: 10px;
+	font-size: 45px;
+	color: rgb(0, 208, 255);
+	&:hover {
+		text-shadow: 0 5px 10px rgba(0, 157, 255, 0.422);
+	}
 }
 
 .popup-inner::-webkit-scrollbar {
@@ -37,12 +41,6 @@
 	align-items: center;
 	padding: 10px;
 	z-index: 1;
-}
-
-.popuptitle {
-	padding-bottom: 10px;
-	font-size: 40px;
-	color: rgb(0, 208, 255);
 }
 
 .popupInner .closeBtn {
@@ -65,31 +63,48 @@
 	}
 }
 
-// TEST
 .buttonsContainer {
 	display: flex;
-	justify-content: space-around;
-	margin-bottom: 20px; /* Add margin to separate buttons from table */
+	flex-direction: row;
+	justify-content: center;
+	align-items: space-between;
+	gap: 1px;
 }
 
-.button {
-	margin: 10px 20px;
+.activeButton,
+.inactiveButton,
+.chosenButton {
+	flex-grow: 1;
 	background-color: #2351d1;
 	color: white;
-	border: none;
-	border-radius: 5px;
+	border: 1px solid black;
 	cursor: pointer;
 	transition: background-color 0.3s ease;
+	font-size: 30px;
 }
 
-.button:hover {
-	background-color: #1a3eaa;
+.activeButton:hover {
+	box-shadow: 1px 1px 10px #2351d1;
+	background-color: #9ab4fbc7;
 }
 
-.activeButton {
-	background-color: #1a3eaa;
+.inactiveButton {
+	background-color: #333335;
 }
 
+.chosenButton {
+	background-color: rgb(255, 89, 0);
+  &:hover{
+    box-shadow: 1px 1px 10px rgb(255, 89, 0);
+    background-color: rgb(223, 143, 100);
+  }
+}
+
+.linkID {
+	text-decoration: underline;
+	color: rgb(128, 149, 241);
+}
+// Table---
 .tableContainer {
 	max-height: calc(80vh - 200px); /* Adjust max-height based on your needs */
 	overflow-y: auto; /* Enable vertical scrolling */
@@ -98,31 +113,36 @@
 .table {
 	width: 100%;
 	border-collapse: collapse;
-  overflow: auto;
-  height: 100px;
-  table-layout: fixed;
+	overflow: auto;
+	height: 100px;
+	table-layout: fixed;
 }
 
 .table thead th {
-  position: sticky;
-  top: 0;
+	position: sticky;
+	top: 0;
 }
 
 table thead th,
 .table tbody td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    text-align: center; /* Center the content within each cell */
-    width: 25%; /* Equal width for each column (assuming you have 4 columns) */
-    white-space: nowrap; /* Prevent text wrapping */
+	padding: 8px;
+	border: 1px solid rgb(185, 75, 16);
+	text-align: center;
+	width: 25%; /* Equal width for each column (assuming you have 4 columns) */
+	white-space: nowrap; /* Prevent text wrapping */
 }
 
 .table th {
-    background-color: #0253d6;
-    color: white; 
+	background-color: rgb(17, 8, 1);
+	color: rgb(255, 89, 0);
+	box-shadow: 1px 1px 2px rgb(255, 89, 0);
+	border: 1px solid rgb(255, 89, 0);
 }
 
-.table tbody tr:nth-child(even) {
-    background-color: rgba(62, 61, 61, 0.256);
+.table tbody tr {
+	background-color: rgb(147, 27, 27);
+  &:nth-child(even) {
+    background-color: rgb(34, 3, 3);
+  }
 }
 

@@ -6,29 +6,28 @@ interface ModalProps {
 	trigger: boolean;
 	setTrigger: (value: boolean) => void;
 	index: number;
+	severity: string;
 }
 
 const Modal = ({
 	trigger,
 	setTrigger,
 	index,
+	severity,
 }: ModalProps): React.JSX.Element => {
+	const [selectedLevel, setSelectedLevel] = useState<string>(severity);
+	const modalRef = useRef<HTMLDivElement>(null);
 	const everythingFromStore =
 		useAppSelector((state) => state.images.imagesList[index].Everything) ||
 		false;
-
 	const everythingName =
 		useAppSelector((state) => state.images.imagesList[index].ScanName) || false;
-
-	const [selectedLevel, setSelectedLevel] = useState<string>('');
 
 	const handleButtonClick = (level: string) => {
 		if (everythingFromStore[level].length > 0) {
 			setSelectedLevel(level);
 		}
 	};
-
-	const modalRef = useRef<HTMLDivElement>(null);
 
 	const handleClickOutside = (event: MouseEvent) => {
 		if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -46,23 +45,31 @@ const Modal = ({
 	}, [trigger, setTrigger]);
 
 	return trigger ? (
-		<div
-			className={styles.popup}
-			ref={modalRef}>
+		<div className={styles.popup} ref={modalRef}>
 			<div className={styles.popupInner}>
 				<div className={styles.header}>
 					<h2 className={styles.popuptitle}>{everythingName}</h2>
-					{/* Buttons for each level */}
-					<div className={styles.buttonsContainer}>
-						{Object.keys(everythingFromStore).map((level) => (
-							<button
-								key={level}
-								onClick={() => handleButtonClick(level)}
-								className={selectedLevel === level ? styles.activeButton : ''}>
-								{level}
-							</button>
-						))}
-					</div>
+					{/* close button */}
+					<button className={styles.closeBtn} onClick={() => setTrigger(false)}>
+						x
+					</button>
+					{/* Buttons for 5 levels */}
+				</div>
+				<div className={styles.buttonsContainer}>
+					{Object.keys(everythingFromStore).map((level) => (
+						<button
+							key={level}
+							onClick={() => handleButtonClick(level)}
+							className={
+								selectedLevel === level
+									? styles.chosenButton
+									: everythingFromStore[level].length !== 0
+									? styles.activeButton
+									: styles.inactiveButton
+							}>
+							{level}
+						</button>
+					))}
 				</div>
 				{/* Render the table based on the selected level */}
 				{selectedLevel && (
@@ -81,7 +88,15 @@ const Modal = ({
 										<tr key={index}>
 											<td>{item.Package}</td>
 											<td>{item['Version Installed']}</td>
-											<td>{item['Vulnerability ID']}</td>
+											<td>
+												{item['Vulnerability ID'].startsWith('CVE') ? (<a
+													className={styles.linkID}
+													href={`https://www.cve.org/CVERecord?id=${item['Vulnerability ID']}`}
+													target='_blank'
+													rel='noopener noreferrer'>
+													{item['Vulnerability ID']}
+												</a>) : item['Vulnerability ID']}
+											</td>
 										</tr>
 									)
 								)}
