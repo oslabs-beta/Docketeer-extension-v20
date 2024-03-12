@@ -1,57 +1,128 @@
 .popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60vw;
-  height: 80vh;
-  background-color: hsl(0, 0%, 17%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  overflow: auto;
-  border: solid 1px rgb(76, 76, 162);
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 120vw; /* Adjust width to fit content */
+	max-width: 800px; /* Limit maximum width */
+	height: 70vh; /* Fixed height */
+	background-color: hsl(0, 0%, 17%);
+	border-radius: 5px;
+	overflow-x: hidden; /* Hide horizontal overflow */
+	overflow-y: auto; /* Enable vertical scrolling */
+	border: solid 1px rgb(76, 76, 162);
 }
 
-.popup-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  max-width: 60vw;
-  max-height: 80vh;
-  background-color: rgb(10, 9, 9);
-  box-shadow: 0 5px 20px rgb(238, 238, 194);
-  scrollbar-color: hsl(0, 0%, 17%);
-  overflow: auto;
+.popupInner {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background-color: rgb(10, 9, 9);
+	box-shadow: 0 5px 20px rgb(238, 238, 194);
+	scrollbar-color: hsl(0, 0%, 17%);
+	overflow-x: hidden; /* Hide horizontal scrollbar */
+	overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .popup-inner::-webkit-scrollbar {
-  background-color: black;
+	background-color: rgb(4, 104, 244);
+}
+
+.header {
+	position: sticky;
+	top: 0;
+	background-color: rgb(9, 27, 47);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	z-index: 1;
 }
 
 .popuptitle {
-  padding-bottom: 10px;
-  font-size: 50px;
-  color: rgb(0, 208, 255);
+	padding-bottom: 10px;
+	font-size: 40px;
+	color: rgb(0, 208, 255);
 }
 
 .popupInner .closeBtn {
-  position: absolute;
-  top: 3%;
-  right: 3%;
-  font-family: sans-serif, 'Cabin';
-  font-size: 40px;
-  display: flex;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  color: lightgray;
-  border-radius: 5px;
-  transition: opacity 0.2s ease-out;
-  &:hover {
-    cursor: pointer;
-    opacity: 1;
-    text-shadow: 1px 1px 5px white;
-  }
+	position: absolute;
+	top: 3%;
+	right: 3%;
+	font-family: sans-serif, 'Cabin';
+	font-size: 40px;
+	display: flex;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	color: lightgray;
+	border-radius: 5px;
+	transition: opacity 0.2s ease-out;
+	&:hover {
+		cursor: pointer;
+		opacity: 1;
+		text-shadow: 1px 1px 5px white;
+	}
 }
+
+// TEST
+.buttonsContainer {
+	display: flex;
+	justify-content: space-around;
+	margin-bottom: 20px; /* Add margin to separate buttons from table */
+}
+
+.button {
+	margin: 10px 20px;
+	background-color: #2351d1;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.button:hover {
+	background-color: #1a3eaa;
+}
+
+.activeButton {
+	background-color: #1a3eaa;
+}
+
+.tableContainer {
+	max-height: calc(80vh - 200px); /* Adjust max-height based on your needs */
+	overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.table {
+	width: 100%;
+	border-collapse: collapse;
+  overflow: auto;
+  height: 100px;
+  table-layout: fixed;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+}
+
+table thead th,
+.table tbody td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center; /* Center the content within each cell */
+    width: 25%; /* Equal width for each column (assuming you have 4 columns) */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.table th {
+    background-color: #0253d6;
+    color: white; 
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: rgba(62, 61, 61, 0.256);
+}
+
