@@ -88,7 +88,8 @@ body {
 .button2,
 .buttonSmall,
 .buttonBase {
-  color: color(light, tan);
+  color: white;
+  font-weight: 600;
   align-self: start;
   font-size: 1rem;
   border-radius: 5px;
@@ -100,23 +101,41 @@ body {
   line-height: 1.1;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  box-shadow: 1px 1px 10px #9ab4fbc7;
+  // box-shadow: 1px 1px 10px #9ab4fbc7;
 }
 
 .button1 {
   min-height: 44px;
-  background-color: #212121;
-  text-shadow: 1px 1px 2px color(blue, dark);
+  background-color: #2351d1;
+  text-shadow: 1px 1px 2px #2351d1;
 
   &:hover,
   &:active {
-    background-color: #9ab4fbc7;
+    box-shadow: 1px 1px 10px #2351d1;
   }
 
   &:focus {
     outline-style: solid;
     outline-color: transparent;
     // box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
+  }
+
+  &--small {
+    font-size: 1.15rem;
+  }
+}
+
+.button2 {
+  min-height: 44px;
+  background-color:rgba(66, 76, 85, 0.258);
+
+  &:hover,
+  &:active {
+    box-shadow: 1px 1px 10px rgba(189, 185, 185, 0.2);
+  }
+
+  &:focus {
+    outline-color: transparent;
   }
 
   &--small {
@@ -135,25 +154,6 @@ body {
   background-color: gray;
   color: white;
   cursor: auto;
-}
-
-.button2 {
-  min-height: 44px;
-  background-color: transparent;
-
-  &:hover,
-  &:active {
-    background-color: #9ab4fbc7;
-  }
-
-  &:focus {
-    // outline-style: solid;
-    outline-color: transparent;
-  }
-
-  &--small {
-    font-size: 1.15rem;
-  }
 }
 
 .buttonSmall {

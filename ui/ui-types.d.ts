@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { ContainerPS } from 'types';
 import { EndpointType, ImageType, LogObject, NetworkAndContainer, NetworkContainerType, PromDataSource } from 'types';
+
 // declare module '*.module.scss';
 
 
@@ -36,7 +37,7 @@ export interface NetworkContainerListType {
 }
 
 // Relates to above interfaces containers property
-// TODO: changed container name and IP to optional to debug test. Need to review. 
+// TODO: changed container name and IP to optional to debug test. Need to review.
 export interface NetworkAttachedContainersInfo {
   containerName?: string;
   containerIP?: string;
@@ -116,18 +117,54 @@ export interface ImagesStateType {
   imagesList: ImageType[];
 }
 
-// Type for vulnerability object sent to the reducer inside action argument
+// Type for vulnerability object - reducer inside action argument
 export interface VulnerabilityPayload {
-	vulnerabilityObj: object,
-	scanName: string
+  vulnerabilityObj: object;
+  scanName: string;
 }
 
-// Type of the scanned image vulnerabilities object: Used for the success variable in ImageCard.tsx
+// Type for top3 object - reducer inside action argument
+export interface Top3Payload {
+  top3Obj: object;
+  scanName: string;
+}
+
+export interface EverythingPayload {
+  everything: object;
+  scanName: string;
+}
+
+
+// Type of the scanned image vulnerabilities object - ImageCard.tsx
 export interface ScanObject {
   Critical?: number | string;
   High?: number | string;
   Medium?: number | string;
   Low?: number | string;
+  Negligible?: number | string;
+}
+
+// Type of top 3 package in dropdown - ImageCard.tsx
+export interface Top3Obj {
+	critical?: [string,number][],
+	high?: [string,number][],
+	medium?: [string,number][],
+	low?: [string,number][],
+	negligible?: [string,number][]
+}
+
+export interface EverythingObj {
+  critical: GrypeScan[];
+  high: GrypeScan[];
+  medium: GrypeScan[];
+  low: GrypeScan[];
+  negligible: GrypeScan[];
+}
+
+// Type received from server after calling to '/scan'
+export interface ScanReturn {
+  vulnerabilites: ScanObject;
+  everything: GrypeScan[];
 }
 
 // ==============================================

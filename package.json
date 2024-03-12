@@ -8,7 +8,9 @@
   "scripts": {
     "test": "jest --verbose",
     "jest-preview": "jest-preview",
-    "test:debug": "npm-run-all -p test jest-preview"
+    "test:debug": "npm-run-all -p test jest-preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "dependencies": {
     "@docker/extension-api-client": "^0.3.4",
@@ -17,6 +19,7 @@
     "d3-sankey": "^0.12.3",
     "dayjs": "^1.11.10",
     "dayjs-plugin-utc": "^0.1.2",
+    "framer-motion": "^11.0.8",
     "jsonwebtoken": "^9.0.1",
     "nth-check": "^2.1.1",
     "pg": "^8.8.0",

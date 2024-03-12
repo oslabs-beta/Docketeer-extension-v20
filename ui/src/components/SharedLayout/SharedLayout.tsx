@@ -22,6 +22,7 @@ import {
   fetchAllDockerVolumes,
 } from '../../reducers/volumeReducer';
 import Client from '../../models/Client';
+import { margin } from '@mui/system';
 
 /**
  * @module | SharedLayout.tsx
@@ -105,7 +106,7 @@ function SharedLayout(): JSX.Element {
   return (
     <div>
       <nav className={styles.navBar}>
-        <div>
+        <div style={{ marginLeft : "50px" }}>
           {/* LOGO */}
           <NavLink to="/" className={styles.logoDiv}>
             <h1>Docketeer</h1>

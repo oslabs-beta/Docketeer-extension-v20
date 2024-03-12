@@ -77,7 +77,7 @@ imageController.getImages = async (req: Request, res: Response, next: NextFuncti
 
     // Store an array of strings with our images names
     res.locals.images = images;
-    
+
     return next();
   } catch (error) {
     const errObj: ServerError = {
@@ -99,15 +99,24 @@ imageController.scanImages = async (req: Request, res: Response, next: NextFunct
       const { stdout, stderr } = await execAsync(`grype ${scanName} -o template -t ${templatePath}`);
       if (stderr) throw new Error(stderr);
 
+      console.log("TEST HOT RELOADING!");
+
+
       //parse the vulnerability data and count the number of vulnerabilites
       const vulnerabilityJSON: GrypeScan[] = JSON.parse(stdout);
+
       const countVulnerability: countVulnerability = vulnerabilityJSON.reduce((acc, cur) => {
         acc.hasOwnProperty(cur.Severity) ? acc[cur.Severity]++ : acc[cur.Severity] = 1;
         return acc
       }, {});
+
       res.locals.scanName = scanName
       res.locals.vulnerabilites = countVulnerability;
       res.locals.addToCache = true;
+
+      // test JSON
+      res.locals.everything = vulnerabilityJSON;
+
       next()
     } catch (error) {
       const errObj: ServerError = {
@@ -125,7 +134,7 @@ imageController.scanImages = async (req: Request, res: Response, next: NextFunct
 
 
 /**
- * @todo verify it's working 
+ * @todo verify it's working
  * @todo change body parameters. It must accept a name for the container and a name for
  *       the image
  */
