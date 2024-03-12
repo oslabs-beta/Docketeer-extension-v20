@@ -91,7 +91,7 @@ const Modal = ({
 											<td>
 												{item['Vulnerability ID'].startsWith('CVE') ? (<a
 													className={styles.linkID}
-													href={`https://www.cve.org/CVERecord?id=${item['Vulnerability ID']}`}
+													href={`https://nvd.nist.gov/vuln/detail/${item['Vulnerability ID']}`}
 													target='_blank'
 													rel='noopener noreferrer'>
 													{item['Vulnerability ID']}
