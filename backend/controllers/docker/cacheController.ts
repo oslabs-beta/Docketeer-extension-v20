@@ -69,7 +69,6 @@ cacheController.checkCacheGrypeDb = async (req: Request, res: Response, next: Ne
 }
 
 
-
 cacheController.setCacheGrypeDb = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   if (res.locals.cachedDbStatus) {
     next()

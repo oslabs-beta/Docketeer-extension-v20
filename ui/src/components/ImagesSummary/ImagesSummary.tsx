@@ -12,11 +12,13 @@ import { ImageType } from '../../../../types';
 interface ImagesSummaryProps {
 	scanDone: boolean;
 	setScanDone: (boolean) => void;
+	reset: boolean;
 }
 
 const ImagesSummary = ({
 	scanDone,
 	setScanDone,
+	reset
 }: ImagesSummaryProps): React.JSX.Element => {
 	const [showInfo, setShowInfo] = useState(false);
 	const [summary, setSummary] = useState({
@@ -106,6 +108,20 @@ const ImagesSummary = ({
 			</div>
 		);
 	});
+
+	// Rescan Image Summary
+	useEffect(() => {
+    if (reset) {
+      setSummary({
+        c: 0,
+        h: 0,
+        m: 0,
+        l: 0,
+        n: 0,
+      });
+      setShowInfo(false);
+    }
+  }, [reset]);
 
 	return (
 		<div>

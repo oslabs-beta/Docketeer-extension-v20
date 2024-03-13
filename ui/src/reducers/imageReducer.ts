@@ -1,14 +1,24 @@
-import { PayloadAction, createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
-import { ImagesStateType, VulnerabilityPayload, Top3Payload, EverythingPayload } from '../../ui-types';
-import { ImageType } from '../../../types';
-import Client from '../models/Client';
+import {
+  PayloadAction,
+  createSlice,
+  createAsyncThunk,
+  current,
+} from "@reduxjs/toolkit";
+import {
+  ImagesStateType,
+  VulnerabilityPayload,
+  Top3Payload,
+  EverythingPayload,
+} from "../../ui-types";
+import { ImageType } from "../../../types";
+import Client from "../models/Client";
 const initialState: ImagesStateType = {
-  imagesList: []
+  imagesList: [],
 };
-import { ddClientRequest } from '../models/ddClientRequest';
+import { ddClientRequest } from "../models/ddClientRequest";
 
 export const fetchImages = createAsyncThunk(
-  'containers/fetchImages',
+  "containers/fetchImages",
   async () => {
     const result: ImageType[] = await Client.ImageService.getImages();
     return result;
@@ -70,6 +80,14 @@ export const imageSlice = createSlice({
         matchedImg.Everything = action.payload.everything;
       }
     },
+    resetImageProperties(state) {
+      state.imagesList = state.imagesList.map((image) => ({
+        ...image,
+        Vulnerabilities: undefined,
+        Top3Obj: undefined,
+        Everything: undefined,
+      }));
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchImages.fulfilled, (state, action) => {
@@ -78,5 +96,11 @@ export const imageSlice = createSlice({
   },
 });
 
-export const {updateVulnerabilities, deleteImage, updateTop3, addEverything} = imageSlice.actions
+export const {
+  updateVulnerabilities,
+  deleteImage,
+  updateTop3,
+  addEverything,
+  resetImageProperties,
+} = imageSlice.actions;
 export default imageSlice.reducer;

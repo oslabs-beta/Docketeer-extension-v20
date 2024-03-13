@@ -51,4 +51,21 @@ export const ImageService = {
       return;
     }
   },
+
+  async getRescan(scanName: string): Promise<ScanReturn> {
+    try {
+      // console.log("FRONTEND TEST HOT RELOADING!");
+      const scan: ScanReturn = await ddClientRequest(
+        "/api/docker/image/rescan",
+        "POST",
+        {
+          scanName: scanName,
+        }
+      );
+      return scan;
+    } catch (error) {
+      console.error(`Failed to Scan the image vulnerability for ${scanName}`);
+      return;
+    }
+  },
 };
