@@ -1,10 +1,10 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
 import imageController from '../../controllers/docker/imagesController';
 import cacheController from '../../controllers/docker/cacheController';
+import { exec } from 'child_process';
+
 const router = Router();
-
 router.use(express.json());
-
 
 /**
  * @abstract Get current Docker images from user's docker and update Grype's DB
@@ -52,7 +52,6 @@ router.post(
 }
  */
 
-
 //for when getScan or RESCAN button is hit
 router.post('/rescan', imageController.scanImages, cacheController.setCacheScan, (req, res) => {
   return res
@@ -63,6 +62,27 @@ router.post('/rescan', imageController.scanImages, cacheController.setCacheScan,
       timeStamp: res.locals.timeStamp
     });
 });
+
+/**
+ * @abstract
+ * @todo Open CVE link from Modal - Learn More
+ * @param req.body.link
+ * @returns status 200
+ */
+router.post(
+  '/openlink', (req, res) => {
+    const { link } = req.body;
+    exec(`open ${link}`, (error, stdout, stderr) => {
+      if (error) {
+				console.error(`exec error: ${error}`);
+				return;
+			}
+			console.log(`stdout: ${stdout}`);
+			console.error(`stderr: ${stderr}`);
+    })
+     return res.sendStatus(200);
+  }
+);
 
 
 /**
@@ -75,6 +95,8 @@ router.post('/rescan', imageController.scanImages, cacheController.setCacheScan,
 router.post('/run', imageController.buildContainerFromImage, (req, res) => {
   return res.sendStatus(201);
 });
+
+
 
 /**
  * @abstract

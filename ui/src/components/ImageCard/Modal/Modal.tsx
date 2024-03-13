@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './Modal.module.scss';
 import { useAppSelector } from '../../../reducers/hooks';
+import Client from '../../../models/Client';
 
 interface ModalProps {
 	trigger: boolean;
@@ -89,13 +90,21 @@ const Modal = ({
 											<td>{item.Package}</td>
 											<td>{item['Version Installed']}</td>
 											<td>
-												{item['Vulnerability ID'].startsWith('CVE') ? (<a
-													className={styles.linkID}
-													href={`https://nvd.nist.gov/vuln/detail/${item['Vulnerability ID']}`}
-													target='_blank'
-													rel='noopener noreferrer'>
-													{item['Vulnerability ID']}
-												</a>) : item['Vulnerability ID']}
+												{item['Vulnerability ID'].startsWith('CVE') ? (
+													<a
+														className={styles.linkID}
+														href={`https://nvd.nist.gov/vuln/detail/${item['Vulnerability ID']}`}
+														onClick={async (e) => {
+															await Client.ImageService.openLink(
+																`https://nvd.nist.gov/vuln/detail/${item['Vulnerability ID']}`
+															);
+														}}
+														rel='noopener noreferrer'>
+														{item['Vulnerability ID']}
+													</a>
+												) : (
+													item['Vulnerability ID']
+												)}
 											</td>
 										</tr>
 									)

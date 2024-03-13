@@ -199,6 +199,7 @@ const ImageCard = ({
     );
   });
 
+
   // UPON MOUNTED
   useEffect(() => {
     if (!vulnerabilities) getScan(imgObj.ScanName, "getScan");
@@ -210,7 +211,6 @@ const ImageCard = ({
     if (reset) {
       getScan(imgObj.ScanName, "getRescan");
 			setReset(false);
-			setDone(false);
     }
   }, [reset]);
 
