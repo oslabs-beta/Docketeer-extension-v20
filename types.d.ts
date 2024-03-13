@@ -102,7 +102,8 @@ export interface ImageCardProps {
 	key: number;
 	runImageAlert: (Image: ImageType) => void;
 	removeImageAlert: (Image: ImageType) => void;
-	index: number;
+  index: number;
+  setTime: (string) => void;
 }
 
 export interface NetworkAndContainer{

@@ -28,6 +28,7 @@ const ImageCard = ({
 	runImageAlert,
 	removeImageAlert,
 	index,
+	setTime
 }: ImageCardProps): React.JSX.Element => {
 	const dispatch = useAppDispatch();
 	const [done, setDone] = useState(false);
@@ -48,6 +49,11 @@ const ImageCard = ({
 
 			console.log('scanObjectReturn JSON FOR GRYPE: ', scanObjectReturn);
 			console.log(`Success from getScan: ${scanName}`, vulnerabilityObj);
+			console.log(
+        `TIMESTAMP FOR ${scanName}`,
+        scanObjectReturn.timeStamp
+			);
+			setTime(scanObjectReturn.timeStamp);
 
 			/* get the info from 5 levels
 			ex everything: [{ Package: "busybox", Severity: "Low", Version Installed: "1.36.1", Vulnerability ID: "CVE..." }]

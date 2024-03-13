@@ -14,6 +14,7 @@ router.use(express.json());
  */
 router.get('/', cacheController.checkCacheGrypeDb, imageController.getImages, imageController.dbStatus, cacheController.setCacheGrypeDb, (req, res) => {
   return res.status(200).json(res.locals.images);
+
 });
 
 /**
@@ -22,12 +23,23 @@ router.get('/', cacheController.checkCacheGrypeDb, imageController.getImages, im
  * @param
  * @returns
  */
-// router.post('/scan', cacheController.checkCacheVulnerability, imageController.scanImages, cacheController.setCacheVulnerability,(req, res) => {
-//   // return res.status(200).json(res.locals.vulnerabilites);
 
-//   // test everything
-//   return res.status(200).json({ vulnerabilites: res.locals.vulnerabilites, everything: res.locals.everything });
-// });
+//when the user first opens the page
+// router.post(
+//   "/scan",
+//   cacheController.checkCacheScan,
+//   imageController.scanImages,
+//   cacheController.setCacheScan,
+//   (req, res) => {
+//     // return res.status(200).json(res.locals.vulnerabilites);
+
+//     return res.status(200).json({
+//       vulnerabilites: res.locals.vulnerabilites,
+//       everything: res.locals.everything,
+//       timeStamp: res.locals.timeStamp,
+//     });
+//   }
+// );
 
 /**
  * @abstract Scans an using Grype CLI and summarizes the report's vulnerabilities by severity
@@ -39,12 +51,16 @@ router.get('/', cacheController.checkCacheGrypeDb, imageController.getImages, im
     "Negligible": 3
 }
  */
+
+
+//for when getScan or RESCAN button is hit
 router.post('/scan', imageController.scanImages, (req, res) => {
   return res
     .status(200)
     .json({
       vulnerabilites: res.locals.vulnerabilites,
       everything: res.locals.everything,
+      timeStamp: res.locals.timeStamp
     });
 });
 

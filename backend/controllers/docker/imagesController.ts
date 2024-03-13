@@ -113,6 +113,7 @@ imageController.scanImages = async (req: Request, res: Response, next: NextFunct
       res.locals.scanName = scanName
       res.locals.vulnerabilites = countVulnerability;
       res.locals.addToCache = true;
+      res.locals.timeStamp = new Date().toLocaleString(); // return "m/d/y, h:m:s AM/PM"
 
       // test JSON
       res.locals.everything = vulnerabilityJSON;

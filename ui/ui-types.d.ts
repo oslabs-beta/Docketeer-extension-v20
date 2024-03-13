@@ -165,6 +165,7 @@ export interface EverythingObj {
 export interface ScanReturn {
   vulnerabilites: ScanObject;
   everything: GrypeScan[];
+  timeStamp: string;
 }
 
 // ==============================================

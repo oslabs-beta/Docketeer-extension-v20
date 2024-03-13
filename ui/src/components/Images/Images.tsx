@@ -15,7 +15,8 @@ import ImagesSummary from '../ImagesSummary/ImagesSummary';
 
 const Images = (): React.JSX.Element => {
   console.log('Rendering Images component');
-  const [scanDone, setScanDone] = useState(false);
+  const [scanDone, setScanDone] = useState<boolean>(false);
+  const [time, setTime] = useState<string>('');
   const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
 
   const dispatch = useAppDispatch();
@@ -97,33 +98,37 @@ const Images = (): React.JSX.Element => {
       key={i}
       index={i} // 1
       imgObj={imageObj} //current image in the imagesList
+      setTime = {setTime}
     />
   ));
 
   return (
-		<div className={styles.ImagesContainer}>
-			<h2 className={styles.VulnerabilitiesTitle}>VULNERABILITIES</h2>
-			{/* VULNERABILITY SUMMARY INFO */}
-			<div>
+    <div className={styles.ImagesContainer}>
+      <h2 className={styles.VulnerabilitiesTitle}>VULNERABILITIES</h2>
+      {/* VULNERABILITY SUMMARY INFO */}
+      <div>
         <ImagesSummary scanDone={scanDone} setScanDone={setScanDone} />
-			</div>
-			<div className={styles.buttonDiv}>
-				<button
-					className={scanDone ? styles.button : styles.buttonLoad}
-					onClick={() => {
-						if (scanDone) window.location.reload();
-					}}>
-					RESCAN
-				</button>
-        <button className={styles.button}>LAST SCAN</button>
-
       </div>
-      <h2 className={styles.VulnerabilitiesTitle}>IMAGES</h2>
-			{/* IMAGE CARDS */}
+      <div className={styles.buttonDiv}>
+        <button
+          className={scanDone ? styles.button : styles.buttonLoad}
+          onClick={() => {
+            if (scanDone) window.location.reload();
+          }}
+        >
+          RESCAN
+        </button>
+        {/* make Last Scan button conditionally grey or blue */}
+        <button className={styles.button}>LAST SCAN</button>
+      </div>
+      <h2 className={styles.VulnerabilitiesTitle}>
+        {`IMAGES - Last Scan: `}
+        <span style={{ color: "#2351d1" }}>{`${time}`}</span>
+      </h2>
+      {/* IMAGE CARDS */}
       <div className={styles.ImagesCardsView}>{renderedImages}</div>
-
-		</div>
-	);
+    </div>
+  );
 };
 
 export default Images;
