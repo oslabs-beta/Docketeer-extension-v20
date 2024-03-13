@@ -3,7 +3,7 @@ import { ImageType, ContainerPS } from "../../../../types";
 import { ScanObject, ScanReturn } from "ui/ui-types";
 export const ImageService = {
   async getImages(): Promise<ImageType[]> {
-    const images = await ddClientRequest<ImageType[]>("/api/docker/image");
+    const images = await ddClientRequest<ImageType[]>(`/api/docker/image`);
     return images;
   },
 
@@ -37,12 +37,13 @@ export const ImageService = {
 
   async getScan(scanName: string): Promise<ScanReturn> {
     try {
-      // console.log("FRONTEND TEST HOT RELOADING!");
+      const timeStamp = new Date().toLocaleString();
       const scan: ScanReturn = await ddClientRequest(
         "/api/docker/image/scan",
         "POST",
         {
-          scanName: scanName,
+          scanName,
+          timeStamp
         }
       );
       return scan;
@@ -54,12 +55,13 @@ export const ImageService = {
 
   async getRescan(scanName: string): Promise<ScanReturn> {
     try {
-      // console.log("FRONTEND TEST HOT RELOADING!");
+      const timeStamp = new Date().toLocaleString();
       const scan: ScanReturn = await ddClientRequest(
         "/api/docker/image/rescan",
         "POST",
         {
-          scanName: scanName,
+          scanName,
+          timeStamp
         }
       );
       return scan;

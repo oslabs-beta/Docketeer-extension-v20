@@ -91,7 +91,7 @@ imageController.getImages = async (req: Request, res: Response, next: NextFuncti
 
 imageController.scanImages = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   if (!res.locals.vulnerabilites) {
-    const { scanName }: { scanName: string } = req.body;
+    const { scanName, timeStamp }: { scanName: string; timeStamp: string } = req.body;
 
     try {
       //Development mode: runs Grype on scanName and outputs result based on a custom Go Template in ./controllers/grype/json.tmpl
@@ -112,13 +112,9 @@ imageController.scanImages = async (req: Request, res: Response, next: NextFunct
 
       res.locals.scanName = scanName
       res.locals.vulnerabilites = countVulnerability;
-      res.locals.addToCache = true;
-
-      res.locals.timeStamp = new Date().toLocaleString(); // return "m/d/y, h:m:s AM/PM"
-
-      // test JSON
       res.locals.everything = vulnerabilityJSON;
-
+      res.locals.timeStamp = timeStamp;
+      res.locals.addToCache = true;
       next()
     } catch (error) {
       const errObj: ServerError = {
@@ -165,9 +161,6 @@ imageController.removeImage =async (req: Request, res: Response, next: NextFunct
     const { id } = req.params;
     const { stdout, stderr } = await execAsync(`docker rmi -f ${id}`);
     if (stderr.length) throw new Error(stderr);
-
-    // Remove once verified
-    console.log(stdout)
     return next();
   } catch (error) {
     const errObj: ServerError = {
@@ -188,7 +181,6 @@ imageController.dbStatus = async (
     try {
       const { stdout, stderr } = await execAsync('grype db update');
       if (stderr) throw new Error(stderr);
-      console.log('grype db update status:', stdout)
       next();
     } catch (error) {
       const errObj: ServerError = {

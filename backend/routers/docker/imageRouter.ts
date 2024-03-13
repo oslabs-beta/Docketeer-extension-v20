@@ -14,8 +14,8 @@ router.use(express.json());
  */
 router.get('/', cacheController.checkCacheGrypeDb, imageController.getImages, imageController.dbStatus, cacheController.setCacheGrypeDb, (req, res) => {
   return res.status(200).json(res.locals.images);
-
 });
+
 
 /**
  * @abstract Check if image vulnerabilities are in the cache, if not perform a Grype scan

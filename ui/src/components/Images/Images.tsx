@@ -124,11 +124,11 @@ const Images = (): React.JSX.Element => {
           RESCAN
         </button>
         {/* make Last Scan button conditionally grey or blue */}
-        <button className={styles.button}>LAST SCAN</button>
+        <button className={styles.button}>BUTTON</button>
       </div>
       <h2 className={styles.VulnerabilitiesTitle}>
         {`IMAGES - Last Scan: `}
-        <span style={{ color: "#9ab4fbc7" }}>{!time ? "" : `(${time})`}</span>
+        <span style={{ color: "#9ab4fbc7" }}>{time && `(${time})`}</span>
       </h2>
       {/* IMAGE CARDS */}
       <div className={styles.ImagesCardsView}>{renderedImages}</div>

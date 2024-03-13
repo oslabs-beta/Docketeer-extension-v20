@@ -131,7 +131,6 @@ cacheController.checkCacheScan = async (req: Request, res: Response, next: NextF
     res.locals.vulnerabilites = JSON.parse(cachedVulernabilities);
     res.locals.everything = JSON.parse(cachedEverything);
     res.locals.timeStamp = JSON.parse(cachedTimeStamp);
-
     next()
   }
   else {
