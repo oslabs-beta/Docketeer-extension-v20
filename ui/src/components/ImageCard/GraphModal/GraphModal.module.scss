@@ -4,8 +4,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 120vw;
-  max-width: 60vw;
-  height: 60vh;
+  max-width: 45vw;
+  height: 67vh;
   background-color: hsl(0, 0%, 17%);
   border-radius: 5px;
 }
@@ -14,9 +14,9 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: rgb(10, 9, 9);
-  border: 2px solid rgb(52, 22, 6);
-  box-shadow: 1px 1px 10px rgb(194, 98, 47);
+  background-color: rgb(1, 12, 18);
+  border: 2px solid rgb(3, 80, 143);
+  box-shadow: 1px 1px 10px rgb(2, 108, 194);
 }
 
 .popuptitle {
@@ -100,5 +100,18 @@
     box-shadow: 1px 1px 10px rgb(255, 89, 0);
     background-color: rgb(223, 143, 100);
   }
+}
+
+.graphContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 55vh;
+}
+
+.pieCanvas {
+  width: 500px;
+  height: 500px;
 }
 

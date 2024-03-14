@@ -30,6 +30,9 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ["js-big-decimal"],
   },
+  ssr: {
+		noExternal: ['chart.js/**']
+	},
   resolve: {
     alias: {
       // Add alias for Nivo Pie

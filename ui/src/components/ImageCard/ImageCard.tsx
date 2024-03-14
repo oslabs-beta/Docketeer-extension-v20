@@ -46,7 +46,6 @@ const ImageCard = ({
   let vulnerabilities =
     useAppSelector((state) => state.images.imagesList[index].Vulnerabilities) ||
     false;
-  console.log('ALEXX VULNERABILITIES',vulnerabilities )
   const getScan = async (scanName: string, scanType: string) => {
     try {
       // retrieve scan data - Client.ImageService.getScan creates DDClient Request
