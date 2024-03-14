@@ -101,7 +101,7 @@ $greenColor: #326b3096;
   display: flex;
 }
 
-.imgCardButton{
+.imgCardButton, .imgLoading{
   box-shadow: 2px 2px 5px 2px rgb(25, 25, 25);
   height: 36px;
   width: 36px;
@@ -126,6 +126,10 @@ $greenColor: #326b3096;
   &--small {
     font-size: 1.15rem;
   }
+}
+
+.imgLoading {
+   filter: grayscale(100%);
 }
 
 .critical, .high, .medium, .low, .grayOut, .green, .negligible, .unknown  {

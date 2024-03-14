@@ -107,33 +107,36 @@ const Images = (): React.JSX.Element => {
   ));
 
   return (
-    <div className={styles.ImagesContainer}>
-      <h2 className={styles.VulnerabilitiesTitle}>VULNERABILITIES</h2>
-      {/* VULNERABILITY SUMMARY INFO */}
-      <div>
-        <ImagesSummary scanDone={scanDone} setScanDone={setScanDone} reset={reset} />
-      </div>
-      <div className={styles.buttonDiv}>
-        <button
-          className={scanDone ? styles.button : styles.buttonLoad}
-          onClick={() => {
-            if (scanDone) dispatch(resetImageProperties());
-            setReset(true);
-          }}
-        >
-          RESCAN
-        </button>
-        {/* make Last Scan button conditionally grey or blue */}
-        <button className={styles.button}>BUTTON</button>
-      </div>
-      <h2 className={styles.VulnerabilitiesTitle}>
-        {`IMAGES - Last Scan: `}
-        <span style={{ color: "#9ab4fbc7" }}>{time && `(${time})`}</span>
-      </h2>
-      {/* IMAGE CARDS */}
-      <div className={styles.ImagesCardsView}>{renderedImages}</div>
-    </div>
-  );
+		<div className={styles.ImagesContainer}>
+			<h2 className={styles.VulnerabilitiesTitle}>VULNERABILITIES</h2>
+			{/* VULNERABILITY SUMMARY INFO */}
+			<div>
+				<ImagesSummary
+					scanDone={scanDone}
+					setScanDone={setScanDone}
+					reset={reset}
+				/>
+			</div>
+			<div className={styles.buttonDiv}>
+				<button
+					className={scanDone ? styles.button : styles.buttonLoad}
+					onClick={() => {
+						if (scanDone) dispatch(resetImageProperties());
+						setReset(true);
+					}}>
+					RESCAN
+				</button>
+				{/* make Last Scan button conditionally grey or blue */}
+				<button className={styles.button}>BUTTON</button>
+			</div>
+			<h2 className={styles.VulnerabilitiesTitle}>
+				{`IMAGES - Last Scan: `}
+				<span style={{ color: '#94c2ed' }}>{time && `${time}`}</span>
+			</h2>
+			{/* IMAGE CARDS */}
+			<div className={styles.ImagesCardsView}>{renderedImages}</div>
+		</div>
+	);
 };
 
 export default Images;

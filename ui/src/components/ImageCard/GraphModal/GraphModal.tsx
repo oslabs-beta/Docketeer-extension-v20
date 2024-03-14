@@ -42,7 +42,7 @@ const GraphModal = ({
 			legend: {
 				labels: {
 					font: {
-						size: 20, // Set the desired font size for the legend labels
+						size: 30, // Set the desired font size for the legend labels
 					},
 					color: 'white',
 				},
@@ -123,7 +123,7 @@ const GraphModal = ({
 				{/* PIE CHART HERE */}
 				<div className={styles.graphContainer}>
 					<div className={styles.pieCanvas}>
-						<Pie data={data} options={options}/>
+						<Pie data={data} options={options} />
 					</div>
 				</div>
 			</div>

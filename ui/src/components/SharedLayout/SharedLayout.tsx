@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
@@ -31,15 +31,30 @@ import { margin } from '@mui/system';
 
 function SharedLayout(): JSX.Element {
   // navBar useState
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const buttonRef = useRef<HTMLImageElement>(null);
+  const dropdownRef = useRef(null);
+  const dispatch = useAppDispatch();
 
   // navBar functionality
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
-  // const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  // hover hamburger will trigger onclick
+  const handleHover = () => {
+		buttonRef.current.click();
+  };
+  
+  // click outside to close hamburger
+  const handleOutsideClick = (e: MouseEvent) => {
+		if (
+			dropdownRef.current &&
+			!dropdownRef.current.contains(e.target as Node)
+		) {
+			setIsOpen(false);
+		}
+	};
 
   const handleNetworkPrune = async (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -95,73 +110,84 @@ function SharedLayout(): JSX.Element {
     dispatch(fetchStoppedContainers());
     dispatch(fetchNetworkAndContainer());
     dispatch(fetchAllDockerVolumes());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     dispatch(fetchAllContainersOnVolumes());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [volumes]);
 
+  useEffect(() => {
+		document.addEventListener('mousedown', handleOutsideClick);
+		return () => {
+			document.removeEventListener('mousedown', handleOutsideClick);
+		};
+	}, []);
+
   return (
-    <div>
-      <nav className={styles.navBar}>
-        <div style={{ marginLeft : "50px" }}>
-          {/* LOGO */}
-          <NavLink to="/" className={styles.logoDiv}>
-            <h1>Docketeer</h1>
-            <img className={styles.logo}
-              src={docketeerLogo}
-              alt="docketeer-logo"
-              width="45"
-              height="45"
-            ></img>
-          </NavLink>
-        </div>
-        <div className={styles.navSpacer}>
-          <ul>
-            <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.navButton
-                }
-                to="/"
-              >
-                CONTAINERS
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.navButton
-                }
-                to="/network"
-              >
-                NETWORKS
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.navButton
-                }
-                to="/images"
-              >
-                IMAGES
-              </NavLink>
-            </li>
-          </ul>
-            <div className={styles.hamburgerIcon}>
-              <img src={MenuIcon} onClick={toggleSidebar}>
-              </img>
-              {isOpen && <SideBar toggleSideBar={toggleSidebar} prune={prune} isOpen={isOpen}/>}
-            </div>
-        </div>
-      </nav>
-      <Alert />
-      <Outlet />
-    </div>
-  );
+		<div>
+			<nav className={styles.navBar}>
+				<div style={{ marginLeft: '50px' }}>
+					{/* LOGO */}
+					<NavLink to='/' className={styles.logoDiv}>
+						<h1>Docketeer</h1>
+						<img
+							className={styles.logo}
+							src={docketeerLogo}
+							alt='docketeer-logo'
+							width='45'
+							height='45'></img>
+					</NavLink>
+				</div>
+				<div className={styles.navSpacer}>
+					<ul>
+						<li>
+							<NavLink
+								className={({ isActive }) =>
+									isActive ? styles.active : styles.navButton
+								}
+								to='/'>
+								CONTAINERS
+							</NavLink>
+						</li>
+						<li>
+							<NavLink
+								className={({ isActive }) =>
+									isActive ? styles.active : styles.navButton
+								}
+								to='/network'>
+								NETWORKS
+							</NavLink>
+						</li>
+						<li>
+							<NavLink
+								className={({ isActive }) =>
+									isActive ? styles.active : styles.navButton
+								}
+								to='/images'>
+								IMAGES
+							</NavLink>
+						</li>
+					</ul>
+					<div className={styles.hamburgerIcon} ref={dropdownRef}>
+						<img
+							src={MenuIcon}
+							onClick={toggleSidebar}
+							ref={buttonRef}
+							onMouseOver={handleHover}></img>
+						{isOpen && (
+							<SideBar
+								toggleSideBar={toggleSidebar}
+								prune={prune}
+								isOpen={isOpen}
+							/>
+						)}
+					</div>
+				</div>
+			</nav>
+			<Alert />
+			<Outlet />
+		</div>
+	);
 }
 
 export default SharedLayout;
