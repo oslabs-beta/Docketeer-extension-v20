@@ -101,9 +101,9 @@ $greenColor: #326b3096;
 }
 
 .imgCardButton{
-  box-shadow: 1px 1px 2.5px #9ab4fbc7;
-  height: max-content;
-  width: max-content;
+  box-shadow: 2px 2px 5px 2px rgb(25, 25, 25);
+  height: 36px;
+  width: 36px;
   border: 1px solid white;
   border-radius: 5px;
   padding: 5px;
@@ -112,7 +112,8 @@ $greenColor: #326b3096;
 
   &:hover,
   &:active {
-    background-color: #9ab4fbc7;
+    background-color: #3d4243c7;
+    border-radius: 5px;
   }
 
   &:focus {
@@ -132,7 +133,7 @@ $greenColor: #326b3096;
   padding: 5px;
   text-align: center;
   border-radius: 5px;
-  box-shadow: 2px 2px 5px 2px black;
+  box-shadow: 2px 2px 5px 1px black;
   width: 100%;
   font-weight: 700;
   cursor: pointer;

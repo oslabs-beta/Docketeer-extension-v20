@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styles from './Modal.module.scss';
+import styles from './InfoModal.module.scss';
 import { useAppSelector } from '../../../reducers/hooks';
 import Client from '../../../models/Client';
 

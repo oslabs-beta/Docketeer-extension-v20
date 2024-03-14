@@ -16,11 +16,12 @@ import {
   updateTop3,
   addEverything,
 } from "../../reducers/imageReducer";
-import DeleteIcon from "../../../assets/delete_outline_white_24dp.svg";
-import PlayIcon from "../../../assets/play_arrow_white_24dp.svg";
+import DeleteIcon from "../../../assets/trash.svg";
+import PlayIcon from "../../../assets/play.svg";
 import ImageCardDropdown from "./ImageCardDropdown/ImageCardDropdown";
 import DropdownIcon from "../../../assets/drop-down-arrow.png";
 import DropupIcon from "../../../assets/drop-up-arrow.png";
+import PieChart from "../../../assets/piechart.svg";
 
 /**
  * @module | ImageCard.tsx
@@ -306,6 +307,8 @@ const ImageCard = ({
           className={styles.imgCardButton}
           onClick={() => removeImageAlert(imgObj)}
         ></img>
+        {/* ----Graph Button ---- */}
+        <img src={PieChart} className={styles.imgCardButton}></img>
       </div>
     </div>
   );

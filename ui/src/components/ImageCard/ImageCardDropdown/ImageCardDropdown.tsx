@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './ImageCardDropdown.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../reducers/hooks';
-import Modal from '../Modal/Modal';
+import InfoModal from '../InfoModal/InfoModal';
 import { constants } from 'os';
 
 interface ImageCardDropdownProps {
@@ -63,7 +63,7 @@ const ImageCardDropdown = ({
 				{modalToggler && <div className={styles.backdrop}></div>}
 				{/* PopUp for Learn More */}
 				<div className={styles.modalContainer}>
-					<Modal
+					<InfoModal
 						trigger={modalToggler}
 						setTrigger={setModalToggler}
 						index={index}
