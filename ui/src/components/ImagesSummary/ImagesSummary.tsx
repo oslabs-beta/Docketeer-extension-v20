@@ -92,7 +92,7 @@ const ImagesSummary = ({
 					m: (med / total) * 100,
 					l: (low / total) * 100,
 					n: (negligible / total) * 100,
-					u: (negligible / total) * 100,
+					u: (unknown / total) * 100,
 				});
 				setShowInfo(true);
       }
@@ -160,7 +160,7 @@ const ImagesSummary = ({
 				{showInfo && (
 					<div
 						className={styles.unknown}
-						style={{ width: summary.n + '%' }}></div>
+						style={{ width: summary.u + '%' }}></div>
 				)}
 			</div>
 
