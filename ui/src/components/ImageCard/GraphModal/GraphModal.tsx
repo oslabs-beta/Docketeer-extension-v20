@@ -50,10 +50,9 @@ const GraphModal = ({
 			tooltip: {
 				callbacks: {
 					label: (context) => {
-						const label = levels[context.dataIndex];
 						const value = dataVul[context.dataIndex];
 						const percentage = percentArr[context.dataIndex];
-						return `${label}: ${value} - ${percentage}`;
+						return `Count: ${value} - ${percentage}`;
 					},
 				},
 				titleFont: {

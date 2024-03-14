@@ -19,6 +19,11 @@ $greenColor: #326b3096;
 	justify-content: space-between;
   align-items: flex-start;
   width: 48%;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .imageCardCrit {
@@ -73,6 +78,11 @@ $greenColor: #326b3096;
   gap: 10px;
   align-self: center;
   cursor: pointer;
+  @media screen and (max-width: 768px) {
+    margin-left: 0;
+    margin-top: 10px;
+    justify-content: center;
+  }
 }
 
 .VulnerabilitiesBlock {
@@ -87,18 +97,29 @@ $greenColor: #326b3096;
   justify-content: space-evenly;
   height: max-content;
   align-items: left;
+  @media screen and (max-width: 768px) {
+    align-items: center;
+  }
 }
 
 .imageVulnerabilities {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  @media screen and (max-width: 768px) {
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
 }
 
 .imgVulDiv{
   height: max-content;
   width: 85px;
   display: flex;
+  @media screen and (max-width: 768px) {
+    width: 60px;
+  }
 }
 
 .imgCardButton, .imgLoading{
@@ -184,11 +205,11 @@ $greenColor: #326b3096;
 .vulNum {
   margin-right: 5px;
 }
-@media screen and (max-width: $breakpoint-md) {
-  .imageCard {
-    width: 100%
-  }
-}
+// @media screen and (max-width: $breakpoint-md) {
+//   .imageCard {
+//     width: 100%
+//   }
+// }
 
 .material-symbols-outlined {
   font-variation-settings:
@@ -204,6 +225,9 @@ $greenColor: #326b3096;
   width: 17px;
   height: 17px;
   cursor: pointer;
+   @media screen and (max-width: 768px) {
+    margin: 0;
+  }
 }
 
 .backdrop {
@@ -219,4 +243,52 @@ $greenColor: #326b3096;
 
 .modalContainer {
   z-index: 20;
+}
+
+@media screen and (max-width: 768px) {
+  .imageCard, .imageCardCrit, .imageCardHigh, .imageCardMed, .imageCardLow, .imageCardDone  {
+    width: 100%;
+  }
+
+  .buttons {
+    margin-left: 0;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .imageInfo {
+    align-items: center;
+  }
+
+  .VulnerabilitiesBlock {
+    align-items: center;
+  }
+
+  .imgVulDiv {
+    justify-content: center;
+  }
+
+  .dropdownIcon {
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .buttons {
+    gap: 10px;
+  }
+
+  .imgCardButton, .imgLoading {
+    height: 30px;
+    width: 30px;
+    font-size: 1rem;
+  }
+
+  .imgVulDiv {
+    width: 60px;
+  }
+
+  .vulNum {
+    font-size: 0.8rem;
+  }
 }
