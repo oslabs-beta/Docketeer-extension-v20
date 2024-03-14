@@ -99,9 +99,6 @@ imageController.scanImages = async (req: Request, res: Response, next: NextFunct
       const { stdout, stderr } = await execAsync(`grype ${scanName} -o template -t ${templatePath}`);
       if (stderr) throw new Error(stderr);
 
-      console.log("TEST HOT RELOADING!");
-
-
       //parse the vulnerability data and count the number of vulnerabilites
       const vulnerabilityJSON: GrypeScan[] = JSON.parse(stdout);
 

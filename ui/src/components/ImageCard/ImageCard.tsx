@@ -22,6 +22,7 @@ import ImageCardDropdown from "./ImageCardDropdown/ImageCardDropdown";
 import DropdownIcon from "../../../assets/drop-down-arrow.png";
 import DropupIcon from "../../../assets/drop-up-arrow.png";
 import PieChart from "../../../assets/piechart.svg";
+import GraphModal from './GraphModal/GraphModal'
 
 /**
  * @module | ImageCard.tsx
@@ -39,12 +40,13 @@ const ImageCard = ({
 }: ImageCardProps): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const [done, setDone] = useState(false);
+  const [graphModal, setgraphModal] = useState(false);
 
   // get vulnerabilities directly from the store
   let vulnerabilities =
     useAppSelector((state) => state.images.imagesList[index].Vulnerabilities) ||
     false;
-
+  console.log('ALEXX VULNERABILITIES',vulnerabilities )
   const getScan = async (scanName: string, scanType: string) => {
     try {
       // retrieve scan data - Client.ImageService.getScan creates DDClient Request
@@ -68,9 +70,8 @@ const ImageCard = ({
       const high = everything.filter((el) => el.Severity === "High");
       const medium = everything.filter((el) => el.Severity === "Medium");
       const low = everything.filter((el) => el.Severity === "Low");
-      const negligible = everything.filter(
-        (el) => el.Severity === "Negligible"
-      );
+      const negligible = everything.filter((el) => el.Severity === "Negligible");
+      const unknown = everything.filter((el) => el.Severity === "Unknown");
 
       const everythingObj: EverythingPayload = {
         everything: {
@@ -79,6 +80,7 @@ const ImageCard = ({
           medium,
           low,
           negligible,
+          unknown,
         },
         scanName,
       };
@@ -98,6 +100,7 @@ const ImageCard = ({
           medium: top3Info(medium),
           low: top3Info(low),
           negligible: top3Info(negligible),
+          unknown: top3Info(unknown),
         },
         scanName,
       };
@@ -106,8 +109,8 @@ const ImageCard = ({
       // if the image failed to be scanned for vulnerabilities, update the image card state to have a default vulnerability object
       if (vulnerabilityObj === undefined) {
         const defaultVul: VulnerabilityPayload = {
-          vulnerabilityObj: { Critical: "-", High: "-", Medium: "-", Low: "-" },
-          scanName: scanName,
+          vulnerabilityObj: { Critical: "-", High: "-", Medium: "-", Low: "-", Negligible: "-", Unknown: "-" },
+          scanName,
         };
         dispatch(updateVulnerabilities(defaultVul));
         return;
@@ -145,6 +148,7 @@ const ImageCard = ({
     medium: false,
     low: false,
     negligible: false,
+    unknown: false,
   });
 
   const toggleDropdown = (criticalType: string) => {
@@ -173,7 +177,7 @@ const ImageCard = ({
   };
 
   // Array to print out all levels
-  const levels: string[] = ["Critical", "High", "Medium", "Low", "Negligible"];
+  const levels: string[] = ["Critical", "High", "Medium", "Low", "Negligible", "Unknown"];
   const printVul: React.JSX.Element[] = levels.map((el, i) => {
     return (
       <div className={styles.imgVulDiv} key={i}>
@@ -293,6 +297,13 @@ const ImageCard = ({
               index={index}
             />
           )}
+          {dropDown.unknown && (
+            <ImageCardDropdown
+              severity="unknown"
+              scanName={imgObj.ScanName}
+              index={index}
+            />
+          )}
         </div>
       </div>
       {/* RUN / REMOVE */}
@@ -308,7 +319,20 @@ const ImageCard = ({
           onClick={() => removeImageAlert(imgObj)}
         ></img>
         {/* ----Graph Button ---- */}
-        <img src={PieChart} className={styles.imgCardButton}></img>
+        <img
+          src={PieChart}
+          className={styles.imgCardButton}
+          onClick={() => setgraphModal(true)}
+        ></img>
+      </div>
+      {/* PIE CHART */}
+      {graphModal && <div className={styles.backdrop}></div>}
+      <div className={styles.modalContainer}>
+        <GraphModal
+          trigger={graphModal}
+          setTrigger={setgraphModal}
+          index={index}
+        />
       </div>
     </div>
   );

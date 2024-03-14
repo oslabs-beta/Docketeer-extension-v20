@@ -1,0 +1,104 @@
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120vw;
+  max-width: 60vw;
+  height: 60vh;
+  background-color: hsl(0, 0%, 17%);
+  border-radius: 5px;
+}
+
+.popupInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(10, 9, 9);
+  border: 2px solid rgb(52, 22, 6);
+  box-shadow: 1px 1px 10px rgb(194, 98, 47);
+}
+
+.popuptitle {
+  padding-bottom: 10px;
+  font-size: 45px;
+  color: rgb(0, 208, 255);
+  &:hover {
+    text-shadow: 0 5px 10px rgba(0, 157, 255, 0.422);
+  }
+}
+
+.popup-inner::-webkit-scrollbar {
+  background-color: rgb(4, 104, 244);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background-color: rgb(9, 27, 47);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  z-index: 1;
+}
+
+.popupInner .closeBtn {
+  position: absolute;
+  top: 3%;
+  right: 3%;
+  font-family: sans-serif, 'Cabin';
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  color: lightgray;
+  border-radius: 5px;
+  transition: opacity 0.2s ease-out;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 1;
+    text-shadow: 1px 1px 5px white;
+  }
+}
+
+.buttonsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: space-between;
+  gap: 1px;
+}
+
+.activeButton,
+.inactiveButton,
+.chosenButton {
+  flex-grow: 1;
+  background-color: #2351d1;
+  color: white;
+  border: 1px solid black;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 30px;
+}
+
+.activeButton:hover {
+  box-shadow: 1px 1px 10px #2351d1;
+  background-color: #9ab4fbc7;
+}
+
+.inactiveButton {
+  background-color: #333335;
+}
+
+.chosenButton {
+  background-color: rgb(255, 89, 0);
+
+  &:hover {
+    box-shadow: 1px 1px 10px rgb(255, 89, 0);
+    background-color: rgb(223, 143, 100);
+  }
+}
+

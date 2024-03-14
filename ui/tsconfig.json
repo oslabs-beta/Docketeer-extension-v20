@@ -3,7 +3,11 @@
   "compilerOptions": {
     "outDir": "./dist",
     "module": "CommonJS",
-    "allowArbitraryExtensions": true
+    "allowArbitraryExtensions": true,
+    "baseUrl": "./",
+    "paths": {
+      "@nivo/pie": ["node_modules/@nivo/pie"]
+    }
   },
   "include": [
     "./**/*.ts",
