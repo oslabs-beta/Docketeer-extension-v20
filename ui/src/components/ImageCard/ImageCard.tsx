@@ -41,6 +41,7 @@ const ImageCard = ({
   const dispatch = useAppDispatch();
   const [done, setDone] = useState<boolean>(false);
   const [graphModal, setgraphModal] = useState<boolean>(false);
+  let total;
   // state for Learn More
   const [modalToggler, setModalToggler] = useState<boolean>(false);
   const [pieSeverity, setPieSeverity] = useState<string>("");
@@ -58,6 +59,10 @@ const ImageCard = ({
           ? await Client.ImageService.getScan(scanName)
           : await Client.ImageService.getRescan(scanName);
       const vulnerabilityObj: ScanObject = scanObjectReturn.vulnerabilites;
+      total = Object.values(vulnerabilityObj).reduce(
+        (acc, curr) => acc + curr,
+        0
+      );
       setDone(true);
       setTime(scanObjectReturn.timeStamp);
 
@@ -266,7 +271,11 @@ const ImageCard = ({
         </div>
         {/* VULNERABILITY LEVELS*/}
         <div className={styles.VulnerabilitiesBlock}>
+          <p>{vulnerabilities && `Total Vulnerabilities (${Object.values(
+            vulnerabilities
+          ).reduce((acc: any , curr: any) => acc + curr, 0)})`}</p>
           <p>Severity Levels</p>
+
           <div className={styles.imageVulnerabilities}>
             {printVul}
             <img
