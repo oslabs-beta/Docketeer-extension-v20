@@ -34,14 +34,12 @@ $navbar-transition: transform 0.3s ease-in-out;
 // HAMBURGER ICON STYLING ------------
 
 .hamburgerIcon {
-  // align-self: right;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   cursor: pointer;
   margin-right: 110px;
   &:hover {
-    border-bottom: 4px solid white;
     color: rgba(154, 180, 251);
   }
 

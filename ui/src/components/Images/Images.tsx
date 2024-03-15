@@ -7,6 +7,7 @@ import { fetchImages, deleteImage } from '../../reducers/imageReducer';
 import Client from '../../models/Client';
 import ImageCard from '../ImageCard/ImageCard';
 import ImagesSummary from '../ImagesSummary/ImagesSummary';
+import { resetImageProperties } from "../../reducers/imageReducer";
 
 /**
  * @module | Images.tsx
@@ -15,10 +16,12 @@ import ImagesSummary from '../ImagesSummary/ImagesSummary';
 
 const Images = (): React.JSX.Element => {
   console.log('Rendering Images component');
-  const [scanDone, setScanDone] = useState(false);
+  const [scanDone, setScanDone] = useState<boolean>(false);
+  const [reset, setReset] = useState<boolean>(false);
   const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
 
   const dispatch = useAppDispatch();
+  let time = useAppSelector((state) => state.images.timeStamp) || false;
 
   // If imagesList is not populated, send a dispatch that will fetch the list of docker images from the backend
   useEffect(() => {
@@ -97,6 +100,8 @@ const Images = (): React.JSX.Element => {
       key={i}
       index={i} // 1
       imgObj={imageObj} //current image in the imagesList
+      reset={reset}
+      setReset={setReset}
     />
   ));
 
@@ -105,23 +110,30 @@ const Images = (): React.JSX.Element => {
 			<h2 className={styles.VulnerabilitiesTitle}>VULNERABILITIES</h2>
 			{/* VULNERABILITY SUMMARY INFO */}
 			<div>
-        <ImagesSummary scanDone={scanDone} setScanDone={setScanDone} />
+				<ImagesSummary
+					scanDone={scanDone}
+					setScanDone={setScanDone}
+					reset={reset}
+				/>
 			</div>
 			<div className={styles.buttonDiv}>
 				<button
 					className={scanDone ? styles.button : styles.buttonLoad}
 					onClick={() => {
-						if (scanDone) window.location.reload();
+						if (scanDone) dispatch(resetImageProperties());
+						setReset(true);
 					}}>
 					RESCAN
 				</button>
-        <button className={styles.button}>LAST SCAN</button>
-
-      </div>
-      <h2 className={styles.VulnerabilitiesTitle}>IMAGES</h2>
+				{/* make Last Scan button conditionally grey or blue */}
+				<button className={styles.button}>BUTTON</button>
+			</div>
+			<h2 className={styles.VulnerabilitiesTitle}>
+				{`IMAGES - Last Scan: `}
+				<span style={{ color: '#94c2ed' }}>{time && `${time}`}</span>
+			</h2>
 			{/* IMAGE CARDS */}
-      <div className={styles.ImagesCardsView}>{renderedImages}</div>
-
+			<div className={styles.ImagesCardsView}>{renderedImages}</div>
 		</div>
 	);
 };

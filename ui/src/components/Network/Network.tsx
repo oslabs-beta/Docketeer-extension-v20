@@ -310,7 +310,7 @@ const Network = (): JSX.Element => {
         .attr('dy', '0.35em')
         .attr('text-anchor', (d: any) => (d.x0 < width / 2 ? 'start' : 'end'))
         .text((d: any) =>
-          d.name.length > 12 ? d.name.slice(0, 12).concat('...') : d.name,
+          d.name.length > 40 ? d.name.slice(0, 40) : d.name,
         );
     }
   }, [networkContainerList]);

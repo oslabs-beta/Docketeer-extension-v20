@@ -5,9 +5,7 @@ import process from "process";
 // import laravel from "laravel-vite-plugin";
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    react()
-  ],
+  plugins: [react()],
   base: "./",
   build: {
     outDir: "build",
@@ -30,8 +28,18 @@ export default defineConfig({
     proxy: setupProxy(),
   },
   optimizeDeps: {
-    exclude: ['js-big-decimal']
-  }
+    exclude: ["js-big-decimal"],
+  },
+  ssr: {
+		noExternal: ['chart.js/**']
+	},
+  resolve: {
+    alias: {
+      // Add alias for Nivo Pie
+      "@nivo/pie": "@nivo/pie/dist/nivo-pie.esm.js",
+      "@nivo": "@nivo",
+    },
+  },
 });
 
 function setupProxy() {

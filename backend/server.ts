@@ -76,3 +76,7 @@ app.use(
 app.listen(SOCKETFILE, (): void => {
   console.log(`Listening on socket: ${SOCKETFILE}`);
 });
+
+// app.listen(PORT, (): void => {
+//   console.log(`Listening on socket: ${PORT}`);
+// });
