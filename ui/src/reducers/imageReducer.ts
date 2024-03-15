@@ -9,11 +9,13 @@ import {
   VulnerabilityPayload,
   Top3Payload,
   EverythingPayload,
+  timePayload
 } from "../../ui-types";
 import { ImageType } from "../../../types";
 import Client from "../models/Client";
 const initialState: ImagesStateType = {
-  imagesList: [],
+	imagesList: [],
+	timeStamp: '',
 };
 import { ddClientRequest } from "../models/ddClientRequest";
 
@@ -26,12 +28,12 @@ export const fetchImages = createAsyncThunk(
 );
 
 export const imageSlice = createSlice({
-  name: "images",
-  initialState,
+	name: 'images',
+	initialState,
   reducers: {
     updateVulnerabilities(state, action: PayloadAction<VulnerabilityPayload>) {
       // handle all cases where images are named and tagged <none>:<none> before moving on to handle active images
-      if (action.payload.scanName === "<none>:<none>") {
+      if (action.payload.scanName === '<none>:<none>') {
         state.imagesList.forEach((imageObj) => {
           if (imageObj.ScanName === action.payload.scanName) {
             imageObj.Vulnerabilities = action.payload.vulnerabilityObj;
@@ -53,7 +55,7 @@ export const imageSlice = createSlice({
       state.imagesList.splice(imageIndex, 1);
     },
     updateTop3(state, action: PayloadAction<Top3Payload>) {
-      if (action.payload.scanName === "<none>:<none>") {
+      if (action.payload.scanName === '<none>:<none>') {
         state.imagesList.forEach((imageObj) => {
           if (imageObj.ScanName === action.payload.scanName) {
             imageObj.Top3Obj = action.payload.top3Obj;
@@ -67,7 +69,7 @@ export const imageSlice = createSlice({
       }
     },
     addEverything(state, action: PayloadAction<EverythingPayload>) {
-      if (action.payload.scanName === "<none>:<none>") {
+      if (action.payload.scanName === '<none>:<none>') {
         state.imagesList.forEach((imageObj) => {
           if (imageObj.ScanName === action.payload.scanName) {
             imageObj.Everything = action.payload.everything;
@@ -88,19 +90,23 @@ export const imageSlice = createSlice({
         Everything: undefined,
       }));
     },
+    updateTime(state, action: PayloadAction<timePayload>) {
+      state.timeStamp = action.payload.timeStamp;
+    },
   },
-  extraReducers(builder) {
-    builder.addCase(fetchImages.fulfilled, (state, action) => {
-      state.imagesList = action.payload;
-    });
-  },
+	extraReducers(builder) {
+		builder.addCase(fetchImages.fulfilled, (state, action) => {
+			state.imagesList = action.payload;
+		});
+	},
 });
 
 export const {
-  updateVulnerabilities,
-  deleteImage,
-  updateTop3,
-  addEverything,
-  resetImageProperties,
+	updateVulnerabilities,
+	deleteImage,
+	updateTop3,
+	addEverything,
+	resetImageProperties,
+	updateTime,
 } = imageSlice.actions;
 export default imageSlice.reducer;

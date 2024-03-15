@@ -114,7 +114,8 @@ export interface ImageObj {
 }
 
 export interface ImagesStateType {
-  imagesList: ImageType[];
+	imagesList: ImageType[];
+  timeStamp: string;
 }
 
 // Type for vulnerability object - reducer inside action argument
@@ -132,6 +133,10 @@ export interface Top3Payload {
 export interface EverythingPayload {
   everything: object;
   scanName: string;
+}
+
+export interface timePayload {
+	timeStamp: string;
 }
 
 

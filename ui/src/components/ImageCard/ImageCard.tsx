@@ -12,10 +12,11 @@ import {
 import { GrypeScan } from "../../../../backend/backend-types";
 import Client from "../../models/Client";
 import {
-  updateVulnerabilities,
-  updateTop3,
-  addEverything,
-} from "../../reducers/imageReducer";
+	updateVulnerabilities,
+	updateTop3,
+	addEverything,
+	updateTime,
+} from '../../reducers/imageReducer';
 import DeleteIcon from "../../../assets/trash.svg";
 import PlayIcon from "../../../assets/play.svg";
 import ImageCardDropdown from "./ImageCardDropdown/ImageCardDropdown";
@@ -34,7 +35,6 @@ const ImageCard = ({
   runImageAlert,
   removeImageAlert,
   index,
-  setTime,
   reset,
   setReset,
 }: ImageCardProps): React.JSX.Element => {
@@ -44,7 +44,6 @@ const ImageCard = ({
   let total;
   // state for Learn More
   const [modalToggler, setModalToggler] = useState<boolean>(false);
-  const [pieSeverity, setPieSeverity] = useState<string>("");
 
   // get vulnerabilities directly from the store
   let vulnerabilities =
@@ -52,19 +51,21 @@ const ImageCard = ({
     false;
   const getScan = async (scanName: string, scanType: string) => {
     try {
-      setDone(false);
+			setDone(false);
+			const timeStamp = new Date().toLocaleString();
+			dispatch(updateTime({ timeStamp }));
+
       // retrieve scan data - Client.ImageService.getScan creates DDClient Request
       const scanObjectReturn: ScanReturn =
-        scanType === "getScan"
-          ? await Client.ImageService.getScan(scanName)
-          : await Client.ImageService.getRescan(scanName);
+				scanType === 'getScan'
+					? await Client.ImageService.getScan(scanName, timeStamp)
+					: await Client.ImageService.getRescan(scanName, timeStamp);
       const vulnerabilityObj: ScanObject = scanObjectReturn.vulnerabilites;
       total = Object.values(vulnerabilityObj).reduce(
         (acc, curr) => acc + curr,
         0
       );
       setDone(true);
-      setTime(scanObjectReturn.timeStamp);
 
       console.log("scanObjectReturn JSON FOR GRYPE: ", scanObjectReturn);
       console.log(`Success from getScan: ${scanName}`, vulnerabilityObj);

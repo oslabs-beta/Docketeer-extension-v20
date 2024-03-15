@@ -17,11 +17,11 @@ import { resetImageProperties } from "../../reducers/imageReducer";
 const Images = (): React.JSX.Element => {
   console.log('Rendering Images component');
   const [scanDone, setScanDone] = useState<boolean>(false);
-  const [time, setTime] = useState<string>('');
   const [reset, setReset] = useState<boolean>(false);
   const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
 
   const dispatch = useAppDispatch();
+  let time = useAppSelector((state) => state.images.timeStamp) || false;
 
   // If imagesList is not populated, send a dispatch that will fetch the list of docker images from the backend
   useEffect(() => {
@@ -100,7 +100,6 @@ const Images = (): React.JSX.Element => {
       key={i}
       index={i} // 1
       imgObj={imageObj} //current image in the imagesList
-      setTime={setTime}
       reset={reset}
       setReset={setReset}
     />

@@ -1,6 +1,7 @@
 import { ddClientRequest, encodeQuery } from "../ddClientRequest";
 import { ImageType, ContainerPS } from "../../../../types";
-import { ScanObject, ScanReturn } from "ui/ui-types";
+import { ScanReturn } from "ui/ui-types";
+import { updateTime } from '../../reducers/imageReducer';
 export const ImageService = {
 	async getImages(): Promise<ImageType[]> {
 		const images = await ddClientRequest<ImageType[]>(`/api/docker/image`);
@@ -35,9 +36,8 @@ export const ImageService = {
 		}
 	},
 
-	async getScan(scanName: string): Promise<ScanReturn> {
+	async getScan(scanName: string, timeStamp: string): Promise<ScanReturn> {
 		try {
-			const timeStamp = new Date().toLocaleString();
 			const scan: ScanReturn = await ddClientRequest(
 				'/api/docker/image/scan',
 				'POST',
@@ -53,9 +53,8 @@ export const ImageService = {
 		}
 	},
 
-	async getRescan(scanName: string): Promise<ScanReturn> {
+	async getRescan(scanName: string, timeStamp: string): Promise<ScanReturn> {
 		try {
-			const timeStamp = new Date().toLocaleString();
 			const scan: ScanReturn = await ddClientRequest(
 				'/api/docker/image/rescan',
 				'POST',
