@@ -69,7 +69,6 @@ cacheController.checkCacheGrypeDb = async (req: Request, res: Response, next: Ne
 }
 
 
-
 cacheController.setCacheGrypeDb = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   if (res.locals.cachedDbStatus) {
     next()
@@ -132,7 +131,6 @@ cacheController.checkCacheScan = async (req: Request, res: Response, next: NextF
     res.locals.vulnerabilites = JSON.parse(cachedVulernabilities);
     res.locals.everything = JSON.parse(cachedEverything);
     res.locals.timeStamp = JSON.parse(cachedTimeStamp);
-
     next()
   }
   else {

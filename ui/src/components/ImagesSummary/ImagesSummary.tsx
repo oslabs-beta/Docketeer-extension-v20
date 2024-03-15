@@ -12,11 +12,13 @@ import { ImageType } from '../../../../types';
 interface ImagesSummaryProps {
 	scanDone: boolean;
 	setScanDone: (boolean) => void;
+	reset: boolean;
 }
 
 const ImagesSummary = ({
 	scanDone,
 	setScanDone,
+	reset
 }: ImagesSummaryProps): React.JSX.Element => {
 	const [showInfo, setShowInfo] = useState(false);
 	const [summary, setSummary] = useState({
@@ -25,6 +27,7 @@ const ImagesSummary = ({
 		m: 0,
 		l: 0,
 		n: 0,
+		u: 0,
 	});
 	let makeSummary;
 	console.log('makeSummary outside useEffect: ', makeSummary);
@@ -46,6 +49,7 @@ const ImagesSummary = ({
 			let med = 0;
 			let low = 0;
 			let negligible = 0;
+			let unknown = 0;
 
 			imagesList.forEach((imageObj) => {
 				critical +=
@@ -68,13 +72,17 @@ const ImagesSummary = ({
 					typeof imageObj.Vulnerabilities.Negligible === 'number'
 						? imageObj.Vulnerabilities.Negligible
 						: 0;
+				unknown +=
+					typeof imageObj.Vulnerabilities.Unknown === 'number'
+						? imageObj.Vulnerabilities.Unknown
+						: 0;
 			});
 
 			console.log(
-				`high: ${high}, med: ${med}, low: ${low}, critical: ${critical}, negligble: ${negligible}`
+				`high: ${high}, med: ${med}, low: ${low}, critical: ${critical}, negligble: ${negligible}, unknown: ${unknown}`
 			);
 
-			const total = critical + high + med + low + negligible;
+			const total = critical + high + med + low + negligible + unknown;
 			console.log('total vulnerabilities: ', total);
 
 			if (total !== 0) {
@@ -84,13 +92,14 @@ const ImagesSummary = ({
 					m: (med / total) * 100,
 					l: (low / total) * 100,
 					n: (negligible / total) * 100,
+					u: (unknown / total) * 100,
 				});
 				setShowInfo(true);
       }
 		}
 	}, [imagesList]);
 
-	const levels: string[] = ['critical', 'high', 'medium', 'low', 'negligible'];
+	const levels: string[] = ['critical', 'high', 'medium', 'low', 'negligible', 'unknown'];
 	const printPercent: React.JSX.Element[] = levels.map((el, i) => {
 		return (
 			<div className={styles.boxPercent} key={i}>
@@ -106,6 +115,21 @@ const ImagesSummary = ({
 			</div>
 		);
 	});
+
+	// Rescan Image Summary
+	useEffect(() => {
+    if (reset) {
+      setSummary({
+        c: 0,
+        h: 0,
+        m: 0,
+        l: 0,
+        n: 0,
+        u: 0,
+      });
+      setShowInfo(false);
+    }
+  }, [reset]);
 
 	return (
 		<div>
@@ -132,6 +156,11 @@ const ImagesSummary = ({
 					<div
 						className={styles.negligible}
 						style={{ width: summary.n + '%' }}></div>
+				)}
+				{showInfo && (
+					<div
+						className={styles.unknown}
+						style={{ width: summary.u + '%' }}></div>
 				)}
 			</div>
 
