@@ -3,6 +3,7 @@ import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import styles from './Images.module.scss';
 import { ImageType } from '../../../../types';
+import { ImagesStateType } from "../../../ui-types";
 import { fetchImages, deleteImage } from '../../reducers/imageReducer';
 import Client from '../../models/Client';
 import ImageCard from '../ImageCard/ImageCard';
@@ -18,10 +19,10 @@ const Images = (): React.JSX.Element => {
   console.log('Rendering Images component');
   const [scanDone, setScanDone] = useState<boolean>(false);
   const [reset, setReset] = useState<boolean>(false);
-  const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
-
+  
   const dispatch = useAppDispatch();
-  let time = useAppSelector((state) => state.images.timeStamp) || false;
+  const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
+  const time = useAppSelector((state) => state.images.timeStamp);
 
   // If imagesList is not populated, send a dispatch that will fetch the list of docker images from the backend
   useEffect(() => {
@@ -91,10 +92,13 @@ const Images = (): React.JSX.Element => {
     );
   };
 
+  const saveScanHandler = async () => {
+    const success: ImagesStateType = await Client.ImageService.saveScan(imagesList, time);
+    if (success) console.log('Scan saved: ', success);
+  }
+
   // imagesList = [ {image1}, {image2, ScanName: whatever, Vulnerabilties: {high, med, low, critical:}}, {image3}]
   // declare a constant array of elements and push an image card into this array for each image in the imagesList
-
-  console.log('ALEXXXX THIS IS EVERYTHING IMAGE LIST', imagesList);
   
   let renderedImages: React.JSX.Element[] = imagesList.map((imageObj, i) => (
     <ImageCard
@@ -129,7 +133,7 @@ const Images = (): React.JSX.Element => {
 					RESCAN
 				</button>
 				{/* make Last Scan button conditionally grey or blue */}
-				<button className={styles.button}>BUTTON</button>
+				<button className={styles.button} onClick={saveScanHandler}>SAVE SCAN</button>
 			</div>
 			<h2 className={styles.VulnerabilitiesTitle}>
 				{`IMAGES - Last Scan: `}

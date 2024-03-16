@@ -51,7 +51,7 @@ interface CacheController {
 
 const cacheController: CacheController = {} as CacheController;
 
-cacheController.checkCacheGrypeDb = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+cacheController.checkCacheGrypeDb = async (req, res, next) => {
   try {
     const cachedDbStatus = await redisClient.get('cachedDbStatus');
     if (JSON.parse(cachedDbStatus)) {
@@ -69,7 +69,7 @@ cacheController.checkCacheGrypeDb = async (req: Request, res: Response, next: Ne
 }
 
 
-cacheController.setCacheGrypeDb = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+cacheController.setCacheGrypeDb = async (req, res, next) => {
   if (res.locals.cachedDbStatus) {
     next()
   } else {
@@ -88,7 +88,7 @@ cacheController.setCacheGrypeDb = async (req: Request, res: Response, next: Next
   }
 }
 
-cacheController.setCacheScan = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+cacheController.setCacheScan = async (req, res, next) => {
   if (res.locals.addToCache) {
     try {
       // cache vulnerability
@@ -120,7 +120,7 @@ cacheController.setCacheScan = async (req: Request, res: Response, next: NextFun
   }
 }
 
-cacheController.checkCacheScan = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+cacheController.checkCacheScan = async (req, res, next) => {
   const { scanName }: { scanName: string } = req.body;
   const cachedVulernabilities = await redisClient.get(
     `${scanName}&vulnerabilites`

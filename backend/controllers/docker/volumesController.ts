@@ -31,7 +31,7 @@ interface VolumeController{
 
 const volumeController: VolumeController = {} as VolumeController;
 
-volumeController.getContainersOnVolume = async(req: Request, res: Response, next: NextFunction): Promise<void> => {
+volumeController.getContainersOnVolume = async(req, res, next) => {
   try {
     const { id } = req.params;
     const { stdout, stderr } = await execAsync(`docker ps -a --filter volume=${id} --format "{{json .}},"`);
@@ -49,7 +49,7 @@ volumeController.getContainersOnVolume = async(req: Request, res: Response, next
   }
 }
 
-volumeController.getVolumes = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+volumeController.getVolumes = async (req, res, next)=> {
   try {
     const { stdout, stderr } = await execAsync('docker volume ls --format "{{json .}},"');
     if (stderr.length) throw new Error(stderr);
@@ -66,7 +66,7 @@ volumeController.getVolumes = async (req: Request, res: Response, next: NextFunc
   }
 }
 
-volumeController.removeVolume = async(req: Request, res: Response, next: NextFunction): Promise<void> => {
+volumeController.removeVolume = async(req, res, next) => {
   try {
     const { id } = req.params;
     const { stdout, stderr } = await execAsync(`docker volume rm ${id}`);

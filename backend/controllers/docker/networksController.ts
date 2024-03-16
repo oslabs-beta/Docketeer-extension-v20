@@ -67,7 +67,7 @@ interface NetworkController {
 
 const networkController: NetworkController = {} as NetworkController;
 
-networkController.getNetworks = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+networkController.getNetworks = async (req, res, next) => {
   try {
     const { stdout, stderr } = await execAsync('docker network ls --format "{{json .}},"');
     if (stderr.length) throw new Error(stderr);
@@ -85,7 +85,7 @@ networkController.getNetworks = async (req: Request, res: Response, next: NextFu
   }
 }
 
-networkController.createNetwork = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+networkController.createNetwork = async (req, res, next) => {
   try {
     const { networkName } = req.body;
     const { stdout, stderr } = await execAsync(`docker network create ${networkName}`);
@@ -105,7 +105,7 @@ networkController.createNetwork = async (req: Request, res: Response, next: Next
   }
 }
 
-networkController.removeNetwork = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+networkController.removeNetwork = async (req, res, next) => {
   try {
     // console.log('remove container test is coming here')
     const { id } = req.params;
@@ -125,7 +125,7 @@ networkController.removeNetwork = async (req: Request, res: Response, next: Next
   }
 }
 
-networkController.connectContainerToNetwork = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+networkController.connectContainerToNetwork = async (req, res, next) => {
   try {
     const { networkName, containerName } = req.body;
     const { stdout, stderr } = await execAsync(`docker network connect ${networkName} ${containerName}`);
@@ -144,7 +144,7 @@ networkController.connectContainerToNetwork = async (req: Request, res: Response
   }
 }
 
-networkController.disconnectContainerFromNetwork = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+networkController.disconnectContainerFromNetwork = async (req, res, next)=> {
   try {
     const { networkName, containerName } = req.query;
     const { stdout, stderr } = await execAsync(`docker network disconnect ${networkName} ${containerName}`);
@@ -166,7 +166,7 @@ networkController.disconnectContainerFromNetwork = async (req: Request, res: Res
 /**
  * @todo: Map NetworkType to res.locals.networks
  */
-networkController.getContainersOnNetwork = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+networkController.getContainersOnNetwork = async (req, res, next) => {
   try {
     const allContainers: NetworkAndContainer[] = [];
     for (const network of res.locals.networks) {
@@ -190,7 +190,7 @@ networkController.getContainersOnNetwork = async (req: Request, res: Response, n
 /**
  * @todo make sure implementation works
  */
-networkController.prune = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+networkController.prune = async (req, res, next) => {
   try {
     const { stdout, stderr } = await execAsync('docker network prune --force');
     if (stderr.length) throw new Error(stderr);

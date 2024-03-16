@@ -22,6 +22,7 @@ interface ImageController {
    * @param {string} req.body.scanName
    * @returns {void}
    */
+
   scanImages: (
     req: Request,
     res: Response,
@@ -35,6 +36,7 @@ interface ImageController {
    * @param {string} req.body.tag
    * @returns {void}
    */
+
   buildContainerFromImage: (
     req: Request,
     res: Response,
@@ -47,6 +49,7 @@ interface ImageController {
    * @abstract Pulls image from docker hub
    * @returns {void}
    */
+
   pullImage: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
   /**
@@ -55,6 +58,7 @@ interface ImageController {
    * @param {string} req.params.id
    * @returns
    */
+
   removeImage: (
     req: Request,
     res: Response,
@@ -66,7 +70,7 @@ interface ImageController {
 
 const imageController: ImageController = {} as ImageController;
 
-imageController.getImages = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+imageController.getImages = async (req, res, next) => {
   try {
     const { stdout, stderr } = await execAsync('docker images --format "{{json .}},"');
     if (stderr) throw new Error(stderr);
@@ -89,7 +93,7 @@ imageController.getImages = async (req: Request, res: Response, next: NextFuncti
   }
 }
 
-imageController.scanImages = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+imageController.scanImages = async (req, res, next) => {
   if (!res.locals.vulnerabilites) {
     const { scanName, timeStamp }: { scanName: string; timeStamp: string } = req.body;
 
@@ -133,7 +137,7 @@ imageController.scanImages = async (req: Request, res: Response, next: NextFunct
  * @todo change body parameters. It must accept a name for the container and a name for
  *       the image
  */
-imageController.buildContainerFromImage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+imageController.buildContainerFromImage = async (req, res, next) => {
   try {
     const { imageName, tag, containerName } = req.body;
     // Need to fix
@@ -153,7 +157,7 @@ imageController.buildContainerFromImage = async (req: Request, res: Response, ne
   }
 }
 
-imageController.removeImage =async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+imageController.removeImage =async (req, res, next) => {
   try {
     const { id } = req.params;
     const { stdout, stderr } = await execAsync(`docker rmi -f ${id}`);
@@ -169,11 +173,7 @@ imageController.removeImage =async (req: Request, res: Response, next: NextFunct
   }
 }
 
-imageController.dbStatus = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+imageController.dbStatus = async (req, res, next) => {
   if (!res.locals.cachedDbStatus) {
     try {
       const { stdout, stderr } = await execAsync('grype db update');
@@ -191,5 +191,6 @@ imageController.dbStatus = async (
     next()
   }
 };
+
 
 export default imageController;

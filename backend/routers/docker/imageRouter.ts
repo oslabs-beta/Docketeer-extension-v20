@@ -1,6 +1,7 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
 import imageController from '../../controllers/docker/imagesController';
 import cacheController from '../../controllers/docker/cacheController';
+import mongoController from '../../controllers/docker/mongoController';
 import { exec } from 'child_process';
 
 const router = Router();
@@ -65,6 +66,17 @@ router.post('/rescan', imageController.scanImages, cacheController.setCacheScan,
 
 /**
  * @abstract
+ * @todo Save the scan to MongoDB
+ * @param req.body
+ * @returns saved Object sent from the frontend to console.log out to test
+ */
+router.post('/saveScan', mongoController.saveScan, (req, res) => {
+  return res.sendStatus(200).json(res.locals.saveScan);
+ });
+
+
+/**
+ * @abstract
  * @todo Open CVE link from Modal - Learn More
  * @param req.body.link
  * @returns status 200
@@ -95,7 +107,6 @@ router.post(
 router.post('/run', imageController.buildContainerFromImage, (req, res) => {
   return res.sendStatus(201);
 });
-
 
 
 /**

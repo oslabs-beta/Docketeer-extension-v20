@@ -1,6 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-
 interface Vulnerability extends Document {
   Package: string;
   VersionInstalled: string;
