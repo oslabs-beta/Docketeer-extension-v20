@@ -89,16 +89,16 @@ export const ImageService = {
   async saveScan(imagesList: ImageType[], time: string): Promise<ImagesStateType> {
     try {
 			const saveList: ImagesStateType = await ddClientRequest(
-				"/api/docker/image/saveScan",
-				"POST",
-				{
-					imagesList,
-					timeStamp: time
-				}
-			);
+        "/api/docker/image/savescan",
+        "POST",
+        {
+          imagesList,
+          timeStamp: time,
+        }
+      );
 			return saveList;
     } catch (error) {
-      console.error(`Failed to save scan!`);
+      console.error(`Failed to save scan!`, error);
       return;
     }
   },

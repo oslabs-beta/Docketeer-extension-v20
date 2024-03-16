@@ -22,7 +22,7 @@ const Images = (): React.JSX.Element => {
   
   const dispatch = useAppDispatch();
   const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
-  const time = useAppSelector((state) => state.images.timeStamp);
+  const time: string = useAppSelector((state) => state.images.timeStamp);
 
   // If imagesList is not populated, send a dispatch that will fetch the list of docker images from the backend
   useEffect(() => {
@@ -93,8 +93,9 @@ const Images = (): React.JSX.Element => {
   };
 
   const saveScanHandler = async () => {
+    // console.log(`imagesList: ${JSON.stringify(imagesList)}, time: ${time}`);
     const success: ImagesStateType = await Client.ImageService.saveScan(imagesList, time);
-    if (success) console.log('Scan saved: ', success);
+    if (success) console.log('Scan saved: ', JSON.stringify(success));
   }
 
   // imagesList = [ {image1}, {image2, ScanName: whatever, Vulnerabilties: {high, med, low, critical:}}, {image3}]

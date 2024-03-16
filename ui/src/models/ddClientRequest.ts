@@ -44,10 +44,10 @@ export const ddClientRequest = async<T>(url: string, method: 'GET' | 'POST' | 'P
       fetchOptions.body = JSON.stringify(body);
     }
 
-
     fetchOptions.headers = { ...DEFAULT_HEADERS, ...headers }
-  
+    console.log('ALEX FETCH OPTIONS', fetchOptions);
     const result = await fetch(url, fetchOptions);
+    console.log('result it ', result);
 
     // Handle error message return to format the same as ddClient error messages
     if (!result.ok) {

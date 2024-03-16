@@ -70,9 +70,13 @@ router.post('/rescan', imageController.scanImages, cacheController.setCacheScan,
  * @param req.body
  * @returns saved Object sent from the frontend to console.log out to test
  */
-router.post('/saveScan', mongoController.saveScan, (req, res) => {
-  return res.sendStatus(200).json(res.locals.saveScan);
- });
+router.post('/savescan', mongoController.saveScan, (req, res) => {
+  return res.status(200).json(res.locals.saveScan);
+});
+ 
+// router.post("/savescan", (req, res) => {
+//   return res.status(200).json(req.body);
+// });
 
 
 /**

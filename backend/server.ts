@@ -10,7 +10,7 @@ import mongoose from 'mongoose';
 // It will mess up the ddClientRequest!
 
 
-// const PORT = process.env.PORT || 3003;
+// const PORT = 3003;
 let SOCKETFILE: string;
 if (process.env.MODE === 'browser') {
   SOCKETFILE = '3000';
@@ -27,16 +27,14 @@ if (process.env.MODE === 'browser') {
   }
 }
 
-async function connectToDatabase() {
-  try {
-    await mongoose.connect("mongodb://localhost:27017");
-    console.log("Connected to Mongodb database");
-  } catch (error) {
-    console.error("Database connection failed:", error);
-  }
-}
+// mongodb://localhost:27017
 
-connectToDatabase();
+mongoose
+  .connect("mongodb://localhost:27017/", {
+    dbName: 'docketeers'
+  })
+  .then(() => console.log("Connected to MongoDB."))
+  .catch((err) => console.error("Connection error:", err));
 
 const app = express();
 
@@ -75,7 +73,7 @@ app.use(
     const defaultErr: ServerError = {
       log: {err:'Express error handler caught unknown middleware error'},
       status: 500,
-      message: 'internal server error',
+      message: 'internal server error: HELLLO',
     };
 
     const errorObj: ServerError = Object.assign({}, defaultErr, err);
