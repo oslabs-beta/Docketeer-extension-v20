@@ -7,6 +7,7 @@ interface Vulnerability extends Document {
   VulnerabilityID: string;
   Severity: string;
 }
+
 const VulnerabilitySchema: Schema<Vulnerability> = new Schema({
   Package: { type: String, required: true },
   VersionInstalled: { type: String, required: true },
@@ -23,6 +24,7 @@ interface VulnerabilityCountSchema {
   Negligible: number;
   Unknown: number;
 };
+
 const VulnerabilityCountSchema: Schema<VulnerabilityCountSchema> = new Schema({
   Critical: { type: Number },
   High: { type: Number },
@@ -119,11 +121,10 @@ interface ImageSchema {
 };
 
 
-
 export default mongoose.model("ImageModel", ImageSchema);
 
 
-/*
+/* This is what document stored in Mongodb looks like
 
 ImageStateType {
   imagesList:(7) [
