@@ -3,6 +3,8 @@ import fs from 'fs';
 import { ServerError } from './backend-types';
 import process from 'process';
 import cookieParser from 'cookie-parser';
+import mongoose from 'mongoose';
+
 
 // DO NOT USE CORS!
 // It will mess up the ddClientRequest!
@@ -25,7 +27,16 @@ if (process.env.MODE === 'browser') {
   }
 }
 
+async function connectToDatabase() {
+  try {
+    await mongoose.connect("mongodb://localhost:27017");
+    console.log("Connected to Mongodb database");
+  } catch (error) {
+    console.error("Database connection failed:", error);
+  }
+}
 
+connectToDatabase();
 
 const app = express();
 
