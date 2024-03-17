@@ -27,15 +27,6 @@ if (process.env.MODE === 'browser') {
   }
 }
 
-// mongodb://localhost:27017
-
-mongoose
-  .connect("mongodb://localhost:27017/", {
-    dbName: 'docketeers'
-  })
-  .then(() => console.log("Connected to MongoDB."))
-  .catch((err) => console.error("Connection error:", err));
-
 const app = express();
 
 app.use(cookieParser());

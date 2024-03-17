@@ -1,134 +1,37 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-// Sub-schema for the 'Everything' object
-const EverythingSchema: Schema = new Schema({
-  critical: [{ Package: String, VersionInstalled: String, VulnerabilityID: String, Severity: String }],
-  high: [{ Package: String, VersionInstalled: String, VulnerabilityID: String, Severity: String }],
-  medium: [{ Package: String, VersionInstalled: String, VulnerabilityID: String, Severity: String }],
-  low: [{ Package: String, VersionInstalled: String, VulnerabilityID: String, Severity: String }],
-  negligible: [{ Package: String, VersionInstalled: String, VulnerabilityID: String, Severity: String }],
-  unknown: [{ Package: String, VersionInstalled: String, VulnerabilityID: String, Severity: String }],
-});
+const URI = 'mongodb://localhost:27017';
 
-// Sub-schema for the 'Top3Obj' object
-const Top3ObjSchema: Schema = new Schema({
-  critical: [[String, Number]],
-  high: [[String, Number]],
-  medium: [[String, Number]],
-  low: [[String, Number]],
-  negligible: [[String, Number]],
-  unknown: [[String, Number]],
-});
+mongoose
+	.connect(URI, {
+		dbName: 'grad-assessment', // sets the name of the DB
+	})
+	.then(() => console.log('Connected to Mongo DB.'))
+	.catch((err) => console.log(err));
 
-// Sub-schema for the 'Vulnerabilities' object
-const VulnerabilitiesSchema: Schema = new Schema({
-  Critical: Number,
-  High: Number,
-  Medium: Number,
-  Low: Number,
-  Neglibible: Number,
-  Unknown: Number,
-});
 
 // Main schema for the 'Image' object
 const ImageSchema: Schema = new Schema({
-  imagesList: [{
-    Containers: String,
-    CreatedAt: String,
-    CreatedSince: String,
-    Digest: String,
-    Everything: EverythingSchema,
-    ID: String,
-    Repository: String,
-    ScanName: String,
-    SharedSize: String,
-    Size: String,
-    Tag: String,
-    Top3Obj: Top3ObjSchema,
-    UniqueSize: String,
-    VirtualSize: String,
-    Vulnerabilities: VulnerabilitiesSchema,
-  }],
-  timeStamp: String,
+  // imagesList: [{
+  //   Containers: String,
+  //   CreatedAt: String,
+  //   CreatedSince: String,
+  //   Digest: String,
+  //   Everything: EverythingSchema,
+  //   ID: String,
+  //   Repository: String,
+  //   ScanName: String,
+  //   SharedSize: String,
+  //   Size: String,
+  //   Tag: String,
+  //   Top3Obj: Top3ObjSchema,
+  //   UniqueSize: String,
+  //   VirtualSize: String,
+  //   Vulnerabilities: VulnerabilitiesSchema,
+  // }],
+  timeStamp: {type: String, required: true},
 });
 
-
-// interface Vulnerability extends Document {
-//   Package: string;
-//   VersionInstalled: string;
-//   VulnerabilityID: string;
-//   Severity: string;
-// }
-
-// const VulnerabilitySchema: Schema<Vulnerability> = new Schema({
-//   Package: { type: String, required: true },
-//   VersionInstalled: { type: String, required: true },
-//   VulnerabilityID: { type: String, required: true },
-//   Severity: { type: String, required: true },
-// });
-
-// // Type for VulnerabilityCountSchema
-// interface VulnerabilityCountSchema {
-//   Critical: number;
-//   High: number;
-//   Medium: number;
-//   Low: number;
-//   Negligible: number;
-//   Unknown: number;
-// };
-
-// const VulnerabilityCountSchema: Schema<VulnerabilityCountSchema> = new Schema({
-//   Critical: { type: Number },
-//   High: { type: Number },
-//   Medium: { type: Number },
-//   Low: { type: Number },
-//   Negligible: { type: Number },
-//   Unknown: { type: Number },
-// });
-
-// // Type for EverythingSchema
-// interface EverythingSchema {
-//   critical: Vulnerability[];
-//   high: Vulnerability[];
-//   medium: Vulnerability[];
-//   low: Vulnerability[];
-//   negligible: Vulnerability[];
-//   unknown: Vulnerability[];
-// };
-
-// const EverythingSchema: Schema<EverythingSchema> = new Schema({
-//   critical: [VulnerabilitySchema],
-//   high: [VulnerabilitySchema],
-//   medium: [VulnerabilitySchema],
-//   low: [VulnerabilitySchema],
-//   negligible: [VulnerabilitySchema],
-//   unknown: [VulnerabilitySchema],
-// });
-
-// // Type for Top3ObjSchema
-// interface Top3ObjSchema {
-//   critical: [string, number][];
-//   high: [string, number][];
-//   medium: [string, number][];
-//   low: [string, number][];
-//   negligible: [string, number][];
-//   unknown: [string, number][];
-// };
-
-// const Top3ObjSchema: Schema<Top3ObjSchema> = new Schema({
-//   critical: [{ type: [String, Number] }],
-//   high: [{ type: [String, Number] }],
-//   medium: [{ type: [String, Number] }],
-//   low: [{ type: [String, Number] }],
-//   negligible: [{ type: [String, Number] }],
-//   unknown: [{ type: [String, Number] }],
-// });
-
-// MAIN SCHEMA
-// const ImageSchema: Schema<ImageSchema> = new Schema({
-//   imagesList: { type: String, required: true },
-//   timeStamp: { type: String, required: true },
-// });
 
 // const ImageSchema: Schema<ImageSchema> = new Schema({
 //   imagesList: [
@@ -153,43 +56,9 @@ const ImageSchema: Schema = new Schema({
 //   timeStamp: { type: String, required: true },
 // });
 
-// type for ImageSchema
-// interface ImageSchema {
-//   imagesList: string;
-//   timeStamp: string;
-// };
-
-// interface ImageSchema {
-//   imagesList: [
-//     {
-//       Containers: string;
-//       CreatedAt: string;
-//       CreatedSince: string;
-//       Digest: string;
-//       Everything: object,
-//       ID: string;
-//       Repository: string;
-//       ScanName: string;
-//       SharedSize: string;
-//       Size: string;
-//       Tag: string;
-//       Top3Obj: [];
-//       UniqueSize: string;
-//       VirtualSize: string;
-//       Vulnerabilities: object;
-//     },
-//   ],
-//   timeStamp: string;
-// };
-
-// Define a subdocument schema for each vulnerability
 
 
-
-
-
-
-export default mongoose.model("ImageModel", ImageSchema);
+module.exports = mongoose.model('ImageModel', ImageSchema);
 
 
 

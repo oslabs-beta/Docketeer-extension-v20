@@ -94,8 +94,8 @@ const Images = (): React.JSX.Element => {
 
   const saveScanHandler = async () => {
     // console.log(`imagesList: ${JSON.stringify(imagesList)}, time: ${time}`);
-    const success: ImagesStateType = await Client.ImageService.saveScan(imagesList, time);
-    if (success) console.log('Scan saved: ', JSON.stringify(success));
+    const success: {timeStamp: string} = await Client.ImageService.saveScan(imagesList, time);
+    if (success) console.log('Scan saved: ', success);
   }
 
   // imagesList = [ {image1}, {image2, ScanName: whatever, Vulnerabilties: {high, med, low, critical:}}, {image3}]
