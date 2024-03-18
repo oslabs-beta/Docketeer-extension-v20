@@ -39,7 +39,7 @@ const ImageCard = ({
   setReset,
 }: ImageCardProps): React.JSX.Element => {
   const dispatch = useAppDispatch();
-  const [done, setDone] = useState<boolean>(false);
+  const [done, setDone] = useState<boolean>(false); // state for scan finish or not
   const [graphModal, setgraphModal] = useState<boolean>(false);
   let total;
   // state for Learn More
@@ -51,9 +51,10 @@ const ImageCard = ({
     false;
   const getScan = async (scanName: string, scanType: string) => {
     try {
-			setDone(false);
+      setDone(false);
+
+      // get the current time of the User to scan in backend
 			const timeStamp = new Date().toLocaleString();
-			dispatch(updateTime({ timeStamp }));
 
       // retrieve scan data - Client.ImageService.getScan creates DDClient Request
       const scanObjectReturn: ScanReturn =
@@ -65,6 +66,9 @@ const ImageCard = ({
         (acc, curr) => acc + curr,
         0
       );
+      const newTimeStamp: string = scanObjectReturn.timeStamp;
+      // update the timeStamp from server
+      dispatch(updateTime({ timeStamp: newTimeStamp }));
       setDone(true);
 
       console.log("scanObjectReturn JSON FOR GRYPE: ", scanObjectReturn);

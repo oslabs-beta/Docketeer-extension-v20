@@ -18,6 +18,11 @@ const mongoController: MongoController = {} as MongoController;
 mongoController.saveScan = async (req, res, next) => {
   try {
     const { userIP, imagesList, timeStamp } = req.body;
+
+    // check for duplicates
+
+
+    // create and save new scan
     const savedScan = new ImageModel({ userIP, imagesList, timeStamp });
     await savedScan.save();
     // For checking front-end
@@ -27,7 +32,7 @@ mongoController.saveScan = async (req, res, next) => {
     const errObj: ServerError = {
       log: { err: `mongoController.saveScan Error: ${error}` },
       status: 500,
-      message: "mongoController.saveScan Error",
+      message: `mongoController.saveScan Error: ${error}`,
     };
     return next(errObj);
   }

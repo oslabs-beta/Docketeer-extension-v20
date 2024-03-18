@@ -14,7 +14,7 @@ if (process.env.MODE === 'browser') {
   SOCKETFILE = '3000';
 } else {
   SOCKETFILE = '/run/guest-services/backend.sock';
-  
+
   // Resets the docker socket, prevents the issue of VM socket being in use error but not always
   try {
     fs.unlinkSync(SOCKETFILE);
@@ -24,6 +24,13 @@ if (process.env.MODE === 'browser') {
     console.log('Did not need to delete the UNIX socket file.');
   }
 }
+
+/**
+ *  "413 Request Entity Too Large" error
+ *  Article: https://blog.hubspot.com/website/413-request-entity-too-large
+ *  Need to add {limit: '50mb'} to increase the transfer limit (default is 10-15 mb)
+ */
+
 
 const app = express();
 app.use(bodyParser.json({ limit: '50mb' })); // set file size limit to 50mb
@@ -75,6 +82,8 @@ app.use(
 app.listen(SOCKETFILE, (): void => {
   console.log(`Listening on socket: ${SOCKETFILE}`);
 });
+
+
 
 // app.listen(PORT, (): void => {
 //   console.log(`Listening on socket: ${PORT}`);

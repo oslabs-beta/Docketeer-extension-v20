@@ -1,70 +1,50 @@
 import { IncomingMessage } from "http";
 import mongoose, { Schema, Document } from "mongoose";
 
+
 // DO NOT CHANGE - SIGNED UP WITH DOCKETEER GMAIL!
+// Uncomment if you want to host your scans in the MongoDB cloud account for Docketeer
 // Database: docketeer - Collection: imagemodels
-const URI =
-  'mongodb+srv://docketeer:MaIQDkTCJlqyzWNu@docketeerextension.h4ubyyv.mongodb.net/';
-  
-// const URI = 'mongodb://localhost:27017';
-// const URI = 'mongodb://127.0.0.1:27017';
+// const URI =
+//   'mongodb+srv://docketeer:MaIQDkTCJlqyzWNu@docketeerextension.h4ubyyv.mongodb.net/';
 
-// https://www.mongodb.com/docs/manual/core/gridfs/
-// Storing using GridFS --> divide into smaller chunks
-// Youtube: https://www.youtube.com/watch?v=3f5Q9wDePzY
+/*
+If your application inside the Docker container needs to connect to a service on the host machine (in this case, MongoDB),
+you can't use localhost in the connection string. localhost inside a Docker container refers to the container itself, not the
+host machine.
 
-/**
- *  "413 Request Entity Too Large" error
- *  Article: https://blog.hubspot.com/website/413-request-entity-too-large
- */
+If you're using Docker Desktop for Mac, you can use host.docker.internal as the hostname to connect to your host machine.
+So your MongoDB connection string would look something like this: mongodb://host.docker.internal:27017.
+*/
+
+// USE LOCAL HOST INSTEAD OF CLOUD ATLAS
+const URI = 'mongodb://host.docker.internal:27017'
 
 mongoose
-	.connect(URI, {
-    dbName: 'docketeer', // sets the name of the DB
-	})
-	.then(() => console.log('Connected to Mongo DB.'))
-	.catch((err) => console.log(err));
-
+  .connect(
+    URI,
+    {
+      dbName: 'docketeer'
+    }
+  )
+  .then(() => console.log("Connected to Mongo DB."))
+  .catch((err) => console.log(err));
 
 interface ImageDocument extends Document {
-	userIP: string;
-	imagesList: [];
-	timeStamp: string;
+  userIP: string;
+  imagesList: [];
+  timeStamp: string;
 }
 
 // Main schema for the 'Image' object
 const ImageSchema: Schema = new Schema({
 	userIP: { type: String, required: true },
-	imagesList: { type: Array, required: true },
+  imagesList: { type: Array, required: true },
 	timeStamp: { type: String, required: true },
 });
 
-
-// const ImageSchema: Schema<ImageSchema> = new Schema({
-//   imagesList: [
-//     {
-//       Containers: { type: String, required: true },
-//       CreatedAt: { type: String, required: true },
-//       CreatedSince: { type: String, required: true },
-//       Digest: { type: String, required: true },
-//       Everything: { type: Object, required: true },
-//       ID: { type: String, required: true },
-//       Repository: { type: String, required: true },
-//       ScanName: { type: String, required: true },
-//       SharedSize: { type: String, required: true },
-//       Size: { type: String, required: true },
-//       Tag: { type: String, required: true },
-//       Top3Obj: { type: Array },
-//       UniqueSize: { type: String, required: true },
-//       VirtualSize: { type: String, required: true },
-//       Vulnerabilities: { type: Object, required: true },
-//     },
-//   ],
-//   timeStamp: { type: String, required: true },
-// });
-
-
 module.exports = mongoose.model<ImageDocument>('ImageModel', ImageSchema);
+
 
 /* This is what document stored in Mongodb looks like
 
@@ -86,8 +66,7 @@ ImageStateType {
       UniqueSize: "N/A",
       VirtualSize: "1.699GB",
       Vulnerabilities: {Medium: 33, High: 31, Critical: 1, Unknown: 20},
-    }, {1:…}, {2:…}, {3:…}, {4:…}, {5:…}, {6:…}
-  ],
+   ],
   timeStamp: 'Last-Scan-Time'
 }
 

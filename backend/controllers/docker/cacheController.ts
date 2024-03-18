@@ -127,15 +127,19 @@ cacheController.checkCacheScan = async (req, res, next) => {
   );
   const cachedEverything = await redisClient.get(`${scanName}&everything`);
   const cachedTimeStamp = await redisClient.get(`${scanName}&timeStamp`)
-  if (cachedVulernabilities !== null) {
+  if (
+    cachedVulernabilities !== null &&
+    cachedEverything !== null &&
+    cachedTimeStamp !== null
+  ) {
     res.locals.vulnerabilites = JSON.parse(cachedVulernabilities);
     res.locals.everything = JSON.parse(cachedEverything);
     res.locals.timeStamp = JSON.parse(cachedTimeStamp);
-    next()
-  }
-  else {
-    console.log('Cache miss:', `${scanName}`)
-    next()
+    res.locals.addToCache = false;
+    next();
+  } else {
+    console.log("Cache miss:", `${scanName}`);
+    next();
   }
 }
 

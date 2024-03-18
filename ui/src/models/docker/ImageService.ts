@@ -91,9 +91,9 @@ export const ImageService = {
 		imagesList: any[],
 		time: string,
 		userIP: string
-	): Promise<{ userIP: string; imagesList: any; Stamp: string }> {
+	): Promise<{ userIP: string; imagesList: any; timeStamp: string }> {
 		try {
-			const saveList: { userIP: string; imagesList: any; Stamp: string } =
+			const saveList: { userIP: string; imagesList: any; timeStamp: string } =
 				await ddClientRequest('/api/docker/image/savescan', 'POST', {
 					userIP,
 					imagesList,

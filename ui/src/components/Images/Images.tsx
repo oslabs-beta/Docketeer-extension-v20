@@ -8,7 +8,8 @@ import { fetchImages, deleteImage } from '../../reducers/imageReducer';
 import Client from '../../models/Client';
 import ImageCard from '../ImageCard/ImageCard';
 import ImagesSummary from '../ImagesSummary/ImagesSummary';
-import { resetImageProperties } from "../../reducers/imageReducer";
+import { resetImageProperties } from '../../reducers/imageReducer';
+
 
 /**
  * @module | Images.tsx
@@ -19,7 +20,7 @@ const Images = (): React.JSX.Element => {
   console.log('Rendering Images component');
   const [scanDone, setScanDone] = useState<boolean>(false);
   const [reset, setReset] = useState<boolean>(false);
-  
+
   const dispatch = useAppDispatch();
   const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
   const time: string = useAppSelector((state) => state.images.timeStamp);
@@ -96,9 +97,9 @@ const Images = (): React.JSX.Element => {
 		// get UserIP --> IPv4
 		const response = await fetch('https://api.ipify.org?format=json');
 		const data = await response.json();
-		const userIP = data.ip;
-      
-    const success: { userIP: string; imagesList: any; Stamp: string } =
+    const userIP = data.ip;
+
+    const success: { userIP: string; imagesList: any; timeStamp: string } =
 			await Client.ImageService.saveScan(imagesList, time, userIP);
 		if (success) console.log('Scan saved: ', JSON.stringify(success));
 	}
@@ -107,7 +108,7 @@ const Images = (): React.JSX.Element => {
 
   // imagesList = [ {image1}, {image2, ScanName: whatever, Vulnerabilties: {high, med, low, critical:}}, {image3}]
   // declare a constant array of elements and push an image card into this array for each image in the imagesList
-  
+
   let renderedImages: React.JSX.Element[] = imagesList.map((imageObj, i) => (
     <ImageCard
       removeImageAlert={removeImageAlert}
@@ -121,36 +122,45 @@ const Images = (): React.JSX.Element => {
   ));
 
   return (
-		<div className={styles.ImagesContainer}>
-			<h2 className={styles.VulnerabilitiesTitle}>VULNERABILITIES</h2>
-			{/* VULNERABILITY SUMMARY INFO */}
-			<div>
-				<ImagesSummary
-					scanDone={scanDone}
-					setScanDone={setScanDone}
-					reset={reset}
-				/>
-			</div>
-			<div className={styles.buttonDiv}>
-				<button
-					className={scanDone ? styles.button : styles.buttonLoad}
-					onClick={() => {
-						if (scanDone) dispatch(resetImageProperties());
-						setReset(true);
-					}}>
-					RESCAN
-				</button>
-				{/* make Last Scan button conditionally grey or blue */}
-				<button className={styles.button} onClick={saveScanHandler}>SAVE SCAN</button>
-			</div>
-			<h2 className={styles.VulnerabilitiesTitle}>
-				{`IMAGES - Last Scan: `}
-				<span style={{ color: '#94c2ed' }}>{time && `${time}`}</span>
-			</h2>
-			{/* IMAGE CARDS */}
-			<div className={styles.ImagesCardsView}>{renderedImages}</div>
-		</div>
-	);
+    <div className={styles.ImagesContainer}>
+      <h2 className={styles.VulnerabilitiesTitle}>VULNERABILITIES</h2>
+      {/* VULNERABILITY SUMMARY INFO */}
+      <div>
+        <ImagesSummary
+          scanDone={scanDone}
+          setScanDone={setScanDone}
+          reset={reset}
+        />
+      </div>
+      <div className={styles.buttonDiv}>
+        <button
+          className={scanDone ? styles.button : styles.buttonLoad}
+          onClick={() => {
+            if (scanDone) dispatch(resetImageProperties());
+            setReset(true);
+          }}
+        >
+          RESCAN
+        </button>
+        {/* make Last Scan button conditionally grey or blue */}
+        <button
+          className={scanDone ? styles.button : styles.buttonLoad}
+          onClick={() => {
+            if (scanDone) saveScanHandler;
+            // send a GET request to check MongoDB if the current exists
+          }}
+        >
+          SAVE SCAN
+        </button>
+      </div>
+      <h2 className={styles.VulnerabilitiesTitle}>
+        {`IMAGES - Last Scan: `}
+        <span style={{ color: "#94c2ed" }}>{time && `${time}`}</span>
+      </h2>
+      {/* IMAGE CARDS */}
+      <div className={styles.ImagesCardsView}>{renderedImages}</div>
+    </div>
+  );
 };
 
 export default Images;
