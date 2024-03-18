@@ -1,35 +1,33 @@
+import { IncomingMessage } from "http";
 import mongoose, { Schema, Document } from "mongoose";
 
-const URI = 'mongodb://localhost:27017';
+// DO NOT CHANGE - SIGNED UP WITH DOCKETEER GMAIL!
+// Database: docketeer - Collection: imagemodels
+const URI =
+  'mongodb+srv://docketeer:MaIQDkTCJlqyzWNu@docketeerextension.h4ubyyv.mongodb.net/';
+  
+// const URI = 'mongodb://localhost:27017';
+// const URI = 'mongodb://127.0.0.1:27017';
 
 mongoose
 	.connect(URI, {
-		dbName: 'grad-assessment', // sets the name of the DB
+    dbName: 'docketeer', // sets the name of the DB
 	})
 	.then(() => console.log('Connected to Mongo DB.'))
 	.catch((err) => console.log(err));
 
 
+interface ImageDocument extends Document {
+	userIP: string;
+	savedList: [];
+	timeStamp: string;
+}
+
 // Main schema for the 'Image' object
 const ImageSchema: Schema = new Schema({
-  // imagesList: [{
-  //   Containers: String,
-  //   CreatedAt: String,
-  //   CreatedSince: String,
-  //   Digest: String,
-  //   Everything: EverythingSchema,
-  //   ID: String,
-  //   Repository: String,
-  //   ScanName: String,
-  //   SharedSize: String,
-  //   Size: String,
-  //   Tag: String,
-  //   Top3Obj: Top3ObjSchema,
-  //   UniqueSize: String,
-  //   VirtualSize: String,
-  //   Vulnerabilities: VulnerabilitiesSchema,
-  // }],
-  timeStamp: {type: String, required: true},
+  userIP: { type: String, required: true },
+  savedList: {type: Array, required: true},
+	timeStamp: { type: String, required: true },
 });
 
 
@@ -57,8 +55,8 @@ const ImageSchema: Schema = new Schema({
 // });
 
 
+module.exports = mongoose.model<ImageDocument>('ImageModel', ImageSchema);
 
-module.exports = mongoose.model('ImageModel', ImageSchema);
 
 
 

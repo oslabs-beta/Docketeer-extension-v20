@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import styles from './Images.module.scss';
 import { ImageType } from '../../../../types';
-import { ImagesStateType } from "../../../ui-types";
+import { ImagesStateType, ModifiedObject } from '../../../ui-types';
 import { fetchImages, deleteImage } from '../../reducers/imageReducer';
 import Client from '../../models/Client';
 import ImageCard from '../ImageCard/ImageCard';
@@ -93,10 +93,22 @@ const Images = (): React.JSX.Element => {
   };
 
   const saveScanHandler = async () => {
-    // console.log(`imagesList: ${JSON.stringify(imagesList)}, time: ${time}`);
-    const success: {timeStamp: string} = await Client.ImageService.saveScan(imagesList, time);
-    if (success) console.log('Scan saved: ', success);
-  }
+		// get UserIP --> IPv4
+		const response = await fetch('https://api.ipify.org?format=json');
+		const data = await response.json();
+		const userIP = data.ip;
+
+    const savedList: ModifiedObject[] = imagesList.map((el) => ({
+			Everything: el.Everything,
+			Top3Obj: el.Top3Obj,
+		}));
+      
+		const success: { userIP: string; timeStamp: string } =
+			await Client.ImageService.saveScan(savedList, time, userIP);
+		if (success) console.log('Scan saved: ', JSON.stringify(success));
+	}
+
+
 
   // imagesList = [ {image1}, {image2, ScanName: whatever, Vulnerabilties: {high, med, low, critical:}}, {image3}]
   // declare a constant array of elements and push an image card into this array for each image in the imagesList
