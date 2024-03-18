@@ -97,14 +97,9 @@ const Images = (): React.JSX.Element => {
 		const response = await fetch('https://api.ipify.org?format=json');
 		const data = await response.json();
 		const userIP = data.ip;
-
-    const savedList: ModifiedObject[] = imagesList.map((el) => ({
-			Everything: el.Everything,
-			Top3Obj: el.Top3Obj,
-		}));
       
-		const success: { userIP: string; timeStamp: string } =
-			await Client.ImageService.saveScan(savedList, time, userIP);
+    const success: { userIP: string; imagesList: any; Stamp: string } =
+			await Client.ImageService.saveScan(imagesList, time, userIP);
 		if (success) console.log('Scan saved: ', JSON.stringify(success));
 	}
 

@@ -9,6 +9,15 @@ const URI =
 // const URI = 'mongodb://localhost:27017';
 // const URI = 'mongodb://127.0.0.1:27017';
 
+// https://www.mongodb.com/docs/manual/core/gridfs/
+// Storing using GridFS --> divide into smaller chunks
+// Youtube: https://www.youtube.com/watch?v=3f5Q9wDePzY
+
+/**
+ *  "413 Request Entity Too Large" error
+ *  Article: https://blog.hubspot.com/website/413-request-entity-too-large
+ */
+
 mongoose
 	.connect(URI, {
     dbName: 'docketeer', // sets the name of the DB
@@ -19,14 +28,14 @@ mongoose
 
 interface ImageDocument extends Document {
 	userIP: string;
-	savedList: [];
+	imagesList: [];
 	timeStamp: string;
 }
 
 // Main schema for the 'Image' object
 const ImageSchema: Schema = new Schema({
-  userIP: { type: String, required: true },
-  savedList: {type: Array, required: true},
+	userIP: { type: String, required: true },
+	imagesList: { type: Array, required: true },
 	timeStamp: { type: String, required: true },
 });
 
@@ -56,10 +65,6 @@ const ImageSchema: Schema = new Schema({
 
 
 module.exports = mongoose.model<ImageDocument>('ImageModel', ImageSchema);
-
-
-
-
 
 /* This is what document stored in Mongodb looks like
 

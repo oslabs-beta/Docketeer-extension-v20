@@ -178,7 +178,7 @@ export interface ScanReturn {
 
 export interface ModifiedObject {
 	Everything: EverythingObj;
-	Top3Obj: Top3Obj;
+	// Top3Obj: Top3Obj;
 }
 
 // ==============================================
