@@ -132,7 +132,8 @@ h2 {
   margin-bottom: 5px;
   display: flex;
   justify-content: center;
-   gap: 10px;
+  gap: 10px;
+  backdrop-filter: blur(4px);
 }
 
 .buttonNumber {
