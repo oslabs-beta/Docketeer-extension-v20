@@ -1,8 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import styles from './ImagesSummary.module.scss';
-import { useAppSelector } from '../../reducers/hooks';
+import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { ImageType } from '../../../../types';
+import { updateTotalVul } from '../../reducers/imageReducer';
 
 /**
  * @module | ImagesSummary.tsx
@@ -29,6 +30,7 @@ const ImagesSummary = ({
 		n: 0,
 		u: 0,
 	});
+	const dispatch = useAppDispatch();
 	let makeSummary;
 	console.log('makeSummary outside useEffect: ', makeSummary);
 	const imagesList: ImageType[] = useAppSelector(
@@ -95,7 +97,8 @@ const ImagesSummary = ({
 					u: (unknown / total) * 100,
 				});
 				setShowInfo(true);
-      }
+				dispatch(updateTotalVul({ totalVul : total }));
+			}
 		}
 	}, [imagesList]);
 

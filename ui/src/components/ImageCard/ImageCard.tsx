@@ -17,7 +17,6 @@ import {
 	addEverything,
   updateTime,
   updateIsSaved,
-  // updateLastScanName
 } from '../../reducers/imageReducer';
 import DeleteIcon from "../../../assets/trash.svg";
 import PlayIcon from "../../../assets/play.svg";
@@ -62,7 +61,6 @@ const ImageCard = ({
       const timeStamp = new Date().toLocaleString();
 
       // retrieve scan data - Client.ImageService.getScan creates DDClient Request
-
       const scanObjectReturn: ScanReturn =
 				scanType === 'getScan'
           ? await Client.ImageService.getScan(scanName, timeStamp)

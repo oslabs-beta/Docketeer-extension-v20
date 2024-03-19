@@ -26,6 +26,7 @@ const Images = (): React.JSX.Element => {
   const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
   const time: string = useAppSelector((state) => state.images.timeStamp);
   const isSavedState: boolean = useAppSelector((state) => state.images.isSaved);
+  const totalVul: number = useAppSelector((state) => state.images.totalVul);
 
   // If imagesList is not populated, send a dispatch that will fetch the list of docker images from the backend
   useEffect(() => {
@@ -131,46 +132,48 @@ const Images = (): React.JSX.Element => {
   ));
 
   return (
-    <div className={styles.ImagesContainer}>
-      <h2 className={styles.VulnerabilitiesTitle}>VULNERABILITIES</h2>
-      {/* VULNERABILITY SUMMARY INFO */}
-      <div>
-        <ImagesSummary
-          scanDone={scanDone}
-          setScanDone={setScanDone}
-          reset={reset}
-        />
-      </div>
-      <div className={styles.buttonDiv}>
-        <button
-          className={scanDone ? styles.button : styles.buttonLoad}
-          onClick={() => {
-            if (scanDone) {
-              dispatch(resetImageProperties());
-              setReset(true);
-            }
-          }}
-        >
-          RESCAN
-        </button>
-        {/* make Last Scan button conditionally grey or blue */}
-        <button
-          className={scanDone && !isSavedState ? styles.button : styles.buttonLoad}
-          onClick={() => {
-            if (scanDone && !isSavedState) saveScanHandler();
-          }}
-        >
-          SAVE SCAN
-        </button>
-      </div>
-      <h2 className={styles.VulnerabilitiesTitle}>
-        {`IMAGES - Last Scan: `}
-        <span style={{ color: "#94c2ed" }}>{time && `${time}`}</span>
-      </h2>
-      {/* IMAGE CARDS */}
-      <div className={styles.ImagesCardsView}>{renderedImages}</div>
-    </div>
-  );
+		<div className={styles.ImagesContainer}>
+			<h2 className={styles.VulnerabilitiesTitle}>
+        VULNERABILITIES {totalVul !== 0 && <span style={{ color: '#94c2ed' }}>{`- Total: ${totalVul}`}</span>}
+			</h2>
+			{/* VULNERABILITY SUMMARY INFO */}
+			<div>
+				<ImagesSummary
+					scanDone={scanDone}
+					setScanDone={setScanDone}
+					reset={reset}
+				/>
+			</div>
+			<div className={styles.buttonDiv}>
+				<button
+					className={scanDone ? styles.button : styles.buttonLoad}
+					onClick={() => {
+						if (scanDone) {
+							dispatch(resetImageProperties());
+							setReset(true);
+						}
+					}}>
+					RESCAN
+				</button>
+				{/* make Last Scan button conditionally grey or blue */}
+				<button
+					className={
+						scanDone && !isSavedState ? styles.button : styles.buttonLoad
+					}
+					onClick={() => {
+						if (scanDone && !isSavedState) saveScanHandler();
+					}}>
+					SAVE SCAN
+				</button>
+			</div>
+			<h2 className={styles.VulnerabilitiesTitle}>
+				{`IMAGES - Last Scan: `}
+				<span style={{ color: '#94c2ed' }}>{time && `${time}`}</span>
+			</h2>
+			{/* IMAGE CARDS */}
+			<div className={styles.ImagesCardsView}>{renderedImages}</div>
+		</div>
+	);
 };
 
 export default Images;

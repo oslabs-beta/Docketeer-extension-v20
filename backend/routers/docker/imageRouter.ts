@@ -55,7 +55,7 @@ router.post('/rescan', imageController.scanImages, cacheController.setCacheScan,
     vulnerabilites: res.locals.vulnerabilites,
     everything: res.locals.everything,
     timeStamp: res.locals.timeStamp,
-    saved: true,
+    saved: false,
   });
 });
 
