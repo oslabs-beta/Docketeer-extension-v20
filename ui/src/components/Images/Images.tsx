@@ -145,8 +145,10 @@ const Images = (): React.JSX.Element => {
         <button
           className={scanDone ? styles.button : styles.buttonLoad}
           onClick={() => {
-            if (scanDone) dispatch(resetImageProperties());
-            setReset(true);
+            if (scanDone) {
+              dispatch(resetImageProperties());
+              setReset(true);
+            }
           }}
         >
           RESCAN

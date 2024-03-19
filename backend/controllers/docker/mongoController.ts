@@ -24,7 +24,7 @@ const mongoController: MongoController = {} as MongoController;
 
 mongoController.saveScan = async (req, res, next) => {
   try {
-    const { userIP, imagesList, timeStamp} = req.body;
+    const { userIP, imagesList, timeStamp } = req.body;
     const savedScan = new ImageModel({ userIP, imagesList, timeStamp });
     await savedScan.save();
     res.locals.saved = true;

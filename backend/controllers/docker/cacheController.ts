@@ -153,17 +153,17 @@ cacheController.setCachedSave = async (req, res, next) => {
 
 cacheController.checkCacheScan = async (req, res, next) => {
   const { scanName }: { scanName: string } = req.body;
-  const cachedVulernabilities = await redisClient.get(`${scanName}&vulnerabilites`);
+  const cachedVulnernabilities = await redisClient.get(`${scanName}&vulnerabilites`);
   const cachedEverything = await redisClient.get(`${scanName}&everything`);
   const cachedTimeStamp = await redisClient.get(`${scanName}&timeStamp`);
-  // const cachedIsSaved = await redisClient.get(`isSaved`);
+  const cachedIsSaved = await redisClient.get(`isSaved`);
 
-  // res.locals.saved = cachedIsSaved ? JSON.parse(cachedIsSaved) : false;
+  res.locals.saved = cachedIsSaved ? true : false;
 
   if (
-    cachedVulernabilities !== null
+    cachedVulnernabilities !== null && cachedEverything !== null && cachedTimeStamp !== null
   ) {
-    res.locals.vulnerabilites = JSON.parse(cachedVulernabilities);
+    res.locals.vulnerabilites = JSON.parse(cachedVulnernabilities);
     res.locals.everything = JSON.parse(cachedEverything);
     res.locals.timeStamp = JSON.parse(cachedTimeStamp);
     res.locals.addToCache = false;

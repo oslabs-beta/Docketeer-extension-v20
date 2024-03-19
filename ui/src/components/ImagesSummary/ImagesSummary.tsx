@@ -41,8 +41,8 @@ const ImagesSummary = ({
 			(imageObj) => imageObj.Vulnerabilities !== undefined
 		);
     console.log('makeSummary: Are all vulnerabilities done?: ', makeSummary);
-    setScanDone(makeSummary);
-
+		setScanDone(makeSummary);
+		
 		if (makeSummary) {
 			let critical = 0;
 			let high = 0;
