@@ -28,7 +28,7 @@ $unknown: #59595996;
 .critical, .high, .med, .low, .negligible, .unknown {
   background-color: $criticalColor;
   padding: 2px;
-  // cursor: pointer;
+  backdrop-filter: blur(4px);
 }
 .critical {
   border-top-left-radius: 20px;

@@ -23,7 +23,7 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm install
 # install
 COPY ui/. ./
-RUN npm run build
+# RUN npm run build
 
 # Creates the working directory for the extension
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16

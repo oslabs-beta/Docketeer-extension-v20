@@ -16,6 +16,8 @@
 .ImagesContainer {
   display: flex;
   flex-direction: column;
+  // If animation too annoyed
+  // backdrop-filter: blur(4px);
 }
 
 .ImagesCardsView {
@@ -44,6 +46,7 @@
   border-radius: 4px;
   outline: none;
   margin: 10px;
+  backdrop-filter: blur(4px);
   cursor: pointer; 
 }
 
