@@ -9,15 +9,22 @@ import {
   VulnerabilityPayload,
   Top3Payload,
   EverythingPayload,
-  timePayload
+  timePayload,
+  savePayload,
+  saveLastScanName,
 } from "../../ui-types";
 import { ImageType } from "../../../types";
 import Client from "../models/Client";
+import { ddClientRequest } from "../models/ddClientRequest";
+
+
 const initialState: ImagesStateType = {
 	imagesList: [],
-	timeStamp: '',
+  timeStamp: '',
+  isSaved: false,
+  // lastScanName: ''
 };
-import { ddClientRequest } from "../models/ddClientRequest";
+
 
 export const fetchImages = createAsyncThunk(
   "containers/fetchImages",
@@ -93,6 +100,12 @@ export const imageSlice = createSlice({
     updateTime(state, action: PayloadAction<timePayload>) {
       state.timeStamp = action.payload.timeStamp;
     },
+    updateIsSaved(state, action: PayloadAction<savePayload>) {
+      state.isSaved = action.payload.isSaved;
+    },
+    // updateLastScanName(state, action: PayloadAction<saveLastScanName>) {
+    //   state.lastScanName = action.payload.lastScanName;
+    // }
   },
 	extraReducers(builder) {
 		builder.addCase(fetchImages.fulfilled, (state, action) => {
@@ -107,6 +120,8 @@ export const {
 	updateTop3,
 	addEverything,
 	resetImageProperties,
-	updateTime,
+  updateTime,
+  updateIsSaved,
+  // updateLastScanName
 } = imageSlice.actions;
 export default imageSlice.reducer;

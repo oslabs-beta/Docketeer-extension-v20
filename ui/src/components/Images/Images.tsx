@@ -4,7 +4,7 @@ import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import styles from './Images.module.scss';
 import { ImageType } from '../../../../types';
 import { ImagesStateType, ModifiedObject } from '../../../ui-types';
-import { fetchImages, deleteImage } from '../../reducers/imageReducer';
+import { fetchImages, deleteImage, updateIsSaved } from '../../reducers/imageReducer';
 import Client from '../../models/Client';
 import ImageCard from '../ImageCard/ImageCard';
 import ImagesSummary from '../ImagesSummary/ImagesSummary';
@@ -22,8 +22,10 @@ const Images = (): React.JSX.Element => {
   const [reset, setReset] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
+
   const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
   const time: string = useAppSelector((state) => state.images.timeStamp);
+  const isSavedState: boolean = useAppSelector((state) => state.images.isSaved);
 
   // If imagesList is not populated, send a dispatch that will fetch the list of docker images from the backend
   useEffect(() => {
@@ -99,15 +101,18 @@ const Images = (): React.JSX.Element => {
 		const data = await response.json();
     const userIP = data.ip;
 
-    const success: {
-      printSavedScan: object;
-      saved: boolean;
-    } = await Client.ImageService.saveScan(imagesList, time, userIP);
+    //missing the SCAN NAME
+    const success: { printSavedScan: object; saved: boolean; } = await Client.ImageService.saveScan(imagesList, time, userIP, isSavedState);
+
+    //Example returned response: { printSavedScan: res.locals.savedScan, saved: true }
 
     // print to check
     if (success) console.log("Scan saved: ", JSON.stringify(success.printSavedScan));
 
+    // update save button state in Redux
     const isSaved: boolean = success.saved;
+    console.log("IS SAVED: ", isSaved);
+    dispatch(updateIsSaved({ isSaved: isSaved }));
 	}
 
 
@@ -150,10 +155,9 @@ const Images = (): React.JSX.Element => {
         </button>
         {/* make Last Scan button conditionally grey or blue */}
         <button
-          className={scanDone ? styles.button : styles.buttonLoad}
+          className={scanDone && !isSavedState ? styles.button : styles.buttonLoad}
           onClick={() => {
-            if (scanDone) saveScanHandler;
-            // send a GET request to check MongoDB if the current exists
+            if (scanDone && !isSavedState) saveScanHandler();
           }}
         >
           SAVE SCAN

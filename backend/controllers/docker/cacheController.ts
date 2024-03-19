@@ -47,6 +47,12 @@ interface CacheController {
     res: Response,
     next: NextFunction
   ) => Promise<void>;
+
+  setCachedSave: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<void>;
 }
 
 const cacheController: CacheController = {} as CacheController;
@@ -106,7 +112,13 @@ cacheController.setCacheScan = async (req, res, next) => {
         `${res.locals.scanName}&timeStamp`,
         JSON.stringify(res.locals.timeStamp)
       );
-      next()
+      // cache isSaved
+      await redisClient.set(
+        `${res.locals.scanName}&isSaved`,
+        JSON.stringify(res.locals.isSaved)
+      );
+
+      next();
     } catch (error) {
       const errObj: ServerError = {
         log: { err: `cacheController setCacheVulnerability Error: ${error}` },
@@ -120,22 +132,44 @@ cacheController.setCacheScan = async (req, res, next) => {
   }
 }
 
+cacheController.setCachedSave = async (req, res, next) => {
+    try {
+    const { isSavedState } = req.body;
+      // cache isSaved
+      await redisClient.set(
+        `${res.locals.scanName}&isSaved`,
+        JSON.stringify({isSaved: true})
+      );
+
+      next();
+    } catch (error) {
+      const errObj: ServerError = {
+        log: { err: `cacheController setCacheVulnerability Error: ${error}` },
+        status: 500,
+        message: 'internal server error'
+      }
+      next(errObj);
+    }
+  }
+
 cacheController.checkCacheScan = async (req, res, next) => {
   const { scanName }: { scanName: string } = req.body;
-  const cachedVulernabilities = await redisClient.get(
-    `${scanName}&vulnerabilites`
-  );
+  const cachedVulernabilities = await redisClient.get(`${scanName}&vulnerabilites`);
   const cachedEverything = await redisClient.get(`${scanName}&everything`);
-  const cachedTimeStamp = await redisClient.get(`${scanName}&timeStamp`)
-  if (
-    cachedVulernabilities !== null &&
-    cachedEverything !== null &&
-    cachedTimeStamp !== null
-  ) {
+  const cachedTimeStamp = await redisClient.get(`${scanName}&timeStamp`);
+  const cachedIsSaved = await redisClient.get(`${scanName}&isSaved`);
+
+  //&& cachedIsSaved !== null
+  if ( cachedVulernabilities !== null && cachedEverything !== null && cachedTimeStamp !== null && cachedIsSaved !== null ) {
     res.locals.vulnerabilites = JSON.parse(cachedVulernabilities);
     res.locals.everything = JSON.parse(cachedEverything);
     res.locals.timeStamp = JSON.parse(cachedTimeStamp);
+    // if (JSON.parse(cachedIsSaved) !== false) {
+    //   res.locals.isSaved = JSON.parse(cachedIsSaved);
+    // }
+    res.locals.isSaved = JSON.parse(cachedIsSaved);
     res.locals.addToCache = false;
+    res.locals.scanName;
     next();
   } else {
     console.log("Cache miss:", `${scanName}`);

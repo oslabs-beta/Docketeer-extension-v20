@@ -15,7 +15,9 @@ import {
 	updateVulnerabilities,
 	updateTop3,
 	addEverything,
-	updateTime,
+  updateTime,
+  updateIsSaved,
+  // updateLastScanName
 } from '../../reducers/imageReducer';
 import DeleteIcon from "../../../assets/trash.svg";
 import PlayIcon from "../../../assets/play.svg";
@@ -50,30 +52,36 @@ const ImageCard = ({
     useAppSelector((state) => state.images.imagesList[index].Vulnerabilities) ||
     false;
 
+  let isSavedState = useAppSelector((state) => state.images.isSaved)
 
-
-  const getScan = async (scanName: string, scanType: string) => {
+  const getScan = async (scanName: string, scanType: string, isSavedState: boolean) => {
     try {
       setDone(false);
 
       // get the current time of the User to scan in backend
-			const timeStamp = new Date().toLocaleString();
+      const timeStamp = new Date().toLocaleString();
 
       // retrieve scan data - Client.ImageService.getScan creates DDClient Request
+
       const scanObjectReturn: ScanReturn =
 				scanType === 'getScan'
-					? await Client.ImageService.getScan(scanName, timeStamp)
+          ? await Client.ImageService.getScan(scanName, timeStamp, isSavedState)
 					: await Client.ImageService.getRescan(scanName, timeStamp);
       const vulnerabilityObj: ScanObject = scanObjectReturn.vulnerabilites;
       total = Object.values(vulnerabilityObj).reduce(
         (acc, curr) => acc + curr,
         0
       );
+
       const newTimeStamp: string = scanObjectReturn.timeStamp;
       // update the timeStamp from server
       dispatch(updateTime({ timeStamp: newTimeStamp }));
-      
-      // send another request to check MongoDB
+
+      console.log('ALEXX SCAN OBJECT RETURN',scanObjectReturn)
+      const isSavedBoolean: boolean = scanObjectReturn.isSaved;
+      console.log('ALEXXXX isSavedBoolean', isSavedBoolean)
+
+      dispatch(updateIsSaved({ isSaved: isSavedBoolean }))
 
 
 
@@ -243,14 +251,14 @@ const ImageCard = ({
 
   // UPON MOUNTED
   useEffect(() => {
-    if (!vulnerabilities) getScan(imgObj.ScanName, "getScan");
+    if (!vulnerabilities) getScan(imgObj.ScanName, "getScan", isSavedState);
     else setDone(true); // keep the green check
   }, []);
 
   // RESCAN
   useEffect(() => {
     if (reset) {
-      getScan(imgObj.ScanName, "getRescan");
+      getScan(imgObj.ScanName, "getRescan", isSavedState);
       setReset(false);
     }
   }, [reset]);

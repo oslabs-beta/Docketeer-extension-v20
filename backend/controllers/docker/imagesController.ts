@@ -94,8 +94,9 @@ imageController.getImages = async (req, res, next) => {
 }
 
 imageController.scanImages = async (req, res, next) => {
+  //case where REDIS cache is empty
   if (!res.locals.vulnerabilites) {
-    const { scanName, timeStamp }: { scanName: string; timeStamp: string } = req.body;
+    const { scanName, timeStamp, isSavedState }: { scanName: string; timeStamp: string; isSavedState: boolean } = req.body;
 
     try {
       //Development mode: runs Grype on scanName and outputs result based on a custom Go Template in ./controllers/grype/json.tmpl
@@ -111,10 +112,10 @@ imageController.scanImages = async (req, res, next) => {
         return acc
       }, {});
 
-      res.locals.scanName = scanName
       res.locals.vulnerabilites = countVulnerability;
       res.locals.everything = vulnerabilityJSON;
       res.locals.timeStamp = timeStamp;
+      res.locals.isSaved = isSavedState;
       res.locals.addToCache = true;
       next()
     } catch (error) {
