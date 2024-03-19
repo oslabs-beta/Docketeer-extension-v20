@@ -9,6 +9,8 @@ import Client from '../../models/Client';
 import ImageCard from '../ImageCard/ImageCard';
 import ImagesSummary from '../ImagesSummary/ImagesSummary';
 import { resetImageProperties } from '../../reducers/imageReducer';
+ import { ToastContainer, toast } from 'react-toastify';
+ import 'react-toastify/dist/ReactToastify.css';
 
 
 /**
@@ -161,7 +163,19 @@ const Images = (): React.JSX.Element => {
 						scanDone && !isSavedState ? styles.button : styles.buttonLoad
 					}
 					onClick={() => {
-						if (scanDone && !isSavedState) saveScanHandler();
+            if (scanDone && !isSavedState) {
+              saveScanHandler();
+              toast.success('Scan Saved!', {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              });
+            } 
 					}}>
 					SAVE SCAN
 				</button>
@@ -171,7 +185,19 @@ const Images = (): React.JSX.Element => {
 				<span style={{ color: '#94c2ed' }}>{time && `${time}`}</span>
 			</h2>
 			{/* IMAGE CARDS */}
-			<div className={styles.ImagesCardsView}>{renderedImages}</div>
+      <div className={styles.ImagesCardsView}>{renderedImages}</div>
+      <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover={false}
+      theme="dark"
+      />
 		</div>
 	);
 };

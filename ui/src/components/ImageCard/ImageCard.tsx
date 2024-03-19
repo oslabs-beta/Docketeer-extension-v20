@@ -182,14 +182,7 @@ const ImageCard = ({
   });
 
   const toggleDropdown = (criticalType: string) => {
-    setDropDown((prevState) => {
-      // // toggle true/false for that criticalType
-      // prevState[criticalType] = prevState[criticalType] ? false : true;
-      // // Change OTHER key to false
-      // for (let key in prevState) {
-      //   prevState[key] = key !== criticalType ? false : prevState[key];
-			// }
-			
+    setDropDown((prevState) => {			
 			const check = Object.values(dropDown).filter((el) => el).length;
 			if (check && !prevState[criticalType]) {
 				for (let key in prevState) {
