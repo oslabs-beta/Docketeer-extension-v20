@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { PromDataSource, EndpointType } from 'types';
-import { ConfigurationState } from 'ui/ui-types';
+import { PromDataSource, EndpointType } from '../../../types';
+import { ConfigurationState } from '../../ui-types';
 
 const initialState: ConfigurationState = {
   prometheusDataSources: [],
