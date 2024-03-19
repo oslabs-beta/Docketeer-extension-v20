@@ -47,6 +47,10 @@
 	width: 120px;
 }
 
+.iframeDiv {
+  backdrop-filter: blur(4px);
+}
+
 @media screen and (max-width: $breakpoint-lg) {
   .snapshotWrapper {
     display: flex;

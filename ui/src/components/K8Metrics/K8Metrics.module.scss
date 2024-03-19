@@ -14,6 +14,7 @@
   display: flex;
   justify-content: center;
   margin-top: 10px;
+  backdrop-filter: blur(4px);
 }
 .kubernetesTitle {
   text-align: left;
@@ -46,6 +47,7 @@
   outline: none;
   margin-left: 1rem;
   box-shadow: 1px 1px 10px #2d58cdc7;
+  backdrop-filter: blur(4px);
   &:hover {
     background-color: #9ab4fbc7;
   }
