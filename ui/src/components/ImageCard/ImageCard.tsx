@@ -193,18 +193,19 @@ const ImageCard = ({
     });
   };
 
-  const toggleArrow = () => {
-    setDropDown((prevState) => {
-      // length is 0 if none opened, >= if one is opened
-      const check = Object.values(dropDown).filter((el) => el).length;
-      if (check) {
-        for (let key in prevState) {
-          prevState[key] = false;
-        }
-      } else prevState.critical = true;
-      return { ...prevState };
-    });
-  };
+  const toggleArrow = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		event.stopPropagation(); // Stop event propagation here
+		setDropDown((prevState) => {
+			// length is 0 if none opened, >= if one is opened
+			const check = Object.values(dropDown).filter((el) => el).length;
+			if (check) {
+				for (let key in prevState) {
+					prevState[key] = false;
+				}
+			} else prevState.critical = true;
+			return { ...prevState };
+		});
+	};
 
   // Array to print out all levels
   const levels: string[] = [
@@ -217,28 +218,28 @@ const ImageCard = ({
   ];
   const printVul: React.JSX.Element[] = levels.map((el, i) => {
     return (
-      <div className={styles.imgVulDiv} key={i}>
-        <p
-          onClick={() => toggleDropdown(el.toLowerCase())}
-          className={`${
-            reset
-              ? styles.grayOut
-              : vulnerabilities[el]
-              ? styles[el.toLowerCase()]
-              : done
-              ? styles.green
-              : styles.grayOut
-          }`}
-        >
-          {vulnerabilities[el] && (
-            <span className={styles.vulNum}>
-              {vulnerabilities[el] ? vulnerabilities[el] : ""}
-            </span>
-          )}{" "}
-          {`${el[0]}`}
-        </p>
-      </div>
-    );
+			<div
+				className={styles.imgVulDiv} key={i}>
+				<p
+					onClick={() => toggleDropdown(el.toLowerCase())}
+					className={`${
+						reset
+							? styles.grayOut
+							: vulnerabilities[el]
+							? styles[el.toLowerCase()]
+							: done
+							? styles.green
+							: styles.grayOut
+					}`}>
+					{vulnerabilities[el] && (
+						<span className={styles.vulNum}>
+							{vulnerabilities[el] ? vulnerabilities[el] : ''}
+						</span>
+					)}{' '}
+					{`${el[0]}`}
+				</p>
+			</div>
+		);
   });
 
   // UPON MOUNTED
@@ -256,167 +257,168 @@ const ImageCard = ({
   }, [reset]);
 
   return (
-    <div
-      className={
-        reset
-          ? styles.imageCard
-          : done && Object.keys(vulnerabilities).length >= 4
-          ? styles.imageCardCrit
-          : done && Object.keys(vulnerabilities).length === 3
-          ? styles.imageCardHigh
-          : done && Object.keys(vulnerabilities).length === 2
-          ? styles.imageCardMed
-          : done && Object.keys(vulnerabilities).length === 1
-          ? styles.imageCardLow
-          : done && Object.keys(vulnerabilities).length === 0
-          ? styles.imageCardDone
-          : styles.imageCard
-      }
-    >
-      {/* vulnerability info card changing border color based on level found */}
+		<div
+			className={
+				reset
+					? styles.imageCard
+					: done && Object.keys(vulnerabilities).length >= 4
+					? styles.imageCardCrit
+					: done && Object.keys(vulnerabilities).length === 3
+					? styles.imageCardHigh
+					: done && Object.keys(vulnerabilities).length === 2
+					? styles.imageCardMed
+					: done && Object.keys(vulnerabilities).length === 1
+					? styles.imageCardLow
+					: done && Object.keys(vulnerabilities).length === 0
+					? styles.imageCardDone
+					: styles.imageCard
+			}
+			onDoubleClick={(event) => toggleArrow(event)}>
+			{/* vulnerability info card changing border color based on level found */}
 
-      <div className={styles.imageInfo}>
-        {/* image scanName: LEFT SIDE */}
+			<div className={styles.imageInfo}>
+				{/* image scanName: LEFT SIDE */}
 
-        <div style={{ cursor: "pointer" }}>
-          <p className={styles.ImageName}>{imgObj["Repository"]} </p>
-          <p className={styles.ImageTag}>Version: {imgObj["Tag"]}</p>
-        </div>
-        {/* VULNERABILITY LEVELS*/}
-        <div className={styles.VulnerabilitiesBlock}>
-          <p>{vulnerabilities && `Total Vulnerabilities (${Object.values(
-            vulnerabilities
-          ).reduce((acc: any , curr: any) => acc + curr, 0)})`}</p>
-          <p>Severity Levels</p>
+				<div style={{ cursor: 'pointer' }}>
+					<p className={styles.ImageName}>{imgObj['Repository']} </p>
+					<p className={styles.ImageTag}>Version: {imgObj['Tag']}</p>
+				</div>
+				{/* VULNERABILITY LEVELS*/}
+				<div className={styles.VulnerabilitiesBlock}>
+					<p>
+						{vulnerabilities &&
+							`Total Vulnerabilities (${Object.values(vulnerabilities).reduce(
+								(acc: any, curr: any) => acc + curr,
+								0
+							)})`}
+					</p>
+					<p>Severity Levels</p>
 
-          <div className={styles.imageVulnerabilities}>
-            {printVul}
-            <img
-              src={
-                Object.values(dropDown).filter((el) => el).length !== 0
-                  ? DropupIcon
-                  : DropdownIcon
-              }
-              onClick={toggleArrow}
-              className={styles.dropdownIcon}
-            />
-          </div>
-          {/* toggler drop down info of vulnerability type clicked */}
-          {dropDown.critical && (
-            <ImageCardDropdown
-              severity="critical"
-              scanName={imgObj.ScanName}
-              index={index}
-              modalToggler={modalToggler}
-              setModalToggler={setModalToggler}
-              setgraphModal={setgraphModal}
-              setDropDown={setDropDown}
-            />
-          )}
-          {dropDown.high && (
-            <ImageCardDropdown
-              severity="high"
-              scanName={imgObj.ScanName}
-              index={index}
-              modalToggler={modalToggler}
-              setModalToggler={setModalToggler}
-              setgraphModal={setgraphModal}
-              setDropDown={setDropDown}
-            />
-          )}
-          {dropDown.medium && (
-            <ImageCardDropdown
-              severity="medium"
-              scanName={imgObj.ScanName}
-              index={index}
-              modalToggler={modalToggler}
-              setModalToggler={setModalToggler}
-              setgraphModal={setgraphModal}
-              setDropDown={setDropDown}
-            />
-          )}
-          {dropDown.low && (
-            <ImageCardDropdown
-              severity="low"
-              scanName={imgObj.ScanName}
-              index={index}
-              modalToggler={modalToggler}
-              setModalToggler={setModalToggler}
-              setgraphModal={setgraphModal}
-              setDropDown={setDropDown}
-            />
-          )}
-          {dropDown.negligible && (
-            <ImageCardDropdown
-              severity="negligible"
-              scanName={imgObj.ScanName}
-              index={index}
-              modalToggler={modalToggler}
-              setModalToggler={setModalToggler}
-              setgraphModal={setgraphModal}
-              setDropDown={setDropDown}
-            />
-          )}
-          {dropDown.unknown && (
-            <ImageCardDropdown
-              severity="unknown"
-              scanName={imgObj.ScanName}
-              index={index}
-              modalToggler={modalToggler}
-              setModalToggler={setModalToggler}
-              setgraphModal={setgraphModal}
-              setDropDown={setDropDown}
-            />
-          )}
-        </div>
-      </div>
-      {/* RUN / REMOVE */}
-      <div className={styles.buttons}>
-        <img
-          src={PlayIcon}
-          className={styles.imgCardButton}
-          onClick={() => runImageAlert(imgObj)}
-        ></img>
-        <img
-          src={DeleteIcon}
-          className={styles.imgCardButton}
-          onClick={() => removeImageAlert(imgObj)}
-        ></img>
-        {/* ---- Graph Button ---- */}
-        <img
-          src={PieChart}
-          className={done ? styles.imgCardButton : styles.imgLoading}
-          onClick={() => {
-            // only allow click if done scanning
-            if (done) {
-              setgraphModal(true);
-              // reset other 2 states
-              setModalToggler(false);
-              setDropDown({
-                critical: false,
-                high: false,
-                medium: false,
-                low: false,
-                negligible: false,
-                unknown: false,
-              });
-            }
-          }}
-        ></img>
-      </div>
-      {/* PIE CHART */}
-      {graphModal && <div className={styles.backdrop}></div>}
-      <div className={styles.modalContainer}>
-        <GraphModal
-          trigger={graphModal}
-          setTrigger={setgraphModal}
-          index={index}
-          setModalToggler={setModalToggler}
-          toggleDropdown={toggleDropdown}
-        />
-      </div>
-    </div>
-  );
+					<div className={styles.imageVulnerabilities}>
+						{printVul}
+						<img
+							src={
+								Object.values(dropDown).filter((el) => el).length !== 0
+									? DropupIcon
+									: DropdownIcon
+							}
+							onClick={toggleArrow}
+							className={styles.dropdownIcon}
+						/>
+					</div>
+					{/* toggler drop down info of vulnerability type clicked */}
+					{dropDown.critical && (
+						<ImageCardDropdown
+							severity='critical'
+							scanName={imgObj.ScanName}
+							index={index}
+							modalToggler={modalToggler}
+							setModalToggler={setModalToggler}
+							setgraphModal={setgraphModal}
+							setDropDown={setDropDown}
+						/>
+					)}
+					{dropDown.high && (
+						<ImageCardDropdown
+							severity='high'
+							scanName={imgObj.ScanName}
+							index={index}
+							modalToggler={modalToggler}
+							setModalToggler={setModalToggler}
+							setgraphModal={setgraphModal}
+							setDropDown={setDropDown}
+						/>
+					)}
+					{dropDown.medium && (
+						<ImageCardDropdown
+							severity='medium'
+							scanName={imgObj.ScanName}
+							index={index}
+							modalToggler={modalToggler}
+							setModalToggler={setModalToggler}
+							setgraphModal={setgraphModal}
+							setDropDown={setDropDown}
+						/>
+					)}
+					{dropDown.low && (
+						<ImageCardDropdown
+							severity='low'
+							scanName={imgObj.ScanName}
+							index={index}
+							modalToggler={modalToggler}
+							setModalToggler={setModalToggler}
+							setgraphModal={setgraphModal}
+							setDropDown={setDropDown}
+						/>
+					)}
+					{dropDown.negligible && (
+						<ImageCardDropdown
+							severity='negligible'
+							scanName={imgObj.ScanName}
+							index={index}
+							modalToggler={modalToggler}
+							setModalToggler={setModalToggler}
+							setgraphModal={setgraphModal}
+							setDropDown={setDropDown}
+						/>
+					)}
+					{dropDown.unknown && (
+						<ImageCardDropdown
+							severity='unknown'
+							scanName={imgObj.ScanName}
+							index={index}
+							modalToggler={modalToggler}
+							setModalToggler={setModalToggler}
+							setgraphModal={setgraphModal}
+							setDropDown={setDropDown}
+						/>
+					)}
+				</div>
+			</div>
+			{/* RUN / REMOVE */}
+			<div className={styles.buttons}>
+				<img
+					src={PlayIcon}
+					className={styles.imgCardButton}
+					onClick={() => runImageAlert(imgObj)}></img>
+				<img
+					src={DeleteIcon}
+					className={styles.imgCardButton}
+					onClick={() => removeImageAlert(imgObj)}></img>
+				{/* ---- Graph Button ---- */}
+				<img
+					src={PieChart}
+					className={done ? styles.imgCardButton : styles.imgLoading}
+					onClick={() => {
+						// only allow click if done scanning
+						if (done) {
+							setgraphModal(true);
+							// reset other 2 states
+							setModalToggler(false);
+							setDropDown({
+								critical: false,
+								high: false,
+								medium: false,
+								low: false,
+								negligible: false,
+								unknown: false,
+							});
+						}
+					}}></img>
+			</div>
+			{/* PIE CHART */}
+			{graphModal && <div className={styles.backdrop}></div>}
+			<div className={styles.modalContainer}>
+				<GraphModal
+					trigger={graphModal}
+					setTrigger={setgraphModal}
+					index={index}
+					setModalToggler={setModalToggler}
+					toggleDropdown={toggleDropdown}
+				/>
+			</div>
+		</div>
+	);
 };
 
 export default ImageCard;
