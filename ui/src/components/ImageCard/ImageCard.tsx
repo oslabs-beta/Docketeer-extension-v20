@@ -49,6 +49,9 @@ const ImageCard = ({
   let vulnerabilities =
     useAppSelector((state) => state.images.imagesList[index].Vulnerabilities) ||
     false;
+
+
+
   const getScan = async (scanName: string, scanType: string) => {
     try {
       setDone(false);
@@ -69,6 +72,11 @@ const ImageCard = ({
       const newTimeStamp: string = scanObjectReturn.timeStamp;
       // update the timeStamp from server
       dispatch(updateTime({ timeStamp: newTimeStamp }));
+      
+      // send another request to check MongoDB
+
+
+
       setDone(true);
 
       console.log("scanObjectReturn JSON FOR GRYPE: ", scanObjectReturn);

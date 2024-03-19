@@ -99,9 +99,15 @@ const Images = (): React.JSX.Element => {
 		const data = await response.json();
     const userIP = data.ip;
 
-    const success: { userIP: string; imagesList: any; timeStamp: string } =
-			await Client.ImageService.saveScan(imagesList, time, userIP);
-		if (success) console.log('Scan saved: ', JSON.stringify(success));
+    const success: {
+      printSavedScan: object;
+      saved: boolean;
+    } = await Client.ImageService.saveScan(imagesList, time, userIP);
+
+    // print to check
+    if (success) console.log("Scan saved: ", JSON.stringify(success.printSavedScan));
+
+    const isSaved: boolean = success.saved;
 	}
 
 

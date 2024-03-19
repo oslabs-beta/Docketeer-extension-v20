@@ -3,6 +3,7 @@ import imageController from '../../controllers/docker/imagesController';
 import cacheController from '../../controllers/docker/cacheController';
 import mongoController from '../../controllers/docker/mongoController';
 import { exec } from 'child_process';
+import { resourceLimits } from 'worker_threads';
 
 const router = Router();
 router.use(express.json());
@@ -32,12 +33,11 @@ router.post(
   imageController.scanImages,
   cacheController.setCacheScan,
   (req, res) => {
-    // return res.status(200).json(res.locals.vulnerabilites);
-
     return res.status(200).json({
       vulnerabilites: res.locals.vulnerabilites,
       everything: res.locals.everything,
       timeStamp: res.locals.timeStamp,
+      // isSaved: res.locals.isSaved,
     });
   }
 );
@@ -55,13 +55,11 @@ router.post(
 
 //for when getScan or RESCAN button is hit
 router.post('/rescan', imageController.scanImages, cacheController.setCacheScan, (req, res) => {
-  return res
-    .status(200)
-    .json({
-      vulnerabilites: res.locals.vulnerabilites,
-      everything: res.locals.everything,
-      timeStamp: res.locals.timeStamp
-    });
+  return res.status(200).json({
+    vulnerabilites: res.locals.vulnerabilites,
+    everything: res.locals.everything,
+    timeStamp: res.locals.timeStamp,
+  });
 });
 
 /**
@@ -71,12 +69,11 @@ router.post('/rescan', imageController.scanImages, cacheController.setCacheScan,
  * @returns saved Object sent from the frontend to console.log out to test
  */
 router.post('/savescan', mongoController.saveScan, (req, res) => {
-  return res.status(200).json(res.locals.savedScan);
+  return res.status(200).json({
+    printSavedScan: res.locals.savedScan,
+    saved: res.locals.saved,
+  });
 });
- 
-// router.post("/savescan", (req, res) => {
-//   return res.status(200).json(req.body);
-// });
 
 
 /**

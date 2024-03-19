@@ -11,6 +11,13 @@ interface MongoController {
    */
 
   saveScan: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+
+  /**
+   * @method GET
+   * @abstract Check MongoDB database if the scan already in the database
+   * @returns boolean true/false
+   */
+  checkForScan: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 }
 
 const mongoController: MongoController = {} as MongoController;
@@ -18,13 +25,10 @@ const mongoController: MongoController = {} as MongoController;
 mongoController.saveScan = async (req, res, next) => {
   try {
     const { userIP, imagesList, timeStamp } = req.body;
-
-    // check for duplicates
-
-
-    // create and save new scan
     const savedScan = new ImageModel({ userIP, imagesList, timeStamp });
     await savedScan.save();
+    res.locals.saved = true;
+
     // For checking front-end
     res.locals.savedScan = savedScan;
     return next();
@@ -35,6 +39,21 @@ mongoController.saveScan = async (req, res, next) => {
       message: `mongoController.saveScan Error: ${error}`,
     };
     return next(errObj);
+  }
+}
+
+mongoController.checkForScan = async (req, res, next) => {
+  try {
+    const result = ImageModel.findOne({ timeStamp: res.locals.timeStamp });
+    res.locals.scanExists = result ? true : false;
+    return next();
+  } catch (error) {
+    const errObj: ServerError = {
+      log: { err: `mongoController.checkForScan Error: ${error}` },
+      status: 500,
+      message: `mongoController.checkForScan Error: ${error}`,
+    };
+  return next(errObj);
   }
 }
 
