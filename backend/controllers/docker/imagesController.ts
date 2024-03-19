@@ -94,41 +94,51 @@ imageController.getImages = async (req, res, next) => {
 }
 
 imageController.scanImages = async (req, res, next) => {
-  //case where REDIS cache is empty
-  if (!res.locals.vulnerabilites) {
-    const { scanName, timeStamp, isSavedState }: { scanName: string; timeStamp: string; isSavedState: boolean } = req.body;
+  if (!res.locals.addToCache) {
+    // const { scanName, timeStamp, isSavedState }: { scanName: string; timeStamp: string; isSavedState: boolean } = req.body;
+    const {
+      scanName,
+      timeStamp,
+    }: { scanName: string; timeStamp: string} =
+      req.body;
 
     try {
       //Development mode: runs Grype on scanName and outputs result based on a custom Go Template in ./controllers/grype/json.tmpl
       //Production: runs Grype on scanName and outputs result based on a custom Go Template in backend/dist/controllers/grype/json.tmpl
-      const { stdout, stderr } = await execAsync(`grype ${scanName} -o template -t ${templatePath}`);
+      const { stdout, stderr } = await execAsync(
+        `grype ${scanName} -o template -t ${templatePath}`
+      );
       if (stderr) throw new Error(stderr);
 
       //parse the vulnerability data and count the number of vulnerabilites
       const vulnerabilityJSON: GrypeScan[] = JSON.parse(stdout);
 
-      const countVulnerability: countVulnerability = vulnerabilityJSON.reduce((acc, cur) => {
-        acc.hasOwnProperty(cur.Severity) ? acc[cur.Severity]++ : acc[cur.Severity] = 1;
-        return acc
-      }, {});
+      const countVulnerability: countVulnerability = vulnerabilityJSON.reduce(
+        (acc, cur) => {
+          acc.hasOwnProperty(cur.Severity)
+            ? acc[cur.Severity]++
+            : (acc[cur.Severity] = 1);
+          return acc;
+        },
+        {}
+      );
 
       res.locals.vulnerabilites = countVulnerability;
       res.locals.everything = vulnerabilityJSON;
       res.locals.timeStamp = timeStamp;
-      res.locals.isSaved = isSavedState;
+      // res.locals.isSaved = isSavedState;
       res.locals.addToCache = true;
-      next()
+      next();
     } catch (error) {
       const errObj: ServerError = {
         log: { err: `imageController.scanImages Error: ${error}` },
         status: 500,
-        message: 'internal server error'
-      }
+        message: "internal server error",
+      };
       next(errObj);
     }
-  }
-  else {
-    next()
+  } else {
+    next();
   }
 };
 

@@ -101,8 +101,7 @@ const Images = (): React.JSX.Element => {
 		const data = await response.json();
     const userIP = data.ip;
 
-    //missing the SCAN NAME
-    const success: { printSavedScan: object; saved: boolean; } = await Client.ImageService.saveScan(imagesList, time, userIP, isSavedState);
+    const success: { printSavedScan: object; saved: boolean; } = await Client.ImageService.saveScan(imagesList, time, userIP);
 
     //Example returned response: { printSavedScan: res.locals.savedScan, saved: true }
 
@@ -112,9 +111,8 @@ const Images = (): React.JSX.Element => {
     // update save button state in Redux
     const isSaved: boolean = success.saved;
     console.log("IS SAVED: ", isSaved);
-    dispatch(updateIsSaved({ isSaved: isSaved }));
+    dispatch(updateIsSaved({ isSaved }));
 	}
-
 
 
   // imagesList = [ {image1}, {image2, ScanName: whatever, Vulnerabilties: {high, med, low, critical:}}, {image3}]

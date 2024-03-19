@@ -29,12 +29,11 @@ router.get('/', cacheController.checkCacheGrypeDb, imageController.getImages, im
 //when the user first opens the page
 //when the user refreshes the page and gets the REDIS cache result as well
 router.post("/scan", cacheController.checkCacheScan, imageController.scanImages, cacheController.setCacheScan, (req, res) => {
-
     return res.status(200).json({
       vulnerabilites: res.locals.vulnerabilites,
       everything: res.locals.everything,
       timeStamp: res.locals.timeStamp,
-      isSaved: res.locals.isSaved,
+      saved: res.locals.saved,
     });
   }
 );
@@ -56,6 +55,7 @@ router.post('/rescan', imageController.scanImages, cacheController.setCacheScan,
     vulnerabilites: res.locals.vulnerabilites,
     everything: res.locals.everything,
     timeStamp: res.locals.timeStamp,
+    saved: true,
   });
 });
 

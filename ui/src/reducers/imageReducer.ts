@@ -11,7 +11,6 @@ import {
   EverythingPayload,
   timePayload,
   savePayload,
-  saveLastScanName,
 } from "../../ui-types";
 import { ImageType } from "../../../types";
 import Client from "../models/Client";
@@ -22,7 +21,6 @@ const initialState: ImagesStateType = {
 	imagesList: [],
   timeStamp: '',
   isSaved: false,
-  // lastScanName: ''
 };
 
 
@@ -103,9 +101,7 @@ export const imageSlice = createSlice({
     updateIsSaved(state, action: PayloadAction<savePayload>) {
       state.isSaved = action.payload.isSaved;
     },
-    // updateLastScanName(state, action: PayloadAction<saveLastScanName>) {
-    //   state.lastScanName = action.payload.lastScanName;
-    // }
+
   },
 	extraReducers(builder) {
 		builder.addCase(fetchImages.fulfilled, (state, action) => {
@@ -122,6 +118,5 @@ export const {
 	resetImageProperties,
   updateTime,
   updateIsSaved,
-  // updateLastScanName
 } = imageSlice.actions;
 export default imageSlice.reducer;

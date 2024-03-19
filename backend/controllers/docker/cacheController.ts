@@ -113,10 +113,10 @@ cacheController.setCacheScan = async (req, res, next) => {
         JSON.stringify(res.locals.timeStamp)
       );
       // cache isSaved
-      await redisClient.set(
-        `${res.locals.scanName}&isSaved`,
-        JSON.stringify(res.locals.isSaved)
-      );
+      // await redisClient.set(
+      //   `isSaved`,
+      //   JSON.stringify(res.locals.isSaved)
+      // );
 
       next();
     } catch (error) {
@@ -134,11 +134,10 @@ cacheController.setCacheScan = async (req, res, next) => {
 
 cacheController.setCachedSave = async (req, res, next) => {
     try {
-    const { isSavedState } = req.body;
       // cache isSaved
       await redisClient.set(
-        `${res.locals.scanName}&isSaved`,
-        JSON.stringify({isSaved: true})
+        `isSaved`,
+        JSON.stringify(true)
       );
 
       next();
@@ -157,19 +156,17 @@ cacheController.checkCacheScan = async (req, res, next) => {
   const cachedVulernabilities = await redisClient.get(`${scanName}&vulnerabilites`);
   const cachedEverything = await redisClient.get(`${scanName}&everything`);
   const cachedTimeStamp = await redisClient.get(`${scanName}&timeStamp`);
-  const cachedIsSaved = await redisClient.get(`${scanName}&isSaved`);
+  // const cachedIsSaved = await redisClient.get(`isSaved`);
 
-  //&& cachedIsSaved !== null
-  if ( cachedVulernabilities !== null && cachedEverything !== null && cachedTimeStamp !== null && cachedIsSaved !== null ) {
+  // res.locals.saved = cachedIsSaved ? JSON.parse(cachedIsSaved) : false;
+
+  if (
+    cachedVulernabilities !== null
+  ) {
     res.locals.vulnerabilites = JSON.parse(cachedVulernabilities);
     res.locals.everything = JSON.parse(cachedEverything);
     res.locals.timeStamp = JSON.parse(cachedTimeStamp);
-    // if (JSON.parse(cachedIsSaved) !== false) {
-    //   res.locals.isSaved = JSON.parse(cachedIsSaved);
-    // }
-    res.locals.isSaved = JSON.parse(cachedIsSaved);
     res.locals.addToCache = false;
-    res.locals.scanName;
     next();
   } else {
     console.log("Cache miss:", `${scanName}`);

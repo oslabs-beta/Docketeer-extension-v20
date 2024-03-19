@@ -38,7 +38,7 @@ export const ImageService = {
     }
   },
 
-  async getScan(scanName: string, timeStamp: string, isSavedState: boolean): Promise<ScanReturn> {
+  async getScan(scanName: string, timeStamp: string): Promise<ScanReturn> {
     try {
       const scan: ScanReturn = await ddClientRequest(
         "/api/docker/image/scan",
@@ -46,7 +46,6 @@ export const ImageService = {
         {
           scanName,
           timeStamp,
-          isSavedState
         }
       );
       return scan;
@@ -88,7 +87,7 @@ export const ImageService = {
     }
   },
 
-  async saveScan( imagesList: any[], time: string, userIP: string, isSavedState: boolean): Promise<{ printSavedScan: object; saved: boolean; }> {
+  async saveScan( imagesList: any[], time: string, userIP: string): Promise<{ printSavedScan: object; saved: boolean; }> {
     try {
       const saveList: {
         printSavedScan: object;
@@ -97,7 +96,6 @@ export const ImageService = {
         userIP,
         imagesList,
         timeStamp: time,
-        isSavedState
       });
       return saveList;
     } catch (error) {

@@ -65,7 +65,7 @@ const ImageCard = ({
 
       const scanObjectReturn: ScanReturn =
 				scanType === 'getScan'
-          ? await Client.ImageService.getScan(scanName, timeStamp, isSavedState)
+          ? await Client.ImageService.getScan(scanName, timeStamp)
 					: await Client.ImageService.getRescan(scanName, timeStamp);
       const vulnerabilityObj: ScanObject = scanObjectReturn.vulnerabilites;
       total = Object.values(vulnerabilityObj).reduce(
@@ -74,16 +74,10 @@ const ImageCard = ({
       );
 
       const newTimeStamp: string = scanObjectReturn.timeStamp;
-      // update the timeStamp from server
       dispatch(updateTime({ timeStamp: newTimeStamp }));
 
-      console.log('ALEXX SCAN OBJECT RETURN',scanObjectReturn)
-      const isSavedBoolean: boolean = scanObjectReturn.isSaved;
-      console.log('ALEXXXX isSavedBoolean', isSavedBoolean)
-
-      dispatch(updateIsSaved({ isSaved: isSavedBoolean }))
-
-
+      const isSaved: boolean = scanObjectReturn.saved;
+      dispatch(updateIsSaved({ isSaved }))
 
       setDone(true);
 

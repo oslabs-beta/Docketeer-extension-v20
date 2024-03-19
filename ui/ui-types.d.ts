@@ -145,10 +145,6 @@ export interface savePayload {
   isSaved: boolean;
 }
 
-// export interface saveLastScanName {
-//   lastScanName: string;
-// }
-
 
 // Type of the scanned image vulnerabilities object - ImageCard.tsx
 export interface ScanObject {
@@ -184,7 +180,7 @@ export interface ScanReturn {
   vulnerabilites: ScanObject;
   everything: GrypeScan[];
   timeStamp: string;
-  isSaved: boolean;
+  saved: boolean;
 }
 
 export interface ModifiedObject {
