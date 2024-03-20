@@ -11,7 +11,9 @@ import ImagesSummary from '../ImagesSummary/ImagesSummary';
 import { resetImageProperties } from '../../reducers/imageReducer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { Tooltip, IconButton } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+import Zoom from '@mui/material/Zoom';
 
 /**
  * @module | Images.tsx
@@ -22,6 +24,7 @@ const Images = (): React.JSX.Element => {
   console.log('Rendering Images component');
   const [scanDone, setScanDone] = useState<boolean>(false);
   const [reset, setReset] = useState<boolean>(false);
+  const [isHovered, setIsHovered] = useState<string>('');
 
   const dispatch = useAppDispatch();
 
@@ -122,21 +125,37 @@ const Images = (): React.JSX.Element => {
   // declare a constant array of elements and push an image card into this array for each image in the imagesList
 
   let renderedImages: React.JSX.Element[] = imagesList.map((imageObj, i) => (
-    <ImageCard
-      removeImageAlert={removeImageAlert}
-      runImageAlert={runImageAlert}
-      key={i}
-      index={i} // 1
-      imgObj={imageObj} //current image in the imagesList
-      reset={reset}
-      setReset={setReset}
-    />
-  ));
+		<ImageCard
+			removeImageAlert={removeImageAlert}
+			runImageAlert={runImageAlert}
+			key={i}
+			index={i} // 1
+			imgObj={imageObj} //current image in the imagesList
+			reset={reset}
+			setReset={setReset}
+			isHovered={isHovered}
+		/>
+	));
 
   return (
 		<div className={styles.ImagesContainer}>
 			<h2 className={styles.VulnerabilitiesTitle}>
-        VULNERABILITIES {totalVul !== 0 && <span style={{ color: '#94c2ed' }}>{`- Total: ${totalVul}`}</span>}
+				<div style={{ position: 'relative', display: 'inline-block' }}>
+					<span>VULNERABILITY </span>
+					<Tooltip
+						title='Hover or Click for Severity Filter!'
+						placement='bottom-end'
+						arrow
+						TransitionComponent={Zoom}>
+						<IconButton
+							style={{ position: 'absolute', top: '-20px', left: '-35px' }}>
+							<InfoIcon />
+						</IconButton>
+					</Tooltip>
+				</div>{' '}
+				{totalVul !== 0 && (
+					<span style={{ color: '#94c2ed' }}>{`- Total: ${totalVul}`}</span>
+				)}
 			</h2>
 			{/* VULNERABILITY SUMMARY INFO */}
 			<div>
@@ -144,6 +163,8 @@ const Images = (): React.JSX.Element => {
 					scanDone={scanDone}
 					setScanDone={setScanDone}
 					reset={reset}
+					isHovered={isHovered}
+					setIsHovered={setIsHovered}
 				/>
 			</div>
 			<div className={styles.buttonDiv}>
@@ -153,6 +174,16 @@ const Images = (): React.JSX.Element => {
 						if (scanDone) {
 							dispatch(resetImageProperties());
 							setReset(true);
+							toast.success('Rescanning...!', {
+								position: 'top-right',
+								autoClose: 3000,
+								hideProgressBar: false,
+								closeOnClick: true,
+								pauseOnHover: false,
+								draggable: true,
+								progress: undefined,
+								theme: 'dark',
+							});
 						}
 					}}>
 					RESCAN
@@ -163,41 +194,54 @@ const Images = (): React.JSX.Element => {
 						scanDone && !isSavedState ? styles.button : styles.buttonLoad
 					}
 					onClick={() => {
-            if (scanDone && !isSavedState) {
-              saveScanHandler();
-              toast.success('Scan Saved!', {
-              position: "top-right",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: true,
-              progress: undefined,
-              theme: "dark",
-              });
-            } 
+						if (scanDone && !isSavedState) {
+							saveScanHandler();
+							toast.success('Scan Saved!', {
+								position: 'top-right',
+								autoClose: 3000,
+								hideProgressBar: false,
+								closeOnClick: true,
+								pauseOnHover: false,
+								draggable: true,
+								progress: undefined,
+								theme: 'dark',
+							});
+						}
 					}}>
 					SAVE SCAN
 				</button>
 			</div>
 			<h2 className={styles.VulnerabilitiesTitle}>
-				{`IMAGES - Last Scan: `}
-				<span style={{ color: '#94c2ed' }}>{time && `${time}`}</span>
+				<div style={{ position: 'relative', display: 'inline-block' }}>
+					<span>Image </span>
+					<Tooltip
+						title='DoubleClick each card for more info!'
+						placement='top-end'
+						arrow
+						TransitionComponent={Zoom}>
+						<IconButton
+							style={{ position: 'absolute', top: '-25px', right: '40px' }}>
+							<InfoIcon />
+						</IconButton>
+					</Tooltip>
+				</div>
+				{' - '}Last Scan:
+				<span style={{ color: '#94c2ed' }}> {time && `${time}`} </span>
 			</h2>
 			{/* IMAGE CARDS */}
-      <div className={styles.ImagesCardsView}>{renderedImages}</div>
-      <ToastContainer
-      position="top-right"
-      autoClose={3000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover={false}
-      theme="dark"
-      />
+			<div className={styles.ImagesCardsView}>{renderedImages}</div>
+			<ToastContainer
+				position='top-right'
+				autoClose={3000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover={false}
+				theme='dark'
+			/>
 		</div>
 	);
 };

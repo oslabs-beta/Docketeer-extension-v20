@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './GraphModal.module.scss';
 import { useAppSelector } from '../../../reducers/hooks';
-import Client from '../../../models/Client';
 import { ScanObject } from '../../../../ui-types';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip as ChartToolTip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import InfoModal from "../InfoModal/InfoModal";
+import { Tooltip, IconButton } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+import Zoom from '@mui/material/Zoom';
 
 
 /* React-Chartjs-2 doc:
@@ -13,7 +14,7 @@ import InfoModal from "../InfoModal/InfoModal";
 	https://www.chartjs.org/docs/latest/
   register globally to render as component!
  */
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, ChartToolTip, Legend);
 
 interface GraphModalProps {
   trigger: boolean;
@@ -129,26 +130,43 @@ const GraphModal = ({
   }, [trigger, setTrigger]);
 
   return trigger ? (
-    <div className={styles.popup} ref={modalRef}>
-      <div className={styles.popupInner}>
-        <div className={styles.header}>
-          <h2 className={styles.popuptitle}>{scanName}</h2>
-          {/* close button */}
-          <button className={styles.closeBtn} onClick={() => setTrigger(false)}>
-            x
-          </button>
-        </div>
-        {/* PIE CHART*/}
-        <div className={styles.graphContainer}>
-          <div className={styles.pieCanvas}>
-            <Pie data={data} options={options} />
-          </div>
-        </div>
-      </div>
-    </div>
-  ) : (
-    <></>
-  );
+		<div className={styles.popup} ref={modalRef}>
+			<div className={styles.popupInner}>
+				<div className={styles.header}>
+					<h2 className={styles.popuptitle}>{scanName}</h2>
+					<div
+						style={{
+							position: 'relative',
+							display: 'inline-block',
+							marginTop: '-20px',
+							marginLeft: '10px',
+						}}></div>
+					{/* close button */}
+					<button className={styles.closeBtn} onClick={() => setTrigger(false)}>
+						x
+					</button>
+				</div>
+				<Tooltip
+					title='Click for Severity Table Info!'
+					placement='right-start'
+					arrow
+					TransitionComponent={Zoom}>
+					<IconButton
+						style={{ position: 'absolute', right: '1px' }}>
+						<InfoIcon />
+					</IconButton>
+				</Tooltip>
+				{/* PIE CHART*/}
+				<div className={styles.graphContainer}>
+					<div className={styles.pieCanvas}>
+						<Pie data={data} options={options} />
+					</div>
+				</div>
+			</div>
+		</div>
+	) : (
+		<></>
+	);
 };
 
 export default GraphModal;

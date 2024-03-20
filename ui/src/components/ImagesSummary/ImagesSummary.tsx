@@ -14,15 +14,20 @@ interface ImagesSummaryProps {
 	scanDone: boolean;
 	setScanDone: (boolean) => void;
 	reset: boolean;
+	isHovered: string;
+	setIsHovered: (string) => void;
 }
 
 const ImagesSummary = ({
 	scanDone,
 	setScanDone,
-	reset
+	reset,
+	isHovered,
+	setIsHovered
 }: ImagesSummaryProps): React.JSX.Element => {
-	const [showInfo, setShowInfo] = useState(false);
-	const [summary, setSummary] = useState({
+	const [showInfo, setShowInfo] = useState<boolean>(false);
+	const [click, setClick] = useState<string>('');
+	const [summary, setSummary] = useState<object>({
 		c: 0,
 		h: 0,
 		m: 0,
@@ -30,12 +35,34 @@ const ImagesSummary = ({
 		n: 0,
 		u: 0,
 	});
+
 	const dispatch = useAppDispatch();
+
 	let makeSummary;
 	console.log('makeSummary outside useEffect: ', makeSummary);
 	const imagesList: ImageType[] = useAppSelector(
 		(state) => state.images.imagesList
 	);
+
+
+	const handleHover = (level) => {
+		if (!click) setIsHovered(level);
+	};
+	
+	const handleHoverExit = () => {
+		if (!click) setIsHovered('');
+	};
+
+	const handleHoverClick = (level) => {
+		if (!click || click !== level) {
+			setClick(level);
+			setIsHovered(level);
+		} else { // click on same level
+			setClick('');
+			setIsHovered('');
+		}
+	};
+	
 
 	// Looping until all cards are done
 	useEffect(() => {
@@ -102,16 +129,22 @@ const ImagesSummary = ({
 		}
 	}, [imagesList]);
 
-	const levels: string[] = ['critical', 'high', 'medium', 'low', 'negligible', 'unknown'];
+	const levels: string[] = ['Critical', 'High', 'Medium', 'Low', 'Negligible', 'Unknown'];
 	const printPercent: React.JSX.Element[] = levels.map((el, i) => {
 		return (
 			<div className={styles.boxPercent} key={i}>
-				<div className={styles[`${el}Percent`]}></div>
+				<div
+					className={styles[`${el.toLowerCase()}Percent`]}
+					style={
+						isHovered === el
+							? { filter: 'brightness(2)'}
+							: undefined
+					}></div>
 				<p className={`${styles.textColor}`}>
 					{`${el.toUpperCase()} `}
 					{showInfo && (
 						<span className={styles.percentNumber}>
-							{summary[el[0]].toFixed(2) + '%'}
+							{summary[el[0].toLowerCase()].toFixed(2) + '%'}
 						</span>
 					)}
 				</p>
@@ -144,26 +177,74 @@ const ImagesSummary = ({
 				{showInfo && (
 					<div
 						className={styles.critical}
-						style={{ width: summary.c + '%' }}></div>
+						style={
+							click === 'Critical'
+								? { width: summary["c"] + '%', filter: 'brightness(1.3)' }
+								: { width: summary['c'] + '%' }
+						}
+						onMouseEnter={() => handleHover('Critical')}
+						onMouseLeave={handleHoverExit}
+						onClick={() => handleHoverClick('Critical')}></div>
 				)}
 				{showInfo && (
-					<div className={styles.high} style={{ width: summary.h + '%' }}></div>
+					<div
+						className={styles.high}
+						style={
+							click === 'High'
+								? { width: summary['h'] + '%', filter: 'brightness(1.3)' }
+								: { width: summary['h'] + '%' }
+						}
+						onMouseEnter={() => handleHover('High')}
+						onMouseLeave={handleHoverExit}
+						onClick={() => handleHoverClick('High')}></div>
 				)}
 				{showInfo && (
-					<div className={styles.med} style={{ width: summary.m + '%' }}></div>
+					<div
+						className={styles.med}
+						style={
+							click === 'Medium'
+								? { width: summary['m'] + '%', filter: 'brightness(1.3)' }
+								: { width: summary['m'] + '%' }
+						}
+						onMouseEnter={() => handleHover('Medium')}
+						onMouseLeave={handleHoverExit}
+						onClick={() => handleHoverClick('Medium')}></div>
 				)}
 				{showInfo && (
-					<div className={styles.low} style={{ width: summary.l + '%' }}></div>
+					<div
+						className={styles.low}
+						style={
+							click === 'Low'
+								? { width: summary['l'] + '%', filter: 'brightness(1.3)' }
+								: { width: summary['l'] + '%' }
+						}
+						onMouseEnter={() => handleHover('Low')}
+						onMouseLeave={handleHoverExit}
+						onClick={() => handleHoverClick('Low')}></div>
 				)}
 				{showInfo && (
 					<div
 						className={styles.negligible}
-						style={{ width: summary.n + '%' }}></div>
+						style={
+							click === 'Negligile'
+								? { width: summary['n'] + '%', filter: 'brightness(1.3)' }
+								: { width: summary['n'] + '%' }
+						}
+						onMouseEnter={() => handleHover('Negligible')}
+						onMouseLeave={handleHoverExit}
+						onClick={() => handleHoverClick('Negligible')}></div>
 				)}
 				{showInfo && (
 					<div
 						className={styles.unknown}
-						style={{ width: summary.u + '%' }}></div>
+						style={
+							click === 'Unknown'
+								? { width: summary['u'] + '%', filter: 'brightness(1.3)' }
+								: { width: summary['u'] + '%' }
+						}
+						onMouseEnter={() => handleHover('Unknown')}
+						onMouseLeave={handleHoverExit}
+						onClick={() => handleHoverClick('Unknown')}></div>
 				)}
 			</div>
 
