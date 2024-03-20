@@ -11,7 +11,6 @@ import { updateTotalVul } from '../../reducers/imageReducer';
  **/
 
 interface ImagesSummaryProps {
-	scanDone: boolean;
 	setScanDone: (boolean) => void;
 	reset: boolean;
 	isHovered: string;
@@ -19,7 +18,6 @@ interface ImagesSummaryProps {
 }
 
 const ImagesSummary = ({
-	scanDone,
 	setScanDone,
 	reset,
 	isHovered,

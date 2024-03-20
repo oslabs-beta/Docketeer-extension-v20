@@ -8,7 +8,6 @@ import { Tooltip, IconButton } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import Zoom from '@mui/material/Zoom';
 
-
 /* React-Chartjs-2 doc:
   https://react-chartjs-2.js.org/
 	https://www.chartjs.org/docs/latest/
@@ -109,7 +108,7 @@ const GraphModal = ({
           "rgba(153, 102, 255, 1)",
           "rgba(255, 159, 64, 1)",
         ],
-        borderWidth: 1,
+        borderWidth: 2,
       },
     ],
   };
@@ -148,7 +147,7 @@ const GraphModal = ({
 				</div>
 				<Tooltip
 					title='Click for Severity Table Info!'
-					placement='right-start'
+					placement='left-start'
 					arrow
 					TransitionComponent={Zoom}>
 					<IconButton

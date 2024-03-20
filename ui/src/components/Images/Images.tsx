@@ -144,7 +144,7 @@ const Images = (): React.JSX.Element => {
 					<span>VULNERABILITY </span>
 					<Tooltip
 						title='Hover or Click for Severity Filter!'
-						placement='bottom-end'
+						placement='right-start'
 						arrow
 						TransitionComponent={Zoom}>
 						<IconButton
@@ -160,7 +160,6 @@ const Images = (): React.JSX.Element => {
 			{/* VULNERABILITY SUMMARY INFO */}
 			<div>
 				<ImagesSummary
-					scanDone={scanDone}
 					setScanDone={setScanDone}
 					reset={reset}
 					isHovered={isHovered}
@@ -210,13 +209,17 @@ const Images = (): React.JSX.Element => {
 					}}>
 					SAVE SCAN
 				</button>
+				<button
+					className={scanDone ? styles.button : styles.buttonLoad}>
+					BUTTON
+				</button>
 			</div>
 			<h2 className={styles.VulnerabilitiesTitle}>
 				<div style={{ position: 'relative', display: 'inline-block' }}>
 					<span>Image </span>
 					<Tooltip
 						title='DoubleClick each card for more info!'
-						placement='top-end'
+						placement='right-start'
 						arrow
 						TransitionComponent={Zoom}>
 						<IconButton
