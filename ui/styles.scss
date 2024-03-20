@@ -3,9 +3,10 @@ html {
     margin: 0;
     padding: 0;
     background: radial-gradient(ellipse at bottom, #1b2735 0%,#090a0f 100%);
+    background-color: rgb(73, 71, 71);
 }
 
-#stars {
+.stars {
     z-index: -100;
     width: 1px;
     height: 1px;
@@ -190,7 +191,7 @@ html {
     696px 1654px #fff, 1144px 60px #fff;
 }
 
-#stars:after {
+.stars:after {
     content: '';
     position: absolute;
     top: 1px;
@@ -376,7 +377,7 @@ html {
     696px 1654px #fff, 1144px 60px #fff;
 }
 
-#stars2 {
+.stars2 {
     width: 2px;
     height: 2px;
     background: transparent;
@@ -434,7 +435,7 @@ html {
     986px 1529px #fff, 1667px 1137px #fff;
 }
 
-#stars2:after {
+.stars2:after {
     content: '';
     position: absolute;
     top: 1px;

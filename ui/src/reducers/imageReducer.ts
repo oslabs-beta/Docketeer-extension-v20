@@ -2,7 +2,6 @@ import {
   PayloadAction,
   createSlice,
   createAsyncThunk,
-  current,
 } from "@reduxjs/toolkit";
 import {
 	ImagesStateType,
@@ -15,7 +14,6 @@ import {
 } from '../../ui-types';
 import { ImageType } from "../../../types";
 import Client from "../models/Client";
-import { ddClientRequest } from "../models/ddClientRequest";
 
 
 const initialState: ImagesStateType = {

@@ -1,3 +1,12 @@
+:root {
+	--d: 5000ms;
+	--angle: 90deg;
+	--gradX: 100%;
+	--gradY: 50%;
+	--c1: rgb(239, 105, 38);
+	--c2: rgba(50, 62, 73, 0.1);
+}
+
 .popup {
   position: fixed;
   top: 50%;
@@ -17,6 +26,8 @@
   background-color: rgb(1, 12, 18);
   border: 2px solid rgb(3, 80, 143);
   box-shadow: 1px 1px 5px rgb(2, 108, 194);
+  border-image: conic-gradient(from var(--angle), var(--c2), var(--c1) 0.1turn, var(--c1) 0.15turn, var(--c2) 0.25turn) 30;
+	animation: borderRotate var(--d) linear infinite forwards;
 }
 
 .popuptitle {
@@ -120,4 +131,28 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 90deg;
+  inherits: true;
+}
+
+@property --gradX {
+  syntax: '<percentage>';
+  initial-value: 50%;
+  inherits: true;
+}
+
+@property --gradY {
+  syntax: '<percentage>';
+  initial-value: 0%;
+  inherits: true;
+}
+
+@keyframes borderRotate {
+	100% {
+		--angle: 420deg;
+	}
 }
