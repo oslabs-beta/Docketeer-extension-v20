@@ -23,19 +23,19 @@ const InfoModal = ({
 }: ModalProps): React.JSX.Element => {
   const [selectedLevel, setSelectedLevel] = useState<string>(severity);
   const modalRef = useRef<HTMLDivElement>(null);
-  const everythingFromStore =
+  const everythingFromStore: object | boolean =
     useAppSelector((state) => state.images.imagesList[index].Everything) ||
     false;
-  const everythingName =
+  const everythingName: string =
     useAppSelector((state) => state.images.imagesList[index].ScanName) || false;
 
-  const handleButtonClick = (level: string) => {
+  const handleButtonClick = (level: string): void => {
     if (everythingFromStore[level].length > 0) {
       setSelectedLevel(level);
     }
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
+  const handleClickOutside = (event: MouseEvent): void => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
       setTrigger(false);
     }

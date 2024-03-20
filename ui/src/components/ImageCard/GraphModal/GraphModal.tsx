@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './GraphModal.module.scss';
 import { useAppSelector } from '../../../reducers/hooks';
 import { ScanObject } from '../../../../ui-types';
@@ -31,7 +31,7 @@ const GraphModal = ({
   toggleDropdown,
 }: GraphModalProps): React.JSX.Element => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const scanName =
+  const scanName: string | boolean =
     useAppSelector((state) => state.images.imagesList[index].ScanName) || false;
   const vulList: ScanObject = useAppSelector(
     (state) => state.images.imagesList[index].Vulnerabilities
@@ -46,7 +46,7 @@ const GraphModal = ({
   );
 
   // Pie Chart Configuration
-  const options = {
+  const options: object = {
     plugins: {
       legend: {
         labels: {
@@ -86,7 +86,7 @@ const GraphModal = ({
   };
 
   // Pie chart props
-  const data = {
+  const data: object = {
     labels: levels,
     datasets: [
       {
@@ -113,7 +113,7 @@ const GraphModal = ({
     ],
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
+  const handleClickOutside = (event: MouseEvent): void => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
       setTrigger(false);
     }

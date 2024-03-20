@@ -43,21 +43,20 @@ const ImageCard = ({
 	const dispatch = useAppDispatch();
 	const [done, setDone] = useState<boolean>(false); // state for scan finish or not
 	const [graphModal, setgraphModal] = useState<boolean>(false);
-	let total;
 	// state for Learn More
 	const [modalToggler, setModalToggler] = useState<boolean>(false);
 
 	// get vulnerabilities directly from the store
-	let vulnerabilities =
+	let vulnerabilities: object | boolean =
 		useAppSelector((state) => state.images.imagesList[index].Vulnerabilities) ||
 		false;
 
-	const getScan = async (scanName: string, scanType: string) => {
+	const getScan = async (scanName: string, scanType: string): Promise<void> => {
 		try {
 			setDone(false);
 
 			// get the current time of the User to scan in backend
-			const timeStamp = new Date().toLocaleString();
+			const timeStamp: string = new Date().toLocaleString();
 
 			// retrieve scan data - Client.ImageService.getScan creates DDClient Request
 			const scanObjectReturn: ScanReturn =
@@ -65,10 +64,6 @@ const ImageCard = ({
 					? await Client.ImageService.getScan(scanName, timeStamp)
 					: await Client.ImageService.getRescan(scanName, timeStamp);
 			const vulnerabilityObj: ScanObject = scanObjectReturn.vulnerabilites;
-			total = Object.values(vulnerabilityObj).reduce(
-				(acc, curr) => acc + curr,
-				0
-			);
 
 			const newTimeStamp: string = scanObjectReturn.timeStamp;
 			dispatch(updateTime({ timeStamp: newTimeStamp }));
@@ -86,14 +81,22 @@ const ImageCard = ({
 			ex everything: [{ Package: "busybox", Severity: "Low", Version Installed: "1.36.1", Vulnerability ID: "CVE..." }]
 			-> filter each severity into an array of critical objects, array of high objects, etc */
 			const everything: GrypeScan[] = scanObjectReturn.everything;
-			const critical = everything.filter((el) => el.Severity === 'Critical');
-			const high = everything.filter((el) => el.Severity === 'High');
-			const medium = everything.filter((el) => el.Severity === 'Medium');
-			const low = everything.filter((el) => el.Severity === 'Low');
-			const negligible = everything.filter(
+			const critical: GrypeScan[] = everything.filter(
+				(el) => el.Severity === 'Critical'
+			);
+			const high: GrypeScan[] = everything.filter(
+				(el) => el.Severity === 'High'
+			);
+			const medium: GrypeScan[] = everything.filter(
+				(el) => el.Severity === 'Medium'
+			);
+			const low: GrypeScan[] = everything.filter((el) => el.Severity === 'Low');
+			const negligible: GrypeScan[] = everything.filter(
 				(el) => el.Severity === 'Negligible'
 			);
-			const unknown = everything.filter((el) => el.Severity === 'Unknown');
+			const unknown: GrypeScan[] = everything.filter(
+				(el) => el.Severity === 'Unknown'
+			);
 
 			const everythingObj: EverythingPayload = {
 				everything: {
@@ -159,7 +162,7 @@ const ImageCard = ({
 	};
 
 	// Iterate over each array of critical objects and return an array of the top 3
-	const top3Info = (levelArray: GrypeScan[]) => {
+	const top3Info = (levelArray: GrypeScan[]): object => {
 		const levelObj = {};
 		levelArray.forEach((el) => {
 			levelObj[el.Package] = (levelObj[el.Package] || 0) + 1;
@@ -171,7 +174,7 @@ const ImageCard = ({
 	};
 
 	// DROPDOWN INFO CARD
-	const [dropDown, setDropDown] = useState({
+	const [dropDown, setDropDown] = useState<object>({
 		critical: false,
 		high: false,
 		medium: false,
@@ -180,7 +183,7 @@ const ImageCard = ({
 		unknown: false,
 	});
 
-	const toggleDropdown = (criticalType: string) => {
+	const toggleDropdown = (criticalType: string): void => {
 		setDropDown((prevState) => {
 			const check = Object.values(dropDown).filter((el) => el).length;
 			if (check && !prevState[criticalType]) {
@@ -194,7 +197,7 @@ const ImageCard = ({
 		});
 	};
 
-	const toggleArrow = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+	const toggleArrow = (event: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
 		event.stopPropagation(); // Stop event propagation here
 		setDropDown((prevState) => {
 			// length is 0 if none opened, >= if one is opened

@@ -26,8 +26,8 @@ const ImageCardDropdown = ({
   // state for modal popup
   const dispatch = useAppDispatch();
 
-  const capitalString = severity[0].toUpperCase() + severity.slice(1);
-  const top3ObjFromStore =
+  const capitalString: string = severity[0].toUpperCase() + severity.slice(1);
+  const top3ObjFromStore: object | boolean =
     useAppSelector((state) => state.images.imagesList[index].Top3Obj) || false;
   // console.log(`TOP3 FROM STORE ${scanName}: ${JSON.stringify(top3ObjFromStore)}`);
 
