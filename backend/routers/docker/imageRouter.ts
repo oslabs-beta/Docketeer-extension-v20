@@ -78,7 +78,7 @@ router.post('/savescan', mongoController.saveScan, cacheController.setCachedSave
  * @param req.body
  * @returns saved Object sent from the frontend to console.log out to test
  */
-router.post('/history', mongoController.getHistory, (req, res) => {
+router.get('/history', mongoController.getHistory, (req, res) => {
   return res.status(200).json(res.locals.history);
 });
 
