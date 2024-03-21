@@ -43,7 +43,7 @@ const Images = (): React.JSX.Element => {
 
 	// If imagesList is not populated, send a dispatch that will fetch the list of docker images from the backend
 	useEffect(() => {
-		if (!imagesList.length) {
+		if (!imagesList.length || reset) {
 			dispatch(fetchImages());
 		}
 	}, []);

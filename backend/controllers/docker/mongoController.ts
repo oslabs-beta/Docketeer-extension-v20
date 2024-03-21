@@ -11,6 +11,14 @@ interface MongoController {
    */
 
   saveScan: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+  
+  /**
+   * @method GET
+   * @abstract Retrieve scan data from MongoDB
+   * @returns array of all the saved data
+   */
+
+  getHistory: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
   /**
    * @method GET
@@ -41,6 +49,20 @@ mongoController.saveScan = async (req, res, next) => {
     return next(errObj);
   }
 }
+mongoController.getHistory = async (req, res, next) => {
+  try {
+    // get all the data from latest -> oldest
+    res.locals.history = await ImageModel.find().sort({ timeStamp: -1 });
+		return next();
+	} catch (error) {
+		const errObj: ServerError = {
+			log: { err: `mongoController.getHistory Error: ${error}` },
+			status: 500,
+			message: `mongoController.getHistory Error: ${error}`,
+		};
+		return next(errObj);
+	}
+};
 
 mongoController.checkForScan = async (req, res, next) => {
   try {

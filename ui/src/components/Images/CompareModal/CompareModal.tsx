@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import styles from './CompareModal.module.scss';
 import { useAppSelector } from '../../../reducers/hooks';
-import { ScanObject } from '../../../../ui-types';
+import { MongoData } from '../../../../ui-types';
 import { Chart as ChartJS, ArcElement, Tooltip as ChartToolTip, Legend } from 'chart.js';
 import { Tooltip, IconButton } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
@@ -32,9 +32,11 @@ const CompareModal = ({
 		}
   };
   
-  const getHistory = async (scanName: string, scanType: string): Promise<void> => {
+	// get all the MongoDB data
+  const getHistory = async (): Promise<void> => {
     try {
-			
+			const mongoData: MongoData[] = await Client.ImageService.getHistory();
+			console.log("MONGODATA: ", mongoData);
 			return;
 		} catch (error) {
 			// Log error if failed
@@ -53,7 +55,7 @@ const CompareModal = ({
 
 	// UPON MOUNTED
 	useEffect(() => {
-		getHistory;
+		getHistory();
 	}, []);
 
 	return trigger ? (

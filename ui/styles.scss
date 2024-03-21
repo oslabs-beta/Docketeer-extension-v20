@@ -1,13 +1,16 @@
 html {
     height: auto;
-    margin: 0;
-    padding: 0;
     background: radial-gradient(ellipse at bottom, #1b2735 0%,#090a0f 100%);
     background-color: rgb(73, 71, 71);
 }
 
+.wrapper {
+    margin: 0;
+    padding: 0;
+}
+
 .stars {
-    z-index: -100;
+    margin-left: -200px;
     width: 1px;
     height: 1px;
     background: transparent;
@@ -378,6 +381,7 @@ html {
 }
 
 .stars2 {
+    margin-left: -200px;
     width: 2px;
     height: 2px;
     background: transparent;

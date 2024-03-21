@@ -72,6 +72,15 @@ router.post('/savescan', mongoController.saveScan, cacheController.setCachedSave
   });
 });
 
+/**
+ * @abstract
+ * @todo get scan to MongoDB
+ * @param req.body
+ * @returns saved Object sent from the frontend to console.log out to test
+ */
+router.post('/history', mongoController.getHistory, (req, res) => {
+  return res.status(200).json(res.locals.history);
+});
 
 /**
  * @abstract

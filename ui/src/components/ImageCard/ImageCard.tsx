@@ -45,6 +45,15 @@ const ImageCard = ({
 	const [graphModal, setgraphModal] = useState<boolean>(false);
 	// state for Learn More
 	const [modalToggler, setModalToggler] = useState<boolean>(false);
+	// DROPDOWN INFO CARD
+	const [dropDown, setDropDown] = useState<object>({
+		critical: false,
+		high: false,
+		medium: false,
+		low: false,
+		negligible: false,
+		unknown: false,
+	});
 
 	// get vulnerabilities directly from the store
 	let vulnerabilities: object | boolean =
@@ -54,7 +63,15 @@ const ImageCard = ({
 	const getScan = async (scanName: string, scanType: string): Promise<void> => {
 		try {
 			setDone(false);
-
+			// reset dropdown
+			if (reset) setDropDown({
+				critical: false,
+				high: false,
+				medium: false,
+				low: false,
+				negligible: false,
+				unknown: false,
+			});
 			// get the current time of the User to scan in backend
 			const timeStamp: string = new Date().toLocaleString();
 
@@ -173,16 +190,6 @@ const ImageCard = ({
 		return sortedEntries.slice(0, 3);
 	};
 
-	// DROPDOWN INFO CARD
-	const [dropDown, setDropDown] = useState<object>({
-		critical: false,
-		high: false,
-		medium: false,
-		low: false,
-		negligible: false,
-		unknown: false,
-	});
-
 	const toggleDropdown = (criticalType: string): void => {
 		setDropDown((prevState) => {
 			const check = Object.values(dropDown).filter((el) => el).length;
@@ -197,7 +204,9 @@ const ImageCard = ({
 		});
 	};
 
-	const toggleArrow = (event: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
+	const toggleArrow = (
+		event: React.MouseEvent<HTMLDivElement, MouseEvent>
+	): void => {
 		event.stopPropagation(); // Stop event propagation here
 		setDropDown((prevState) => {
 			// length is 0 if none opened, >= if one is opened
@@ -227,7 +236,7 @@ const ImageCard = ({
 					onClick={() => toggleDropdown(el.toLowerCase())}
 					style={
 						isHovered === el && vulnerabilities[el]
-							? { filter: 'brightness(2)', transform: 'translateY(-3px)' }
+							? { filter: 'brightness(1.3)', transform: 'translateY(-3px)' }
 							: undefined
 					}
 					className={`${
@@ -287,8 +296,7 @@ const ImageCard = ({
 					? { backdropFilter: 'blur(4px)' }
 					: undefined
 			}
-			onMouseEnter={() => console.log()}
-		>
+			onMouseEnter={() => console.log()}>
 			{/* vulnerability info card changing border color based on level found */}
 
 			<div className={styles.imageInfo}>

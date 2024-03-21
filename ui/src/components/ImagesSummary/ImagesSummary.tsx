@@ -4,6 +4,8 @@ import styles from './ImagesSummary.module.scss';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { ImageType } from '../../../../types';
 import { updateTotalVul } from '../../reducers/imageReducer';
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
 
 /**
  * @module | ImagesSummary.tsx
@@ -21,7 +23,7 @@ const ImagesSummary = ({
 	setScanDone,
 	reset,
 	isHovered,
-	setIsHovered
+	setIsHovered,
 }: ImagesSummaryProps): React.JSX.Element => {
 	const [showInfo, setShowInfo] = useState<boolean>(false);
 	const [click, setClick] = useState<string>('');
@@ -42,11 +44,10 @@ const ImagesSummary = ({
 		(state) => state.images.imagesList
 	);
 
-
 	const handleHover = (level) => {
 		if (!click) setIsHovered(level);
 	};
-	
+
 	const handleHoverExit = () => {
 		if (!click) setIsHovered('');
 	};
@@ -55,21 +56,23 @@ const ImagesSummary = ({
 		if (!click || click !== level) {
 			setClick(level);
 			setIsHovered(level);
-		} else { // click on same level
+		} else {
+			// click on same level
 			setClick('');
 			setIsHovered('');
 		}
 	};
-	
+
 
 	// Looping until all cards are done
 	useEffect(() => {
 		makeSummary = imagesList.every(
 			(imageObj) => imageObj.Vulnerabilities !== undefined
 		);
-    console.log('makeSummary: Are all vulnerabilities done?: ', makeSummary);
+		console.log('makeSummary: Are all vulnerabilities done?: ', makeSummary);
+
 		setScanDone(makeSummary);
-		
+
 		if (makeSummary) {
 			let critical = 0;
 			let high = 0;
@@ -122,21 +125,26 @@ const ImagesSummary = ({
 					u: (unknown / total) * 100,
 				});
 				setShowInfo(true);
-				dispatch(updateTotalVul({ totalVul : total }));
+				dispatch(updateTotalVul({ totalVul: total }));
 			}
 		}
 	}, [imagesList]);
 
-	const levels: string[] = ['Critical', 'High', 'Medium', 'Low', 'Negligible', 'Unknown'];
+	const levels: string[] = [
+		'Critical',
+		'High',
+		'Medium',
+		'Low',
+		'Negligible',
+		'Unknown',
+	];
 	const printPercent: React.JSX.Element[] = levels.map((el, i) => {
 		return (
 			<div className={styles.boxPercent} key={i}>
 				<div
 					className={styles[`${el.toLowerCase()}Percent`]}
 					style={
-						isHovered === el
-							? { filter: 'brightness(2)'}
-							: undefined
+						isHovered === el ? { filter: 'brightness(1.3)' } : undefined
 					}></div>
 				<p className={`${styles.textColor}`}>
 					{`${el.toUpperCase()} `}
@@ -150,26 +158,31 @@ const ImagesSummary = ({
 		);
 	});
 
+
 	// Rescan Image Summary
 	useEffect(() => {
-    if (reset) {
-      setSummary({
-        c: 0,
-        h: 0,
-        m: 0,
-        l: 0,
-        n: 0,
-        u: 0,
-      });
-      setShowInfo(false);
-    }
-  }, [reset]);
+		if (reset) {
+			setSummary({
+				c: 0,
+				h: 0,
+				m: 0,
+				l: 0,
+				n: 0,
+				u: 0,
+			});
+			setShowInfo(false);
+		}
+	}, [reset]);
 
 	return (
 		<div>
-			<div className={styles.summaryCard}>
+			<div className={showInfo && styles.summaryCard}>
 				{/* Show Loading message when vulnerabilities have not yet completed */}
-				{!showInfo && <p className={styles.loadingMessage}>Loading...</p>}
+				{!showInfo && (
+					<Box sx={{ width: '100%', height: 10, borderRadius: 20 }}>
+						<LinearProgress sx={{ height: '100%', borderRadius: 20 }} />
+					</Box>
+				)}
 
 				{/* PERCENT BAR */}
 				{showInfo && (
@@ -177,7 +190,7 @@ const ImagesSummary = ({
 						className={styles.critical}
 						style={
 							click === 'Critical'
-								? { width: summary["c"] + '%', filter: 'brightness(1.3)' }
+								? { width: summary['c'] + '%', filter: 'brightness(1.3)' }
 								: { width: summary['c'] + '%' }
 						}
 						onMouseEnter={() => handleHover('Critical')}
