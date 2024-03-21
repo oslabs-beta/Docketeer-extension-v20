@@ -3,11 +3,6 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
-// const options = [
-// 	{ value: 'chocolate', label: 'Chocolate' },
-// 	{ value: 'strawberry', label: 'Strawberry' },
-// 	{ value: 'vanilla', label: 'Vanilla' },
-// ];
 
 /* options is array of objects
   options = [
@@ -30,8 +25,8 @@ export default function DropDownData({
   time
 }: DropDownDataProps): React.JSX.Element {
 
-  const options = time.map(el => {
-    return {value: el, label: el}
+  const options = time.map((el,i) => {
+    return {value: el, label: i === 0 ? `Latest - ${el}`: el}
   })
 
 	const handleSelectChange = (selectedTime): void => {
@@ -46,14 +41,13 @@ export default function DropDownData({
 			// defaultValue={[data[i], data[y]]}
 			isMulti
 			options={options} // data
-			value={selectedTime} // Pass selectedTime as the value
-			onChange={handleSelectChange} // Handle onChange event
-			onMenuClose={() => console.log('DELETED ALL!')}
+			value={selectedTime} 
+			onChange={handleSelectChange} 
 			styles={{
 				control: (provided, state) => ({
 					...provided,
-					backgroundColor: state.isFocused ? 'white' : '#406187', // Set background color of the control
-					color: 'white', // Set text color
+					backgroundColor: state.isFocused ? 'white' : '#406187', 
+					color: 'white',
 				}),
 				option: (provided, state) => ({
 					...provided,
