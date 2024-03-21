@@ -1,8 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './CompareModal.module.scss';
-import { useAppSelector } from '../../../reducers/hooks';
 import { MongoData } from '../../../../ui-types';
-import { ImageType } from '../../../../../types';
 import {
 	Chart as ChartJS,
 	Tooltip as ChartToolTip,
@@ -47,7 +45,6 @@ const CompareModal = ({
 	trigger,
 	setTrigger,
 }: CompareModalProps): React.JSX.Element => {
-	const modalRef = useRef<HTMLDivElement>(null);
 	const [historyData, setHistoryData] = useState<MongoData[]>([]);
 	const [time, setTime] = useState<string[]>([]);
 	// selected
@@ -69,32 +66,22 @@ const CompareModal = ({
 		}
 	};
 
-	const handleClickOutside = (event: MouseEvent): void => {
-		if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-			setTrigger(false);
-		}
-	};
-
 	// UPON HISTORY MODAL STATE CHANGE
 	useEffect(() => {
-		if (trigger) {
-			// document.addEventListener('mousedown', handleClickOutside);
-			getHistory();
-		}
-		return () => {
-			// document.removeEventListener('mousedown', handleClickOutside);
-		};
+		if (trigger) getHistory();
 	}, [trigger, setTrigger]);
 
 	// config for line chart
 	const options: object = {
+		backgroundColor: '#011924',
 		plugins: {
 			legend: {
 				labels: {
 					font: {
-						size: 20, // Set the desired font size for the legend labels
+						size: 20,
 					},
 					color: 'white',
+					backgroundColor: 'white',
 				},
 			},
 			tooltip: {
@@ -107,22 +94,40 @@ const CompareModal = ({
 				backgroundColor: 'rgb(2, 108, 194)',
 			},
 		},
+		scales: {
+			x: {
+				title: {
+					display: true,
+					text: 'TimeStamp',
+					color: 'white',
+					font: {
+						size: 20,
+					},
+				},
+			},
+			y: {
+				title: {
+					display: true,
+					text: 'Total Vulnerability',
+					color: 'white',
+					font: {
+						size: 20,
+					},
+				},
+			},
+		},
 	};
 
 	// onclick for LATER!
 	const onClick = {};
 
 	function generateRandomColor() {
-		// Generate random RGB values
 		const red = Math.floor(Math.random() * 256);
 		const green = Math.floor(Math.random() * 256);
 		const blue = Math.floor(Math.random() * 256);
-
-		// Convert RGB to hexadecimal
 		const hexColor =
 			'#' +
 			((1 << 24) + (red << 16) + (green << 8) + blue).toString(16).slice(1);
-
 		return hexColor;
 	}
 
@@ -131,8 +136,6 @@ const CompareModal = ({
 	};
 
 	const imagesListArr: any = historyData.map((document) => document.imagesList);
-	console.log('imagesListArr: ', imagesListArr);
-
 	const bigObj = {};
 	/* {
     card1 : [total each time],
@@ -150,10 +153,8 @@ const CompareModal = ({
 			else bigObj[document.ScanName].push(total);
 		});
 	});
-	console.log('BIG-OBJ with names: ', bigObj);
 
 	const names = Object.keys(bigObj);
-	console.log('NAMES: ', names);
 	const dataset = names.map((name, i) => {
 		console.log(`${name} - ${bigObj[name]}`);
 		return {
@@ -166,11 +167,11 @@ const CompareModal = ({
 
 	const data: object = {
 		labels: time, // x-axis label --> timeStamp
-		datasets: dataset,
+		datasets: dataset, // y-axis label --> totalVul
 	};
 
 	return trigger ? (
-		<div className={styles.popup} ref={modalRef}>
+		<div className={styles.popup}>
 			<div className={styles.popupInner}>
 				<div className={styles.header}>
 					<h2 className={styles.popuptitle}>COMPARE</h2>

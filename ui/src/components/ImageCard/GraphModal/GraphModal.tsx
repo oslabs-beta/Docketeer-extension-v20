@@ -51,7 +51,7 @@ const GraphModal = ({
       legend: {
         labels: {
           font: {
-            size: 30, // Set the desired font size for the legend labels
+            size: 30,
           },
           color: "white",
         },
