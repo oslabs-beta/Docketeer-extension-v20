@@ -144,19 +144,18 @@ const CompareModal = ({
   }
    */
 	imagesListArr.forEach((timeStamp) => {
-		timeStamp.forEach((document) => {
+		timeStamp.forEach((imgObj) => {
 			// calculate value of that card in that timestamp
-			const total = totalFunc(document.Vulnerabilities);
+			const total = totalFunc(imgObj.Vulnerabilities);
 
 			// set the name default to empty array
-			if (!bigObj[document.ScanName]) bigObj[document.ScanName] = [total];
-			else bigObj[document.ScanName].push(total);
+			if (!bigObj[imgObj.ScanName]) bigObj[imgObj.ScanName] = [total];
+			else bigObj[imgObj.ScanName].push(total);
 		});
 	});
 
 	const names = Object.keys(bigObj);
 	const dataset = names.map((name, i) => {
-		console.log(`${name} - ${bigObj[name]}`);
 		return {
 			label: name,
 			data: bigObj[name],
@@ -205,11 +204,13 @@ const CompareModal = ({
 					/>
 				</div>
 				{/* Line Chart */}
-				<div className={styles.graphContainer}>
-					<div className={styles.lineCanvas}>
-						<Line data={data} options={options} />
+				{selectedTime.length === 0 && (
+					<div className={styles.graphContainer}>
+						<div className={styles.lineCanvas}>
+							<Line data={data} options={options} />
+						</div>
 					</div>
-				</div>
+				)}
 			</div>
 		</div>
 	) : (
