@@ -47,15 +47,24 @@ export default function DropDownData({
 			// defaultValue={[data[i], data[y]]}
 			isMulti
 			options={options} // data
-			value={selectedTime} 
-			onChange={handleSelectChange} 
+			value={selectedTime}
+			onChange={handleSelectChange}
 			styles={{
+				singleValue: (base) => ({ ...base, color: 'white' }),
+				valueContainer: (base) => ({
+					...base,
+					color: 'white',
+					width: '100%',
+				}),
 				control: (provided, state) => ({
+					// search box
 					...provided,
-					backgroundColor: state.isFocused ? 'white' : '#406187', 
+					backgroundColor: state.isFocused ? 'black' : '#3d1c0b',
+					borderColor: '#2395d9',
 					color: 'white',
 				}),
 				option: (provided, state) => ({
+					// options in dropdown
 					...provided,
 					backgroundColor: 'white',
 					color: 'black',
@@ -64,8 +73,24 @@ export default function DropDownData({
 					},
 				}),
 				multiValue: (provided) => ({
+					// the 'x' button in selected box
 					...provided,
-					backgroundColor: '#7abee6',
+					backgroundColor: 'red',
+				}),
+				multiValueLabel: (styles) => ({
+					// selected box
+					...styles,
+					color: 'black',
+					background: 'white',
+				}),
+				multiValueRemove: (styles) => ({
+					...styles,
+					color: '#12121',
+					// 'x' icon selected box hover
+					':hover': {
+						backgroundColor: '#cf493a',
+						color: 'black',
+					},
 				}),
 				menu: (provided) => ({
 					...provided,
@@ -73,6 +98,19 @@ export default function DropDownData({
 					overflowY: 'auto',
 				}),
 			}}
+			theme={(theme) => ({
+				...theme,
+				colors: {
+					...theme.colors,
+					neutral30: '#7abee6', // control border
+					// neutral10: "grey",
+					neutral50: 'white', // placeholder text "Select..."
+					neutral80: 'white', // input color
+					primary25: '#ccc', // option bg color focused
+					primary: '#7abee6', // option bg color selected
+					primary50: 'white', // option bg color active
+				},
+			})}
 		/>
 	);
 }
