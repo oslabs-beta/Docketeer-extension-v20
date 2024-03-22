@@ -1,5 +1,5 @@
 import { ddClientRequest } from "../ddClientRequest";
-import { PromDataSource, EndpointType } from "types";
+import { PromDataSource, EndpointType } from "../../../../types";
 
 export const ConfigService = {
   async getDataSources(): Promise<PromDataSource[]> {

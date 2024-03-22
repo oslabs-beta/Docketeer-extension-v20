@@ -1,7 +1,7 @@
-import { ddClientRequest, encodeQuery } from "../ddClientRequest";
-import { ImageType, ContainerPS } from "../../../../types";
-import { ScanReturn } from "ui/ui-types";
-import { updateTime } from '../../reducers/imageReducer';
+import { ddClientRequest } from '../ddClientRequest';
+import { ImageType } from '../../../../types';
+import { ScanReturn, MongoData } from '../../../ui-types';
+
 export const ImageService = {
 	async getImages(): Promise<ImageType[]> {
 		const images = await ddClientRequest<ImageType[]>(`/api/docker/image`);
@@ -72,16 +72,38 @@ export const ImageService = {
 
 	async openLink(link: string): Promise<void> {
 		try {
-			const sendLink: ScanReturn = await ddClientRequest(
-				'/api/docker/image/openlink',
-				'POST',
-				{
-					link,
-				}
-			);
+			await ddClientRequest('/api/docker/image/openlink', 'POST', {
+				link,
+			});
 		} catch (error) {
 			console.error(`Failed to send ${link}`);
 			return;
 		}
+	},
+
+	async saveScan(
+		imagesList: any[],
+		time: string,
+		userIP: string
+	): Promise<{ printSavedScan: object; saved: boolean }> {
+		try {
+			const saveList: {
+				printSavedScan: object;
+				saved: boolean;
+			} = await ddClientRequest('/api/docker/image/savescan', 'POST', {
+				userIP,
+				imagesList,
+				timeStamp: time,
+			});
+			return saveList;
+		} catch (error) {
+			console.error(`Failed to save scan!`, error);
+			return;
+		}
+	},
+
+	async getHistory(): Promise<MongoData[]> {
+		const images: MongoData[] = await ddClientRequest(`/api/docker/image/history`);
+		return images;
 	},
 };

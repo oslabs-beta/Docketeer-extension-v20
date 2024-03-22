@@ -12,9 +12,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 60%;
-  max-width: 70%;
-  height: 76%;
+  width: 85%;
+  max-width: 85%;
+  height: 80%;
   background-color: hsl(0, 0%, 17%);
   border-radius: 5px;
 }
@@ -23,7 +23,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: rgb(1, 12, 18);
+  background-color: rgb(3, 13, 18);
   border: 2px solid rgb(3, 80, 143);
   box-shadow: 1px 1px 5px rgb(2, 108, 194);
   border-image: conic-gradient(from var(--angle), var(--c2), var(--c1) 0.1turn, var(--c1) 0.15turn, var(--c2) 0.25turn) 30;
@@ -116,23 +116,6 @@
   }
 }
 
-.graphContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 80%;
-  margin: 20px 0;
-}
-
-.pieCanvas {
-  width: 100%;
-  height: 100%; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 @property --angle {
   syntax: '<angle>';
   initial-value: 90deg;
@@ -155,4 +138,20 @@
 	100% {
 		--angle: 420deg;
 	}
+}
+.graphContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 80%;
+  margin: 5px 0;
+}
+
+.lineCanvas {
+  width: 75vw;
+  height: 65vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

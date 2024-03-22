@@ -1,7 +1,9 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
 import imageController from '../../controllers/docker/imagesController';
 import cacheController from '../../controllers/docker/cacheController';
+import mongoController from '../../controllers/docker/mongoController';
 import { exec } from 'child_process';
+import { resourceLimits } from 'worker_threads';
 
 const router = Router();
 router.use(express.json());
@@ -25,18 +27,13 @@ router.get('/', cacheController.checkCacheGrypeDb, imageController.getImages, im
  */
 
 //when the user first opens the page
-router.post(
-  "/scan",
-  cacheController.checkCacheScan,
-  imageController.scanImages,
-  cacheController.setCacheScan,
-  (req, res) => {
-    // return res.status(200).json(res.locals.vulnerabilites);
-
+//when the user refreshes the page and gets the REDIS cache result as well
+router.post("/scan", cacheController.checkCacheScan, imageController.scanImages, cacheController.setCacheScan, (req, res) => {
     return res.status(200).json({
       vulnerabilites: res.locals.vulnerabilites,
       everything: res.locals.everything,
       timeStamp: res.locals.timeStamp,
+      saved: res.locals.saved,
     });
   }
 );
@@ -54,13 +51,35 @@ router.post(
 
 //for when getScan or RESCAN button is hit
 router.post('/rescan', imageController.scanImages, cacheController.setCacheScan, (req, res) => {
-  return res
-    .status(200)
-    .json({
-      vulnerabilites: res.locals.vulnerabilites,
-      everything: res.locals.everything,
-      timeStamp: res.locals.timeStamp
-    });
+  return res.status(200).json({
+    vulnerabilites: res.locals.vulnerabilites,
+    everything: res.locals.everything,
+    timeStamp: res.locals.timeStamp,
+    saved: false,
+  });
+});
+
+/**
+ * @abstract
+ * @todo Save the scan to MongoDB
+ * @param req.body
+ * @returns saved Object sent from the frontend to console.log out to test
+ */
+router.post('/savescan', mongoController.saveScan, cacheController.setCachedSave, (req, res) => {
+  return res.status(200).json({
+    printSavedScan: res.locals.savedScan,
+    saved: res.locals.saved,
+  });
+});
+
+/**
+ * @abstract
+ * @todo get scan to MongoDB
+ * @param req.body
+ * @returns saved Object sent from the frontend to console.log out to test
+ */
+router.get('/history', mongoController.getHistory, (req, res) => {
+  return res.status(200).json(res.locals.history);
 });
 
 /**
@@ -95,7 +114,6 @@ router.post(
 router.post('/run', imageController.buildContainerFromImage, (req, res) => {
   return res.sendStatus(201);
 });
-
 
 
 /**

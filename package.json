@@ -1,10 +1,10 @@
 {
   "name": "docketeer",
   "productName": "Docketeer",
-  "version": "17.0.0",
+  "version": "18.0.0",
   "license": "MIT",
   "description": "A modern GUI for Docker that provides developers with both management and visualization tools.",
-  "author": "Docketeer",
+  "author": "Docketeer, Docker Dragon 18",
   "scripts": {
     "test": "jest --verbose",
     "jest-preview": "jest-preview",
@@ -30,6 +30,7 @@
     "react-modal": "^3.16.1",
     "react-redux": "^8.0.4",
     "react-router": "^6.4.1",
+    "react-toastify": "^10.0.5",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
     "regenerator-runtime": "^0.13.11",

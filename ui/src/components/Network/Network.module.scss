@@ -104,6 +104,7 @@
 .listHolder {
   display: flex;
   flex-direction: column;
+  backdrop-filter: blur(4px);
 
   .sankeyDiagram,
   .sankeyTitle {

@@ -1,19 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './GraphModal.module.scss';
 import { useAppSelector } from '../../../reducers/hooks';
-import Client from '../../../models/Client';
 import { ScanObject } from '../../../../ui-types';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip as ChartToolTip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import InfoModal from "../InfoModal/InfoModal";
-
+import { Tooltip, IconButton } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+import Zoom from '@mui/material/Zoom';
+import { ChartData } from 'chart.js/auto';
 
 /* React-Chartjs-2 doc:
   https://react-chartjs-2.js.org/
 	https://www.chartjs.org/docs/latest/
   register globally to render as component!
  */
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, ChartToolTip, Legend);
 
 interface GraphModalProps {
   trigger: boolean;
@@ -31,7 +32,7 @@ const GraphModal = ({
   toggleDropdown,
 }: GraphModalProps): React.JSX.Element => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const scanName =
+  const scanName: string | boolean =
     useAppSelector((state) => state.images.imagesList[index].ScanName) || false;
   const vulList: ScanObject = useAppSelector(
     (state) => state.images.imagesList[index].Vulnerabilities
@@ -46,12 +47,12 @@ const GraphModal = ({
   );
 
   // Pie Chart Configuration
-  const options = {
+  const options: object = {
     plugins: {
       legend: {
         labels: {
           font: {
-            size: 30, // Set the desired font size for the legend labels
+            size: 30,
           },
           color: "white",
         },
@@ -86,34 +87,34 @@ const GraphModal = ({
   };
 
   // Pie chart props
-  const data = {
-    labels: levels,
-    datasets: [
-      {
-        label: "Count: ",
-        data: dataVul,
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
+  const data: ChartData<'pie'> = {
+		labels: levels,
+		datasets: [
+			{
+				label: 'Count: ',
+				data: dataVul,
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(255, 206, 86, 0.2)',
+					'rgba(75, 192, 192, 0.2)',
+					'rgba(153, 102, 255, 0.2)',
+					'rgba(255, 159, 64, 0.2)',
+				],
+				borderColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(153, 102, 255, 1)',
+					'rgba(255, 159, 64, 1)',
+				],
+				borderWidth: 2,
+			},
+		],
+	};
 
-  const handleClickOutside = (event: MouseEvent) => {
+  const handleClickOutside = (event: MouseEvent): void => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
       setTrigger(false);
     }
@@ -129,26 +130,43 @@ const GraphModal = ({
   }, [trigger, setTrigger]);
 
   return trigger ? (
-    <div className={styles.popup} ref={modalRef}>
-      <div className={styles.popupInner}>
-        <div className={styles.header}>
-          <h2 className={styles.popuptitle}>{scanName}</h2>
-          {/* close button */}
-          <button className={styles.closeBtn} onClick={() => setTrigger(false)}>
-            x
-          </button>
-        </div>
-        {/* PIE CHART*/}
-        <div className={styles.graphContainer}>
-          <div className={styles.pieCanvas}>
-            <Pie data={data} options={options} />
-          </div>
-        </div>
-      </div>
-    </div>
-  ) : (
-    <></>
-  );
+		<div className={styles.popup} ref={modalRef}>
+			<div className={styles.popupInner}>
+				<div className={styles.header}>
+					<h2 className={styles.popuptitle}>{scanName}</h2>
+					<div
+						style={{
+							position: 'relative',
+							display: 'inline-block',
+							marginTop: '-20px',
+							marginLeft: '10px',
+						}}></div>
+					{/* close button */}
+					<button className={styles.closeBtn} onClick={() => setTrigger(false)}>
+						x
+					</button>
+				</div>
+				<Tooltip
+					title='Click for Severity Table Info!'
+					placement='left-start'
+					arrow
+					TransitionComponent={Zoom}>
+					<IconButton
+						style={{ position: 'absolute', right: '1px' }}>
+						<InfoIcon />
+					</IconButton>
+				</Tooltip>
+				{/* PIE CHART*/}
+				<div className={styles.graphContainer}>
+					<div className={styles.pieCanvas}>
+						<Pie data={data} options={options} />
+					</div>
+				</div>
+			</div>
+		</div>
+	) : (
+		<></>
+	);
 };
 
 export default GraphModal;

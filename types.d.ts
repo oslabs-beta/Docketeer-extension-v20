@@ -105,6 +105,7 @@ export interface ImageCardProps {
   index: number;
   reset: boolean;
   setReset: (boolean) => void;
+  isHovered: string;
 }
 
 export interface NetworkAndContainer{

@@ -77,7 +77,7 @@ interface ContainerController {
 
 const containerController: ContainerController = {} as ContainerController;
 
-containerController.getContainers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+containerController.getContainers = async (req, res, next) => {
   try {
     const { stdout, stderr } = await execAsync('docker ps --format "{{json .}},"');
     if (stderr.length) console.log(stderr);
@@ -103,7 +103,7 @@ containerController.getContainers = async (req: Request, res: Response, next: Ne
   }
 }
 
-containerController.getStoppedContainers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+containerController.getStoppedContainers = async (req, res, next) => {
   try {
     const { stdout, stderr } = await execAsync('docker ps -f "status=exited" --format "{{json .}},"');
     if (stderr.length) throw new Error(stderr);
@@ -120,7 +120,7 @@ containerController.getStoppedContainers = async (req: Request, res: Response, n
   }
 }
 
-containerController.bashContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+containerController.bashContainer = async (req, res, next) => {
   try {
     console.log('You have bashed')
     const { id } = req.body;
@@ -138,7 +138,7 @@ containerController.bashContainer = async (req: Request, res: Response, next: Ne
 }
 
 
-containerController.runContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+containerController.runContainer = async (req, res, next) => {
   try {
     const { id } = req.body;
     const { stdout, stderr } = await execAsync(`docker start ${id}`);
@@ -154,7 +154,7 @@ containerController.runContainer = async (req: Request, res: Response, next: Nex
   }
 },
   
-containerController.stopContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+containerController.stopContainer = async (req, res, next) => {
   try {
     const { id } = req.body;
     const { stdout, stderr } = await execAsync(`docker stop ${id}`);
@@ -170,7 +170,7 @@ containerController.stopContainer = async (req: Request, res: Response, next: Ne
   }
 }
 
-containerController.removeContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+containerController.removeContainer = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { stdout, stderr } = await execAsync(`docker rm ${id}`);
@@ -196,7 +196,7 @@ interface logsQuery {
   offset: number;
 }
 
-containerController.getAllLogs = async (req: Request<unknown, unknown, unknown, logsQuery>, res: Response, next: NextFunction): Promise<void> => {
+containerController.getAllLogs = async (req, res, next) => {
   try {
     const containerLogs: { [k: string]: LogObject[] } = {
       stdout: [],
@@ -237,7 +237,7 @@ containerController.getAllLogs = async (req: Request<unknown, unknown, unknown, 
 /**
  * @todo finish implementing
  */
-containerController.inspectContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+containerController.inspectContainer = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { stdout, stderr } = await execAsync(`docker inspect ${id}`);

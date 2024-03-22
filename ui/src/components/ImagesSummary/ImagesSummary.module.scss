@@ -28,7 +28,7 @@ $unknown: #59595996;
 .critical, .high, .med, .low, .negligible, .unknown {
   background-color: $criticalColor;
   padding: 2px;
-  // cursor: pointer;
+  backdrop-filter: blur(4px);
 }
 .critical {
   border-top-left-radius: 20px;
@@ -103,13 +103,6 @@ $unknown: #59595996;
 
 .percentNumber {
   color: rgba(222, 232, 248, 0.646);
-}
-
-// Loading Message while Scanning
-.loadingMessage {
-  text-align: center;
-  color: rgba(255, 255, 255, 0.601);
-  width: 100%;
 }
 
 .critical:hover,
