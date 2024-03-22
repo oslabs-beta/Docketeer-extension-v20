@@ -3,11 +3,8 @@ import { Outlet, NavLink } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
 import { createPrunePrompt } from '../../reducers/pruneReducer';
-
-
 import Alert from '../../components/Alert/Alert';
 import SideBar from '../../components/SideBar/SideBar';
-import globalStyles from '../global.module.scss';
 import styles from './SharedLayout.module.scss';
 import docketeerLogo from '../../../assets/docketeer-logo-light.png';
 import MenuIcon from '../../../assets/menu_icon_36dp.svg';
@@ -15,14 +12,14 @@ import {
   fetchRunningContainers,
   fetchStoppedContainers,
 } from '../../reducers/containerReducer';
-import { fetchImages } from '../../reducers/imageReducer';
 import { fetchNetworkAndContainer } from '../../reducers/networkReducer';
 import {
   fetchAllContainersOnVolumes,
   fetchAllDockerVolumes,
 } from '../../reducers/volumeReducer';
 import Client from '../../models/Client';
-import { margin } from '@mui/system';
+import Switch, { switchClasses } from '@mui/joy/Switch';
+import { Theme } from '@mui/joy';
 
 /**
  * @module | SharedLayout.tsx
@@ -32,6 +29,7 @@ import { margin } from '@mui/system';
 function SharedLayout(): JSX.Element {
   // navBar useState
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [checked, setChecked] = useState<boolean>(true);
   const buttonRef = useRef<HTMLImageElement>(null);
   const dropdownRef = useRef(null);
   const dispatch = useAppDispatch();
@@ -101,7 +99,20 @@ function SharedLayout(): JSX.Element {
         }
       )
     );
-  };
+	};
+	
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const star = document.getElementById('stars');
+		const star2 = document.getElementById('stars2');
+		if (checked) {
+			star.classList.remove('stars');
+			star2.classList.remove('stars2');
+		} else {
+			star.classList.add('stars');
+			star2.classList.add('stars2');
+		}
+		setChecked(event.target.checked);
+	}
   
   const { volumes } = useAppSelector((state) => state.volumes);
 
@@ -138,6 +149,36 @@ function SharedLayout(): JSX.Element {
 							height='45'></img>
 					</NavLink>
 				</div>
+				{/* Toggle */}
+				<div className={styles.switch}>
+					<Switch
+						sx={(theme: Theme) => ({
+							'--Switch-thumbShadow': '0 3px 7px 0 rgba(0 0 0 / 0.12)',
+							'--Switch-thumbSize': '27px',
+							'--Switch-trackWidth': '71px',
+							'--Switch-trackHeight': '31px',
+							'--Switch-trackBackground': 'rgb(56, 52, 52)',
+							[`& .${switchClasses.thumb}`]: {
+								transition: 'width 0.2s, left 0.2s',
+							},
+							'&:hover': {
+								'--Switch-trackBackground': 'rgb(73, 71, 71)',
+							},
+							'&:active': {
+								'--Switch-thumbWidth': '32px',
+							},
+							[`&.${switchClasses.checked}`]: {
+								'--Switch-trackBackground': 'rgb(14, 27, 76)',
+								'&:hover': {
+									'--Switch-trackBackground': 'rgb(41, 61, 134)',
+								},
+							},
+						})}
+						checked={checked}
+						onChange={handleChange}
+					/>
+				</div>
+
 				<div className={styles.navSpacer}>
 					<ul>
 						<li>

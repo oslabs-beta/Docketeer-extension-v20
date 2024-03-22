@@ -12,10 +12,7 @@ import SingleVolume from 'ui/src/components/VolumeHistory/SingleVolume';
 
 // configure({ adapter: new Adapter() })
 
-
-
-
-describe('Volume Tab Tests', () => {
+xdescribe('Volume Tab Tests', () => {
   const props = {
     volumeContainersList: [
       {

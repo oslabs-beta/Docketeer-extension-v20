@@ -19,6 +19,7 @@ $greenColor: #326b3096;
 	justify-content: space-between;
   align-items: flex-start;
   width: 48%;
+  // backdrop-filter: blur(4px);
   @media screen and (max-width: 768px) {
     width: 100%;
     flex-direction: column;
@@ -153,7 +154,7 @@ $greenColor: #326b3096;
    filter: grayscale(100%);
 }
 
-.critical, .high, .medium, .low, .grayOut, .green, .negligible, .unknown  {
+.critical, .high, .medium, .low, .grayOut, .green, .negligible, .unknown {
   background-color: $criticalColor;
   margin: 2px;
   padding: 5px;
@@ -198,7 +199,7 @@ $greenColor: #326b3096;
   color: rgba(255, 255, 255, 0.486);
 }
 
-.green{
+.green {
   background-color: $greenColor;
 }
 

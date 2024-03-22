@@ -115,7 +115,9 @@ export interface ImageObj {
 
 export interface ImagesStateType {
 	imagesList: ImageType[];
-  timeStamp: string;
+	timeStamp: string;
+	isSaved: boolean;
+  totalVul: number;
 }
 
 // Type for vulnerability object - reducer inside action argument
@@ -139,6 +141,13 @@ export interface timePayload {
 	timeStamp: string;
 }
 
+export interface savePayload {
+  isSaved: boolean;
+}
+
+export interface totalVulPayload {
+	totalVul: number;
+}
 
 // Type of the scanned image vulnerabilities object - ImageCard.tsx
 export interface ScanObject {
@@ -173,6 +182,17 @@ export interface EverythingObj {
 export interface ScanReturn {
   vulnerabilites: ScanObject;
   everything: GrypeScan[];
+  timeStamp: string;
+  saved: boolean;
+}
+
+export interface ModifiedObject {
+	Everything: EverythingObj;
+}
+
+export interface MongoData {
+  userIP: string;
+  imagesList: [];
   timeStamp: string;
 }
 

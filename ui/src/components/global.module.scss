@@ -99,6 +99,7 @@ body {
   min-width: 10ch;
   text-align: center;
   line-height: 1.1;
+  backdrop-filter: blur(4px);
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   // box-shadow: 1px 1px 10px #9ab4fbc7;
