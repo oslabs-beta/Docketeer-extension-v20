@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './CompareModal.module.scss';
-import { MongoData } from '../../../../ui-types';
+import { MongoData, ScanObject } from '../../../../ui-types';
 import {
 	Chart as ChartJS,
 	Tooltip as ChartToolTip,
@@ -41,6 +41,13 @@ interface CompareModalProps {
 	setTrigger: (value: boolean) => void;
 }
 
+interface DataSet {
+	label: string;
+	data: number[];
+	borderColor: string;
+	tension: number;
+}
+
 const CompareModal = ({
 	trigger,
 	setTrigger,
@@ -48,28 +55,21 @@ const CompareModal = ({
 	const [historyData, setHistoryData] = useState<MongoData[]>([]);
 	const [time, setTime] = useState<string[]>([]);
 	// selected
-	const [selectedTime, setSelectedTime] = useState<[]>([]);
+	const [selectedTime, setSelectedTime] = useState<{ value: string; label: string }[]>([]);
+	const [dataState, setDataState] = useState<DataSet[]>([]);
 
 	// get all the MongoDB data
 	const getHistory = async (): Promise<void> => {
 		try {
 			const mongoData: MongoData[] = await Client.ImageService.getHistory();
-			console.log('MONGODATA: ', mongoData);
-
 			setHistoryData(mongoData);
 			setTime(mongoData.map((el) => el.timeStamp));
-
 			return;
 		} catch (error) {
 			// Log error if failed
 			console.log('getHistory has failed to get data: ', error);
 		}
 	};
-
-	// UPON HISTORY MODAL STATE CHANGE
-	useEffect(() => {
-		if (trigger) getHistory();
-	}, [trigger, setTrigger]);
 
 	// config for line chart
 	const options: object = {
@@ -121,59 +121,86 @@ const CompareModal = ({
 	// onclick for LATER!
 	const onClick = {};
 
-	function generateRandomColor() {
-		const red = Math.floor(Math.random() * 256);
-		const green = Math.floor(Math.random() * 256);
-		const blue = Math.floor(Math.random() * 256);
-		const hexColor =
+	const generateRandomColor = (): string => {
+		const red: number = Math.floor(Math.random() * 256);
+		const green: number = Math.floor(Math.random() * 256);
+		const blue: number = Math.floor(Math.random() * 256);
+		const hexColor: string =
 			'#' +
 			((1 << 24) + (red << 16) + (green << 8) + blue).toString(16).slice(1);
 		return hexColor;
 	}
 
-	const totalFunc = (object) => {
-		return Object.values(object).reduce((acc: any, cur: any) => acc + cur);
+	const totalFunc = (object: ScanObject) => {
+		return Object.values(object).reduce((acc, cur) => acc + cur);
 	};
 
-	const imagesListArr: any = historyData.map((document) => document.imagesList);
-	const bigObj = {};
-	/* {
-    card1 : [total each time],
-    card2 : [total each doc],
-    card3 : [total each doc],
-  }
-   */
-	imagesListArr.forEach((timeStamp) => {
-		timeStamp.forEach((imgObj) => {
-			// calculate value of that card in that timestamp
-			const total = totalFunc(imgObj.Vulnerabilities);
-
-			// set the name default to empty array
-			if (!bigObj[imgObj.ScanName]) bigObj[imgObj.ScanName] = [total];
-			else bigObj[imgObj.ScanName].push(total);
-		});
-	});
-
-	const names = Object.keys(bigObj);
-	const dataset = names.map((name, i) => {
-		return {
-			label: name,
-			data: bigObj[name],
-			borderColor: generateRandomColor(),
-			tension: 0.4,
-		};
-	});
-
+	// data pass into Line chart
 	const data: object = {
-		labels: time, // x-axis label --> timeStamp
-		datasets: dataset, // y-axis label --> totalVul
+		// x-axis label --> timeStamp
+		labels:
+			selectedTime.length === 0
+				? time
+				: selectedTime
+						.map((item) => new Date(item.value))
+						.sort((a: any, b: any) => a - b)
+						.map((date) => date.toLocaleString()),
+		// y-axis label --> totalVul
+		datasets: dataState,
 	};
+
+	const makeDataSet = (mongoDataArr: MongoData[]): void => {
+		const imagesListArr: any = mongoDataArr.map(
+			(document) => document.imagesList
+		);
+		const bigObj: object = {};
+		imagesListArr.forEach((timeStamp) => {
+			timeStamp.forEach((imgObj) => {
+				const total = totalFunc(imgObj.Vulnerabilities);
+				if (!bigObj[imgObj.ScanName]) bigObj[imgObj.ScanName] = [total];
+				else bigObj[imgObj.ScanName].push(total);
+			});
+		});
+		const names: string[] = Object.keys(bigObj);
+		const dataset: DataSet[] = names.map((name, i) => {
+			return {
+				label: name,
+				data: bigObj[name],
+				borderColor: generateRandomColor(),
+				tension: 0.4,
+			};
+		});
+		setDataState(dataset);
+	};
+
+	// UPON HISTORY MODAL STATE CHANGE
+	useEffect(() => {
+		if (trigger) getHistory();
+	}, [trigger, setTrigger]);
+
+	// Effect to update dataState when selectedTime changes
+	useEffect(() => {
+		if (selectedTime.length === 0) {
+			makeDataSet(historyData);
+		} else {
+			// reset it
+			setDataState([]);
+			const selectedMongoData: MongoData[]  = historyData.filter((data) =>
+				selectedTime
+					.map((item) => new Date(item.value))
+					.sort((a: any, b: any) => a - b)
+					.map((date) => date.toLocaleString())
+					.includes(data.timeStamp)
+			);
+			makeDataSet(selectedMongoData);
+		}
+	}, [selectedTime, historyData]);
 
 	return trigger ? (
 		<div className={styles.popup}>
 			<div className={styles.popupInner}>
 				<div className={styles.header}>
-					<h2 className={styles.popuptitle}>COMPARE</h2>
+					<h2 className={styles.popuptitle}>SCAN HISTORY</h2>
 					<div
 						style={{
 							position: 'relative',
@@ -204,13 +231,11 @@ const CompareModal = ({
 					/>
 				</div>
 				{/* Line Chart */}
-				{selectedTime.length === 0 && (
-					<div className={styles.graphContainer}>
-						<div className={styles.lineCanvas}>
-							<Line data={data} options={options} />
-						</div>
+				<div className={styles.graphContainer}>
+					<div className={styles.lineCanvas}>
+						<Line data={data} options={options} />
 					</div>
-				)}
+				</div>
 			</div>
 		</div>
 	) : (

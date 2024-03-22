@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-
+import React from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-
 
 /* options is array of objects
   options = [
@@ -13,10 +11,10 @@ import makeAnimated from 'react-select/animated';
 
 const animatedComponents = makeAnimated();
 
-interface DropDownDataProps  {
-  selectedTime: [];
-  setSelectedTime: (any) => void;
-  time: string[];
+interface DropDownDataProps {
+	selectedTime: { value: string; label: string }[];
+	setSelectedTime: (object) => void;
+	time: string[];
 }
 
 export default function DropDownData({
@@ -25,8 +23,16 @@ export default function DropDownData({
   time
 }: DropDownDataProps): React.JSX.Element {
 
-  const options = time.map((el,i) => {
-    return {value: el, label: i === 0 ? `Latest - ${el}`: el}
+  const options: { value: string; label: string }[] = time.map((el,i,arr) => {
+    return {
+			value: el,
+			label:
+				i === arr.length - 1
+					? `Latest - ${el}`
+					: i === 0
+					? `Oldest - ${el}`
+					: el,
+		};
   })
 
 	const handleSelectChange = (selectedTime): void => {

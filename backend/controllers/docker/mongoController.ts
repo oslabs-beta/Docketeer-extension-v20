@@ -52,7 +52,7 @@ mongoController.saveScan = async (req, res, next) => {
 mongoController.getHistory = async (req, res, next) => {
   try {
     // get all the data from latest -> oldest
-    res.locals.history = await ImageModel.find().sort({ timeStamp: -1 });
+    res.locals.history = await ImageModel.find();
 		return next();
 	} catch (error) {
 		const errObj: ServerError = {
