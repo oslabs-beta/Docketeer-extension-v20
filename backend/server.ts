@@ -31,7 +31,6 @@ if (process.env.MODE === 'browser') {
  *  Need to add {limit: '50mb'} to increase the transfer limit (default is 10-15 mb)
  */
 
-
 const app = express();
 app.use(bodyParser.json({ limit: '50mb' })); // set file size limit to 50mb
 
@@ -54,7 +53,6 @@ app.use('/api/docker/network', networkRouter);
 app.use('/api/docker/system', systemRouter);
 app.use('/api/prometheus/config', configRouter);
 app.use('/api/saveMetricsEntry', saveMetricsRouter);
-
 
 // Handling requests to unknown endpoints...
 app.use('/', (req: Request, res: Response): Response => {
@@ -82,9 +80,3 @@ app.use(
 app.listen(SOCKETFILE, (): void => {
   console.log(`Listening on socket: ${SOCKETFILE}`);
 });
-
-
-
-// app.listen(PORT, (): void => {
-//   console.log(`Listening on socket: ${PORT}`);
-// });

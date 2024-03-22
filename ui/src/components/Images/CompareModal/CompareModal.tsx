@@ -18,6 +18,7 @@ import Client from '../../../models/Client';
 import DropDownData from './DropDownData';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
+import { ChartData } from 'chart.js';
 
 /* React-Chartjs-2 doc:
   https://react-chartjs-2.js.org/
@@ -45,7 +46,7 @@ interface CompareModalProps {
 
 interface DataSet {
 	label: string;
-	data: number[];
+	data: [string | number, number][];
 	borderColor: string;
 	tension: number;
 }
@@ -138,7 +139,7 @@ const CompareModal = ({
 	};
 
 	// data pass into Line chart
-	const data: object = {
+	const data: { labels: string[]; datasets: DataSet[]; } = {
 		// x-axis label --> timeStamp
 		labels:
 			selectedTime.length === 0
@@ -236,7 +237,6 @@ const CompareModal = ({
 						time={time}
 					/>
 				)}
-
 				{/* Line Chart */}
 				<div className={styles.graphContainer}>
 					<div className={styles.lineCanvas}>

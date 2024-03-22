@@ -7,6 +7,7 @@ import { Pie } from 'react-chartjs-2';
 import { Tooltip, IconButton } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import Zoom from '@mui/material/Zoom';
+import { ChartData } from 'chart.js/auto';
 
 /* React-Chartjs-2 doc:
   https://react-chartjs-2.js.org/
@@ -86,32 +87,32 @@ const GraphModal = ({
   };
 
   // Pie chart props
-  const data: object = {
-    labels: levels,
-    datasets: [
-      {
-        label: "Count: ",
-        data: dataVul,
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-        ],
-        borderWidth: 2,
-      },
-    ],
-  };
+  const data: ChartData<'pie'> = {
+		labels: levels,
+		datasets: [
+			{
+				label: 'Count: ',
+				data: dataVul,
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(255, 206, 86, 0.2)',
+					'rgba(75, 192, 192, 0.2)',
+					'rgba(153, 102, 255, 0.2)',
+					'rgba(255, 159, 64, 0.2)',
+				],
+				borderColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(153, 102, 255, 1)',
+					'rgba(255, 159, 64, 1)',
+				],
+				borderWidth: 2,
+			},
+		],
+	};
 
   const handleClickOutside = (event: MouseEvent): void => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {

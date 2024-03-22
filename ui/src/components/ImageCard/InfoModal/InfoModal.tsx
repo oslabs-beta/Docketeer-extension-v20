@@ -2,10 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './InfoModal.module.scss';
 import { useAppSelector } from '../../../reducers/hooks';
 import Client from '../../../models/Client';
-import PieChart from "../../../../assets/piechart.svg";
-import { Tooltip, IconButton } from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
-import Zoom from '@mui/material/Zoom';
+import PieChart from '../../../../assets/piechart.svg';
 
 interface ModalProps {
 	trigger: boolean;
@@ -17,43 +14,43 @@ interface ModalProps {
 }
 
 const InfoModal = ({
-  trigger,
-  setTrigger,
-  index,
-  severity,
-  setgraphModal,
-  setDropDown,
+	trigger,
+	setTrigger,
+	index,
+	severity,
+	setgraphModal,
+	setDropDown,
 }: ModalProps): React.JSX.Element => {
-  const [selectedLevel, setSelectedLevel] = useState<string>(severity);
-  const modalRef = useRef<HTMLDivElement>(null);
-  const everythingFromStore: object | boolean =
-    useAppSelector((state) => state.images.imagesList[index].Everything) ||
-    false;
-  const everythingName: string =
-    useAppSelector((state) => state.images.imagesList[index].ScanName) || false;
+	const [selectedLevel, setSelectedLevel] = useState<string>(severity);
+	const modalRef = useRef<HTMLDivElement>(null);
+	const everythingFromStore: object | boolean =
+		useAppSelector((state) => state.images.imagesList[index].Everything) ||
+		false;
+	const everythingName: string | boolean =
+		useAppSelector((state) => state.images.imagesList[index].ScanName) || false;
 
-  const handleButtonClick = (level: string): void => {
-    if (everythingFromStore[level].length > 0) {
-      setSelectedLevel(level);
-    }
-  };
+	const handleButtonClick = (level: string): void => {
+		if (everythingFromStore[level].length > 0) {
+			setSelectedLevel(level);
+		}
+	};
 
-  const handleClickOutside = (event: MouseEvent): void => {
-    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      setTrigger(false);
-    }
-  };
+	const handleClickOutside = (event: MouseEvent): void => {
+		if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+			setTrigger(false);
+		}
+	};
 
-  useEffect(() => {
-    if (trigger) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [trigger, setTrigger]);
+	useEffect(() => {
+		if (trigger) {
+			document.addEventListener('mousedown', handleClickOutside);
+		}
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [trigger, setTrigger]);
 
-  return trigger ? (
+	return trigger ? (
 		<div className={styles.popup} ref={modalRef}>
 			<div className={styles.popupInner}>
 				<div className={styles.header}>
@@ -105,19 +102,7 @@ const InfoModal = ({
 								<tr>
 									<th>Package</th>
 									<th>Version Installed</th>
-									<th>
-										Vulnerability ID
-										<Tooltip
-											title="Open the link will redirect out of Docketeer!"
-											placement='right'
-											arrow
-											TransitionComponent={Zoom}>
-											<IconButton
-												style={{ position: 'absolute', right: '75px', bottom: '3px' }}>
-												<InfoIcon />
-											</IconButton>
-										</Tooltip>
-									</th>
+									<th>Vulnerability ID</th>
 								</tr>
 							</thead>
 							<tbody>

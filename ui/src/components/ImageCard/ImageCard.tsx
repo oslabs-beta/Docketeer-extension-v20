@@ -31,6 +31,15 @@ import GraphModal from './GraphModal/GraphModal';
  * @description | new components for images dashboard
  **/
 
+interface DropDown {
+	critical: boolean;
+	high: boolean;
+	medium: boolean;
+	low: boolean;
+	negligible: boolean;
+	unknown: boolean;
+}
+
 const ImageCard = ({
 	imgObj,
 	runImageAlert,
@@ -46,7 +55,7 @@ const ImageCard = ({
 	// state for Learn More
 	const [modalToggler, setModalToggler] = useState<boolean>(false);
 	// DROPDOWN INFO CARD
-	const [dropDown, setDropDown] = useState<object>({
+	const [dropDown, setDropDown] = useState<DropDown>({
 		critical: false,
 		high: false,
 		medium: false,

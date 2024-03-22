@@ -103,7 +103,6 @@ export default function DropDownData({
 				colors: {
 					...theme.colors,
 					neutral30: '#7abee6', // control border
-					// neutral10: "grey",
 					neutral50: 'white', // placeholder text "Select..."
 					neutral80: 'white', // input color
 					primary25: '#ccc', // option bg color focused

@@ -130,9 +130,6 @@ const Images = (): React.JSX.Element => {
 		dispatch(updateIsSaved({ isSaved }));
 	};
 
-	// imagesList = [ {image1}, {image2, ScanName: whatever, Vulnerabilties: {high, med, low, critical:}}, {image3}]
-	// declare a constant array of elements and push an image card into this array for each image in the imagesList
-
 	let renderedImages: React.JSX.Element[] = imagesList.map((imageObj, i) => (
 		<ImageCard
 			removeImageAlert={removeImageAlert}
@@ -153,7 +150,7 @@ const Images = (): React.JSX.Element => {
 					<span>VULNERABILITY </span>
 					<Tooltip
 						title='Hover or Click for Severity Filter!'
-						placement='right-start'
+						placement='right-end'
 						arrow
 						TransitionComponent={Zoom}>
 						<IconButton
