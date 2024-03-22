@@ -16,6 +16,8 @@ import InfoIcon from '@mui/icons-material/Info';
 import Zoom from '@mui/material/Zoom';
 import Client from '../../../models/Client';
 import DropDownData from './DropDownData';
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
 
 /* React-Chartjs-2 doc:
   https://react-chartjs-2.js.org/
@@ -132,7 +134,7 @@ const CompareModal = ({
 	}
 
 	const totalFunc = (object: ScanObject) => {
-		return Object.values(object).reduce((acc, cur) => acc + cur);
+		return Object.values(object).reduce((acc: ScanObject, cur) => acc + cur);
 	};
 
 	// data pass into Line chart
@@ -223,13 +225,18 @@ const CompareModal = ({
 					</IconButton>
 				</Tooltip>
 				{/* Dropdown Data */}
-				<div>
+				{historyData.length === 0 ? (
+					<Box sx={{ width: '100%', height: 30 }}>
+						<LinearProgress sx={{ height: '100%' }} />
+					</Box>
+				) : (
 					<DropDownData
 						selectedTime={selectedTime}
 						setSelectedTime={setSelectedTime}
 						time={time}
 					/>
-				</div>
+				)}
+
 				{/* Line Chart */}
 				<div className={styles.graphContainer}>
 					<div className={styles.lineCanvas}>
