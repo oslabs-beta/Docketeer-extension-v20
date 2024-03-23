@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './CompareModal.module.scss';
 import { MongoData, ScanObject } from '../../../../ui-types';
+import { ImageType } from '../../../../../types';
 import {
 	Chart as ChartJS,
 	Tooltip as ChartToolTip,
@@ -88,6 +89,36 @@ const CompareModal = ({
 				},
 			},
 			tooltip: {
+				// configurate tooltip on hover on each data dot
+				callbacks: {
+					title: (ctx) => {
+						return ctx[0].dataset.label;
+					},
+					label: (ctx) => {
+						const scanName = ctx.dataset.label;
+						const timeStamp = ctx.label;
+						const imagesList = historyData.filter(
+							(document) => document.timeStamp === timeStamp
+						)[0].imagesList;
+						const vulObj: ScanObject = imagesList.filter(
+							(image: ImageType) => image.ScanName === scanName
+						)[0].Vulnerabilities;
+						const { Critical, High, Medium, Low, Negligible, Unknown } = vulObj;
+						return [
+							`------------ Total Count: ${ctx.raw} ------------`,
+							`Critical: ${Critical ? Critical : 0}`,
+							`High: ${High ? High : 0}`,
+							`Medium: ${Medium ? Medium : 0}`,
+							`Low: ${Low ? Low : 0}`,
+							`Negligible: ${Negligible ? Negligible : 0}`,
+							`Unknown: ${Unknown ? Unknown : 0}`,
+							`------------------------------------------`,
+						];
+					},
+					footer: (ctx) => {
+						return `${ctx[0].label}`;
+					},
+				},
 				titleFont: {
 					size: 25,
 				},
@@ -174,7 +205,6 @@ const CompareModal = ({
 				}
 			}
 		});
-
 		const names: string[] = Object.keys(bigObj);
 		const dataset: DataSet[] = names.map((name, i) => {
 			return {
