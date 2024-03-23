@@ -180,6 +180,7 @@ const Images = (): React.JSX.Element => {
 						if (scanDone) {
 							dispatch(resetImageProperties());
 							setReset(true);
+							setIsHovered('');
 							toast.success('Rescanning...!', {
 								position: 'top-right',
 								autoClose: 3000,
