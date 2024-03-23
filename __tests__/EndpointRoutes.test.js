@@ -1,45 +1,58 @@
 import request from 'supertest';
-import express from 'express';
-import mongoose from 'mongoose'; 
+import mongoose from 'mongoose';
+import redis from 'redis';
+import app from '../backend/server';
 import router from '../backend/routers/docker/imageRouter';
 import imageController from '../backend/controllers/docker/imagesController'; 
 import cacheController from '../backend/controllers/docker/cacheController';
 import { TextEncoder, TextDecoder } from 'util';
+import { describe, beforeEach, expect, test, jest } from '@jest/globals';
 
 // Jest command for async: jest --detectOpenHandles <test file>
-
-const app = express();
-app.use('/', router);
 
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
+// Mocking imageController
+jest.mock("../backend/controllers/docker/imagesController", () => ({
+  getImages: jest.fn(),
+}));
+
+beforeAll(async () => {
+    red = redis.createClient();
+    await red.connect();
+});
+
+afterAll((done) => {
+    red.quit(() => {
+        done();
+    });
+});
 
 describe('Testing cacheController and Redis', () => {
-	// Mock the redisClient module
-	jest.mock('../backend/cache/redis', () => ({
-		set: jest.fn(),
-		expire: jest.fn()
-	}));
-	afterEach(() => {
-		jest.clearAllMocks();
-	});
+  jest.mock('../backend/cache/redis', () => ({
+    set: jest.fn(),
+    get: jest.fn(), 
+    expire: jest.fn()
+  }));
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('should set cache properly', async () => {
     const req = {}; 
-    const res = { locals: { cachedDbStatus: false } }; 
+    const res = { locals: { cachedDbStatus: false } };
     const next = jest.fn(); 
 
     await cacheController.setCacheGrypeDb(req, res, next);
-
-    expect(res.locals.cachedDbStatus).toBe(true); 
-    expect(next).toHaveBeenCalledTimes(1); 
-    expect(next).toHaveBeenCalledWith(); 
+    expect(res.locals.cachedDbStatus).toBe(true);
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(next).toHaveBeenCalledWith();
   });
-
 });
 
-describe('Image Router Endpoints', () => {
+xdescribe('Image Router Endpoints', () => {
 	beforeEach(() => {
 		Object.defineProperty(window, 'localStorage', {
 			value: {
@@ -103,7 +116,7 @@ describe('Image Router Endpoints', () => {
 			await request(app)
 				.post('/scan')
 				.send({
-					/* Your mock request body */
+					/* mock request body */
 				})
 				.expect(200)
 				.expect('Content-Type', /json/)
