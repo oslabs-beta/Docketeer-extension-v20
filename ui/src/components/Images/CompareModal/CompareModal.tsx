@@ -164,6 +164,17 @@ const CompareModal = ({
 				else bigObj[imgObj.ScanName].push(total);
 			});
 		});
+		// Adjust bigObj to fill in missing data with null
+		// we want the dataset to be [null, 10] if the first timestamp we don't have it and second one we do
+		imagesListArr.forEach((document, index) => {
+			for (let key in bigObj) {
+				if (!document.find((imgObj) => imgObj.ScanName === key)) {
+					// If the key doesn't exist in the current timestamp, insert null
+					bigObj[key].splice(index, 0, null);
+				}
+			}
+		});
+
 		const names: string[] = Object.keys(bigObj);
 		const dataset: DataSet[] = names.map((name, i) => {
 			return {
