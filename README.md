@@ -134,7 +134,7 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 ## Installation
 #### Open your Docker Desktop and search 'Docketeer' and install the extension!
 
-### If you would like to install from the Github, see [DevGettingStarted](/docs/dev/DevGettingStarted.md)
+### If you would like to install from the Github, see [DevGettingStarted](/docs/DevGettingStarted.md)
 
 <!-- IN DEVELOPMENT -->
 

@@ -138,6 +138,9 @@ const CompareModal = ({
 						size: 20,
 					},
 				},
+				grid: {
+					color: '#121d21',
+				},
 			},
 			y: {
 				title: {
@@ -147,6 +150,9 @@ const CompareModal = ({
 					font: {
 						size: 20,
 					},
+				},
+				grid: {
+					color: '#121d21',
 				},
 			},
 		},
@@ -245,27 +251,21 @@ const CompareModal = ({
 			<div className={styles.popupInner}>
 				<div className={styles.header}>
 					<h2 className={styles.popuptitle}>SCAN HISTORY</h2>
-					<div
-						style={{
-							position: 'relative',
-							display: 'inline-block',
-							marginTop: '-20px',
-							marginLeft: '10px',
-						}}></div>
+					<Tooltip
+						title='Click background for more info'
+						placement='right-end'
+						arrow
+						TransitionComponent={Zoom}>
+						<IconButton
+							style={{ position: 'absolute', bottom: '6vh', left: '22.5vw' }}>
+							<InfoIcon />
+						</IconButton>
+					</Tooltip>
 					{/* close button */}
 					<button className={styles.closeBtn} onClick={() => setTrigger(false)}>
 						x
 					</button>
 				</div>
-				<Tooltip
-					title='ADD INFO HERE'
-					placement='left-start'
-					arrow
-					TransitionComponent={Zoom}>
-					<IconButton style={{ position: 'absolute', right: '1px' }}>
-						<InfoIcon />
-					</IconButton>
-				</Tooltip>
 				{/* Dropdown Data */}
 				{historyData.length === 0 ? (
 					<Box sx={{ width: '100%', height: 30 }}>

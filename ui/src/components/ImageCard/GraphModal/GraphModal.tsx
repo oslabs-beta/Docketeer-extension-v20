@@ -8,13 +8,14 @@ import { Tooltip, IconButton } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import Zoom from '@mui/material/Zoom';
 import { ChartData } from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 /* React-Chartjs-2 doc:
   https://react-chartjs-2.js.org/
 	https://www.chartjs.org/docs/latest/
   register globally to render as component!
  */
-ChartJS.register(ArcElement, ChartToolTip, Legend);
+ChartJS.register(ArcElement, ChartToolTip, Legend, ChartDataLabels);
 
 interface GraphModalProps {
   trigger: boolean;
@@ -48,43 +49,47 @@ const GraphModal = ({
 
   // Pie Chart Configuration
   const options: object = {
-    plugins: {
-      legend: {
-        labels: {
-          font: {
-            size: 30,
-          },
-          color: "white",
-        },
-      },
-      tooltip: {
-        events: ["click"],
-        callbacks: {
-          label: (context) => {
-            // what level is selected
-            const label = levels[context.dataIndex];
-            const value = dataVul[context.dataIndex];
-            const percentage = percentArr[context.dataIndex];
+		plugins: {
+			legend: {
+				labels: {
+					font: {
+						size: 30,
+					},
+					color: 'white',
+				},
+			},
+			datalabels: {
+				display: true,
+				color: 'white',
+			},
+			tooltip: {
+				events: ['click'],
+				callbacks: {
+					label: (context) => {
+						// what level is selected
+						const label = levels[context.dataIndex];
+						const value = dataVul[context.dataIndex];
+						const percentage = percentArr[context.dataIndex];
 
-            // open dropdown of that level
-            toggleDropdown(label.toLowerCase());
-            // open the InfoModal table
-            setModalToggler(true);
-            // close this modal pie chart
-            setTrigger(false);
-            return `Count: ${value} - ${percentage}`;
-          },
-        },
-        titleFont: {
-          size: 25,
-        },
-        bodyFont: {
-          size: 20,
-        },
-        backgroundColor: "rgb(2, 108, 194)",
-      },
-    },
-  };
+						// open dropdown of that level
+						toggleDropdown(label.toLowerCase());
+						// open the InfoModal table
+						setModalToggler(true);
+						// close this modal pie chart
+						setTrigger(false);
+						return `Count: ${value} - ${percentage}`;
+					},
+				},
+				titleFont: {
+					size: 25,
+				},
+				bodyFont: {
+					size: 20,
+				},
+				backgroundColor: 'rgb(2, 108, 194)',
+			},
+		},
+	};
 
   // Pie chart props
   const data: ChartData<'pie'> = {
@@ -134,13 +139,6 @@ const GraphModal = ({
 			<div className={styles.popupInner}>
 				<div className={styles.header}>
 					<h2 className={styles.popuptitle}>{scanName}</h2>
-					<div
-						style={{
-							position: 'relative',
-							display: 'inline-block',
-							marginTop: '-20px',
-							marginLeft: '10px',
-						}}></div>
 					{/* close button */}
 					<button className={styles.closeBtn} onClick={() => setTrigger(false)}>
 						x
@@ -148,18 +146,17 @@ const GraphModal = ({
 				</div>
 				<Tooltip
 					title='Click for Severity Table Info!'
-					placement='left-start'
+					placement='right'
 					arrow
 					TransitionComponent={Zoom}>
-					<IconButton
-						style={{ position: 'absolute', right: '1px' }}>
+					<IconButton style={{ position: 'absolute', top: '10vh' }}>
 						<InfoIcon />
 					</IconButton>
 				</Tooltip>
 				{/* PIE CHART*/}
 				<div className={styles.graphContainer}>
 					<div className={styles.pieCanvas}>
-						<Pie data={data} options={options} />
+						<Pie data={data} options={options} plugins={[ChartDataLabels]} />
 					</div>
 				</div>
 			</div>
