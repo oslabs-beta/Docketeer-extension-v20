@@ -154,9 +154,9 @@ function SharedLayout(): JSX.Element {
 					<Switch
 						sx={(theme: Theme) => ({
 							'--Switch-thumbShadow': '0 3px 7px 0 rgba(0 0 0 / 0.12)',
-							'--Switch-thumbSize': '27px',
-							'--Switch-trackWidth': '71px',
-							'--Switch-trackHeight': '31px',
+							'--Switch-thumbSize': '18px',
+							'--Switch-trackWidth': '45px',
+							'--Switch-trackHeight': '22px',
 							'--Switch-trackBackground': 'rgb(56, 52, 52)',
 							[`& .${switchClasses.thumb}`]: {
 								transition: 'width 0.2s, left 0.2s',
@@ -178,7 +178,6 @@ function SharedLayout(): JSX.Element {
 						onChange={handleChange}
 					/>
 				</div>
-
 				<div className={styles.navSpacer}>
 					<ul>
 						<li>
