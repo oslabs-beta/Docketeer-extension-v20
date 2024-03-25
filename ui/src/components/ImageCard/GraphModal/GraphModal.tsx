@@ -106,7 +106,6 @@ const GraphModal = ({
 				backgroundColor: '#000f1c',
 				borderWidth: 2,
 				borderColor: (ctx) => {
-					console.log(ctx);
 					const dataIndex = ctx.tooltip.dataPoints[0].dataIndex;
 					const datasetIndex = ctx.tooltip.dataPoints[0].datasetIndex;
 					return ctx.tooltip.chart.data.datasets[datasetIndex].borderColor[

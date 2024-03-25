@@ -37,10 +37,12 @@ dev-tools:
 	docker extension dev ui-source ${DEV_EXTENSION_NAME} http://localhost:${VITE_DEV_PORT}
 
 # NOTES: This will delete EVERYTHING not just Docketeer related files!
-pruneAll: docker system prune --all --force --volumes
+pruneAll: 
+	docker system prune --all --force --volumes
 
 #use rarely
-hardclean: img_prune clr_cache
+hardclean: 
+	img_prune clr_cache
 
 # Remove Debug Extension
 remove-dev-extension:
@@ -52,7 +54,8 @@ img_prune:
 clr_cache:
 	docker buildx prune -f 
 
-reload: build-dev update dev-tools
+reload: 
+	build-dev update dev-tools
 
 update: 
 	docker extension update docketeer-extension
