@@ -98,9 +98,11 @@ Docketeer is an open source initiative comprising contributions from dozens of t
     <p>Container Page Demo:</p>
     <img alt="Containers Page" src="assets\containerTab-new.gif" width="fit" height="auto">
     <p>Image Page Demo:</p>
-    <img alt="Image Page 2" src="assets\network_demo.gif" width="fit" height="auto">
-    <p>Image Page Demo 2 - Time-series Graph:</p>
-    <img alt="Image Page 2" src="assets\images_demo.gif" width="fit" height="auto">
+    <img alt="Image Page 2" src="assets\imageTab1-new.gif" width="fit" height="auto">
+    <p>Image Page Demo 2 - Pie Chart, Save & Rescan:</p>
+    <img alt="Image Page 2" src="assets\imageTab2-new.gif" width="fit" height="auto">
+    <p>Image Page Demo 3 - Time-series Graph:</p>
+    <img alt="Image Page 2" src="assets\imageTab3-new.gif" width="fit" height="auto">
     <p>Container Metrics Page Demo:</p>
     <img alt="Container Metrics Page" src="assets\metricTab-new.gif" width="fit" height="auto">
     <p>Kubernetes Page Demo (In Development):</p>

@@ -60,7 +60,8 @@ reload:
 update: 
 	docker extension update docketeer-extension
 
-prod: install-prod debug-prod
+prod: 
+	install-prod debug-prod
 
 build-prod: ## Build service image to be deployed as a desktop extension
 	docker build --tag=$(EXTENSION_IMAGE):$(VERSION) -f ${DOCKERFILEDIRECTORY}/dockerfile.prod .
