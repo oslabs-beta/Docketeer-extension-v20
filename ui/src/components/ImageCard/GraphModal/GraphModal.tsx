@@ -38,6 +38,8 @@ const GraphModal = ({
   const vulList: ScanObject = useAppSelector(
     (state) => state.images.imagesList[index].Vulnerabilities
   );
+  const top3ObjFromStore: object | boolean =
+		useAppSelector((state) => state.images.imagesList[index].Top3Obj) || false;
 
   // Calculation for Pie Chart
   const levels: string[] = Object.keys(vulList ?? {});
@@ -49,6 +51,15 @@ const GraphModal = ({
 
   // Pie Chart Configuration
   const options: object = {
+		onClick: (event: MouseEvent, elements: any[]) => {
+			if (elements.length > 0) {
+				const index = elements[0].index;
+				const label = levels[index];
+				toggleDropdown(label.toLowerCase());
+				setModalToggler(true);
+				setTrigger(false);
+			}
+		},
 		plugins: {
 			legend: {
 				labels: {
@@ -57,7 +68,7 @@ const GraphModal = ({
 					},
 					color: 'white',
 				},
-      },
+			},
 			datalabels: {
 				display: true,
 				color: 'white',
@@ -67,26 +78,24 @@ const GraphModal = ({
 				formatter: (value, ctx) => {
 					const total = ctx.dataset.data.reduce((acc, cur) => acc + cur);
 					const percent = (value / total) * 100;
-          return `${Math.round(percent)}%`;
+					return `${Math.round(percent)}%`;
 				},
 			},
 			tooltip: {
-				events: ['click'],
 				callbacks: {
-					label: (context) => {
-						// what level is selected
-						const label = levels[context.dataIndex];
-						const value = dataVul[context.dataIndex];
-						const percentage = percentArr[context.dataIndex];
-
-						// open dropdown of that level
-						toggleDropdown(label.toLowerCase());
-						// open the InfoModal table
-						setModalToggler(true);
-						// close this modal pie chart
-						setTrigger(false);
-						return `Count: ${value} - ${percentage}`;
+					title: (ctx) => `Top 3 Packages ${ctx[0].label}`,
+					label: (ctx) => {
+						const top3Obj = top3ObjFromStore[ctx.label.toLowerCase()];
+						return [`-------------------------------------`]
+							.concat(
+								top3Obj.map(
+									(el: [string, number], i: number) =>
+										`${i + 1}. ${el[0]} (${el[1]})`
+								)
+							)
+							.concat([`-------------------------------------`]);
 					},
+					footer: (ctx) => `Click for full table!`,
 				},
 				titleFont: {
 					size: 25,
