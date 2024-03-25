@@ -57,10 +57,18 @@ const GraphModal = ({
 					},
 					color: 'white',
 				},
-			},
+      },
 			datalabels: {
 				display: true,
 				color: 'white',
+				font: {
+					size: 25,
+				},
+				formatter: (value, ctx) => {
+					const total = ctx.dataset.data.reduce((acc, cur) => acc + cur);
+					const percent = (value / total) * 100;
+          return `${Math.round(percent)}%`;
+				},
 			},
 			tooltip: {
 				events: ['click'],
@@ -133,6 +141,7 @@ const GraphModal = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [trigger, setTrigger]);
+  
 
   return trigger ? (
 		<div className={styles.popup} ref={modalRef}>
@@ -156,7 +165,11 @@ const GraphModal = ({
 				{/* PIE CHART*/}
 				<div className={styles.graphContainer}>
 					<div className={styles.pieCanvas}>
-						<Pie data={data} options={options} plugins={[ChartDataLabels]} />
+						<Pie
+							data={data}
+							options={options}
+							plugins={[ChartDataLabels]}
+						/>
 					</div>
 				</div>
 			</div>

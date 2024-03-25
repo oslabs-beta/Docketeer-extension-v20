@@ -132,9 +132,28 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 <!-- INSTALLATION -->
 
 ## Installation
-#### Open your Docker Desktop and search 'Docketeer' and install the extension!
+#### Open your Docker Desktop and search `Docketeer` and install the extension!
 
-### If you would like to install from the Github, see [DevGettingStarted](/docs/DevGettingStarted.md)
+Dev & Contributors - See [DevGettingStarted](/docs/DevGettingStarted.md) & Contributing section below!
+
+<br/>
+
+`Notes:` If you encounter any `<dependency/package> not found by vite`: 
+
+- Turn off the server such as 
+```
+# Example: stop Browser Dev environment
+  make browser-down
+```
+- Delete everything Docketeer related - images, volumes, containers (should be deleted when you "make browser-down")
+
+- Run Docker compose withou cache using this Makefile command:
+```
+# Example: To build browser-dev without cached image layers
+  docker compose -f extension/docker-compose-browser.yaml up --build -d
+```
+
+<br/>
 
 <!-- IN DEVELOPMENT -->
 

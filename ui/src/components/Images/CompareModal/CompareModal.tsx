@@ -116,7 +116,7 @@ const CompareModal = ({
 						];
 					},
 					footer: (ctx) => {
-						return `${ctx[0].label}`;
+						return ctx[0].label;
 					},
 				},
 				titleFont: {
