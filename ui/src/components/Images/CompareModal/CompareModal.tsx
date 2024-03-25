@@ -110,7 +110,7 @@ const CompareModal = ({
 					ctx.beginPath();
 					ctx.lineWidth = 2;
 					ctx.strokeStyle = '#086afc';
-					ctx.fillStyle = '#548fbf';
+					ctx.fillStyle = '#041f36';
 					ctx.moveTo(xStart, yStart);
 					ctx.lineTo(xEnd, yEnd);
 					ctx.stroke();
@@ -120,7 +120,7 @@ const CompareModal = ({
 					ctx.beginPath();
 					ctx.lineWidth = 2;
 					ctx.strokeStyle = '#086afc';
-					ctx.fillStyle = '#548fbf';
+					ctx.fillStyle = '#041f36';
 					ctx.rect(x, y, w, h);
 					ctx.fill();
 					ctx.stroke();
@@ -203,6 +203,7 @@ const CompareModal = ({
 					ctx.setLineDash([5, 5]);
 					ctx.stroke();
 				});
+				ctx.restore();
 			}
 		},
 
@@ -295,7 +296,13 @@ const CompareModal = ({
 				bodyFont: {
 					size: 20,
 				},
-				backgroundColor: 'rgb(2, 108, 194)',
+				backgroundColor: '#000f1c',
+				borderWidth: 2,
+				borderColor: (ctx) => {
+					const datasetIndex = ctx.tooltip.dataPoints[0].datasetIndex;
+					return ctx.tooltip.chart.data.datasets[datasetIndex].borderColor;
+				},
+				borderStyle: 'solid',
 			},
 		},
 		scales: {
@@ -328,13 +335,10 @@ const CompareModal = ({
 		},
 	};
 
-	// onclick for LATER!
-	const onClick = {};
-
 	const generateRandomColor = (): string => {
-		const red: number = Math.floor(Math.random() * 256);
-		const green: number = Math.floor(Math.random() * 256);
-		const blue: number = Math.floor(Math.random() * 256);
+		const red: number = Math.floor(Math.random() * 156) + 100;
+		const green: number = Math.floor(Math.random() * 156) + 100;
+		const blue: number = Math.floor(Math.random() * 156) + 100;
 		const hexColor: string =
 			'#' +
 			((1 << 24) + (red << 16) + (green << 8) + blue).toString(16).slice(1);

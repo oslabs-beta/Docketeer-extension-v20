@@ -1,7 +1,7 @@
 # Make sure to update versions to whatever the latest is
 EXTENSION_IMAGE?=docketeerxvii/docketeer-extension
 
-VERSION?=17.0.0
+VERSION?=18.0.0
 
 DEV_EXTENSION_NAME=docketeer-extension-dev
 DOCKERFILEDIRECTORY=extension
@@ -11,12 +11,19 @@ VITE_DEV_PORT=4000
 INFO_COLOR = \033[0;36m
 NO_COLOR   = \033[m
 
+# DELETE ALL DOCKETEER RELATED - Images, Volumes, Containers (should be removed from 'make browser-down')
+# Start Sever WITHOUT CACHE!
+browser-new:
+	docker compose -f extension/docker-compose-browser.yaml up --build -d
+
+# RECOMMENDED
 browser-dev:
 	docker compose -f ${DOCKERFILEDIRECTORY}/docker-compose-browser.yaml up -d
 
 browser-down:
 	docker compose -f ${DOCKERFILEDIRECTORY}/docker-compose-browser.yaml down
 
+# Check Progress on Debug Extension
 extension-dev: build-extension-dev install-extension-dev dev-tools
 
 build-extension-dev:
@@ -29,14 +36,19 @@ dev-tools:
 	docker extension dev debug ${DEV_EXTENSION_NAME}
 	docker extension dev ui-source ${DEV_EXTENSION_NAME} http://localhost:${VITE_DEV_PORT}
 
+# NOTES: This will delete EVERYTHING not just Docketeer related files!
+pruneAll: docker system prune --all --force --volumes
+
 #use rarely
 hardclean: img_prune clr_cache
 
+# Remove Debug Extension
 remove-dev-extension:
 	docker extension rm ${DEV_EXTENSION_NAME}
 	
 img_prune:
 	docker image prune -af
+
 clr_cache:
 	docker buildx prune -f 
 
