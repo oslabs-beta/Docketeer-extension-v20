@@ -86,28 +86,27 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 |---------------------------------------------------------------------------------------------------------------------------------------------|-----------|
 | More vulnerability info such as packages name & CVE ID with link.                                                                           | ✅        |
 | Data visualization graph for each image.                                                                                                    | ✅        |
-| Users can now `Rescan` to `bypass Redis Caching` from Version 17.0.                                                                         | ✅        |
+| Users can now `Rescan` to bypass Redis Caching from Version 17.0.                                                                         | ✅        |
 | Ability to `Save Scan` and retrieve history scans to compare on a time series graph.                                                        | ✅        |
 | **New updated UI and utilities.**                                                                                                           | ✅        |
 
 - ✅ = Ready to use
 
+
 <br />
   <div align="center">
     <p>Container Page Demo:</p>
-    <img alt="Containers Page" src="assets\containers_demo.gif" width="fit" height="auto">
-    <p>Network Page Demo:</p>
-    <img alt="Network Page" src="assets\network_demo.gif" width="fit" height="auto">
+    <img alt="Containers Page" src="assets\containerTab-new.gif" width="fit" height="auto">
     <p>Image Page Demo:</p>
-    <img alt="Image Page" src="assets\images_demo.gif" width="fit" height="auto">
+    <img alt="Image Page 2" src="assets\network_demo.gif" width="fit" height="auto">
+    <p>Image Page Demo 2 - Time-series Graph:</p>
+    <img alt="Image Page 2" src="assets\images_demo.gif" width="fit" height="auto">
     <p>Container Metrics Page Demo:</p>
-    <img alt="Container Metrics Page" src="assets\container_metric_demo.gif" width="fit" height="auto">
-    <p>Kubernetes Page Demo:</p>
-    <img alt="Kubernates Metrics Page" src="assets\docketeer-kubernetes-metrics-page.png" width="fit" height="auto">
-    <p>Snapshot Demo:</p>
-    <img alt="demo gif" src="assets\snapshot_demo.gif" width="fit" height="auto">
-    <p>Process logs Demo:</p>
-    <img alt="Process log gif" src="assets\processlogs_demo.gif" width="fit" height="auto">
+    <img alt="Container Metrics Page" src="assets\metricTab-new.gif" width="fit" height="auto">
+    <p>Kubernetes Page Demo (In Development):</p>
+    <img alt="Kubernates Metrics Page" src="assets\k8Tab-new.gif" width="fit" height="auto">
+    <p>Other Tab Demo:</p>
+    <img alt="Others gif" src="assets\hamburgerTab-new.gif" width="fit" height="auto">
   </div>
 <br />
 
