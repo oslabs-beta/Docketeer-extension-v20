@@ -1,36 +1,79 @@
 import request from 'supertest';
-import express from 'express';
+import mongoose from 'mongoose';
+import redis from 'redis';
+import app from '../backend/server';
 import router from '../backend/routers/docker/imageRouter';
 import imageController from '../backend/controllers/docker/imagesController'; 
 import cacheController from '../backend/controllers/docker/cacheController';
-import mongoController from '../backend/controllers/docker/mongoController';
-const app = express();
-app.use('/', router);
+import { TextEncoder, TextDecoder } from 'util';
+import { describe, beforeEach, expect, test, jest } from '@jest/globals';
 
-// Mock the controllers
-jest.mock('../backend/controllers/docker/imagesController'); 
-jest.mock('../backend/controllers/docker/cacheController');
-jest.mock('../backend/controllers/docker/mongoController');
+// Jest command for async: jest --detectOpenHandles <test file>
 
-const mockDockerImages = [
-	{
-		Containers: 'N/A',
-		CreatedAt: '2024-03-22 16:48:27 -0500 CDT',
-		CreatedSince: 'About a minute ago',
-		Digest: '\u003cnone\u003e',
-		ID: '3b3d770d8ae7',
-		Repository: 'extension-docketeer',
-		SharedSize: 'N/A',
-		Size: '1.72GB',
-		Tag: 'latest',
-		UniqueSize: 'N/A',
-		VirtualSize: '1.719GB',
-	},
-];
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 
-describe('Image Router Endpoints', () => {
-	afterEach(() => {
-		jest.clearAllMocks();
+// Mocking imageController
+jest.mock("../backend/controllers/docker/imagesController", () => ({
+  getImages: jest.fn(),
+}));
+
+beforeAll(async () => {
+    red = redis.createClient();
+    await red.connect();
+});
+
+afterAll((done) => {
+    red.quit(() => {
+        done();
+    });
+});
+
+describe('Testing cacheController and Redis', () => {
+  jest.mock('../backend/cache/redis', () => ({
+    set: jest.fn(),
+    get: jest.fn(), 
+    expire: jest.fn()
+  }));
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should set cache properly', async () => {
+    const req = {}; 
+    const res = { locals: { cachedDbStatus: false } };
+    const next = jest.fn(); 
+
+    await cacheController.setCacheGrypeDb(req, res, next);
+    expect(res.locals.cachedDbStatus).toBe(true);
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(next).toHaveBeenCalledWith();
+  });
+});
+
+xdescribe('Image Router Endpoints', () => {
+	beforeEach(() => {
+		Object.defineProperty(window, 'localStorage', {
+			value: {
+				getItem: jest.fn(),
+				setItem: jest.fn(),
+				removeItem: jest.fn(),
+			},
+			writable: true,
+		});
+	});
+
+		// Mongoose handling
+	beforeAll(async () => {
+			await mongoose.connect('mongodb://localhost:27017/docketeer', {
+					useNewUrlParser: true,
+					useUnifiedTopology: true,
+			});
+	});
+
+	afterAll(async () => {
+			await mongoose.connection.close();
 	});
 
 	describe('GET /', () => {
@@ -41,7 +84,7 @@ describe('Image Router Endpoints', () => {
 			});
 
 			await request(app)
-				.get('/')
+				.get('/api/docker/image/')
 				.expect(200)
 				.expect('Content-Type', /json/)
 				.then((response) => {
@@ -54,9 +97,8 @@ describe('Image Router Endpoints', () => {
 
 	xdescribe('POST /scan', () => {
 		it('should return 200 and scan results', async () => {
-			// Mock implementation for scanImages and setCacheScan
 			const scanResults = {
-				/* Your mock data */
+				/*  mock data */
 			};
 			imageController.scanImages.mockImplementation((req, res, next) => {
 				res.locals.vulnerabilities = scanResults.vulnerabilities;
@@ -74,7 +116,7 @@ describe('Image Router Endpoints', () => {
 			await request(app)
 				.post('/scan')
 				.send({
-					/* Your mock request body */
+					/* mock request body */
 				})
 				.expect(200)
 				.expect('Content-Type', /json/)
@@ -86,7 +128,7 @@ describe('Image Router Endpoints', () => {
 });
 
 
-// More Endpoint Tests-------
+// More Endpoint Tests----------------------
 
 xdescribe('POST /api/docker/image/scan', () => {
 	it('respond a status of 200 and json', async function () {

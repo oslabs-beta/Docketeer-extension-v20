@@ -74,31 +74,44 @@
 
 <div align="center" width="100%">
             
-[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Redis][Redis]][Redis-url][![Postgres][Postgres]][Postgres-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url][![D3][D3]][D3-url][![MUI][MUI]][MUI-URL]
+[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Redis][Redis]][Redis-url][![MongoDB][MongoDB]][MongoDB-url][![Postgres][Postgres]][Postgres-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url][![D3][D3]][D3-url][![MUI][MUI]][MUI-URL][![Git][Git]][Git-url]
 
 </div>
+
+Docketeer is an open source initiative comprising contributions from dozens of talented and passionate software engineers. Our application provides a simple interface to manage Docker resources & visualize both host and container metric data. Docketeer is a containerized application that can be deployed alongside your application cluster with hardly any effort. To learn more about our application and how to get started, keep reading!
+
+### What's New in Version 18.0.0?
+
+| Feature                                                                                                                                     | Status    |
+|---------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| More vulnerability info such as packages name & CVE ID with link.                                                                           | ✅        |
+| Data visualization graph for each image.                                                                                                    | ✅        |
+| Users can now `Rescan` to bypass Redis Caching from Version 17.0.                                                                         | ✅        |
+| Ability to `Save Scan` and retrieve history scans to compare on a time series graph.                                                        | ✅        |
+| **New updated UI and utilities.**                                                                                                           | ✅        |
+
+- ✅ = Ready to use
+
 
 <br />
   <div align="center">
     <p>Container Page Demo:</p>
-    <img alt="Containers Page" src="assets\containers_demo.gif" width="fit" height="auto">
-    <p>Network Page Demo:</p>
-    <img alt="Network Page" src="assets\network_demo.gif" width="fit" height="auto">
+    <img alt="Containers Page" src="assets\containerTab-new.gif" width="fit" height="auto">
     <p>Image Page Demo:</p>
-    <img alt="Image Page" src="assets\images_demo.gif" width="fit" height="auto">
+    <img alt="Image Page 2" src="assets\imageTab1-new.gif" width="fit" height="auto">
+    <p>Image Page Demo 2 - Pie Chart, Save & Rescan:</p>
+    <img alt="Image Page 2" src="assets\imageTab2-new.gif" width="fit" height="auto">
+    <p>Image Page Demo 3 - Time-series Graph:</p>
+    <img alt="Image Page 2" src="assets\imageTab3-new.gif" width="fit" height="auto">
     <p>Container Metrics Page Demo:</p>
-    <img alt="Container Metrics Page" src="assets\container_metric_demo.gif" width="fit" height="auto">
-    <p>Kubernetes Page Demo:</p>
-    <img alt="Kubernates Metrics Page" src="assets\docketeer-kubernetes-metrics-page.png" width="fit" height="auto">
-    <p>Snapshot Demo:</p>
-    <img alt="demo gif" src="assets\snapshot_demo.gif" width="fit" height="auto">
-    <p>Process logs Demo:</p>
-    <img alt="Process log gif" src="assets\processlogs_demo.gif" width="fit" height="auto">
+    <img alt="Container Metrics Page" src="assets\metricTab-new.gif" width="fit" height="auto">
+    <p>Kubernetes Page Demo (In Development):</p>
+    <img alt="Kubernates Metrics Page" src="assets\k8Tab-new.gif" width="fit" height="auto">
+    <p>Other Tab Demo:</p>
+    <img alt="Others gif" src="assets\hamburgerTab-new.gif" width="fit" height="auto">
   </div>
 <br />
 
-
-Docketeer is an open source initiative comprising contributions from dozens of talented and passionate software engineers. Our application provides a simple interface to manage Docker resources & visualize both host and container metric data. Docketeer is a containerized application that can be deployed alongside your application cluster with hardly any effort. To learn more about our application and how to get started, keep reading!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -120,26 +133,52 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 <!-- INSTALLATION -->
 
 ## Installation
-#### Open your Docker Desktop and search 'Docketeer' and install the extension!
+#### Open your Docker Desktop and search `Docketeer` and install the extension!
 
-### If you would like to install from the Github, see [DevGettingStarted](/docs/dev/DevGettingStarted.md)
+Dev & Contributors - See [DevGettingStarted](/docs/DevGettingStarted.md) & Contributing section below!
+
+<br/>
+
+`Notes:` If you encounter any `<dependency/package> not found by vite`: 
+
+- Turn off the server such as 
+```
+# Example: stop Browser Dev environment
+  make browser-down
+```
+- Delete everything Docketeer related - images, volumes, containers (should be deleted when you "make browser-down")
+
+- Run Docker compose without cache using this Makefile command:
+```
+# Example: To build without cached image layers
+  make browser-new
+```
+
+- See [Makefile](/Makefile) for more info!
+
+<br/>
 
 <!-- IN DEVELOPMENT -->
 
 ## In Development
 
-- [ ] More advanced container configuration options within Docketeer.
-- [ ] CI/CD pipeline for Docketeer repo.
-- [ ] Improve test coverage with additional unit tests and integration tests.
-- [ ] Optimize frontend rendering performance with lazy loading to reduce initial bundle size and eliminating redundant re-renders
-- [ ] Add support for more advanced Docker features, like multi-stage builds or Docker secrets, to expand the capabilities of Docketeer.
-- [ ] Add the ability to control Docker containers deployed in AWS.
-- [ ] Develop aggregation service to collect and cache data from prometheus data sources
-- [ ] Implement endpoint scraping of any kubernetes cluster running prometheus. ([Read more](/docs/dev/features/Configuration(Alpha).md))
-- [ ] Work on improving the connect/disconnnect button under networks button in Containers Tab
-- [ ] Adding additional key metrics to the snapshot functionality
-- [ ] Setup a error catcher to alert Users of errors that are in the Docker Container Log.
-- [ ] Implement functionality that alerts users when certain metrics reach critical threshold.
+| Feature                                                                                                                                     | Status    |
+|---------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| More advanced container configuration options within Docketeer.                                                                             | ⏳        |
+| CI/CD pipeline for Docketeer repo.                                                                                                          | ⏳        |
+| Improve test coverage with additional unit tests and integration tests.                                                                     | ⏳        |
+| Optimize frontend rendering performance with lazy loading to reduce initial bundle size and eliminating redundant re-renders.               | ⏳        |
+| Add support for more advanced Docker features, like multi-stage builds or Docker secrets, to expand the capabilities of Docketeer.          | ⏳        |
+| Add the ability to control Docker containers deployed in AWS.                                                                               | ⏳        |
+| Develop aggregation service to collect and cache data from prometheus data sources.                                                         | ⏳        |
+| Implement endpoint scraping of any kubernetes cluster running prometheus. ([Read more](/docs/dev/features/Configuration(Alpha).md))         | ⏳        |
+| Work on improving the connect/disconnnect button under networks button in Containers Tab.                                                   | ⏳        |
+| Adding additional key metrics to the snapshot functionality.                                                                                | ⏳        |
+| Setup a error catcher to alert Users of errors that are in the Docker Container Log.                                                        | ⏳        |
+| Implement functionality that alerts users when certain metrics reach critical threshold.                                                    | ⏳        |
+
+- ✅ = Ready to use
+- ⏳ = In progress
 
 See the [Known Issues Docs](/docs/KnownIssues.md) and [open issues](https://github.com/open-source-labs/Docketeer/issues) for a list of known issues.
 
@@ -152,7 +191,7 @@ For more details, please read the ***docs*** folder, which covers the following:
 
 - API 
 - Assets
-- Changelogs (V1-V17)
+- Changelogs (V1-V18)
 - Features 
   - Configuration.md
   - Models.md
@@ -183,6 +222,7 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 <br />
 
 ## <b>Read More</b>
+- [Docketeer XVIII: A Whale of An Improvement](https://medium.com/@docketeerxii/...)
 - [Docketeer XVII: Transforming with Security](https://medium.com/@docketeerxii/docketeer-xvii-transforming-with-security-45cd06da061d)
 - [Docketeer XVI: The Journey Continues](https://medium.com/@docketeerxii/introducing-docketeer-xvi-the-journey-continues-f34fc5bf7749)
 - [Docketeer XV: Naviating the Seas of Docker with Docketeer v15](https://medium.com/@christiandoescoding/navigating-the-seas-of-docker-with-docketeer-v15-0-ad5bd9540d14)
@@ -214,6 +254,10 @@ Please ⭐️ this project if you found it helpful, thank you!
 <br />
 
 ## Contributors
+- Quan Nguyen [@ZinWR](https://github.com/ZinWR) | [Linkedin](https://www.linkedin.com/in/quan-nguyen27/)
+- Alexander David [@alexjosephdavid](https://github.com/alexjosephdavid) | [Linkedin](https://www.linkedin.com/in/alexander-joseph-david)
+- Andy White [@ComfyClicks](https://github.com/ComfyClicks) | [Linkedin](https://www.linkedin.com/in/andywhite5)
+- Nick Kravchuk [@kravchuknick](https://github.com/kravchuknick) | [Linkedin](https://www.linkedin.com/in/nickkravchuk/)
 - Chelsea Lau [@chelsea01688](https://github.com/chelsea01688) | [Linkedin](https://www.linkedin.com/in/chelsea-wklau/)
 - Giovanni Morales Cortes [@GiovanniCortes19](https://github.com/GiovanniCortes19) | [Linkedin](https://www.linkedin.com/in/giovanni-cortes/)
 - Jade Chan [@JadeChan03](https://github.com/JadeChan03) | [Linkedin](https://www.linkedin.com/in/jade-melissa-chan/)
@@ -323,6 +367,8 @@ Please ⭐️ this project if you found it helpful, thank you!
 [Express-url]: https://expressjs.com/
 [Redis]: https://img.shields.io/badge/redis-%23DD0031.svg?&style=for-the-badge&logo=redis&logoColor=white
 [Redis-url]: https://redis.com/
+[MongoDB]: https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white
+[MongoDB-url]: https://www.mongodb.com
 [Redux]: https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white
 [Redux-url]: https://redux.js.org/
 [Postgres]: https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white

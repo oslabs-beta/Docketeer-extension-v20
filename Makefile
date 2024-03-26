@@ -1,7 +1,10 @@
 # Make sure to update versions to whatever the latest is
-EXTENSION_IMAGE?=docketeerxvii/docketeer-extension
 
-VERSION?=17.0.0
+# DO NOT CHANGE THIS! KEEP IT AT XIV ELSE YOU CAN'T PUSH
+EXTENSION_IMAGE?=docketeerxiv/docketeer-extension
+
+# ONLY CHANGE THIS VERSION TO YOUR GROUP | ex: 18.0.0 or 19.0.0 so on
+VERSION?=18.0.0
 
 DEV_EXTENSION_NAME=docketeer-extension-dev
 DOCKERFILEDIRECTORY=extension
@@ -11,12 +14,19 @@ VITE_DEV_PORT=4000
 INFO_COLOR = \033[0;36m
 NO_COLOR   = \033[m
 
+# DELETE ALL DOCKETEER RELATED - Images, Volumes, Containers (should be removed from 'make browser-down')
+# Start Sever WITHOUT CACHE!
+browser-new:
+	docker compose -f extension/docker-compose-browser.yaml up --build -d
+
+# RECOMMENDED
 browser-dev:
 	docker compose -f ${DOCKERFILEDIRECTORY}/docker-compose-browser.yaml up -d
 
 browser-down:
 	docker compose -f ${DOCKERFILEDIRECTORY}/docker-compose-browser.yaml down
 
+# Check Progress on Debug Extension
 extension-dev: build-extension-dev install-extension-dev dev-tools
 
 build-extension-dev:
@@ -29,23 +39,32 @@ dev-tools:
 	docker extension dev debug ${DEV_EXTENSION_NAME}
 	docker extension dev ui-source ${DEV_EXTENSION_NAME} http://localhost:${VITE_DEV_PORT}
 
-#use rarely
-hardclean: img_prune clr_cache
+# NOTES: This will delete EVERYTHING not just Docketeer related files!
+pruneAll: 
+	docker system prune --all --force --volumes
 
+#use rarely
+hardclean: 
+	img_prune clr_cache
+
+# Remove Debug Extension
 remove-dev-extension:
 	docker extension rm ${DEV_EXTENSION_NAME}
 	
 img_prune:
 	docker image prune -af
+
 clr_cache:
 	docker buildx prune -f 
 
-reload: build-dev update dev-tools
+reload: 
+	build-dev update dev-tools
 
 update: 
 	docker extension update docketeer-extension
 
-prod: install-prod debug-prod
+prod: 
+	install-prod debug-prod
 
 build-prod: ## Build service image to be deployed as a desktop extension
 	docker build --tag=$(EXTENSION_IMAGE):$(VERSION) -f ${DOCKERFILEDIRECTORY}/dockerfile.prod .
@@ -65,6 +84,8 @@ validate-prod: install-prod## Make sure you have the multiplatform image created
 prepare-buildx: ## Create buildx builder for multi-arch build, if not exists
 	docker buildx inspect $(BUILDER) || docker buildx create --name=$(BUILDER) --driver=docker-container --driver-opt=network=host
 
+
+## DEPLOYMENT: type 'make help' and follow every single step before pushing up with 'make push-extension'
 
 ## Pushing one image will push all the others it references in the chain. push-extension will push everything to docker hub
 push-extension: prepare-buildx## Build & Upload extension image to hub. Do not push if VERSION already exists: make push-extension VERSION=0.1
