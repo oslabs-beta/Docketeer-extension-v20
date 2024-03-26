@@ -80,3 +80,5 @@ app.use(
 app.listen(SOCKETFILE, (): void => {
   console.log(`Listening on socket: ${SOCKETFILE}`);
 });
+
+module.exports = app;

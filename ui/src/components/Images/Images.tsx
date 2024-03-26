@@ -154,7 +154,7 @@ const Images = (): React.JSX.Element => {
 						arrow
 						TransitionComponent={Zoom}>
 						<IconButton
-							style={{ position: 'absolute', top: '-20px', left: '-35px' }}>
+							style={{ position: 'absolute', top: '-10px', left: '-35px' }}>
 							<InfoIcon />
 						</IconButton>
 					</Tooltip>
@@ -180,6 +180,7 @@ const Images = (): React.JSX.Element => {
 						if (scanDone) {
 							dispatch(resetImageProperties());
 							setReset(true);
+							setIsHovered('');
 							toast.success('Rescanning...!', {
 								position: 'top-right',
 								autoClose: 3000,

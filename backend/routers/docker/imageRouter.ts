@@ -3,7 +3,6 @@ import imageController from '../../controllers/docker/imagesController';
 import cacheController from '../../controllers/docker/cacheController';
 import mongoController from '../../controllers/docker/mongoController';
 import { exec } from 'child_process';
-import { resourceLimits } from 'worker_threads';
 
 const router = Router();
 router.use(express.json());
@@ -17,7 +16,6 @@ router.use(express.json());
 router.get('/', cacheController.checkCacheGrypeDb, imageController.getImages, imageController.dbStatus, cacheController.setCacheGrypeDb, (req, res) => {
   return res.status(200).json(res.locals.images);
 });
-
 
 /**
  * @abstract Check if image vulnerabilities are in the cache, if not perform a Grype scan

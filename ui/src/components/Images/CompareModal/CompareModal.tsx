@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './CompareModal.module.scss';
 import { MongoData, ScanObject } from '../../../../ui-types';
+import { ImageType } from '../../../../../types';
 import {
 	Chart as ChartJS,
 	Tooltip as ChartToolTip,
@@ -18,7 +19,7 @@ import Client from '../../../models/Client';
 import DropDownData from './DropDownData';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
-import { ChartData } from 'chart.js';
+import { cross } from 'd3';
 
 /* React-Chartjs-2 doc:
   https://react-chartjs-2.js.org/
@@ -49,6 +50,8 @@ interface DataSet {
 	data: [string | number, number][];
 	borderColor: string;
 	tension: number;
+	pointStyle: string;
+	cards: number[];
 }
 
 const CompareModal = ({
@@ -57,9 +60,12 @@ const CompareModal = ({
 }: CompareModalProps): React.JSX.Element => {
 	const [historyData, setHistoryData] = useState<MongoData[]>([]);
 	const [time, setTime] = useState<string[]>([]);
-	// selected
-	const [selectedTime, setSelectedTime] = useState<{ value: string; label: string }[]>([]);
+	const [selectedTime, setSelectedTime] = useState<
+		{ value: string; label: string }[]
+	>([]);
 	const [dataState, setDataState] = useState<DataSet[]>([]);
+	const [scaleCardsPlugin, setScaleCardsPlugin] = useState<any>({});
+	const [paddingBottom, setPaddingBottom] = useState<number>(0);
 
 	// get all the MongoDB data
 	const getHistory = async (): Promise<void> => {
@@ -74,9 +80,174 @@ const CompareModal = ({
 		}
 	};
 
+	const generateRandomPointStyle = (): string => {
+		const pointStyles = [
+			'circle',
+			'rect',
+			'rectRounded',
+			'rectRot',
+			'star',
+			'triangle',
+		];
+		const randomIndex = Math.floor(Math.random() * pointStyles.length);
+		return pointStyles[randomIndex];
+	};
+
+	const setupScaleCardsPlugin = (): object => {
+		return {
+			id: 'scaleCards',
+			beforeDatasetsDraw(chart, args, plugins): void {
+				const {
+					ctx,
+					data,
+					scales: { x, y },
+					options,
+				} = chart;
+				ctx.save();
+
+				// helper functions
+				const flagPole = (xStart, yStart, xEnd, yEnd): void => {
+					ctx.beginPath();
+					ctx.lineWidth = 2;
+					ctx.strokeStyle = '#086afc';
+					ctx.fillStyle = '#041f36';
+					ctx.moveTo(xStart, yStart);
+					ctx.lineTo(xEnd, yEnd);
+					ctx.stroke();
+				};
+
+				const flag = (x, y, w, h): void => {
+					ctx.beginPath();
+					ctx.lineWidth = 2;
+					ctx.strokeStyle = '#086afc';
+					ctx.fillStyle = '#041f36';
+					ctx.rect(x, y, w, h);
+					ctx.fill();
+					ctx.stroke();
+				};
+
+				const flagText = (label, x, y): void => {
+					ctx.font = 'bold 15px sans-serif';
+					ctx.fillStyle =
+						label > 0 ? '#d42319' : label < 0 ? '#1deb1a' : 'white';
+					ctx.textAlign = 'center';
+					ctx.fillText(label > 0 ? `+${label}` : label, x, y);
+				};
+
+				// loop through each data and make the label below
+				data.datasets[0].cards.forEach((cardText, index) => {
+					const textWidth = ctx.measureText(cardText).width;
+
+					const boundary =
+						chart.getDatasetMeta(0).data[index].x + (textWidth + 20);
+					if (boundary > x.right) {
+						flag(
+							chart.getDatasetMeta(0).data[index].x - textWidth - 20,
+							x.bottom + 50,
+							textWidth + 20,
+							20
+						);
+						flagPole(
+							chart.getDatasetMeta(0).data[index].x,
+							x.bottom,
+							chart.getDatasetMeta(0).data[index].x,
+							x.bottom + 50
+						);
+						flagText(
+							cardText,
+							chart.getDatasetMeta(0).data[index].x - textWidth,
+							x.bottom + 60
+						);
+					} else {
+						flag(
+							chart.getDatasetMeta(0).data[index].x,
+							x.bottom + 20,
+							textWidth + 20,
+							20
+						);
+						flagPole(
+							chart.getDatasetMeta(0).data[index].x,
+							x.bottom,
+							chart.getDatasetMeta(0).data[index].x,
+							x.bottom + 20
+						);
+						flagText(
+							cardText,
+							chart.getDatasetMeta(0).data[index].x + textWidth,
+							x.bottom + 30
+						);
+					}
+				});
+			},
+		};
+	};
+
+	let crosshair: any;
+	const crosshairLabel = {
+		id: 'crosshairLabel',
+		color: '#121d21',
+
+		// drawing
+		afterDatasetsDraw(chart): void {
+			const { ctx } = chart;
+			// Access the crosshair variable
+			ctx.lineWidth = 2;
+			ctx.strokeStyle = '#2a3647';
+
+			if (crosshair) {
+				ctx.save();
+				ctx.beginPath();
+				crosshair.forEach((line) => {
+					ctx.moveTo(line.startX, line.startY);
+					ctx.lineTo(line.endX, line.endY);
+					ctx.setLineDash([5, 5]);
+					ctx.stroke();
+				});
+				ctx.restore();
+			}
+		},
+
+		// mouse move
+		afterEvent(chart, args): void {
+			const { chartArea: { left, right, top, bottom } } = chart;
+			const xCoor = args.event.x;
+			const yCoor = args.event.y;
+
+			// if mouse out of chart
+			if (!args.inChartArea && crosshair) {
+				crosshair = undefined;
+				args.changed = true;
+			} else if (args.inChartArea) {
+				// Set crosshair position
+				crosshair = [
+					{
+						startX: left,
+						startY: yCoor,
+						endX: right,
+						endY: yCoor,
+					},
+					{
+						startX: xCoor,
+						startY: top,
+						endX: xCoor,
+						endY: bottom,
+					},
+				];
+				args.changed = true;
+			}
+		},
+	};
+
 	// config for line chart
 	const options: object = {
-		backgroundColor: '#011924',
+		onClick: (event: MouseEvent, elements: any[]) => {
+			setPaddingBottom(paddingBottom === 0 ? 75 : 0);
+		},
+		layout: {
+			padding: {
+				bottom: paddingBottom,
+			},
+		},
 		plugins: {
 			legend: {
 				labels: {
@@ -84,17 +255,54 @@ const CompareModal = ({
 						size: 20,
 					},
 					color: 'white',
-					backgroundColor: 'white',
+					usePointStyle: true,
 				},
 			},
 			tooltip: {
+				// configurate tooltip on hover on each data dot
+				usePointStyle: true,
+				callbacks: {
+					title: (ctx) => {
+						return ctx[0].dataset.label;
+					},
+					label: (ctx) => {
+						const scanName = ctx.dataset.label;
+						const timeStamp = ctx.label;
+						const imagesList = historyData.filter(
+							(document) => document.timeStamp === timeStamp
+						)[0].imagesList;
+						const vulObj: ScanObject = imagesList.filter(
+							(image: ImageType) => image.ScanName === scanName
+						)[0].Vulnerabilities;
+						const { Critical, High, Medium, Low, Negligible, Unknown } = vulObj;
+						return [
+							`------------ Total Count: ${ctx.raw} ------------`,
+							`Critical: ${Critical ? Critical : 0}`,
+							`High: ${High ? High : 0}`,
+							`Medium: ${Medium ? Medium : 0}`,
+							`Low: ${Low ? Low : 0}`,
+							`Negligible: ${Negligible ? Negligible : 0}`,
+							`Unknown: ${Unknown ? Unknown : 0}`,
+							`------------------------------------------`,
+						];
+					},
+					footer: (ctx) => {
+						return ctx[0].label;
+					},
+				},
 				titleFont: {
 					size: 25,
 				},
 				bodyFont: {
 					size: 20,
 				},
-				backgroundColor: 'rgb(2, 108, 194)',
+				backgroundColor: '#000f1c',
+				borderWidth: 2,
+				borderColor: (ctx) => {
+					const datasetIndex = ctx.tooltip.dataPoints[0].datasetIndex;
+					return ctx.tooltip.chart.data.datasets[datasetIndex].borderColor;
+				},
+				borderStyle: 'solid',
 			},
 		},
 		scales: {
@@ -107,6 +315,9 @@ const CompareModal = ({
 						size: 20,
 					},
 				},
+				grid: {
+					color: '#121d21',
+				},
 			},
 			y: {
 				title: {
@@ -117,29 +328,29 @@ const CompareModal = ({
 						size: 20,
 					},
 				},
+				grid: {
+					color: '#121d21',
+				},
 			},
 		},
 	};
 
-	// onclick for LATER!
-	const onClick = {};
-
 	const generateRandomColor = (): string => {
-		const red: number = Math.floor(Math.random() * 256);
-		const green: number = Math.floor(Math.random() * 256);
-		const blue: number = Math.floor(Math.random() * 256);
+		const red: number = Math.floor(Math.random() * 156) + 100;
+		const green: number = Math.floor(Math.random() * 156) + 100;
+		const blue: number = Math.floor(Math.random() * 156) + 100;
 		const hexColor: string =
 			'#' +
 			((1 << 24) + (red << 16) + (green << 8) + blue).toString(16).slice(1);
 		return hexColor;
-	}
+	};
 
-	const totalFunc = (object: ScanObject) => {
+	const totalFunc = (object: ScanObject): number => {
 		return Object.values(object).reduce((acc: ScanObject, cur) => acc + cur);
 	};
 
 	// data pass into Line chart
-	const data: { labels: string[]; datasets: DataSet[]; } = {
+	const data: { labels: string[]; datasets: DataSet[] } = {
 		// x-axis label --> timeStamp
 		labels:
 			selectedTime.length === 0
@@ -164,13 +375,36 @@ const CompareModal = ({
 				else bigObj[imgObj.ScanName].push(total);
 			});
 		});
+		// Adjust bigObj to fill in missing data with null
+		// we want the dataset to be [null, 10] if the first timestamp we don't have it and second one we do
+		imagesListArr.forEach((document, index) => {
+			for (let key in bigObj) {
+				if (!document.find((imgObj) => imgObj.ScanName === key)) {
+					// If the key doesn't exist in the current timestamp, insert null
+					bigObj[key].splice(index, 0, null);
+				}
+			}
+		});
+		// MAKE DATASET----------
 		const names: string[] = Object.keys(bigObj);
+
+		// get totalVul through time
+		const lengths = Object.values(bigObj).map((arr) => arr.length);
+		const totalTimeStamp: number[] = Array.from(
+			{ length: lengths[0] },
+			(_, index) =>
+				Object.values(bigObj).reduce((acc, curr) => acc + (curr[index] || 0), 0)
+		);
+
 		const dataset: DataSet[] = names.map((name, i) => {
 			return {
 				label: name,
 				data: bigObj[name],
 				borderColor: generateRandomColor(),
 				tension: 0.4,
+				pointStyle: generateRandomPointStyle(),
+				// TEST
+				cards: totalTimeStamp.map((el, i, arr) => i === 0 ? 0 : el - arr[i-1]),
 			};
 		});
 		setDataState(dataset);
@@ -188,7 +422,7 @@ const CompareModal = ({
 		} else {
 			// reset it
 			setDataState([]);
-			const selectedMongoData: MongoData[]  = historyData.filter((data) =>
+			const selectedMongoData: MongoData[] = historyData.filter((data) =>
 				selectedTime
 					.map((item) => new Date(item.value))
 					.sort((a: any, b: any) => a - b)
@@ -199,48 +433,55 @@ const CompareModal = ({
 		}
 	}, [selectedTime, historyData]);
 
+	// Ensure MongoDB data load then enable plugins
+	useEffect(() => {
+		if (historyData.length > 0) {
+			const plugin = setupScaleCardsPlugin();
+			setScaleCardsPlugin(plugin);
+		}
+	}, [historyData]);
+
 	return trigger ? (
 		<div className={styles.popup}>
 			<div className={styles.popupInner}>
 				<div className={styles.header}>
 					<h2 className={styles.popuptitle}>SCAN HISTORY</h2>
-					<div
-						style={{
-							position: 'relative',
-							display: 'inline-block',
-							marginTop: '-20px',
-							marginLeft: '10px',
-						}}></div>
 					{/* close button */}
 					<button className={styles.closeBtn} onClick={() => setTrigger(false)}>
 						x
 					</button>
 				</div>
+				<div>
+					{/* Dropdown Data */}
+					{historyData.length === 0 ? (
+						<Box sx={{ width: '100%', height: 30 }}>
+							<LinearProgress sx={{ height: '100%' }} />
+						</Box>
+					) : (
+						<DropDownData
+							selectedTime={selectedTime}
+							setSelectedTime={setSelectedTime}
+							time={time}
+						/>
+					)}
+				</div>
 				<Tooltip
-					title='ADD INFO HERE'
-					placement='left-start'
+					title='Click background for Total Vulnerability Comparison! (FIRST LOAD: Close and Reopen History Tab)'
+					placement='right-end'
 					arrow
 					TransitionComponent={Zoom}>
-					<IconButton style={{ position: 'absolute', right: '1px' }}>
+					<IconButton style={{ position: 'absolute' }}>
 						<InfoIcon />
 					</IconButton>
 				</Tooltip>
-				{/* Dropdown Data */}
-				{historyData.length === 0 ? (
-					<Box sx={{ width: '100%', height: 30 }}>
-						<LinearProgress sx={{ height: '100%' }} />
-					</Box>
-				) : (
-					<DropDownData
-						selectedTime={selectedTime}
-						setSelectedTime={setSelectedTime}
-						time={time}
-					/>
-				)}
 				{/* Line Chart */}
 				<div className={styles.graphContainer}>
 					<div className={styles.lineCanvas}>
-						<Line data={data} options={options} />
+						<Line
+							data={data}
+							options={options}
+							plugins={[crosshairLabel, scaleCardsPlugin]}
+						/>
 					</div>
 				</div>
 			</div>

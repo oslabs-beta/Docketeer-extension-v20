@@ -39,19 +39,31 @@ RUN npm run build
 
 # Creates the working directory for the extension
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16
+
 # Extension information that is displayed in the sidebar/extension menu
+# THIS IS WHERE YOU CUSTOMIZE EXTENSION DESCRIPTIONS, GIFS, ...
 LABEL org.opencontainers.image.title="Docketeer" \
-  org.opencontainers.image.description="Docker extension for monitoring and managing your containers, images, networks, and logs" \
+  org.opencontainers.image.description="Docker extension for monitoring and managing your containers, images, image vulnerabilities, networks, and logs." \
   org.opencontainers.image.vendor="Docketeer team" \
   com.docker.desktop.extension.api.version="0.3.0" \
   com.docker.desktop.extension.icon="https://i.ibb.co/VqkYZPy/docketeer-logo-light.png" \
-  com.docker.extension.screenshots='[{"alt":"Containers page","url":"https://i.ibb.co/MZLynrG/containers-re-demo.gif"}, \
-  {"alt":"Network page","url":"https://i.ibb.co/4fjCsf2/network-tab-demo.gif"}, \
-  {"alt":"Image page","url":"https://dz0i85a16ad4a.cloudfront.net/t8267t%2Fpreview%2F55110026%2Fmain_large.gif?response-content-disposition=inline%3Bfilename%3D%22main_large.gif%22%3B&response-content-type=image%2Fgif&Expires=1703282385&Signature=ZR18Bg4cfcY0orYq6Qa0dE1e5h1D2P33bSgDF8CgHyx-8Bh~WfkvT~Lc~FuvqsM8SmHFfczx77g5Qkwz-hOFyR8axXzSgHSqopZD8KN63Hd7J4j71ElFeMiFuHV4OH4vsglYOMLX7hYcHqO2jUb3vU73C8u0SgaohOrU14nuH2hZI2c5SEEb32vJ9I2D9CJX06AD053m-3E-p5NwkYthNr4qDI3Kc7dX2~rRqTU752cTjjuoBIa0gGr5DaRvPUorgws1VOA4dYUKEJQVoWwWo7CGDROesi-vvCPT7rLFUKkb8HS13bZPxoL2xv-zL7fo7s-ERJBp9owwrpdwJi2k7g__&Key-Pair-Id=APKAJT5WQLLEOADKLHBQ"}, \
-  {"alt":"Metrics page","url":"https://i.ibb.co/xmPYZ4H/containers-metric-demo.gif"}, \
-  {"alt":"Snapshot page","url":"https://i.ibb.co/KwPtDMf/snapshot-demo.gif"}, \
-  {"alt":"Process Logs page","url":"https://i.ibb.co/MkgfcC9/processlogs-demo.gif"}]' \
-  com.docker.extension.detailed-description="<h3>Description</h3> \
+  # Change GIFs if needed --> Log into https://imgbb.com/ and update GIFs if needed!
+  com.docker.extension.screenshots='[{"alt":"Containers page","url":"https://i.ibb.co/6HcTQzQ/container-Tab-new.gif"}, \
+  {"alt":"Image page 1","url":"https://i.ibb.co/VD3P6RG/image-Tab1-new.gif"}, \
+  {"alt":"Image page 2","url":"https://i.ibb.co/YWG5BCr/image-Tab2-new.gif"}, \
+  {"alt":"Image page 3","url":"https://i.ibb.co/wpVVNLj/image-Tab3-new.gif"}, \
+  {"alt":"Metrics page","url":"https://i.ibb.co/Ms4FshF/metric-Tab-new.gif"}, \
+  {"alt":"Kubernetes page","url":"https://i.ibb.co/44Yq102/k8-Tab-new.gif"}, \
+  {"alt":"Other page","url":"https://i.ibb.co/7vMSNGQ/hamburger-Tab-new.gif"}]' \
+  com.docker.extension.detailed-description=" <h3>What's New In Version 18.0.0?</h3> \
+  <ul> \
+  <li><strong>New updated UI and utilities.</strong></li> \
+  <li>More vulnerability info such as packages name & CVE ID with link.</li> \
+  <li>Data visualization graph for each image.</li> \
+  <li>Users can now <strong>Rescan</strong> to bypass Redis Caching from Version 17.</li> \
+  <li>Ability to <strong>Save Scan</strong> and retrieve history scans to compare on a time series graph.</li> \
+  </ul> \
+  <h3>Description</h3> \
   <p>Greetings, fellow space traveler! We're thrilled that you've chosen our application to help you navigate and explore the vast universe of Docker infrastructure. As a Docketeer, you know that real-time tracking of metrics and logs is essential for staying ahead of potential issues and optimizing your workflows. Our extension provides you with the tools you need to take control of your Docker images, containers, volumes, and logs. With an intuitive interface, you can easily make the necessary adjustments to ensure a smooth journey through the cosmos of your Docker environment.</p> \
   <h4>About us</h4> \
   <p>As a team of passionate engineers, we are dedicated to improving the workflow of developers as they explore the vast universe of Docker infrastructure. We know that space travel can be complex and challenging, but with the right tools and support, you can navigate the stars with ease.</p> \
@@ -59,7 +71,7 @@ LABEL org.opencontainers.image.title="Docketeer" \
   com.docker.extension.publisher-url="https://docketeer.io/" \
   com.docker.extension.additional-urls='[{"title":"Extension-Github","url":"https://github.com/open-source-labs/docketeer-extension"},{"title":"Email","url":"mailto:docketeerxii@gmail.com"},{"title":"LinkedIn","url":"https://www.linkedin.com/company/docketeer/"}]' \
   com.docker.extension.categories="utility-tools" \
-  com.docker.extension.changelog="https://github.com/open-source-labs/docketeer-extension/blob/master/docs/changelog"
+  com.docker.extension.changelog=" Visit: https://github.com/open-source-labs/Docketeer-extension/blob/master/docs/changelogs/docketeer18.notes.md"
 
 # Installs curl
 RUN apk --no-cache add curl
