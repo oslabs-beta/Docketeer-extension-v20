@@ -1,6 +1,9 @@
 # Make sure to update versions to whatever the latest is
-EXTENSION_IMAGE?=docketeerxvii/docketeer-extension
 
+# DO NOT CHANGE THIS! KEEP IT AT XIV ELSE YOU CAN'T PUSH
+EXTENSION_IMAGE?=docketeerxiv/docketeer-extension
+
+# ONLY CHANGE THIS VERSION TO YOUR GROUP | ex: 18.0.0 or 19.0.0 so on
 VERSION?=18.0.0
 
 DEV_EXTENSION_NAME=docketeer-extension-dev
@@ -81,6 +84,8 @@ validate-prod: install-prod## Make sure you have the multiplatform image created
 prepare-buildx: ## Create buildx builder for multi-arch build, if not exists
 	docker buildx inspect $(BUILDER) || docker buildx create --name=$(BUILDER) --driver=docker-container --driver-opt=network=host
 
+
+## DEPLOYMENT: type 'make help' and follow every single step before pushing up with 'make push-extension'
 
 ## Pushing one image will push all the others it references in the chain. push-extension will push everything to docker hub
 push-extension: prepare-buildx## Build & Upload extension image to hub. Do not push if VERSION already exists: make push-extension VERSION=0.1

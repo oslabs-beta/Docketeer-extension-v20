@@ -148,11 +148,13 @@ Dev & Contributors - See [DevGettingStarted](/docs/DevGettingStarted.md) & Contr
 ```
 - Delete everything Docketeer related - images, volumes, containers (should be deleted when you "make browser-down")
 
-- Run Docker compose withou cache using this Makefile command:
+- Run Docker compose without cache using this Makefile command:
 ```
-# Example: To build browser-dev without cached image layers
-  docker compose -f extension/docker-compose-browser.yaml up --build -d
+# Example: To build without cached image layers
+  make browser-new
 ```
+
+- See [Makefile](/Makefile) for more info!
 
 <br/>
 
@@ -220,6 +222,7 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 <br />
 
 ## <b>Read More</b>
+- [Docketeer XVIII: A Whale of An Improvement](https://medium.com/@docketeerxii/...)
 - [Docketeer XVII: Transforming with Security](https://medium.com/@docketeerxii/docketeer-xvii-transforming-with-security-45cd06da061d)
 - [Docketeer XVI: The Journey Continues](https://medium.com/@docketeerxii/introducing-docketeer-xvi-the-journey-continues-f34fc5bf7749)
 - [Docketeer XV: Naviating the Seas of Docker with Docketeer v15](https://medium.com/@christiandoescoding/navigating-the-seas-of-docker-with-docketeer-v15-0-ad5bd9540d14)
