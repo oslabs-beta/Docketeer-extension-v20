@@ -1,14 +1,16 @@
 {
   "name": "docketeer",
   "productName": "Docketeer",
-  "version": "17.0.0",
+  "version": "18.0.0",
   "license": "MIT",
   "description": "A modern GUI for Docker that provides developers with both management and visualization tools.",
-  "author": "Docketeer",
+  "author": "Docketeer, Docker Dragon 18",
   "scripts": {
     "test": "jest --verbose",
     "jest-preview": "jest-preview",
-    "test:debug": "npm-run-all -p test jest-preview"
+    "test:debug": "npm-run-all -p test jest-preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "dependencies": {
     "@docker/extension-api-client": "^0.3.4",
@@ -17,7 +19,9 @@
     "d3-sankey": "^0.12.3",
     "dayjs": "^1.11.10",
     "dayjs-plugin-utc": "^0.1.2",
+    "framer-motion": "^11.0.8",
     "jsonwebtoken": "^9.0.1",
+    "mongoose": "^8.2.3",
     "nth-check": "^2.1.1",
     "pg": "^8.8.0",
     "prettier": "^2.8.7",
@@ -27,12 +31,16 @@
     "react-modal": "^3.16.1",
     "react-redux": "^8.0.4",
     "react-router": "^6.4.1",
+    "react-toastify": "^10.0.5",
+    "redis": "^4.6.13",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
     "regenerator-runtime": "^0.13.11",
     "semver": "^7.5.4",
     "simple-update-notifier": "^2.0.0",
-    "styled-components": "^5.3.11"
+    "styled-components": "^5.3.11",
+    "text-encoding": "^0.7.0",
+    "util": "^0.12.5"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
@@ -75,6 +83,7 @@
     "html-webpack-plugin": "^5.5.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.2.1",
+    "jest-environment-jsdom-sixteen": "^2.0.0",
     "jest-fetch-mock": "^3.0.3",
     "jest-preview": "^0.3.1",
     "nodemailer": "^6.8.0",

@@ -53,54 +53,52 @@ const Snapshots = (): JSX.Element => {
   let iframeLinkRight = `http://localhost:49155/d/a5ae5af6-d66f-48be-bc88-08dee3060f86/snapshot-test?orgId=1&var-metric_date=${dateRight}&from=1699282966816&to=1699304566817&kiosk`
 
   return (
-    <div className={styles.snapshotWrapper}>
-      <div>
-        <div className={styles.dateAndSnapshot}>
-          <div>
-            <label>
-              <strong>CHOOSE A DATE:</strong>
-            </label>
+		<div className={styles.snapshotWrapper}>
+			<div>
+				<div className={styles.dateAndSnapshot}>
+					<div>
+						<label>
+							<strong>CHOOSE A DATE:</strong>
+						</label>
 
-            <select className={styles.dateInput} id="select-left">
-              {dropDown}
-            </select>
-          </div>
+						<select className={styles.dateInput} id='select-left'>
+							{dropDown}
+						</select>
+					</div>
 
-          <button
-            className={globalStyles.button1}
-            onClick={() => retrieveSnapshot('left')}
-          >
-            RETRIEVE SNAPSHOT
-          </button>
-        </div>
-        <div>
-          <iframe className={styles.metrics} src={iframeLinkLeft} />
-        </div>
-      </div>
+					<button
+						className={globalStyles.button1}
+						onClick={() => retrieveSnapshot('left')}>
+						RETRIEVE SNAPSHOT
+					</button>
+				</div>
+				<div className={styles.iframeDiv}>
+					<iframe className={styles.metrics} src={iframeLinkLeft} />
+				</div>
+			</div>
 
-      <div>
-        <div className={styles.dateAndSnapshot}>
-          <div> 
-            <label>
-              <strong>CHOOSE A DATE:</strong>
-            </label>
-            <select className={styles.dateInput} id="select-right">
-              {dropDown}
-            </select>
-          </div>
-          <button
-            className={globalStyles.button1}
-            onClick={() => retrieveSnapshot('right')}
-          >
-            RETRIEVE SNAPSHOT
-          </button>
-        </div>
-        <div>
-          <iframe className={styles.metrics} src={iframeLinkRight} />
-        </div>
-      </div>
-    </div>
-  );
+			<div>
+				<div className={styles.dateAndSnapshot}>
+					<div>
+						<label>
+							<strong>CHOOSE A DATE:</strong>
+						</label>
+						<select className={styles.dateInput} id='select-right'>
+							{dropDown}
+						</select>
+					</div>
+					<button
+						className={globalStyles.button1}
+						onClick={() => retrieveSnapshot('right')}>
+						RETRIEVE SNAPSHOT
+					</button>
+				</div>
+				<div className={styles.iframeDiv}>
+					<iframe className={styles.metrics} src={iframeLinkRight} />
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default Snapshots;

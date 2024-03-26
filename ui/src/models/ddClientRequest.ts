@@ -41,11 +41,10 @@ export const ddClientRequest = async<T>(url: string, method: 'GET' | 'POST' | 'P
       method: method.toUpperCase(),
     };
     if (fetchOptions.method !== 'GET' && fetchOptions.method !== 'DELETE') {
-      fetchOptions.body = JSON.stringify(body); 
+      fetchOptions.body = JSON.stringify(body);
     }
-   
-   
-    fetchOptions.headers = {...DEFAULT_HEADERS, ...headers}
+
+    fetchOptions.headers = { ...DEFAULT_HEADERS, ...headers }
     const result = await fetch(url, fetchOptions);
 
     // Handle error message return to format the same as ddClient error messages
@@ -68,7 +67,7 @@ export const ddClientRequest = async<T>(url: string, method: 'GET' | 'POST' | 'P
 };
 
 /**
- * @abstract Encodes an object into uri string ie. 
+ * @abstract Encodes an object into uri string ie.
  *           {containers: docketeer, uptime: 5 min -> containers=docketeer&uptime=5%20min
  * @param dict key value pair used to construct query.
  * @returns {string} Encoded string for a uri query

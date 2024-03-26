@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
 import { createPrunePrompt } from '../../reducers/pruneReducer';
-
-
 import Alert from '../../components/Alert/Alert';
 import SideBar from '../../components/SideBar/SideBar';
-import globalStyles from '../global.module.scss';
 import styles from './SharedLayout.module.scss';
 import docketeerLogo from '../../../assets/docketeer-logo-light.png';
 import MenuIcon from '../../../assets/menu_icon_36dp.svg';
@@ -15,13 +12,14 @@ import {
   fetchRunningContainers,
   fetchStoppedContainers,
 } from '../../reducers/containerReducer';
-import { fetchImages } from '../../reducers/imageReducer';
 import { fetchNetworkAndContainer } from '../../reducers/networkReducer';
 import {
   fetchAllContainersOnVolumes,
   fetchAllDockerVolumes,
 } from '../../reducers/volumeReducer';
 import Client from '../../models/Client';
+import Switch, { switchClasses } from '@mui/joy/Switch';
+import { Theme } from '@mui/joy';
 
 /**
  * @module | SharedLayout.tsx
@@ -30,15 +28,31 @@ import Client from '../../models/Client';
 
 function SharedLayout(): JSX.Element {
   // navBar useState
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [checked, setChecked] = useState<boolean>(true);
+  const buttonRef = useRef<HTMLImageElement>(null);
+  const dropdownRef = useRef(null);
+  const dispatch = useAppDispatch();
 
   // navBar functionality
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
-  // const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  // hover hamburger will trigger onclick
+  const handleHover = () => {
+		buttonRef.current.click();
+  };
+  
+  // click outside to close hamburger
+  const handleOutsideClick = (e: MouseEvent) => {
+		if (
+			dropdownRef.current &&
+			!dropdownRef.current.contains(e.target as Node)
+		) {
+			setIsOpen(false);
+		}
+	};
 
   const handleNetworkPrune = async (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -85,7 +99,20 @@ function SharedLayout(): JSX.Element {
         }
       )
     );
-  };
+	};
+	
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const star = document.getElementById('stars');
+		const star2 = document.getElementById('stars2');
+		if (checked) {
+			star.classList.remove('stars');
+			star2.classList.remove('stars2');
+		} else {
+			star.classList.add('stars');
+			star2.classList.add('stars2');
+		}
+		setChecked(event.target.checked);
+	}
   
   const { volumes } = useAppSelector((state) => state.volumes);
 
@@ -94,73 +121,113 @@ function SharedLayout(): JSX.Element {
     dispatch(fetchStoppedContainers());
     dispatch(fetchNetworkAndContainer());
     dispatch(fetchAllDockerVolumes());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     dispatch(fetchAllContainersOnVolumes());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [volumes]);
 
+  useEffect(() => {
+		document.addEventListener('mousedown', handleOutsideClick);
+		return () => {
+			document.removeEventListener('mousedown', handleOutsideClick);
+		};
+	}, []);
+
   return (
-    <div>
-      <nav className={styles.navBar}>
-        <div>
-          {/* LOGO */}
-          <NavLink to="/" className={styles.logoDiv}>
-            <h1>Docketeer</h1>
-            <img className={styles.logo}
-              src={docketeerLogo}
-              alt="docketeer-logo"
-              width="45"
-              height="45"
-            ></img>
-          </NavLink>
-        </div>
-        <div className={styles.navSpacer}>
-          <ul>
-            <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.navButton
-                }
-                to="/"
-              >
-                CONTAINERS
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.navButton
-                }
-                to="/network"
-              >
-                NETWORKS
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.navButton
-                }
-                to="/images"
-              >
-                IMAGES
-              </NavLink>
-            </li>
-          </ul>
-            <div className={styles.hamburgerIcon}>
-              <img src={MenuIcon} onClick={toggleSidebar}>
-              </img>
-              {isOpen && <SideBar toggleSideBar={toggleSidebar} prune={prune} isOpen={isOpen}/>}
-            </div>
-        </div>
-      </nav>
-      <Alert />
-      <Outlet />
-    </div>
-  );
+		<div>
+			<nav className={styles.navBar}>
+				<div style={{ marginLeft: '50px' }}>
+					{/* LOGO */}
+					<NavLink to='/' className={styles.logoDiv}>
+						<h1>Docketeer</h1>
+						<img
+							className={styles.logo}
+							src={docketeerLogo}
+							alt='docketeer-logo'
+							width='45'
+							height='45'></img>
+					</NavLink>
+				</div>
+				{/* Toggle */}
+				<div className={styles.switch}>
+					<Switch
+						sx={(theme: Theme) => ({
+							'--Switch-thumbShadow': '0 3px 7px 0 rgba(0 0 0 / 0.12)',
+							'--Switch-thumbSize': '18px',
+							'--Switch-trackWidth': '45px',
+							'--Switch-trackHeight': '22px',
+							'--Switch-trackBackground': 'rgb(56, 52, 52)',
+							[`& .${switchClasses.thumb}`]: {
+								transition: 'width 0.2s, left 0.2s',
+							},
+							'&:hover': {
+								'--Switch-trackBackground': 'rgb(73, 71, 71)',
+							},
+							'&:active': {
+								'--Switch-thumbWidth': '32px',
+							},
+							[`&.${switchClasses.checked}`]: {
+								'--Switch-trackBackground': 'rgb(14, 27, 76)',
+								'&:hover': {
+									'--Switch-trackBackground': 'rgb(41, 61, 134)',
+								},
+							},
+						})}
+						checked={checked}
+						onChange={handleChange}
+					/>
+				</div>
+				<div className={styles.navSpacer}>
+					<ul>
+						<li>
+							<NavLink
+								className={({ isActive }) =>
+									isActive ? styles.active : styles.navButton
+								}
+								to='/'>
+								CONTAINERS
+							</NavLink>
+						</li>
+						<li>
+							<NavLink
+								className={({ isActive }) =>
+									isActive ? styles.active : styles.navButton
+								}
+								to='/network'>
+								NETWORKS
+							</NavLink>
+						</li>
+						<li>
+							<NavLink
+								className={({ isActive }) =>
+									isActive ? styles.active : styles.navButton
+								}
+								to='/images'>
+								IMAGES
+							</NavLink>
+						</li>
+					</ul>
+					<div className={styles.hamburgerIcon} ref={dropdownRef}>
+						<img
+							src={MenuIcon}
+							onClick={toggleSidebar}
+							ref={buttonRef}
+							onMouseOver={handleHover}></img>
+						{isOpen && (
+							<SideBar
+								toggleSideBar={toggleSidebar}
+								prune={prune}
+								isOpen={isOpen}
+							/>
+						)}
+					</div>
+				</div>
+			</nav>
+			<Alert />
+			<Outlet />
+		</div>
+	);
 }
 
 export default SharedLayout;

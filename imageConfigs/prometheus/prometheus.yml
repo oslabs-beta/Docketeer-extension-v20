@@ -22,6 +22,7 @@ scrape_configs:
     static_configs:
       - targets:
         - 'host.docker.internal:45555'
+        # - 'localhost:45555'
     relabel_configs:
       - target_label: 'federation'
         replacement: 'true'

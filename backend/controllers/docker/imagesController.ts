@@ -22,6 +22,7 @@ interface ImageController {
    * @param {string} req.body.scanName
    * @returns {void}
    */
+
   scanImages: (
     req: Request,
     res: Response,
@@ -35,6 +36,7 @@ interface ImageController {
    * @param {string} req.body.tag
    * @returns {void}
    */
+
   buildContainerFromImage: (
     req: Request,
     res: Response,
@@ -47,6 +49,7 @@ interface ImageController {
    * @abstract Pulls image from docker hub
    * @returns {void}
    */
+
   pullImage: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
   /**
@@ -55,6 +58,7 @@ interface ImageController {
    * @param {string} req.params.id
    * @returns
    */
+
   removeImage: (
     req: Request,
     res: Response,
@@ -66,7 +70,7 @@ interface ImageController {
 
 const imageController: ImageController = {} as ImageController;
 
-imageController.getImages = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+imageController.getImages = async (req, res, next) => {
   try {
     const { stdout, stderr } = await execAsync('docker images --format "{{json .}},"');
     if (stderr) throw new Error(stderr);
@@ -77,7 +81,7 @@ imageController.getImages = async (req: Request, res: Response, next: NextFuncti
 
     // Store an array of strings with our images names
     res.locals.images = images;
-    
+
     return next();
   } catch (error) {
     const errObj: ServerError = {
@@ -89,47 +93,56 @@ imageController.getImages = async (req: Request, res: Response, next: NextFuncti
   }
 }
 
-imageController.scanImages = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+imageController.scanImages = async (req, res, next) => {
   if (!res.locals.vulnerabilites) {
-    const { scanName }: { scanName: string } = req.body;
+		const { scanName, timeStamp }: { scanName: string; timeStamp: string } = req.body;
 
-    try {
-      //Development mode: runs Grype on scanName and outputs result based on a custom Go Template in ./controllers/grype/json.tmpl
-      //Production: runs Grype on scanName and outputs result based on a custom Go Template in backend/dist/controllers/grype/json.tmpl
-      const { stdout, stderr } = await execAsync(`grype ${scanName} -o template -t ${templatePath}`);
-      if (stderr) throw new Error(stderr);
+		try {
+			//Development mode: runs Grype on scanName and outputs result based on a custom Go Template in ./controllers/grype/json.tmpl
+			//Production: runs Grype on scanName and outputs result based on a custom Go Template in backend/dist/controllers/grype/json.tmpl
+			const { stdout, stderr } = await execAsync(
+				`grype ${scanName} -o template -t ${templatePath}`
+			);
+			if (stderr) throw new Error(stderr);
 
-      //parse the vulnerability data and count the number of vulnerabilites
-      const vulnerabilityJSON: GrypeScan[] = JSON.parse(stdout);
-      const countVulnerability: countVulnerability = vulnerabilityJSON.reduce((acc, cur) => {
-        acc.hasOwnProperty(cur.Severity) ? acc[cur.Severity]++ : acc[cur.Severity] = 1;
-        return acc
-      }, {});
-      res.locals.scanName = scanName
-      res.locals.vulnerabilites = countVulnerability;
-      res.locals.addToCache = true;
-      next()
-    } catch (error) {
-      const errObj: ServerError = {
-        log: { err: `imageController.scanImages Error: ${error}` },
-        status: 500,
-        message: 'internal server error'
-      }
-      next(errObj);
-    }
-  }
-  else {
-    next()
-  }
+			//parse the vulnerability data and count the number of vulnerabilites
+			const vulnerabilityJSON: GrypeScan[] = JSON.parse(stdout);
+
+			const countVulnerability: countVulnerability = vulnerabilityJSON.reduce(
+				(acc, cur) => {
+					acc.hasOwnProperty(cur.Severity)
+						? acc[cur.Severity]++
+						: (acc[cur.Severity] = 1);
+					return acc;
+				},
+				{}
+			);
+			res.locals.scanName = scanName;
+			res.locals.vulnerabilites = countVulnerability;
+			res.locals.everything = vulnerabilityJSON;
+			res.locals.timeStamp = timeStamp;
+			res.locals.addToCache = true;
+			next();
+		} catch (error) {
+			const errObj: ServerError = {
+				log: { err: `imageController.scanImages Error: ${error}` },
+				status: 500,
+				message: 'internal server error',
+			};
+			next(errObj);
+		}
+	} else {
+		next();
+	}
 };
 
 
 /**
- * @todo verify it's working 
+ * @todo verify it's working
  * @todo change body parameters. It must accept a name for the container and a name for
  *       the image
  */
-imageController.buildContainerFromImage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+imageController.buildContainerFromImage = async (req, res, next) => {
   try {
     const { imageName, tag, containerName } = req.body;
     // Need to fix
@@ -149,14 +162,11 @@ imageController.buildContainerFromImage = async (req: Request, res: Response, ne
   }
 }
 
-imageController.removeImage =async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+imageController.removeImage =async (req, res, next) => {
   try {
     const { id } = req.params;
     const { stdout, stderr } = await execAsync(`docker rmi -f ${id}`);
     if (stderr.length) throw new Error(stderr);
-
-    // Remove once verified
-    console.log(stdout)
     return next();
   } catch (error) {
     const errObj: ServerError = {
@@ -168,16 +178,11 @@ imageController.removeImage =async (req: Request, res: Response, next: NextFunct
   }
 }
 
-imageController.dbStatus = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+imageController.dbStatus = async (req, res, next) => {
   if (!res.locals.cachedDbStatus) {
     try {
       const { stdout, stderr } = await execAsync('grype db update');
       if (stderr) throw new Error(stderr);
-      console.log('grype db update status:', stdout)
       next();
     } catch (error) {
       const errObj: ServerError = {
@@ -191,5 +196,6 @@ imageController.dbStatus = async (
     next()
   }
 };
+
 
 export default imageController;

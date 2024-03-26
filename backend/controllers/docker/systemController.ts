@@ -15,7 +15,7 @@ interface SystemController {
 
 const systemController: SystemController = {} as SystemController;
 
-systemController.prune = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+systemController.prune = async (req, res, next) => {
   try {
     const { stdout, stderr } = await execAsync('docker system prune --force');
     if (stderr.length) throw new Error(stderr);

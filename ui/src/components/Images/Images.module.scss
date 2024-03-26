@@ -14,19 +14,66 @@
 }
 
 .ImagesContainer {
-  // margin-top: 5px;
-  // border: solid 1px blue;
   display: flex;
   flex-direction: column;
-  // row-gap: 100px;
+  // If animation too annoyed
+  // backdrop-filter: blur(4px);
 }
 
 .ImagesCardsView {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  margin-top: 20px;
 }
 
+.buttonDiv {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+.button, .buttonLoad {
+  background-color: #2351d1;
+  text-shadow: 1px 1px 2px #2351d1;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  padding: 10px 24px;
+  border-radius: 4px;
+  outline: none;
+  margin: 10px;
+  backdrop-filter: blur(4px);
+  cursor: pointer; 
+}
+
+.button {
+  box-shadow: 1px 1px 10px #2351d1;
+  &:hover {
+    background-color: #9ab4fbc7;
+  }
+}
+
+.buttonLoad {
+  background-color: rgb(56, 52, 52);
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+.modalContainer {
+  z-index: 20;
+}
 
 

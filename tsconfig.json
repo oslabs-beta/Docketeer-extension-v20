@@ -14,9 +14,14 @@
     "strictNullChecks": false,
     "baseUrl": "./",
     "allowSyntheticDefaultImports": true,
-    },
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@nivo/core": ["node_modules/@nivo/core"],
+      "@nivo/pie": ["node_modules/@nivo/pie/dist/nivo-pie.esm.js"]
+    }
+  },
     "exclude": [
       "./__mocks__/",
       "./__tests__"
     ]
-} 
+}

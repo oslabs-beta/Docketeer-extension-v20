@@ -3,12 +3,12 @@ import fs from 'fs';
 import { ServerError } from './backend-types';
 import process from 'process';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 
 // DO NOT USE CORS!
 // It will mess up the ddClientRequest!
 
-
-// const PORT = process.env.PORT || 3003;
+// const PORT = 3003;
 let SOCKETFILE: string;
 if (process.env.MODE === 'browser') {
   SOCKETFILE = '3000';
@@ -25,13 +25,18 @@ if (process.env.MODE === 'browser') {
   }
 }
 
-
+/**
+ *  "413 Request Entity Too Large" error
+ *  Article: https://blog.hubspot.com/website/413-request-entity-too-large
+ *  Need to add {limit: '50mb'} to increase the transfer limit (default is 10-15 mb)
+ */
 
 const app = express();
+app.use(bodyParser.json({ limit: '50mb' })); // set file size limit to 50mb
 
 app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '50mb' })); // set file size limit to 50mb
+app.use(express.urlencoded({ extended: true, limit: '50mb' })); // set file size limit to 50mb
 
 import containerRouter from './routers/docker/containerRouter';
 import imageRouter from './routers/docker/imageRouter';
@@ -49,7 +54,6 @@ app.use('/api/docker/system', systemRouter);
 app.use('/api/prometheus/config', configRouter);
 app.use('/api/saveMetricsEntry', saveMetricsRouter);
 
-
 // Handling requests to unknown endpoints...
 app.use('/', (req: Request, res: Response): Response => {
   return res
@@ -64,7 +68,7 @@ app.use(
     const defaultErr: ServerError = {
       log: {err:'Express error handler caught unknown middleware error'},
       status: 500,
-      message: 'internal server error',
+      message: 'internal server error: HELLLO',
     };
 
     const errorObj: ServerError = Object.assign({}, defaultErr, err);
@@ -76,3 +80,5 @@ app.use(
 app.listen(SOCKETFILE, (): void => {
   console.log(`Listening on socket: ${SOCKETFILE}`);
 });
+
+module.exports = app;

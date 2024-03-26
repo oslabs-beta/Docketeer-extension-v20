@@ -6,7 +6,7 @@ There are currently 3 ways to develop. If there are any issues around stale conf
 * A. Remove the containers and build the extension/compose file without cached layers
     ```
     # Example: To build browser-dev without cached image layers
-    docker compose -f extension/docker-compose-browser.yaml up --build -d
+    make browser-new
     ```
 
 * B. Remove the volumes, images, and cache

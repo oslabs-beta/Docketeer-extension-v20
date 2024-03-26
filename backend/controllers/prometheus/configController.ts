@@ -46,7 +46,7 @@ interface ConfigController {
 
 const configController: ConfigController = {} as ConfigController;
 
-configController.getTypeOptions = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+configController.getTypeOptions = async (req, res, next) => {
   try {
     const text = `
     SELECT * 
@@ -66,7 +66,7 @@ configController.getTypeOptions = async (req: Request, res: Response, next: Next
   }
 } 
 
-configController.getDataSources = async (req: Request, res: Response, next: NextFunction): Promise<void> =>  {
+configController.getDataSources = async (req, res, next) =>  {
   try {
     const text = `
     SELECT b.type_of, b.id AS "type_of_id", a.id, a.url, a.endpoint, a.match, a.jobname
@@ -88,7 +88,7 @@ configController.getDataSources = async (req: Request, res: Response, next: Next
   }
 }
 
-configController.createDataSource = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+configController.createDataSource = async (req, res, next) => {
   try {
     const text = `
     INSERT INTO datasource (type_of, url, endpoint, ssh_key, match, jobname)
@@ -110,7 +110,7 @@ configController.createDataSource = async (req: Request, res: Response, next: Ne
   }
 }
 
-configController.updateDataSource = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+configController.updateDataSource = async (req, res, next) => {
   try {
     const text = `
     UPDATE datasource SET (type_of, url, endpoint, ssh_key, match, jobname)
@@ -131,7 +131,7 @@ configController.updateDataSource = async (req: Request, res: Response, next: Ne
   }
 }
 
-configController.deleteDataSource = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+configController.deleteDataSource = async (req, res, next) => {
   try {
     const text = `
     DELETE FROM datasource

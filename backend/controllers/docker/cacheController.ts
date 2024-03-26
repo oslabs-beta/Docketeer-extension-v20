@@ -3,39 +3,61 @@ import redisClient from '../../cache/redis';
 import { GrypeScan, ServerError, countVulnerability } from '../../backend-types';
 
 interface CacheController {
-      /**
-    * @method GET
-    * @abstract sets grype's db status to already updated
-    * @returns {void}
-    */
-    setCacheGrypeDb: (req: Request, res: Response, next: NextFunction) => Promise<void>;
-  
-    /**
+  /**
+   * @method GET
+   * @abstract sets grype's db status to already updated
+   * @returns {void}
+   */
+  setCacheGrypeDb: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<void>;
+
+  /**
    * @method GET
    * @abstract see if grype's db has already been updated today
    * @returns {void}
    */
-    checkCacheGrypeDb: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+  checkCacheGrypeDb: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<void>;
 
-    /**
+  /**
    * @method POST
    * @abstract set countVulnerabilities to the redis cache
    * @returns {void}
    */
-    setCacheVulnerability: (req: Request, res: Response, next: NextFunction) => Promise<void>;
-  
+  setCacheScan: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<void>;
+
   /**
    * @method POST
    * @param {string} req.body.scanName
-   * @abstract Check RedisClient cache to see if the vulnerabilities have already been scanned and saved to cache
+   * @abstract Check RedisClient cache for first load / last scan
    * @returns {void}
    */
-  checkCacheVulnerability: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+  checkCacheScan: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<void>;
+
+  setCachedSave: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<void>;
 }
 
 const cacheController: CacheController = {} as CacheController;
 
-cacheController.checkCacheGrypeDb = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+cacheController.checkCacheGrypeDb = async (req, res, next) => {
   try {
     const cachedDbStatus = await redisClient.get('cachedDbStatus');
     if (JSON.parse(cachedDbStatus)) {
@@ -53,8 +75,7 @@ cacheController.checkCacheGrypeDb = async (req: Request, res: Response, next: Ne
 }
 
 
-  
-cacheController.setCacheGrypeDb = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+cacheController.setCacheGrypeDb = async (req, res, next) => {
   if (res.locals.cachedDbStatus) {
     next()
   } else {
@@ -73,12 +94,31 @@ cacheController.setCacheGrypeDb = async (req: Request, res: Response, next: Next
   }
 }
 
-cacheController.setCacheVulnerability = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+cacheController.setCacheScan = async (req, res, next) => {
   if (res.locals.addToCache) {
     try {
-      await redisClient.set(`${res.locals.scanName}`, JSON.stringify(res.locals.vulnerabilites));
-      await redisClient.expire(`${res.locals.scanName}`, 60 * 60 * 24);
-      next()
+      // cache vulnerability
+      await redisClient.set(
+        `${res.locals.scanName}&vulnerabilites`,
+        JSON.stringify(res.locals.vulnerabilites)
+      );
+      // cache everything
+      await redisClient.set(
+        `${res.locals.scanName}&everything`,
+        JSON.stringify(res.locals.everything)
+      );
+      // cache timeStamp
+      await redisClient.set(
+        `${res.locals.scanName}&timeStamp`,
+        JSON.stringify(res.locals.timeStamp)
+      );
+      // cache isSaved
+      // await redisClient.set(
+      //   `isSaved`,
+      //   JSON.stringify(res.locals.isSaved)
+      // );
+
+      next();
     } catch (error) {
       const errObj: ServerError = {
         log: { err: `cacheController setCacheVulnerability Error: ${error}` },
@@ -92,17 +132,45 @@ cacheController.setCacheVulnerability = async (req: Request, res: Response, next
   }
 }
 
-cacheController.checkCacheVulnerability = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  const { scanName }: { scanName: string } = req.body;
-  const cachedVulernabilities = await redisClient.get(`${scanName}`);
-  if (cachedVulernabilities !== null) {
-    console.log(`Cache ${scanName} hit result:`, cachedVulernabilities)
-    res.locals.vulnerabilites = JSON.parse(cachedVulernabilities);
-    next()
+cacheController.setCachedSave = async (req, res, next) => {
+    try {
+      // cache isSaved
+      await redisClient.set(
+        `isSaved`,
+        JSON.stringify(true)
+      );
+
+      next();
+    } catch (error) {
+      const errObj: ServerError = {
+        log: { err: `cacheController setCacheVulnerability Error: ${error}` },
+        status: 500,
+        message: 'internal server error'
+      }
+      next(errObj);
+    }
   }
-  else {
-    console.log('Cache miss:', `${scanName}`)
-    next()
+
+cacheController.checkCacheScan = async (req, res, next) => {
+  const { scanName }: { scanName: string } = req.body;
+  const cachedVulnernabilities = await redisClient.get(`${scanName}&vulnerabilites`);
+  const cachedEverything = await redisClient.get(`${scanName}&everything`);
+  const cachedTimeStamp = await redisClient.get(`${scanName}&timeStamp`);
+  const cachedIsSaved = await redisClient.get(`isSaved`);
+
+  res.locals.saved = cachedIsSaved ? true : false;
+
+  if (
+    cachedVulnernabilities !== null && cachedEverything !== null && cachedTimeStamp !== null
+  ) {
+    res.locals.vulnerabilites = JSON.parse(cachedVulnernabilities);
+    res.locals.everything = JSON.parse(cachedEverything);
+    res.locals.timeStamp = JSON.parse(cachedTimeStamp);
+    res.locals.addToCache = false;
+    next();
+  } else {
+    console.log("Cache miss:", `${scanName}`);
+    next();
   }
 }
 

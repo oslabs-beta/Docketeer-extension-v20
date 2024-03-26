@@ -79,28 +79,33 @@ export interface NetworkInspect{
   Labels?: object;
 }
 
-export interface ImageType{
-  Containers?: string;
-  CreatedAt?: string;
-  CreatedSince?: string;
-  Digest?: string;
-  ID: string;
-  Repository: string;
-  SharedSize?: string;
-  ScanName?: string;
-  Size: string;
-  Tag: string;
-  UniqueSize?: string;
-  VirtualSize?: string;
-  Vulnerabilities?: ScanObject;
+export interface ImageType {
+	Containers?: string;
+	CreatedAt?: string;
+	CreatedSince?: string;
+	Digest?: string;
+	ID: string;
+	Repository: string;
+	SharedSize?: string;
+	ScanName?: string;
+	Size: string;
+	Tag: string;
+	UniqueSize?: string;
+	VirtualSize?: string;
+	Vulnerabilities?: ScanObject;
+	Top3Obj?: Top3Obj;
+	Everything?: EverythingObj;
 }
 
 export interface ImageCardProps {
-  imgObj: ImageType,
-  key: number,
-  runImageAlert: (Image: ImageType) => void,
-  removeImageAlert: (Image: ImageType) => void,
-  index: number
+	imgObj: ImageType;
+	key: number;
+	runImageAlert: (Image: ImageType) => void;
+	removeImageAlert: (Image: ImageType) => void;
+  index: number;
+  reset: boolean;
+  setReset: (boolean) => void;
+  isHovered: string;
 }
 
 export interface NetworkAndContainer{
