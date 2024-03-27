@@ -222,7 +222,7 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 <br />
 
 ## <b>Read More</b>
-- [Docketeer XVIII: A Whale of An Improvement](https://medium.com/@docketeerxii/...)
+- [Docketeer XVIII: A Whale of An Improvement](https://medium.com/@docketeerxii/announcing-docketeer-18-0-a-whale-of-an-improvement-67282fbbbe61)
 - [Docketeer XVII: Transforming with Security](https://medium.com/@docketeerxii/docketeer-xvii-transforming-with-security-45cd06da061d)
 - [Docketeer XVI: The Journey Continues](https://medium.com/@docketeerxii/introducing-docketeer-xvi-the-journey-continues-f34fc5bf7749)
 - [Docketeer XV: Naviating the Seas of Docker with Docketeer v15](https://medium.com/@christiandoescoding/navigating-the-seas-of-docker-with-docketeer-v15-0-ad5bd9540d14)
