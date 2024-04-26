@@ -102,6 +102,7 @@ const InfoModal = ({
 								<tr>
 									<th>Package</th>
 									<th>Version Installed</th>
+									<th>Fix Status</th>
 									<th>Vulnerability ID</th>
 								</tr>
 							</thead>
@@ -111,22 +112,21 @@ const InfoModal = ({
 										<tr key={index}>
 											<td>{item.Package}</td>
 											<td>{item['Version Installed']}</td>
+											<td>{item['Fixed In'] === '[]'
+												? item['Fixed State']
+												: item['Fixed In'].replace(/[\[\]]/g, '')}
+											</td>
 											<td>
-												{item['Vulnerability ID'].startsWith('CVE') ? (
-													<a
-														className={styles.linkID}
-														href={`https://nvd.nist.gov/vuln/detail/${item['Vulnerability ID']}`}
-														onClick={async (e) => {
-															await Client.ImageService.openLink(
-																`https://nvd.nist.gov/vuln/detail/${item['Vulnerability ID']}`
-															);
-														}}
-														rel='noopener noreferrer'>
-														{item['Vulnerability ID']}
-													</a>
-												) : (
-													item['Vulnerability ID']
-												)}
+												<a
+													className={styles.linkID}
+													href={item['Data Source']}
+													// needed for extension to redirect to website
+													onClick={async (e) => {
+														await Client.ImageService.openLink(item['Data Source']);
+													}}
+													rel='noopener noreferrer'>
+													{item['Vulnerability ID']}
+												</a>
 											</td>
 										</tr>
 									)

@@ -4,8 +4,11 @@
     {
         "Package": "{{.Artifact.Name}}",
         "Version Installed": "{{.Artifact.Version}}",
+        "Fixed State": "{{.Vulnerability.Fix.State}}",
+        "Fixed In": "{{.Vulnerability.Fix.Versions}}",
         "Vulnerability ID": "{{.Vulnerability.ID}}",
-        "Severity": "{{.Vulnerability.Severity}}"
+        "Severity": "{{.Vulnerability.Severity}}",
+        "Data Source": "{{.Vulnerability.DataSource}}"
     }
     {{- end}}
 ]
