@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useAppDispatch } from '../../reducers/hooks';
+import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
 import { ContainerType, ContainersCardsProps, stats } from '../../../ui-types';
 import RunningContainer from '../RunningContainer/RunningContainer';
 import PageSwitch from './PageSwitch';
 import Client from '../../models/Client';
 import { fetchNetworkAndContainer } from '../../reducers/networkReducer';
+import { setLoadError } from '../../reducers/containerReducer';
 /**
  * @module | ContainersCard.tsx
  * @description | This component renders RunningContainer component and passes functions for connecting/disconnecting to the network as props.
@@ -51,6 +52,7 @@ const ContainersCard = ({
               },
               onError(error) {
                 console.error(error);
+                dispatch(setLoadError(true));
               },
               splitOutputLines: true,
             },

@@ -241,6 +241,7 @@ const Images = (): React.JSX.Element => {
 			</h2>
 			{/* IMAGE CARDS */}
 			<div className={styles.ImagesCardsView}>{renderedImages}</div>
+			<h3>Note: Scanning images can take time...</h3>
 			<ToastContainer
 				position='top-right'
 				autoClose={3000}

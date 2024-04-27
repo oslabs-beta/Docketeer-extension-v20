@@ -9,6 +9,7 @@ const initialState: ContainerStateType = {
   runningList: [],
   stoppedList: [],
   networkList: [],
+  loadError: false
 };
 
 /**
@@ -30,8 +31,6 @@ export const fetchStoppedContainers = createAsyncThunk(
   }
 )
 
-
-
 export const containerSlice = createSlice({
   name: 'containers',
   initialState,
@@ -39,7 +38,9 @@ export const containerSlice = createSlice({
     removeContainer: (state, action: PayloadAction<string>) => {
       state.stoppedList.filter((container) => container.ID !== action.payload);
     },
-  
+    setLoadError: (state, action: PayloadAction<boolean>) => {
+      state.loadError = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -58,12 +59,11 @@ export const containerSlice = createSlice({
 }
 );
 
-
-
 export const {
   // stopRunningContainer,
   // runStoppedContainer,
   removeContainer,
+  setLoadError,
 } = containerSlice.actions;
 
 export default containerSlice.reducer;

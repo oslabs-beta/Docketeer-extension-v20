@@ -7,6 +7,10 @@ import styles from './Containers.module.scss';
 import ContainersCard from '../ContainersCard/ContainersCard';
 import Client from '../../models/Client';
 import { fetchRunningContainers, fetchStoppedContainers } from '../../reducers/containerReducer';
+import { setLoadError } from '../../reducers/containerReducer';
+import LoadErrorModal from './LoadErrorModal/LoadErrorModal';
+import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
 
 /**
  * @module | Containers.tsx
@@ -20,6 +24,12 @@ const Containers = (): JSX.Element => {
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
+
+  const loadError = useAppSelector((state) => state.containers.loadError);
+
+  const handleClose = () => {
+    dispatch(setLoadError(false));
+  };
 
   const bashContainer = async (id: string) => await Client.ContainerService.bashContainer(id);
 
@@ -170,16 +180,23 @@ const Containers = (): JSX.Element => {
 					</div>
 
 					<h2 style={{ color: '#33bf2c' }}>RUNNING CONTAINERS</h2>
-					<p className={styles.count}>Count: {runningList.length}</p>
-					<div className={styles.containerList}>
-						<ContainersCard
-							containerList={runningList}
-							stopContainer={stopContainer}
-							runContainer={runContainer}
-							bashContainer={bashContainer}
-							removeContainer={removeContainer}
-							status='running'
-						/>
+          <p className={styles.count}>Count: {runningList.length}</p>
+          <LoadErrorModal open={loadError} handleClose={handleClose} />
+          <div className={styles.containerList}>
+            {
+              runningList.length === 0 && stoppedList.length === 0 ? (
+                <h3>Loading containers, please wait...</h3>
+              ) : (
+                <ContainersCard
+                  containerList={runningList}
+                  stopContainer={stopContainer}
+                  runContainer={runContainer}
+                  bashContainer={bashContainer}
+                  removeContainer={removeContainer}
+                  status="running"
+                />
+              )
+            }
 					</div>
 				</div>
 				<div className={styles.listHolderStopped}>
