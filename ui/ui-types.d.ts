@@ -65,6 +65,7 @@ export interface ContainerStateType {
   runningList: ContainerPS[];
   stoppedList: ContainerPS[];
   networkList: string[];
+  errorModalOn: boolean;
 }
 
 // for container's being run

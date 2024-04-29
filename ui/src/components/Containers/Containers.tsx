@@ -6,7 +6,10 @@ import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import styles from './Containers.module.scss';
 import ContainersCard from '../ContainersCard/ContainersCard';
 import Client from '../../models/Client';
-import { fetchRunningContainers, fetchStoppedContainers } from '../../reducers/containerReducer';
+import { fetchRunningContainers, fetchStoppedContainers, displayErrorModal } from '../../reducers/containerReducer';
+import ErrorModal from './ErrorModal/ErrorModal';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 /**
  * @module | Containers.tsx
@@ -20,6 +23,14 @@ const Containers = (): JSX.Element => {
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
+
+  const errorModalOn = useAppSelector(
+    (state) => state.containers.errorModalOn
+  );
+
+  const handleClose = () => {
+    dispatch(displayErrorModal(false));
+  };
 
   const bashContainer = async (id: string) => await Client.ContainerService.bashContainer(id);
 
@@ -170,16 +181,30 @@ const Containers = (): JSX.Element => {
 					</div>
 
 					<h2 style={{ color: '#33bf2c' }}>RUNNING CONTAINERS</h2>
-					<p className={styles.count}>Count: {runningList.length}</p>
-					<div className={styles.containerList}>
-						<ContainersCard
-							containerList={runningList}
-							stopContainer={stopContainer}
-							runContainer={runContainer}
-							bashContainer={bashContainer}
-							removeContainer={removeContainer}
-							status='running'
-						/>
+          <p className={styles.count}>Count: {runningList.length}</p>
+          <ErrorModal open={errorModalOn} handleClose={handleClose} />
+          <div className={styles.containerList}>
+            {
+              runningList.length === 0 && stoppedList.length === 0 ? (
+                <h3>Loading containers, please wait...</h3>
+              ) : (
+                <ContainersCard
+                  containerList={runningList}
+                  stopContainer={stopContainer}
+                  runContainer={runContainer}
+                  bashContainer={bashContainer}
+                  removeContainer={removeContainer}
+                  status="running"
+                />
+              )
+            }
+            {
+              runningList.length === 0 && (
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: '1%' }}>
+                  <CircularProgress />
+                </Box>
+              )
+            }
 					</div>
 				</div>
 				<div className={styles.listHolderStopped}>

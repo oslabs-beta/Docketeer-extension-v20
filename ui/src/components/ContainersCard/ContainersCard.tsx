@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useAppDispatch } from '../../reducers/hooks';
+import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
 import { ContainerType, ContainersCardsProps, stats } from '../../../ui-types';
 import RunningContainer from '../RunningContainer/RunningContainer';
 import PageSwitch from './PageSwitch';
 import Client from '../../models/Client';
 import { fetchNetworkAndContainer } from '../../reducers/networkReducer';
+
 /**
  * @module | ContainersCard.tsx
  * @description | This component renders RunningContainer component and passes functions for connecting/disconnecting to the network as props.
@@ -56,7 +57,6 @@ const ContainersCard = ({
             },
           }
         );
-       
       } catch (error) {
         console.log(`Can't import ddClient`);
       }
