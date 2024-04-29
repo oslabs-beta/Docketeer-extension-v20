@@ -127,10 +127,14 @@ export interface MetricsQuery {
 // ==============================================
 //Data generated from running GrypeScan on imageControllers.scanImages
 export interface GrypeScan {
-  Package: string;
+  'Package': string;
   'Version Installed'?: string;
+  'Fixed State'?: string;
+  'Fixed In'?: string;
+  'Description'?: string;
   'Vulnerability ID'?: string;
-  Severity?: string;
+  'Severity'?: string;
+  'Data Source'?: string;
 }
 
 export interface countVulnerability {
