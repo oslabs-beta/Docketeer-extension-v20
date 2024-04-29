@@ -1,16 +1,36 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import configController from '../../controllers/prometheus/configController';
-import { EndpointType, PromDataSource } from '../../../types';
+import { EndpointType, PromDataSourceType } from '../../../types';
 const router = Router();
 
 /**
  * @abstract
  * @todo
  * @param
- * @returns {PromDataSource[]}
+ * @returns {PromDataSourceType[]}
  */
 router.get('/', configController.getDataSources, (req: Request, res: Response) => {
   return res.status(200).json(res.locals.datasources);
+});
+
+/**
+ * @abstract
+ * @todo
+ * @param
+ * @returns {any[]}
+ */
+router.get('/initial', configController.getInitialDataSources, (req: Request, res: Response) => {
+  return res.status(200).json(res.locals.datasources);
+});
+
+/**
+ * @abstract
+ * @todo
+ * @param
+ * @returns {void}
+ */
+router.delete('/', configController.clearDataSources, (req: Request, res: Response) => {
+  return res.status(200).json({a:1});
 });
 
 /**

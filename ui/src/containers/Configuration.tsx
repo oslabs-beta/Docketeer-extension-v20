@@ -5,6 +5,7 @@ import Client from '../models/Client';
 import PromDataSource from '../components/Configuration/PromDataSource';
 import ConfigurationForm from '../components/Configuration/ConfigurationForm';
 import styles from './C.module.scss'
+import { PromDataSourceType } from '../../../types';
 
 const Configuration = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
@@ -13,15 +14,37 @@ const Configuration = (): React.JSX.Element => {
   const promDataSourcesLength = useAppSelector(store => store.configuration.prometheusDataSources.length);
   useEffect(() => {
     async function loadPromSources() {
-      const dataSources = await Client.ConfigService.getDataSources();
-      dispatch(setPrometheusDataSources(dataSources));
+      // On load: clear datasource DB table
+      await Client.ConfigService.clearDataSources();
 
+      //  Grab new targets and parse into correctly formatted array
+      const dataSources = await Client.ConfigService.getInitialSources();
+      console.log('dataSources: ', dataSources);
+      const parsedDataSources: PromDataSourceType[] = await Promise.all(dataSources.data.activeTargets.map(async (source, idx) => {
+
+        // update datasource table in DB with new sources
+        await Client.ConfigService.createDataSource(idx, source.labels.instance, source.labels.job,
+          source.discoveredLabels['__metrics_path__'], source.discoveredLabels['__param_match[]'], source.labels.scrapetype);
+
+        return {
+          id: idx,
+          jobName: source.labels.job,
+          url: source.labels.instance,
+          endpoint: source.discoveredLabels['__metrics_path__'],
+          match: source.discoveredLabels['__param_match[]'],
+          type_of: source.labels.scrapetype,
+        }
+      }))
+
+      // set our data sources state as new parsed array
+      dispatch(setPrometheusDataSources(parsedDataSources));
+    
       const endpointTypes = await Client.ConfigService.getEndpointTypes();
       dispatch(setEndpointTypes(endpointTypes));
 
     }
     loadPromSources();
-  }, [promDataSourcesLength]);
+  }, []);
 
   // Child Elements for individual Configuration
   const dataSourceElements: React.JSX.Element[] = [];
@@ -29,8 +52,6 @@ const Configuration = (): React.JSX.Element => {
   for (let i = 0; i < promDataSourcesLength; i++){
     dataSourceElements.push(<PromDataSource key={`datasource_${i}`} index={i} />);
   }
-
-
 
   return (
     <div className={styles.wrapper}>
