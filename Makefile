@@ -4,7 +4,7 @@
 EXTENSION_IMAGE?=docketeerxiv/docketeer-extension
 
 # ONLY CHANGE THIS VERSION TO YOUR GROUP | ex: 18.0.0 or 19.0.0 so on
-VERSION?=18.0.0
+VERSION?=19.0.0
 
 DEV_EXTENSION_NAME=docketeer-extension-dev
 DOCKERFILEDIRECTORY=extension
@@ -63,8 +63,7 @@ reload:
 update: 
 	docker extension update docketeer-extension
 
-prod: 
-	install-prod debug-prod
+prod: install-prod debug-prod
 
 build-prod: ## Build service image to be deployed as a desktop extension
 	docker build --tag=$(EXTENSION_IMAGE):$(VERSION) -f ${DOCKERFILEDIRECTORY}/dockerfile.prod .

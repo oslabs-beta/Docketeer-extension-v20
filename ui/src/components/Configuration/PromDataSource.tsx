@@ -38,18 +38,16 @@ const PromDataSource = ({ index }: any): React.JSX.Element => {
         type_of_id,
         url,
         endpoint,
-        ssh_key,
         match,
-        jobname,
+        jobName,
       } = promDataSource;
       const res = await Client.ConfigService.updateDataSource(
         id,
         type_of_id,
         url,
-        jobname,
+        jobName,
         endpoint,
-        match,
-        ssh_key
+        match
       );
       if (res)
         dispatch(
@@ -73,7 +71,7 @@ const PromDataSource = ({ index }: any): React.JSX.Element => {
         Delete
       </button>
       <div>
-        <b>Job Name: </b> <span>{promDataSource.jobname}</span>
+        <b>Job Name: </b> <span>{promDataSource.jobName}</span>
       </div>
       <div>
         <b>URL: </b> <span>{promDataSource.url}</span>
@@ -84,7 +82,7 @@ const PromDataSource = ({ index }: any): React.JSX.Element => {
       </div>
       <div>
         <b>Type of Endpoint: </b>
-        <span>{promDataSource.type_of}</span>
+        <span>{promDataSource.type_of ? promDataSource.type_of : 'prometheus'}</span>
       </div>
       <div className={styles.flexMatch}>
         <b>Matches: </b>
