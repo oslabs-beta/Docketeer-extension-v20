@@ -6,11 +6,10 @@ import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import styles from './Containers.module.scss';
 import ContainersCard from '../ContainersCard/ContainersCard';
 import Client from '../../models/Client';
-import { fetchRunningContainers, fetchStoppedContainers } from '../../reducers/containerReducer';
-import { setLoadError } from '../../reducers/containerReducer';
-import LoadErrorModal from './LoadErrorModal/LoadErrorModal';
-import Stack from '@mui/material/Stack';
+import { fetchRunningContainers, fetchStoppedContainers, displayErrorModal } from '../../reducers/containerReducer';
+import ErrorModal from './ErrorModal/ErrorModal';
 import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 /**
  * @module | Containers.tsx
@@ -25,10 +24,12 @@ const Containers = (): JSX.Element => {
     (state) => state.containers
   );
 
-  const loadError = useAppSelector((state) => state.containers.loadError);
+  const errorModalOn = useAppSelector(
+    (state) => state.containers.errorModalOn
+  );
 
   const handleClose = () => {
-    dispatch(setLoadError(false));
+    dispatch(displayErrorModal(false));
   };
 
   const bashContainer = async (id: string) => await Client.ContainerService.bashContainer(id);
@@ -181,7 +182,7 @@ const Containers = (): JSX.Element => {
 
 					<h2 style={{ color: '#33bf2c' }}>RUNNING CONTAINERS</h2>
           <p className={styles.count}>Count: {runningList.length}</p>
-          <LoadErrorModal open={loadError} handleClose={handleClose} />
+          <ErrorModal open={errorModalOn} handleClose={handleClose} />
           <div className={styles.containerList}>
             {
               runningList.length === 0 && stoppedList.length === 0 ? (
@@ -195,6 +196,13 @@ const Containers = (): JSX.Element => {
                   removeContainer={removeContainer}
                   status="running"
                 />
+              )
+            }
+            {
+              runningList.length === 0 && (
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: '1%' }}>
+                  <CircularProgress />
+                </Box>
               )
             }
 					</div>

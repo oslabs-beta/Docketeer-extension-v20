@@ -19,6 +19,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Tooltip, IconButton } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import Zoom from '@mui/material/Zoom';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 /**
  * @module | Images.tsx
@@ -239,9 +241,16 @@ const Images = (): React.JSX.Element => {
 				{' - '}Last Scan:
 				<span style={{ color: '#94c2ed' }}> {time && `${time}`} </span>
 			</h2>
+			{imagesList.length === 0 && <h4 style={{ marginLeft: '0.8%' }}>Note: Scanning images can take time...</h4 >}
 			{/* IMAGE CARDS */}
 			<div className={styles.ImagesCardsView}>{renderedImages}</div>
-			<h3>Note: Scanning images can take time...</h3>
+			{
+				imagesList.length === 0 && (
+					<Box sx={{ display: 'flex', justifyContent: 'center', mt: '5%'}}>
+						<CircularProgress />
+					</Box>
+				)
+			}
 			<ToastContainer
 				position='top-right'
 				autoClose={3000}
@@ -253,7 +262,7 @@ const Images = (): React.JSX.Element => {
 				draggable
 				pauseOnHover={false}
 				theme='dark'
-			/>
+						/>
 			{compareModal && <div className={styles.backdrop}></div>}
 			<div className={styles.modalContainer}>
 				<CompareModal trigger={compareModal} setTrigger={setCompareModal} />

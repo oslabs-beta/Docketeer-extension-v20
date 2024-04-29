@@ -9,7 +9,7 @@ const initialState: ContainerStateType = {
   runningList: [],
   stoppedList: [],
   networkList: [],
-  loadError: false
+  errorModalOn: false,
 };
 
 /**
@@ -38,8 +38,8 @@ export const containerSlice = createSlice({
     removeContainer: (state, action: PayloadAction<string>) => {
       state.stoppedList.filter((container) => container.ID !== action.payload);
     },
-    setLoadError: (state, action: PayloadAction<boolean>) => {
-      state.loadError = action.payload;
+    displayErrorModal: (state, action: PayloadAction<boolean>) => {
+      state.errorModalOn = action.payload;
     },
   },
   extraReducers(builder) {
@@ -54,6 +54,11 @@ export const containerSlice = createSlice({
           state.stoppedList = action.payload;
       }
     )
+      .addCase(
+        fetchRunningContainers.rejected, (state, action) => {
+          state.errorModalOn = true;
+       }
+     ) 
   },
 
 }
@@ -63,7 +68,7 @@ export const {
   // stopRunningContainer,
   // runStoppedContainer,
   removeContainer,
-  setLoadError,
+  displayErrorModal,
 } = containerSlice.actions;
 
 export default containerSlice.reducer;
