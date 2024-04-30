@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, KeyboardEvent } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import dayjsPluginUTC from 'dayjs-plugin-utc';
 dayjs.extend(dayjsPluginUTC);
@@ -11,7 +11,10 @@ import {
   ContainerType,
   RowsDataType,
   CSVDataType,
-  stdType,
+  CSVSlicedType,
+  CheckboxState,
+  CsvObjElement,
+  OptionsObj,
 } from '../../../ui-types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
@@ -21,12 +24,16 @@ import styles from './ProcessLogs.module.scss';
 import globalStyles from '../global.module.scss';
 import Client from '../../models/Client';
 import { fetchRunningContainers, fetchStoppedContainers } from '../../reducers/containerReducer';
+import { LogObject } from 'types';
+
 // import { todo } from 'node:test';
 
 /**
  * @module | Metrics.tsx
  * @description | Provides process logs for running containers & additional configuration options
  **/
+
+
 
 const ProcessLogs = (): JSX.Element => {
   // STATE
@@ -38,31 +45,31 @@ const ProcessLogs = (): JSX.Element => {
   const { stdout, stderr } = useAppSelector(state => state.logs.containerLogs);
   // DISPATCH
   const dispatch = useAppDispatch();
-  // const checked = useRef<boolean | null>();
 
-  const runningBtnList: any = getContainerNames(runningList);
+  const runningBtnList: CheckboxState = getContainerNames(runningList);
   // helper func for handling the checkboxes, checking a box sets the property to true & vice versa
+
   function getContainerNames(containerList: ContainerType[]): {
     name: string;
     value: boolean;
-  } {
+   } {
     // type assertion saying treat {} as { name: string; value: boolean; }
     const newObj = {} as { name: string; value: boolean };
     containerList.forEach(({ Names }) => (newObj[Names] = false));
     return newObj;
-  }
+   }
 
-  const [btnIdList, setBtnIdList] = useState<Array<object>>(runningBtnList);
+  const [btnIdList, setBtnIdList] = useState<CheckboxState>(runningBtnList);
   // start date
-  const [startDate, setStartDate] = useState<Dayjs | null>(null);
+  const [startDate, setStartDate] = useState<Dayjs | undefined>(undefined);
   // end date
-  const [stopDate, setStopDate] = useState<Dayjs | null>(null);
+  const [stopDate, setStopDate] = useState<Dayjs | undefined>(undefined);
   // process log rows
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState<RowsDataType[]>([]);
   // csvData state
   const [csvData, setCsvData] = useState([
     [true, 'container', 'type', 'time', 'message'],
-  ] as CSVDataType[]);
+  ] as CSVDataType);
 
   const [counter, setCounter] = useState(0);
   const darkTheme = createTheme({
@@ -74,17 +81,17 @@ const ProcessLogs = (): JSX.Element => {
     },
   });
 
-  const [checked, setChecked] = useState([]); // checkbox array state, needed for select all
+  const [checked, setChecked] = useState<boolean[]>([]); // checkbox array state, needed for select all
 
-  const [filteredDisplay, setFilteredDisplay] = useState<any>([]);
+  const [filteredDisplay, setFilteredDisplay] = useState<RowsDataType[]>([]);
 
-  const [csvSent, setCSVSent] = useState([]);
+  const [csvSent, setCSVSent] = useState<CSVSlicedType[]>([]);
 
 
   useEffect(() => {
     dispatch(fetchRunningContainers())
     dispatch(fetchStoppedContainers());
-  }, []);
+  }, [dispatch]);
 
   /**
    * @abstract run tableData function when counter, csvData.length is changed (not when setCsvData is used)
@@ -96,7 +103,7 @@ const ProcessLogs = (): JSX.Element => {
   /**
    * @abstract use effect, rerender on change to rows.length
    */
-  useEffect(() => {
+   useEffect(() => {
     setFilteredDisplay(rows);
     setCsvData(toCSVArray(rows));
   }, [rows.length]);
@@ -105,26 +112,22 @@ const ProcessLogs = (): JSX.Element => {
    * @abstract Takes array of nums and a timeframe and creates an object with container names
    *           since a timeframe expressed as a string
    */
+  
   const buildOptionsObj = (
     containerNames: string[],
     offset: number,
-    startD?: string,
-    stopD?: string,
-  ) => {
-    // create optionsObj, container names are selected containers, start time, stop time, offset is local utc offset in minutes
-    const optionsObj = {
-      containerNames: containerNames,
-      start: startD,
-      stop: stopD,
-      offset: offset,
-    };
-    return optionsObj;
+    start: string | null = null,
+    stop: string | null = null,
+): OptionsObj => {
+  return {
+    containerNames,
+    start,
+    stop,
+    offset
   };
+};
 
-  /**
-   * @abstract: takes in a btnIdList, passes that into buildObptionObj
-   */
-  const handleGetLogs = async (idList: object) => {
+const handleGetLogs = async (idList: object) => {
     const idArr = Object.keys(idList).filter(el => idList[el] === true);
     const date = new Date();
     // pop-up
@@ -152,7 +155,8 @@ const ProcessLogs = (): JSX.Element => {
   /**
    * @abstract: Handle Checkboxes, changes boolean in btnIdList when passed in a name
    */
-  const handleCheck = (name: string) => {
+
+   const handleCheck = (name: string) => {
     const newBtnIdList = { ...btnIdList };
 
     if (newBtnIdList[name]) {
@@ -193,17 +197,21 @@ const ProcessLogs = (): JSX.Element => {
     }
     setSelectAll(isAllSelect);
   };
-
-  const handleCsv = () => {
-    const newCsvSent: CSVDataType[] = []; // add type later
+ const handleCsv = () => {
+    const newCsvSent: CSVSlicedType[] = []; 
     for (let i = 0; i < csvData.length; i++) {
       if (csvData[i][0] === true) {
-        newCsvSent.push(csvData[i].slice(1));
+        // Ensure the sliced array has exactly four string elements
+        const slicedData = csvData[i].slice(1);
+        if (slicedData.length === 4) { // Check if the sliced part has exactly four elements
+          newCsvSent.push(slicedData as CSVSlicedType);
+        } else {
+          console.error('Sliced data does not match the expected format', slicedData);
+        }
       }
     }
     setCSVSent(newCsvSent);
   };
-
   /**
    * @abstract: Creates an array of log messages and saves it to state
    * Output: setsRows: for process logs table, setCsvData: chooses CSV data
@@ -211,15 +219,14 @@ const ProcessLogs = (): JSX.Element => {
   const tableData = () => {
     // declare const newRows, and newCSV which are arrays of RowsDataType and CSVDataType
     const newRows: RowsDataType[] = [];
-    const newCSV: CSVDataType[] = [];
+    const newCSV: CSVDataType = [];
 
     // combined list of running and stopped containers
     const combinedList = [...runningList, ...stoppedList];
     // if s
     if (stdout && stderr) {
       if (stdout.length) {
-        //TODO: change from stdType to any for now
-        stdout.forEach((log: any) => {
+        stdout.forEach((log: LogObject) => {
           const currCont = combinedList.find(
             (el: ContainerType) => el.Names === log['containerName'],
           );
@@ -242,8 +249,7 @@ const ProcessLogs = (): JSX.Element => {
         });
       }
       if (stderr.length) {
-        //TODO: Changed from stdType to any for now
-        stderr.forEach((log: any) => {
+        stderr.forEach((log: LogObject) => {
           const currCont = combinedList.find(
             (el: ContainerType) => el.Names === log['containerName'],
           );
@@ -296,7 +302,9 @@ const ProcessLogs = (): JSX.Element => {
   /**
    * @abstract sorting row data i search
    */
-  const toggleDisplay = e => {
+
+  
+  const toggleDisplay = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       if (!searchWord.length) {
         setFilteredDisplay(rows);
@@ -312,160 +320,158 @@ const ProcessLogs = (): JSX.Element => {
         setCsvData(csvArray);
       }
     }
+    /**
+     * @abstract handles select all checkbox toggle.
+     * takes in a boolean
+     */
   };
+     const handleSelectAll = (e: boolean) => {
+      // Starts if csvData is populated
 
-  /**
-   * @abstract handles select all checkbox toggle.
-   * takes in a boolean
-   */
-  const handleSelectAll = (e: boolean) => {
-    // Starts if csvData is populated
+      if (csvData) {
+        // create a copy of Checked Array all e
+        const checkedArray = new Array(checked.length).fill(e);
+        // modify csvData array boolean to be all e
+        csvData.forEach(element => {
+          element[0] = e;
+        });
 
-    if (csvData) {
-      // create a copy of Checked Array all e
-      const checkedArray = new Array(checked.length).fill(e);
-      // modify csvData array boolean to be all e
-      csvData.forEach(element => {
-        element[0] = e;
-      });
-
-      // set checked array and select all state to re-render
-      setSelectAll(e);
-      setChecked(checkedArray);
-    }
-  };
-
+        // set checked array and select all state to re-render
+        setSelectAll(e);
+        setChecked(checkedArray);
+      }
+    };
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.runningContainersHolder}>
-        <div className={styles.runningLeft}>
-          <h2>CONTAINERS</h2>
-          {/* <div>Count: {runningList.length}</div> */}
-          <p>
-            Please choose the container(s) you would like to view process logs
-            for and optionally select the timeframe.
-          </p>
-          {/* Timeframe Selector */}
-          <div className={styles.timeframe}>
-            <ThemeProvider theme={darkTheme}>
-              <div className={styles.timeframe1}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DateTimePicker
-                    label='Timeframe Start'
-                    value={startDate}
-                    sx={{ width: '225px' }}
-                    onChange={newStart => setStartDate(newStart)}
-                  />
-                </LocalizationProvider>
-              </div>
-              <div className={styles.timeframe2}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DateTimePicker
-                    label='Timeframe Stop'
-                    value={stopDate}
-                    sx={{ width: '225px' }}
-                    onChange={newStop => setStopDate(newStop)}
-                  />
-                </LocalizationProvider>
-              </div>
-            </ThemeProvider>
-          </div>
-          <div className={styles.keywordsearch}>
-            <input
-              className={globalStyles.input}
-              type='text'
-              value={searchWord}
-              placeholder='Search log messages...'
-              onChange={e => {
-                dispatch(setSearchWord(e.target.value));
-              }}
-              onKeyDown={toggleDisplay}
-            />
-          </div>
-          {/* Container Checkbox Selector */}
-          <div className={styles.selectors}>
-            <ProcessLogsSelector
-              containerList={runningList}
-              handleCheck={handleCheck}
-              btnIdList={btnIdList}
-              status='Running'
-            />
-            <ProcessLogsSelector
-              containerList={stoppedList}
-              handleCheck={handleCheck}
-              btnIdList={btnIdList}
-              status='Stopped'
-            />
-          </div>
-          <div className={styles.buttonHolder}>
-            <button
-              className={globalStyles.button1}
-              type='button'
-              id='getlogs-btn'
-              onClick={() => {
-                handleGetLogs(btnIdList);
-              }}>
-              GET LOGS
-            </button>
-            <CSVLink data={csvSent} onClick={handleCsv}>
-              <button className={globalStyles.button2} type='button'>
-                DOWNLOAD CSV
+      <div className={styles.wrapper}>
+        <div className={styles.runningContainersHolder}>
+          <div className={styles.runningLeft}>
+            <h2>CONTAINERS</h2>
+            {/* <div>Count: {runningList.length}</div> */}
+            <p>
+              Please choose the container(s) you would like to view process logs
+              for and optionally select the timeframe.
+            </p>
+            {/* Timeframe Selector */}
+            <div className={styles.timeframe}>
+              <ThemeProvider theme={darkTheme}>
+                <div className={styles.timeframe1}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DateTimePicker
+                      label='Timeframe Start'
+                      value={startDate}
+                      sx={{ width: '225px' }}
+                      onChange={(newStart: Dayjs | undefined) => setStartDate(newStart)}
+                    />
+                  </LocalizationProvider>
+                </div>
+                <div className={styles.timeframe2}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DateTimePicker
+                      label='Timeframe Stop'
+                      value={stopDate}
+                      sx={{ width: '225px' }}
+                      onChange={(newStop: Dayjs | undefined) => setStopDate(newStop)}
+                    />
+                  </LocalizationProvider>
+                </div>
+              </ThemeProvider>
+            </div>
+            <div className={styles.keywordsearch}>
+              <input
+                className={globalStyles.input}
+                type='text'
+                value={searchWord}
+                placeholder='Search log messages...'
+                onChange={e => {
+                  dispatch(setSearchWord(e.target.value));
+                }}
+                onKeyDown={toggleDisplay}
+              />
+            </div>
+            {/* Container Checkbox Selector */}
+            <div className={styles.selectors}>
+              <ProcessLogsSelector
+                containerList={runningList}
+                handleCheck={handleCheck}
+                btnIdList={btnIdList}
+                status='Running'
+              />
+              <ProcessLogsSelector
+                containerList={stoppedList}
+                handleCheck={handleCheck}
+                btnIdList={btnIdList}
+                status='Stopped'
+              />
+            </div>
+            <div className={styles.buttonHolder}>
+              <button
+                className={globalStyles.button1}
+                type='button'
+                id='getlogs-btn'
+                onClick={() => {
+                  handleGetLogs(btnIdList);
+                }}>
+                GET LOGS
               </button>
-            </CSVLink>
+              <CSVLink data={csvSent} onClick={handleCsv}>
+                <button className={globalStyles.button2} type='button'>
+                  DOWNLOAD CSV
+                </button>
+              </CSVLink>
+            </div>
+          </div>
+        </div>
+        <div className={styles.logsHolder}>
+          <h2>CONTAINER PROCESS LOGS</h2>
+          <input
+            id='selectAll'
+            type='checkbox'
+            checked={selectAll}
+            onChange={e => handleSelectAll(e.target.checked)}
+          />
+          <label htmlFor='selectAll'>Select All</label>
+          <div className={styles.tableHolder}>
+            <table className={globalStyles.table}>
+              <thead>
+                <tr>
+                  <th>EXPORT</th>
+                  <th>CONTAINER</th>
+                  <th>LOG TYPE</th>
+                  <th>TIMESTAMP</th>
+                  <th>MESSAGE</th>
+                </tr>
+              </thead>
+              {filteredDisplay
+                .map((row: RowsDataType, i: number) => {
+                  return (
+                    <tbody key={`row-${i}`}>
+                      <tr>
+                        <td
+                          style={{
+                            verticalAlign: 'middle',
+                          }}>
+                          <input
+                            id={`log-entry-box-${i}`}
+                            className='export'
+                            type='checkbox'
+                            checked={checked[i]}
+                            onChange={e => handleCheckedLogs(i, e.target.checked)}
+                          />
+                        </td>
+                        <td>{row.container}</td>
+                        <td>{row.type}</td>
+                        <td>{row.time}</td>
+                        <td>{row.message}</td>
+                      </tr>
+                    </tbody>
+                  );
+                })
+                .reverse()}
+            </table>
           </div>
         </div>
       </div>
-      <div className={styles.logsHolder}>
-        <h2>CONTAINER PROCESS LOGS</h2>
-        <input
-          id='selectAll'
-          type='checkbox'
-          checked={selectAll}
-          onChange={e => handleSelectAll(e.target.checked)}
-        />
-        <label htmlFor='selectAll'>Select All</label>
-        <div className={styles.tableHolder}>
-          <table className={globalStyles.table}>
-            <thead>
-              <tr>
-                <th>EXPORT</th>
-                <th>CONTAINER</th>
-                <th>LOG TYPE</th>
-                <th>TIMESTAMP</th>
-                <th>MESSAGE</th>
-              </tr>
-            </thead>
-            {filteredDisplay
-              .map((row: any, i) => {
-                return (
-                  <tbody key={`row-${i}`}>
-                    <tr>
-                      <td
-                        style={{
-                          verticalAlign: 'middle',
-                        }}>
-                        <input
-                          id={`log-entry-box-${i}`}
-                          className='export'
-                          type='checkbox'
-                          checked={checked[i]}
-                          onChange={e => handleCheckedLogs(i, e.target.checked)}
-                        />
-                      </td>
-                      <td>{row.container}</td>
-                      <td>{row.type}</td>
-                      <td>{row.time}</td>
-                      <td>{row.message}</td>
-                    </tr>
-                  </tbody>
-                );
-              })
-              .reverse()}
-          </table>
-        </div>
-      </div>
-    </div>
-  );
-};
+    );
+  };
 
 export default ProcessLogs;

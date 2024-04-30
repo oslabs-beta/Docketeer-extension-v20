@@ -15,6 +15,15 @@ export interface ConfigurationState {
   entryForm: PromDataSource;
 }
 
+ export interface CheckboxState {
+   name: string;
+   value: boolean;
+ }
+  
+ export interface CheckboxItem {
+    name: string;
+    value: boolean;
+}
 
 // ==============================================
 // CONTAINER TYPES
@@ -62,8 +71,8 @@ export interface StoppedListType extends ContainerType {
 // }
 
 export interface ContainerStateType {
-  runningList: ContainerPS[];
-  stoppedList: ContainerPS[];
+  runningList: ContainerType[];
+  stoppedList: StoppedListType[];
   networkList: string[];
 }
 
@@ -87,8 +96,8 @@ export interface StoppedContainerObj extends ContainerType {
 }
 
 export interface containersList {
-  runningList: any[];
-  stoppedList: any[];
+  runningList: ContainerPS[];
+  stoppedList: ContainerPS[];
 }
 
 export interface stats {
@@ -204,9 +213,7 @@ export interface MongoData {
 export interface ProcessLogsSelectorProps {
   containerList?: ContainerType[];
   handleCheck?: (name: string) => void;
-  btnIdList?: {
-    Names?: boolean;
-  }[];
+  btnIdList?: CheckboxState
   status?: string;
 }
 
@@ -232,7 +239,16 @@ export interface LogsStateType {
   searchWord: string;
 }
 
-export type CSVDataType = any[]; // change
+export type CSVDataType = [boolean, string, string, string, string][]; 
+export type CSVSlicedType = [string, string, string, string];  // Adjusted type for sliced data
+
+export type OptionsObj = {
+  containerNames: string[],
+  start: string | null = null,
+  stop: string | null = null,
+  offset: number;
+};
+
 
 // ==============================================
 // VOLUME TYPES
@@ -314,7 +330,7 @@ export interface notificationStateType {
 }
 
 export interface RowsDataType {
-  container: string | undefined;
+  container: string;
   type: string;
   time: string;
   message: string;
@@ -389,4 +405,10 @@ export interface MetricsQuery {
   block_io: string;
   pid: string;
   created_at: Date;
+}
+export interface CsvObjElement {
+  container: string;
+  type: string;
+  time: string;
+  message: string;
 }
