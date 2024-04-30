@@ -13,7 +13,6 @@ import {
   CSVDataType,
   CSVSlicedType,
   CheckboxState,
-  CsvObjElement,
   OptionsObj,
 } from '../../../ui-types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
