@@ -17,8 +17,12 @@ RUN npm run build
 
 # Create a go template file inside /backend/dist/controllers/grype
 # This template is used for the output of vulnerability information
-WORKDIR /backend/dist/controllers/grype
-RUN echo '[{{- range $index, $match := .Matches}}{{if $index}},{{end}}{"Package": "{{.Artifact.Name}}","Version Installed": "{{.Artifact.Version}}","Vulnerability ID": "{{.Vulnerability.ID}}","Severity": "{{.Vulnerability.Severity}}"}{{- end}}]' > json.tmpl
+# WORKDIR /backend/dist/controllers/grype
+# RUN echo '[{{- range $index, $match := .Matches}}{{if $index}},{{end}}{"Package": "{{.Artifact.Name}}","Version Installed": "{{.Artifact.Version}}","Vulnerability ID": "{{.Vulnerability.ID}}","Severity": "{{.Vulnerability.Severity}}"}{{- end}}]' > json.tmpl
+
+# Copy grype template to docketeer-ext container for scan
+COPY /backend/controllers/grype/json.tmpl /backend/dist/controllers/grype/json.tmpl
+
 
 # Builds everything in UI folder
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS client-builder

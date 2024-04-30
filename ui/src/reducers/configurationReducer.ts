@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { PromDataSource, EndpointType } from '../../../types';
+import { PromDataSourceType, EndpointType } from '../../../types';
 import { ConfigurationState } from '../../ui-types';
 
 const initialState: ConfigurationState = {
@@ -19,13 +19,13 @@ export const configurationSlice = createSlice({
   name: 'configuration',
   initialState,
   reducers: {
-    setEntryForm: (state, action: PayloadAction<PromDataSource>) => {
+    setEntryForm: (state, action: PayloadAction<PromDataSourceType>) => {
       state.entryForm = {...state.entryForm, ...action.payload};
     },
     setEndpointTypes: (state, action: PayloadAction<EndpointType[]>) => {
       state.typeOfEndpoint = action.payload;
     },
-    setPrometheusDataSources: (state, action: PayloadAction<PromDataSource[]>) => {
+    setPrometheusDataSources: (state, action: PayloadAction<PromDataSourceType[]>) => {
       state.prometheusDataSources = action.payload;
     }
     

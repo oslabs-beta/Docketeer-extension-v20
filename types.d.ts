@@ -113,15 +113,24 @@ export interface NetworkAndContainer{
   containers: NetworkContainerType[];
 }
 
-export interface PromDataSource {
+// export interface PromDataSource {
+//   id?: number;
+//   type_of?: string;
+//   type_of_id: number;
+//   url: string;
+//   endpoint: string;
+//   ssh_key?: string;
+//   match?: string;
+//   jobname: string;
+// }
+
+export interface PromDataSourceType {
   id?: number;
+  jobName?: string;
+  url?: string;
+  endpoint?: string;
   type_of?: string;
-  type_of_id: number;
-  url: string;
-  endpoint: string;
-  ssh_key?: string;
   match?: string;
-  jobname: string;
 }
 
 export interface EndpointType {

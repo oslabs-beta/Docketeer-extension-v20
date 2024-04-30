@@ -1,8 +1,30 @@
 import { ddClientRequest } from "../ddClientRequest";
-import { PromDataSource, EndpointType } from "../../../../types";
+import { PromDataSourceType, EndpointType } from "../../../../types";
+// import { execAsync } from '../../../../backend/controllers/helper';
 
 export const ConfigService = {
-  async getDataSources(): Promise<PromDataSource[]> {
+
+  async clearDataSources(): Promise<any> {
+    try {
+      return await ddClientRequest('/api/prometheus/config/', 'DELETE');
+    } catch (error) {
+      console.error('Error deleting data sources from DB: ', error);
+      return [];
+    }
+  },
+
+  async getInitialSources(): Promise<any> {
+    try {
+      // return await ddClientRequest('http://localhost:49156/api/v1/targets?format=json');
+      return await ddClientRequest('/api/prometheus/config/initial');
+    } catch (error) {
+      console.error('Error getting initial configs: ', error);
+      return [];
+    }
+  },
+
+
+  async getDataSources(): Promise<PromDataSourceType[]> {
     try {
       return await ddClientRequest('/api/prometheus/config');
     } catch (error) {
@@ -11,7 +33,7 @@ export const ConfigService = {
     }
   },
 
-  async getEndpointTypes(): Promise<EndpointType[]>{
+  async getEndpointTypes(): Promise<EndpointType[]> {
     try {
       return await ddClientRequest('/api/prometheus/config/types');
     } catch (error) {
@@ -20,20 +42,23 @@ export const ConfigService = {
     }
   },
 
-  async createDataSource(type_of_id: number, url: string, jobname: string, endpoint: string, match?: string, ssh_key?: string): Promise<number | null> {
+  async createDataSource(id: number, url: string, jobName: string, endpoint: string, match?: string, type_of?: string): Promise<number | null> {
+    if (!match) match = '';
+    if (!type_of) type_of = '';
+
     try {
-      const body: PromDataSource = { type_of_id, url, jobname, endpoint, match, ssh_key }
-      const id: number = await ddClientRequest('/api/prometheus/config', 'POST', body);
-      return Number(id);
+      const body: PromDataSourceType = { id, type_of, url, jobName, endpoint, match}
+      const idx: number = await ddClientRequest('/api/prometheus/config', 'POST', body);
+      return Number(idx);
     } catch (error) {
       console.error('Could not create data source:', error);
       return null;
     }
   },
 
-  async updateDataSource(id: number, type_of_id?: number, url?: string, jobname?: string, endpoint?: string, match?: string, ssh_key?: string): Promise<boolean>{
+  async updateDataSource(id: number, type_of?: string, url?: string, jobName?: string, endpoint?: string, match?: string): Promise<boolean>{
     try {
-      const body: PromDataSource = { id, type_of_id, url, jobname, endpoint, match, ssh_key}
+      const body: PromDataSourceType = { id, type_of, url, jobName, endpoint, match }
       await ddClientRequest('/api/prometheus/config', 'PUT', body);
       return true;
     } catch (error) {
