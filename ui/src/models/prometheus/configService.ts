@@ -67,9 +67,9 @@ export const ConfigService = {
     }
   },
 
-  async deleteDataSource(id: number): Promise<boolean>{
+  async deleteDataSource(id: number, url: string): Promise<boolean>{
     try{
-      await ddClientRequest(`/api/prometheus/config/${id}`, 'DELETE');
+      await ddClientRequest(`/api/prometheus/config/${id}/${url}`, 'DELETE');
       return true;
     } catch (error) {
       console.error(`Couldn't delete data source`, error);

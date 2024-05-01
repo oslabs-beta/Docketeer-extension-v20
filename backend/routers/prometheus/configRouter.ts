@@ -57,7 +57,7 @@ router.put('/', configController.updateDataSource, (req: Request, res: Response)
 });
 
 
-router.delete('/:id', configController.deleteDataSource, (req: Request, res: Response) => {
+router.delete('/:id/:url', configController.deleteDataSource, (req: Request, res: Response) => {
   return res.sendStatus(204);
 })
 

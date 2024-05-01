@@ -71,8 +71,8 @@ export interface StoppedListType extends ContainerType {
 // }
 
 export interface ContainerStateType {
-  runningList: ContainerType[];
-  stoppedList: StoppedListType[];
+  runningList: ContainerPS[];
+  stoppedList: ContainerPS[];
   networkList: string[];
   errorModalOn: boolean;
 }
