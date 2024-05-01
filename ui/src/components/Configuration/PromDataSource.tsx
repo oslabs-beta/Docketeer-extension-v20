@@ -16,8 +16,9 @@ const PromDataSource = ({ index }: any): React.JSX.Element => {
   async function handleDelete(e: any) {
     e.preventDefault();
     try {
-      const { id } = promDataSource;
-      const res = await Client.ConfigService.deleteDataSource(id);
+      const { id, url } = promDataSource;
+      console.log('url deleted:', url)
+      const res = await Client.ConfigService.deleteDataSource(id, url);
       if (res)
         dispatch(
           setPrometheusDataSources(await Client.ConfigService.getDataSources())

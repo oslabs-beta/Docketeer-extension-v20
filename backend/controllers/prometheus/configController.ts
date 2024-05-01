@@ -184,11 +184,17 @@ configController.updateDataSource = async (req, res, next) => {
 }
 
 configController.deleteDataSource = async (req, res, next) => {
+  const { id, url } = req.params;
+
   try {
+
+    // delete from yaml file
+    await execAsync(`sed -i 's/${url}//g' ../prometheus/prometheus.yml`)
+
+    // delete from database
     const text = `
     DELETE FROM datasource
     WHERE id=($1);`;
-    const { id } = req.params;
     await pool.query(text, [id]);
     return next();
   } catch (error) {
