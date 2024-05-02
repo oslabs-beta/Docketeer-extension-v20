@@ -107,7 +107,6 @@ services:
       GF_PATHS_CONFIG: /etc/grafana/grafana.ini
     depends_on:
       - prometheus
-      - docketeer
 
   # Store metrics gathered from containers at localhost:5432
   postgres:
