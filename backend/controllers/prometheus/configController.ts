@@ -143,11 +143,11 @@ configController.clearDataSources = async (req, res, next) => {
 configController.createDataSource = async (req, res, next) => {
   try {
     const text = `
-    INSERT INTO datasource (id, type_of, url, jobName, endpoint, match)
-    VALUES ($1, $2, $3, $4, $5, $6)
+    INSERT INTO datasource (id, jobname, url)
+    VALUES ($1, $2, $3)
     RETURNING id;`;
-    const { id, type_of, url, jobName, endpoint, match} = req.body;
-    const values = [id, type_of, url, endpoint, jobName, match];
+    const { id, jobname, url} = req.body;
+    const values = [id, jobname, url];
     const result = await pool.query(text, values);
     // const data: { [key: string]: string } = await result.rows[0];
     res.locals.id = id;
@@ -187,11 +187,15 @@ configController.deleteDataSource = async (req, res, next) => {
   const { id, url } = req.params;
 
   try {
-
     // delete from yaml file
-    await execAsync(`sed -i 's/${url}//g' ../prometheus/prometheus.yml`)
+    await execAsync(
+      // 3 cases for delete
+      // 1: middle or ending element in array
+      // 2: beginning of multi-element array
+      // 3: only value in array, or singular value
+      `sed -i "s/,[[:space:]]*'${url}'//g; s/'${url}',//g; s/'${url}'//g" ../prometheus/prometheus.yml`
+    );
 
-    // delete from database
     const text = `
     DELETE FROM datasource
     WHERE id=($1);`;
