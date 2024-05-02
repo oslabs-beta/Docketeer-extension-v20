@@ -1,3 +1,6 @@
+import { ScanObject, EverythingObj, Top3Obj } from './ui/ui-types';
+
+
 export interface ContainerPS {
   ID: string;
   Command?: string;
