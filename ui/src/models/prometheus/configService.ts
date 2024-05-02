@@ -42,12 +42,12 @@ export const ConfigService = {
     }
   },
 
-  async createDataSource(id: number, url: string, jobName: string, endpoint: string, match?: string, type_of?: string): Promise<number | null> {
+  async createDataSource(id: number, jobname: string, url: string, endpoint?: string, match?: string, type_of?: string): Promise<number | null> {
     if (!match) match = '';
     if (!type_of) type_of = '';
 
     try {
-      const body: PromDataSourceType = { id, type_of, url, jobName, endpoint, match}
+      const body: PromDataSourceType = { id, jobname, url}
       const idx: number = await ddClientRequest('/api/prometheus/config', 'POST', body);
       return Number(idx);
     } catch (error) {
@@ -56,9 +56,9 @@ export const ConfigService = {
     }
   },
 
-  async updateDataSource(id: number, type_of?: string, url?: string, jobName?: string, endpoint?: string, match?: string): Promise<boolean>{
+  async updateDataSource(id: number, type_of?: string, url?: string, jobname?: string, endpoint?: string, match?: string): Promise<boolean>{
     try {
-      const body: PromDataSourceType = { id, type_of, url, jobName, endpoint, match }
+      const body: PromDataSourceType = { id, type_of, url, jobname, endpoint, match }
       await ddClientRequest('/api/prometheus/config', 'PUT', body);
       return true;
     } catch (error) {

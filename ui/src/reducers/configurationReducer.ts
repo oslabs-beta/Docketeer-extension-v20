@@ -4,14 +4,11 @@ import { ConfigurationState } from '../../ui-types';
 
 const initialState: ConfigurationState = {
   prometheusDataSources: [],
+  jobnames: [],
   typeOfEndpoint: [],
   entryForm: {
-    type_of_id: 2,
-    url: '',
-    endpoint: '',
     jobname: '',
-    match: '',
-    ssh_key: ''
+    url: '',
   }
 };
 
@@ -27,10 +24,13 @@ export const configurationSlice = createSlice({
     },
     setPrometheusDataSources: (state, action: PayloadAction<PromDataSourceType[]>) => {
       state.prometheusDataSources = action.payload;
+    },
+    addJobName: (state, action: PayloadAction<string>) => {
+      if (!state.jobnames.includes(action.payload)) state.jobnames.push(action.payload);
     }
     
   },
 });
 
-export const { setEntryForm, setEndpointTypes, setPrometheusDataSources } = configurationSlice.actions;
+export const { setEntryForm, setEndpointTypes, setPrometheusDataSources, addJobName } = configurationSlice.actions;
 export default configurationSlice.reducer;

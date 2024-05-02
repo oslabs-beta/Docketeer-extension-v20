@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../reducers/hooks';
-import { setEndpointTypes, setPrometheusDataSources } from '../reducers/configurationReducer';
+import { setEndpointTypes, setPrometheusDataSources, addJobName } from '../reducers/configurationReducer';
 import Client from '../models/Client';
 import PromDataSource from '../components/Configuration/PromDataSource';
 import ConfigurationForm from '../components/Configuration/ConfigurationForm';
 import styles from './C.module.scss'
 import { PromDataSourceType } from '../../../types';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Configuration = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
@@ -28,22 +31,15 @@ const Configuration = (): React.JSX.Element => {
     const parsedDataSources: PromDataSourceType[] = await Promise.all(
       dataSources.data.activeTargets.map(async (source, idx) => {
         // update datasource table in DB with new sources
-        await Client.ConfigService.createDataSource(
-          idx,
-          source.labels.instance,
-          source.labels.job,
-          source.discoveredLabels['__metrics_path__'],
-          source.discoveredLabels['__param_match[]'],
-          source.labels.scrapetype
-        );
+        await Client.ConfigService.createDataSource(idx, source.labels.job, source.labels.instance);
+
+        // add job name to list of job set for configuration form to choose from
+        dispatch(addJobName(source.labels.job));
 
         return {
           id: idx,
-          jobName: source.labels.job,
+          jobname: source.labels.job,
           url: source.labels.instance,
-          endpoint: source.discoveredLabels['__metrics_path__'],
-          match: source.discoveredLabels['__param_match[]'],
-          type_of: source.labels.scrapetype,
         };
       })
     );
@@ -51,6 +47,7 @@ const Configuration = (): React.JSX.Element => {
     // set our data sources state as new parsed array
     dispatch(setPrometheusDataSources(parsedDataSources));
     
+    // NOTE: currently stored in the SQL DB and in our redux state, but not used for anything
     const endpointTypes = await Client.ConfigService.getEndpointTypes();
     dispatch(setEndpointTypes(endpointTypes));
   }
@@ -64,8 +61,16 @@ const Configuration = (): React.JSX.Element => {
       if (promContainer) {
         await Client.ContainerService.stopContainer(promContainer.ID);
         await Client.ContainerService.runContainer(promContainer.ID);
-        alert('Prometheus container refreshed successfully!');
-        // NOTIFY USER TO REFRESH PAGE TO SEE CHANGES
+			  toast.success('Prometheus Reconfigured, Restarting...', {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
       } else {
         alert('Prometheus container not found.');
       }
@@ -100,6 +105,7 @@ const Configuration = (): React.JSX.Element => {
           <div className={styles.connected}>{dataSourceElements}</div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

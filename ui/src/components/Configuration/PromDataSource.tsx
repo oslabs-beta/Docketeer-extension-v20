@@ -12,6 +12,7 @@ const PromDataSource = ({ index }: any): React.JSX.Element => {
   const promDataSource = useAppSelector(
     (store) => store.configuration.prometheusDataSources[index]
   );
+
   //TODO: change from React.MouseEvent<HTMLInputElement, MouseEvent> to any for now
   async function handleDelete(e: any) {
     e.preventDefault();
@@ -35,21 +36,10 @@ const PromDataSource = ({ index }: any): React.JSX.Element => {
     try {
       const {
         id,
-        type_of,
-        type_of_id,
+        jobname,
         url,
-        endpoint,
-        match,
-        jobName,
       } = promDataSource;
-      const res = await Client.ConfigService.updateDataSource(
-        id,
-        type_of_id,
-        url,
-        jobName,
-        endpoint,
-        match
-      );
+      const res = await Client.ConfigService.updateDataSource(id, jobname, url);
       if (res)
         dispatch(
           setPrometheusDataSources(await Client.ConfigService.getDataSources())
@@ -72,22 +62,10 @@ const PromDataSource = ({ index }: any): React.JSX.Element => {
         Delete
       </button>
       <div>
-        <b>Job Name: </b> <span>{promDataSource.jobName}</span>
+        <b>Job Name: </b> <span>{promDataSource.jobname}</span>
       </div>
       <div>
         <b>URL: </b> <span>{promDataSource.url}</span>
-      </div>
-      <div>
-        <b>Endpoint: </b>
-        <span>{promDataSource.endpoint}</span>
-      </div>
-      <div>
-        <b>Type of Endpoint: </b>
-        <span>{promDataSource.type_of ? promDataSource.type_of : 'prometheus'}</span>
-      </div>
-      <div className={styles.flexMatch}>
-        <b>Matches: </b>
-        <span>{promDataSource.match ? promDataSource.match : ''}</span>
       </div>
     </div>
   );

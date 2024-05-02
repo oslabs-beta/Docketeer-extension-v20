@@ -17,11 +17,8 @@ CREATE TABLE endpoint_type(
 
 CREATE TABLE datasource(
   id serial PRIMARY KEY NOT NULL,
-  type_of varchar,
-  url varchar NOT NULL,
-  endpoint varchar,
-  match varchar,
-  jobName varchar NOT NULL
+  jobname varchar NOT NULL,
+  url varchar NOT NULL
 );
 
 CREATE TABLE dashboards(
