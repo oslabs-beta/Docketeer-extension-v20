@@ -11,6 +11,7 @@ import { EndpointType, ImageType, LogObject, NetworkAndContainer, NetworkContain
 
 export interface ConfigurationState {
   prometheusDataSources: PromDataSource[];
+  jobnames: string[];
   typeOfEndpoint: EndpointType[];
   entryForm: PromDataSource;
 }

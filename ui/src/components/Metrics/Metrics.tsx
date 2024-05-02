@@ -69,7 +69,7 @@ const Metrics = (): JSX.Element => {
           key={resetIframe}
           id="iframe"
           className={styles.metrics}
-          src="http://localhost:49155/d/metrics_monitoring/docker-and-system-monitoring?orgId=1&refresh=10s&kiosk"
+          src="http://localhost:49155/d/metrics_monitoring/docker-and-system-monitoring?orgId=1&refresh=5s&kiosk"
         />
       </div>
     </div>

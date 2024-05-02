@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
-import { PromDataSource } from '../../../../types';
+import { PromDataSourceType } from '../../../../types';
 import { setEntryForm, setPrometheusDataSources } from '../../reducers/configurationReducer';
 import Client from '../../models/Client';
 import styles from './config.module.scss'
@@ -12,18 +12,22 @@ const ConfigurationForm = (): React.JSX.Element => {
 
   // State
   const formState = useAppSelector(store => store.configuration.entryForm);
-  const typeOptions = useAppSelector(store => store.configuration.typeOfEndpoint);
+  const jobnames = useAppSelector(store => store.configuration.jobnames);
+  const newIdx = useAppSelector(store => store.configuration.prometheusDataSources.length);
 
-  // Create options for dropdown
-  const options: React.JSX.Element[] = [];
-  for (let opt of typeOptions) {
+  // Create options for dropdown (starts at blank selection)
+  const options: React.JSX.Element[] = [
+    <option key={`optid_${-1}`} value={''}></option>
+  ];
+  jobnames.forEach(job => {
     options.push(
-      <option key={`optid_${opt.id}`} value={opt.id}>{opt.type_of}</option>
+      <option key={`optid_${job}`} value={job}>{job}</option>
     )
-  }
+  })
+
 
   // Update state on inputs
-  function handleInput(e: React.ChangeEvent<HTMLInputElement>| React.ChangeEvent<HTMLSelectElement>, key: keyof PromDataSource) {
+  function handleInput(e: React.ChangeEvent<HTMLInputElement>| React.ChangeEvent<HTMLSelectElement>, key: keyof PromDataSourceType) {
     // Make current form data deep copy
     const copyOfFormData: any = {...formState};
     // Change the key to the event target value
@@ -34,11 +38,11 @@ const ConfigurationForm = (): React.JSX.Element => {
   async function handleSubmit(e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
     e.preventDefault();
     try {
-      const { type_of_id, url, endpoint, jobname, match, ssh_key } = formState;
-      const res = await Client.ConfigService.createDataSource(type_of_id, url, jobname, endpoint, match, ssh_key);
+      const { jobname, url } = formState;
+      const res = await Client.ConfigService.createDataSource(newIdx, jobname, url);
       if (res !== null) dispatch(setPrometheusDataSources(await Client.ConfigService.getDataSources()));
       // Set defaults
-      dispatch(setEntryForm({ url: '', endpoint: '', jobname: '', match: '', ssh_key: '', type_of_id: formState.type_of_id }));
+      dispatch(setEntryForm({jobname: '', url: ''}));
     } catch (error) {
       // Show warning to user here
 
@@ -49,27 +53,27 @@ const ConfigurationForm = (): React.JSX.Element => {
     <form action="" className={styles.containerCard}>
       <div className={styles.ConFlex}>
       <h2>Add Configurations</h2>
-      <label htmlFor="">Type </label>
-      <select name="" id="endpoint_types" value={formState.type_of_id} onChange={(e)=>handleInput(e, 'type_of_id')} >
+      <label htmlFor="">Job Name </label>
+      <select name="" id="job_names" value={formState.jobname} onChange={(e)=>handleInput(e, 'jobname')} >
         {options}
-        </select>
+      </select>
         </div>
       <div className = {styles.ConFlex}>
-      <label htmlFor="">URL </label>
+      <label htmlFor="">Target URL </label>
         <input type="text" value={formState.url} onChange={(e) => handleInput(e, 'url')} />
       </div>
-       <div className = {styles.ConFlex}>
+       {/* <div className = {styles.ConFlex}>
       <label htmlFor="">Endpoint </label>
         <input type="text" value={formState.endpoint} onChange={(e) => handleInput(e, 'endpoint')} />
       </div>
       <div className = {styles.ConFlex}>
       <label htmlFor="">Job Name </label>
-        <input type="text" value={formState.jobname} onChange={(e) => handleInput(e, 'jobname')} />
+        <input type="text" value={formState.jobname} onChange={(e) => handleInput(e, 'jobName')} />
       </div>
       <div className = {styles.ConFlex}>
       <label htmlFor="">Match </label>
         <input type="text" value={formState.match} onChange={(e) => handleInput(e, 'match')} />
-      </div>
+      </div> */}
       <input className={styles.Sub} type="submit" name="Submit" onClick={handleSubmit} />
     </form>
   );

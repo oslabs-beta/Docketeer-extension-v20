@@ -126,7 +126,7 @@ export interface NetworkAndContainer{
 
 export interface PromDataSourceType {
   id?: number;
-  jobName?: string;
+  jobname?: string;
   url?: string;
   endpoint?: string;
   type_of?: string;
