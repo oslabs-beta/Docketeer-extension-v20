@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import styles from './GraphModal.module.scss';
 import { useAppSelector } from '../../../reducers/hooks';
 import { ScanObject } from '../../../../ui-types';
-import { Chart as ChartJS, ArcElement, Tooltip as ChartToolTip, Legend } from 'chart.js';
+import { Chart as ChartJS, ArcElement, ActiveElement, Tooltip as ChartToolTip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { Tooltip, IconButton } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
@@ -51,7 +51,7 @@ const GraphModal = ({
 
   // Pie Chart Configuration
   const options: object = {
-		onClick: (event: MouseEvent, elements: any[]) => {
+		onClick: (event: MouseEvent, elements: ActiveElement[]) => {
 			if (elements.length > 0) {
 				const index = elements[0].index;
 				const label = levels[index];
