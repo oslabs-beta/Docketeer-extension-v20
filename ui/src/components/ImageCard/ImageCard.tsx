@@ -320,7 +320,7 @@ const ImageCard = ({
 					<p>
 						{vulnerabilities &&
 							`Total Vulnerabilities (${Object.values(vulnerabilities).reduce(
-								(acc: any, curr: any) => acc + curr,
+								(acc: number, curr: number ) => acc + curr,
 								0
 							)})`}
 					</p>

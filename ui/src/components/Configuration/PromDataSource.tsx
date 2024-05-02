@@ -14,7 +14,9 @@ const PromDataSource = ({ index }: any): React.JSX.Element => {
   );
 
   //TODO: change from React.MouseEvent<HTMLInputElement, MouseEvent> to any for now
-  async function handleDelete(e: any) {
+    // added back type but changed HTMLInputElement to HTML Button Element
+  async function handleDelete(e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
     e.preventDefault();
     try {
       const { id, url } = promDataSource;

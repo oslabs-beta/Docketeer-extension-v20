@@ -15,16 +15,10 @@ export interface ConfigurationState {
   typeOfEndpoint: EndpointType[];
   entryForm: PromDataSource;
 }
-
  export interface CheckboxState {
    name: string;
    value: boolean;
  }
-  
- export interface CheckboxItem {
-    name: string;
-    value: boolean;
-}
 
 // ==============================================
 // CONTAINER TYPES
