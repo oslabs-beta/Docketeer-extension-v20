@@ -31,14 +31,14 @@ const GlobalConfigs = (): React.JSX.Element => {
   }
 
   return (
-    <form action="" className={styles.containerCard}>
+    <form action="" className={styles.containerCard2}>
       <div className={styles.ConFlex}>
       <h2>Add Configurations</h2>
         <h3>SCRAPE INTERVAL</h3>
         {
           isEdit
             ? (
-              <input value={localSettings.scrape_interval} type="text" onChange={(e) => setLocalSettings({
+              <input style={{ color: 'black' }} value={localSettings.scrape_interval} type="text" onChange={(e) => setLocalSettings({
                 scrape_interval: e.target.value,
                 evaluation_interval: localSettings.evaluation_interval,
               })} />
@@ -52,7 +52,7 @@ const GlobalConfigs = (): React.JSX.Element => {
         {
           isEdit
             ? (
-              <input value={localSettings.evaluation_interval} type="text" onChange={(e) => setLocalSettings({
+              <input style={{ color: 'black' }} value={localSettings.evaluation_interval} type="text" onChange={(e) => setLocalSettings({
                 scrape_interval: localSettings.scrape_interval,
                 evaluation_interval: e.target.value,
               })} />
