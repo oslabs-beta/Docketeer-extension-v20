@@ -1,55 +1,36 @@
 import React, { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../reducers/hooks';
-import { setEndpointTypes, setPrometheusDataSources, addJobName } from '../reducers/configurationReducer';
 import Client from '../models/Client';
-import PromDataSource from '../components/Configuration/PromDataSource';
-import ConfigurationForm from '../components/Configuration/ConfigurationForm';
 import styles from './C.module.scss'
-import { PromDataSourceType } from '../../../types';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { setGlobal, setScrapeConfigs } from '../reducers/configurationReducer';
+import GlobalConfigs from '../components/Configuration/GlobalConfigs';
+import JobConfigs from '../components/Configuration/JobConfigs';
 
 
 const Configuration = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
   // Set state of Prom Data Sources upon page load
-  const promDataSourcesLength = useAppSelector(store => store.configuration.prometheusDataSources.length);
   const runningList = useAppSelector(store => store.containers.runningList);
+  const scrapeConfigs = useAppSelector(store => store.configuration.scrapeConfigs);
 
   useEffect(() => {
     loadPromSources();
   }, []);
 
+  console.log('scrapeConfigs', scrapeConfigs)
+
   async function loadPromSources() {
     // On load: clear datasource DB table
-    await Client.ConfigService.clearDataSources();
+    // await Client.ConfigService.clearDataSources();
 
     //  Grab new targets and parse into correctly formatted array
-    const dataSources = await Client.ConfigService.getInitialSources();
-    console.log('dataSources: ', dataSources);
-    const parsedDataSources: PromDataSourceType[] = await Promise.all(
-      dataSources.data.activeTargets.map(async (source, idx) => {
-        // update datasource table in DB with new sources
-        await Client.ConfigService.createDataSource(idx, source.labels.job, source.labels.instance);
-
-        // add job name to list of job set for configuration form to choose from
-        dispatch(addJobName(source.labels.job));
-
-        return {
-          id: idx,
-          jobname: source.labels.job,
-          url: source.labels.instance,
-        };
-      })
-    );
-
-    // set our data sources state as new parsed array
-    dispatch(setPrometheusDataSources(parsedDataSources));
+    const yaml = await Client.ConfigService.getYaml();
     
-    // NOTE: currently stored in the SQL DB and in our redux state, but not used for anything
-    const endpointTypes = await Client.ConfigService.getEndpointTypes();
-    dispatch(setEndpointTypes(endpointTypes));
+    dispatch(setGlobal(yaml.global));
+    dispatch(setScrapeConfigs(yaml.scrape_configs));
   }
 
   async function handleRefresh(e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
@@ -81,29 +62,33 @@ const Configuration = (): React.JSX.Element => {
   }
 
   // Child Elements for individual Configuration
-  const dataSourceElements: React.JSX.Element[] = [];
+  // const dataSourceElements: React.JSX.Element[] = [];
   // Loop through to length of the promDataSource index, passing in the index
-  for (let i = 0; i < promDataSourcesLength; i++){
-    dataSourceElements.push(<PromDataSource key={`datasource_${i}`} index={i} />);
+  // for (let i = 0; i < promDataSourcesLength; i++){
+  //   dataSourceElements.push(<PromDataSource key={`datasource_${i}`} index={i} />);
+  // }
+
+  const jobs: React.JSX.Element[] = [];
+  for (let i = 0; i < scrapeConfigs.length; i++) {
+    jobs.push(<JobConfigs key={`job_${i}`} index={i} />)
   }
 
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.configurationsTitle}>CONFIGURATIONS</h1>
+      <input
+          className={styles.Refresh}
+          type='submit'
+          value='Reconfigure Prometheus'
+          onClick={handleRefresh}
+      />
+      <h3>Global Settings</h3>
       <div className={styles.container}>
-        <div>
-          <ConfigurationForm />
-        </div>
-        <div>
-          <h3>CONNECTED DATA SOURCES</h3>
-          <input
-            className={styles.Refresh}
-            type='submit'
-            value='Reconfigure Prometheus'
-            onClick={handleRefresh}
-          />
-          <div className={styles.connected}>{dataSourceElements}</div>
-        </div>
+        <GlobalConfigs />
+      </div>
+      <h3>Scrape Configurations</h3>
+      <div>
+        {jobs}
       </div>
       <ToastContainer />
     </div>

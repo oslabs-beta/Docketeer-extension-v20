@@ -10,15 +10,14 @@ import { EndpointType, ImageType, LogObject, NetworkAndContainer, NetworkContain
 // =============================================
 
 export interface ConfigurationState {
-  prometheusDataSources: PromDataSource[];
-  jobnames: string[];
-  typeOfEndpoint: EndpointType[];
-  entryForm: PromDataSource;
+  global: any;
+  scrapeConfigs: any[];
 }
- export interface CheckboxState {
-   name: string;
-   value: boolean;
- }
+
+export interface CheckboxState {
+  name: string;
+  value: boolean;
+}
 
 // ==============================================
 // CONTAINER TYPES

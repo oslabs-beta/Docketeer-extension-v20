@@ -13,6 +13,6 @@
     "./**/*.ts",
     "./ui-types.d.ts",
     "./../types.d.ts",
-    // "src/components"
+    "src"
   ]
 }

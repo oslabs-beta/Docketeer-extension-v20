@@ -17,10 +17,20 @@ router.get('/', configController.getDataSources, (req: Request, res: Response) =
  * @abstract
  * @todo
  * @param
- * @returns {any[]}
+ * @returns {any{}}
  */
-router.get('/initial', configController.getInitialDataSources, (req: Request, res: Response) => {
-  return res.status(200).json(res.locals.datasources);
+router.get('/initial', configController.getYaml, (req: Request, res: Response) => {
+  return res.status(200).json(res.locals.yaml);
+});
+
+/**
+ * @abstract
+ * @todo
+ * @param
+ * @returns {any{}}
+ */
+router.post('/update', configController.updateYaml, configController.getYaml, (req: Request, res: Response) => {
+  return res.status(200).json(res.locals.yaml);
 });
 
 /**
