@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAppSelector } from '../../reducers/hooks'
 import { useAppDispatch} from '../../reducers/hooks';
 import styles from './config.module.scss'
 import Client from '../../models/Client';
+import { setScrapeConfigs } from '../../reducers/configurationReducer';
 
 const JobConfigs = ({ index }: any): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
+  // grab specific scrape config job
+  const global = useAppSelector(state => state.configuration.global);
   const scrapeConfigs = useAppSelector(state => state.configuration.scrapeConfigs);
+  const [isEdit, setIsEdit] = useState(false);
+  const [localSettings, setLocalSettings]: any = useState({})
   const job = scrapeConfigs[index];
 
   // strings to display
@@ -18,65 +23,87 @@ const JobConfigs = ({ index }: any): React.JSX.Element => {
     targets += (target + ' ')
   })
 
-  //TODO: change from React.MouseEvent<HTMLInputElement, MouseEvent> to any for now
-    // added back type but changed HTMLInputElement to HTML Button Element
-  // async function handleDelete(e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  // ) {
-  //   e.preventDefault();
-  //   try {
-  //     const { id, url } = promDataSource;
-  //     console.log('url deleted:', url)
-  //     const res = await Client.ConfigService.deleteDataSource(id, url);
-  //     if (res)
-  //       dispatch(
-  //         setPrometheusDataSources(await Client.ConfigService.getDataSources())
-  //       );
-  //   } catch (error) {
-  //     // Show warning to user here
-  //   }
-  // }
+  const handleEdit = (e) => {
+    e.preventDefault();
+    setLocalSettings(job);
+    setIsEdit(true);
+  }
 
-  // async function handleUpdate(
-  //   e: React.MouseEvent<HTMLInputElement, MouseEvent>
-  // ) {
-  //   e.preventDefault();
-  //   try {
-  //     const {
-  //       id,
-  //       jobname,
-  //       url,
-  //     } = promDataSource;
-  //     const res = await Client.ConfigService.updateDataSource(id, jobname, url);
-  //     if (res)
-  //       dispatch(
-  //         setPrometheusDataSources(await Client.ConfigService.getDataSources())
-  //       );
-  //   } catch (error) {
-  //     // Show warning to user here
-  //   }
-  // }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  // The index tells this component which piece of array to grab
+    // deep clone of current scrape configs
+    const newScrapeConfigs = JSON.parse(JSON.stringify(scrapeConfigs));
+    // modify our current index config / job with our localSettings
+    newScrapeConfigs[index] = localSettings;
 
+    await Client.ConfigService.updateYaml(global, newScrapeConfigs);
+    dispatch(setScrapeConfigs(newScrapeConfigs));
 
+    setIsEdit(false);
+  }
 
+  const handleDelete = async (e) => {
+    e.preventDefault();
+
+    // deep clone of current scrape configs
+    const newScrapeConfigs: [] = JSON.parse(JSON.stringify(scrapeConfigs));
+    // modify our current index config / job with our localSettings
+    newScrapeConfigs.splice(index, 1);
+
+    await Client.ConfigService.updateYaml(global, newScrapeConfigs);
+    dispatch(setScrapeConfigs(newScrapeConfigs));
+
+    setIsEdit(false);
+  }
+
+  console.log('localSettings', localSettings);
 
   return (
     <div className={styles.containerCard2}>
-      <button
-        className={styles.Sub1}
-        type='submit'
-        name='Submit'
-      >
+      <button className={styles.Sub1} type="submit" name="Submit" onClick={handleDelete}>
         Delete
       </button>
       <div>
         <b>Job Name: </b> <span>{jobName}</span>
         <br />
-        <b>Job Name: </b> <span>{scrapeInterval}</span>
+        <b>Scrape Interval: </b> <span>{scrapeInterval}</span>
         <br />
-        <b>Targets: </b> <span>{targets}</span>
+        <b>Targets: </b>
+        {isEdit ? (
+          <input
+            style={{ color: "black", width: "600px" }}
+            value={localSettings.static_configs[0].targets}
+            type="text"
+            onChange={(e) =>
+              setLocalSettings({
+                ...localSettings,
+                static_configs: [{ targets: e.target.value.split(',') }],
+              })
+            }
+          />
+        ) : (
+          <span>{targets}</span>
+        )}
       </div>
+
+   
+
+      {isEdit ? (
+        <input
+          className={styles.btn}
+          type="submit"
+          value="Submit"
+          onClick={handleSubmit}
+        />
+      ) : (
+        <input
+          className={styles.btn}
+          type="button"
+          value="Edit"
+          onClick={handleEdit}
+        />
+      )}
     </div>
   );
 }
