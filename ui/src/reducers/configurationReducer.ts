@@ -1,36 +1,28 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { PromDataSourceType, EndpointType } from '../../../types';
 import { ConfigurationState } from '../../ui-types';
 
 const initialState: ConfigurationState = {
-  prometheusDataSources: [],
-  jobnames: [],
-  typeOfEndpoint: [],
-  entryForm: {
-    jobname: '',
-    url: '',
-  }
+  global: {},
+  scrapeConfigs: [],
 };
 
 export const configurationSlice = createSlice({
   name: 'configuration',
   initialState,
   reducers: {
-    setEntryForm: (state, action: PayloadAction<PromDataSourceType>) => {
-      state.entryForm = {...state.entryForm, ...action.payload};
+    setGlobal: (state, action: PayloadAction<any>) => {
+      state.global = action.payload;
     },
-    setEndpointTypes: (state, action: PayloadAction<EndpointType[]>) => {
-      state.typeOfEndpoint = action.payload;
+    setScrapeConfigs: (state, action: PayloadAction<any[]>) => {
+      state.scrapeConfigs = action.payload;
     },
-    setPrometheusDataSources: (state, action: PayloadAction<PromDataSourceType[]>) => {
-      state.prometheusDataSources = action.payload;
-    },
-    addJobName: (state, action: PayloadAction<string>) => {
-      if (!state.jobnames.includes(action.payload)) state.jobnames.push(action.payload);
+    setTargets: (state, action: PayloadAction<any[]>) => {
+      const idx = action.payload[0];
+      const targets = action.payload[1];
+      state.scrapeConfigs[idx].static_configs[0].targets = targets;
     }
-    
   },
 });
 
-export const { setEntryForm, setEndpointTypes, setPrometheusDataSources, addJobName } = configurationSlice.actions;
+export const { setGlobal, setScrapeConfigs } = configurationSlice.actions;
 export default configurationSlice.reducer;

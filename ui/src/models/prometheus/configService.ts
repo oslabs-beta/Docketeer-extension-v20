@@ -13,7 +13,7 @@ export const ConfigService = {
     }
   },
 
-  async getInitialSources(): Promise<any> {
+  async getYaml(): Promise<any> {
     try {
       // return await ddClientRequest('http://localhost:49156/api/v1/targets?format=json');
       return await ddClientRequest('/api/prometheus/config/initial');
@@ -23,6 +23,20 @@ export const ConfigService = {
     }
   },
 
+  async updateYaml(global, scrapeConfigs): Promise<any> {
+
+    const body = {
+      global: global,
+      scrape_configs: scrapeConfigs,
+    }
+
+    try {
+      return await ddClientRequest('/api/prometheus/config/update', 'POST', body);
+    } catch (error) {
+      console.error('Error getting initial configs: ', error);
+      return [];
+    }
+  },
 
   async getDataSources(): Promise<PromDataSourceType[]> {
     try {
