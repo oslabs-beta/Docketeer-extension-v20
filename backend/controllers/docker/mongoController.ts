@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { ServerError } from "../../backend-types";
 const ImageModel = require('../../db/ImageModel');
-
+const PromGlobalModel = require('../../db/PromGlobalModel');
+const PromScrapeModel = require('../../db/PromScrapeModel');
 
 interface MongoController {
   /**
    * @method POST
-   * @abstract Save the scan to MongoDB
+   * @abstract Save the image vulnerability scan to MongoDB
    * @returns saved Object sent from the frontend to console.log out to test
    */
 
@@ -14,7 +15,7 @@ interface MongoController {
   
   /**
    * @method GET
-   * @abstract Retrieve scan data from MongoDB
+   * @abstract Retrieve image vulnerability scan data from MongoDB
    * @returns array of all the saved data
    */
 
@@ -22,7 +23,7 @@ interface MongoController {
 
   /**
    * @method GET
-   * @abstract Check MongoDB database if the scan already in the database
+   * @abstract Check MongoDB database if the image vulnerability scan already in the database
    * @returns boolean true/false
    */
   checkForScan: (req: Request, res: Response, next: NextFunction) => Promise<void>;
