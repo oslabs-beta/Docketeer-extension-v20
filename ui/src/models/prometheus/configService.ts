@@ -89,5 +89,21 @@ export const ConfigService = {
       console.error(`Couldn't delete data source`, error);
       return false;
     }
+  },
+
+  async savePromConfigs(global: object, scrape_configs: any[]): Promise<any>{
+    
+    const body = {
+      global,
+      scrape_configs,
+    }
+
+    try {
+      await ddClientRequest(`/api/prometheus/config/saveProm`, 'POST', body);
+      return;
+    } catch (error) {
+      console.error(`Couldn't add data source`, error);
+      return error;
+    }
   }
 }
