@@ -5,7 +5,7 @@ import styles from './configuration.module.scss'
 import Client from '../../models/Client';
 import { setScrapeConfigs } from '../../reducers/configurationReducer';
 
-const JobConfigs = ({ index, setIsModified }: any): React.JSX.Element => {
+const JobConfigs = ({ index, setIsModified }: {index: number, setIsModified : Function }): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
   // grab specific scrape config job

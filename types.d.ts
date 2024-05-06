@@ -6,17 +6,18 @@ export interface ContainerPS {
   Command?: string;
   CreatedAt?: string;
   Image?: string;
-  Labels?: string[];
+  Labels?: string | string[];
   LocalVolumes?: string;
   Mounts?: string;
   Names?: string;
-  Networks?: string[];
-  Ports?: string[];
+  Networks?: string | string[];
+  Ports?: string | string[];
   RunningFor?: string;
   Size?: string;
   State?: string; //tells if running
   Status?: string;
 }
+
 
 export interface LogObject {
   timeStamp: string;

@@ -82,14 +82,16 @@ containerController.getContainers = async (req, res, next) => {
     const { stdout, stderr } = await execAsync('docker ps --format "{{json .}},"');
     if (stderr.length) console.log(stderr);
 
+
     // Get list of containers in proper format
     const containers: ContainerPS[] = JSON.parse(
       `[${stdout.trim().slice(0, -1)}]`
     )
-    containers.forEach((element: any): void => {
-      element['Networks'] = element['Networks'].split(',');
-      element['Labels'] = element['Labels'].split(',');
-      element['Ports'] = element['Ports'].split(',');
+    
+    containers.forEach((element): void => {
+      if (typeof element['Networks'] === 'string') element['Networks'] = element['Networks'].split(',');
+      if (typeof element['Labels'] === 'string') element['Labels'] = element['Labels'].split(',');
+      if (typeof element['Ports'] === 'string') element['Ports'] = element['Ports'].split(',');
     });
     res.locals.containers = containers;
     return next();
