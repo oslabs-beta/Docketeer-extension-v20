@@ -3,6 +3,7 @@ import styles from './InfoModal.module.scss';
 import { useAppSelector } from '../../../reducers/hooks';
 import Client from '../../../models/Client';
 import PieChart from '../../../../assets/piechart.svg';
+import { GrypeScan } from '../../../../../backend/backend-types'
 
 interface ModalProps {
 	trigger: boolean;
@@ -108,9 +109,9 @@ const InfoModal = ({
 							</thead>
 							<tbody>
 								{everythingFromStore[selectedLevel].map(
-									(item: any, index: number) => (
+									(item: GrypeScan[], index: number) => (
 										<tr key={index}>
-											<td>{item.Package}</td>
+											<td>{item['Package']}</td>
 											<td>{item['Version Installed']}</td>
 											<td>{item['Fixed In'] === '[]'
 												? item['Fixed State']
