@@ -95,8 +95,6 @@ RUN grype db update
 # Copies necessary files into extension directory
 # COPY extension/docker-compose-prod.yaml ./docker-compose.yaml
 COPY extension/docker-compose-prod.yaml docker-compose.yaml
-WORKDIR /extension
-COPY backend/db/init_prod.sql /extension/.
 
 WORKDIR /
 COPY metadata.json .
