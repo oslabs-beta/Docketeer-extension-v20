@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useAppSelector } from '../../reducers/hooks'
 import { useAppDispatch} from '../../reducers/hooks';
-import styles from './config.module.scss'
+import styles from './configuration.module.scss'
 import Client from '../../models/Client';
 import { setScrapeConfigs } from '../../reducers/configurationReducer';
 
-const JobConfigs = ({ index }: any): React.JSX.Element => {
+const JobConfigs = ({ index, setIsModified }: any): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
   // grab specific scrape config job
@@ -41,6 +41,7 @@ const JobConfigs = ({ index }: any): React.JSX.Element => {
     dispatch(setScrapeConfigs(newScrapeConfigs));
 
     setIsEdit(false);
+    setIsModified(true);
   }
 
   const handleDelete = async (e) => {
@@ -60,50 +61,60 @@ const JobConfigs = ({ index }: any): React.JSX.Element => {
   console.log('localSettings', localSettings);
 
   return (
-    <div className={styles.containerCard2}>
-      <button className={styles.Sub1} type="submit" name="Submit" onClick={handleDelete}>
-        Delete
-      </button>
-      <div>
-        <b>Job Name: </b> <span>{jobName}</span>
-        <br />
-        <b>Scrape Interval: </b> <span>{scrapeInterval}</span>
-        <br />
-        <b>Targets: </b>
+    <div className={styles.containerCard}>
+      <span>
+        <strong>Job Name: </strong>
+        {jobName}
+      </span>
+      <span>
+        <strong>Scrape Interval: </strong>
+        {scrapeInterval}
+      </span>
+      <span>
+        <strong>Targets: </strong>
         {isEdit ? (
           <input
-            style={{ color: "black", width: "600px" }}
+            style={{ color: "black", width: "400px" }}
             value={localSettings.static_configs[0].targets}
             type="text"
             onChange={(e) =>
               setLocalSettings({
                 ...localSettings,
-                static_configs: [{ targets: e.target.value.split(',') }],
+                static_configs: [{ targets: e.target.value.split(",") }],
               })
             }
           />
         ) : (
           <span>{targets}</span>
         )}
-      </div>
+      </span>
 
-   
+      <div className={styles.cardBtns}>
+        {isEdit ? (
+          <input
+            className={styles.btn}
+            type="submit"
+            value="Submit"
+            onClick={handleSubmit}
+          />
+        ) : (
+          <input
+            className={styles.btn}
+            type="button"
+            value="Edit"
+            onClick={handleEdit}
+          />
+        )}
 
-      {isEdit ? (
-        <input
+        <button
           className={styles.btn}
           type="submit"
-          value="Submit"
-          onClick={handleSubmit}
-        />
-      ) : (
-        <input
-          className={styles.btn}
-          type="button"
-          value="Edit"
-          onClick={handleEdit}
-        />
-      )}
+          name="Submit"
+          onClick={handleDelete}
+        >
+          Delete
+        </button>
+      </div>
     </div>
   );
 }

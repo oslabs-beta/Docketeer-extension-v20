@@ -19,14 +19,14 @@ So your MongoDB connection string would look something like this: mongodb://host
 // CONNECTION MADE IN ImageModel.ts
 
 interface PromGlobalDocument extends Document {
-  scrapeInterval: string;
-  evaluationInterval: string;
+  scrape_interval: string;
+  evaluation_interval: string;
 }
 
 // Main schema for the 'Prometheus Global Setting' object
 const PromGlobalSchema: Schema = new Schema({
-  scrapeInterval: { type: String, required: true },
-  evaluationInterval: { type: String, required: true },
+  scrape_interval: { type: String, required: false },
+  evaluation_interval: { type: String, required: false },
 });
 
 module.exports = mongoose.model<PromGlobalDocument>('PromGlobalModel', PromGlobalSchema);

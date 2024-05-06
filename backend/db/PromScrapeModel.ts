@@ -17,10 +17,10 @@ const PromScrapeSchema: Schema = new Schema({
   job_name: { type: String, required: false},
   metrics_path: { type: String, required: false},
   params: { type: Object, required: false},
-  relabel_configs: { type: Array, required: false },
+  relabel_configs: { type: Array, required: false, default: undefined },
   scrape_interval: { type: String, required: false },
   evaluation_interval: { type: String, required: false },
-  static_configs: { type: Array, required: false },
+  static_configs: { type: Array, required: false, default: undefined },
 });
 
 module.exports = mongoose.model<PromScrapeModel>('PromScrapeModel', PromScrapeSchema);
