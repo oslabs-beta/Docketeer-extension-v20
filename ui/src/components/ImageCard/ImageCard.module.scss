@@ -1,14 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Open+Sans&display=swap');
+
 // VARIABLES
-$criticalColor: rgb(255, 8, 0);
-$highColor: #AD312D;
-$medColor: #AE5944;
-$lowColor: #D99166;
-$negligible: #81876096;
+$criticalColor: #840803;
+$highColor: rgb(236, 0, 0);
+$medColor: #fb7431;
+$lowColor: #d9ca66;
+$negligible: #0a851896;
 $grayColor: #59595996;
 $greenColor: #326b3096;
+// HC Colors
+$criticalColor-HC: #791E89;
+$highColor-HC: #0072BC;
+$medColor-HC: #00B9F1;
+$lowColor-HC: #F7931D;
+$negligible-HC: #e4d800;
+$grayColor-HC: #59595996;
+$greenColor-HC: #59595996;
 
 .imageCard, .imageCardCrit, .imageCardHigh, .imageCardMed, .imageCardLow, .imageCardDone  {
+	border: 1px solid rgba(255, 255, 255, 0.629);
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.256);
+  height: max-content;
+	margin: 10px;
+	padding: 10px;
+	display: flex;
+	justify-content: space-between;
+  align-items: flex-start;
+  width: 48%;
+  // backdrop-filter: blur(4px);
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.imageCard, .imageCardCritHC, .imageCardHighHC, .imageCardMedHC, .imageCardLowHC, .imageCardDone  {
 	border: 1px solid rgba(255, 255, 255, 0.629);
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.256);
@@ -53,6 +80,34 @@ $greenColor: #326b3096;
   box-shadow: 1px 1px 2px $lowColor;
   &:hover {
     box-shadow: 1px 1px 10px $lowColor;
+  }
+}
+.imageCardCritHC {
+  border: 1px solid $criticalColor-HC;
+  box-shadow: 1px 1px 2px $criticalColor-HC;
+  &:hover {
+    box-shadow: 1px 1px 10px $criticalColor-HC;
+  }
+}
+.imageCardHighHC {
+  border: 1px solid $highColor-HC;
+  box-shadow: 1px 1px 2px $highColor-HC;
+  &:hover {
+    box-shadow: 1px 1px 10px $highColor-HC;
+  }
+}
+.imageCardMedHC {
+  border: 1px solid $medColor-HC;
+  box-shadow: 1px 1px 2px $medColor-HC;
+  &:hover {
+    box-shadow: 1px 1px 10px $medColor-HC;
+  }
+}
+.imageCardLowHC  {
+  border: 1px solid $lowColor-HC;
+  box-shadow: 1px 1px 2px $lowColor-HC;
+  &:hover {
+    box-shadow: 1px 1px 10px $lowColor-HC;
   }
 }
 
@@ -107,6 +162,7 @@ $greenColor: #326b3096;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  font-size: 17px;
   @media screen and (max-width: 768px) {
     flex-wrap: wrap;
     gap: 10px;
@@ -121,6 +177,11 @@ $greenColor: #326b3096;
   @media screen and (max-width: 768px) {
     width: 60px;
   }
+      text-shadow:
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000;
 }
 
 .imgCardButton, .imgLoading{
@@ -166,6 +227,18 @@ $greenColor: #326b3096;
   cursor: pointer;
 }
 
+.high-contrast-critical, .high-contrast-high, .high-contrast-medium, .high-contrast-low, .high-contrast-grayOut, .high-contrast-green, .high-contrast-negligible, .high-contrast-unknown {
+  background-color: $criticalColor-HC;
+  margin: 2px;
+  padding: 5px;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px 1px black;
+  width: 100%;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 .critical:hover, .high:hover, .medium:hover, .low:hover, .negligible:hover , .grayOut:hover, .green:hover, .unknown {
   filter: brightness(1.3);
 }
@@ -174,6 +247,7 @@ $greenColor: #326b3096;
   color: whitesmoke;
 }
 
+// Regular Contrast Classes 
 .high {
   background-color: $highColor;
 }
@@ -201,6 +275,36 @@ $greenColor: #326b3096;
 
 .green {
   background-color: $greenColor;
+}
+
+// High Contrast Classes 
+.high-contrast-high {
+  background-color: $highColor-HC;
+}
+
+.high-contrast-medium {
+  background-color: $medColor-HC;
+}
+
+.high-contrast-low {
+  background-color: $lowColor-HC;
+}
+
+.high-contrast-negligible {
+  background-color: $negligible-HC;
+}
+
+.high-contrast-unknown {
+  background-color: $grayColor-HC;
+}
+
+.high-contrast-grayOut {
+  background-color: $grayColor-HC;
+  color: rgba(255, 255, 255, 0.486);
+}
+
+.high-contrast-green {
+  background-color: $negligible-HC;
 }
 
 .vulNum {

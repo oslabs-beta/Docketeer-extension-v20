@@ -110,6 +110,7 @@ export interface ImageCardProps {
   reset: boolean;
   setReset: (boolean) => void;
   isHovered: string;
+  highContrast: boolean;
 }
 
 export interface NetworkAndContainer{
