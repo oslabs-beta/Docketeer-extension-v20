@@ -56,6 +56,7 @@ const JobConfigs = ({ index, setIsModified }: {index: number, setIsModified : Fu
     dispatch(setScrapeConfigs(newScrapeConfigs));
 
     setIsEdit(false);
+    setIsModified(true);
   }
 
   console.log('localSettings', localSettings);

@@ -137,7 +137,7 @@ export interface Top3Payload {
 }
 
 export interface EverythingPayload {
-  everything: object;
+  everything: EverythingObj;
   scanName: string;
 }
 
