@@ -36,7 +36,7 @@ export const containerSlice = createSlice({
   initialState,
   reducers: { 
     removeContainer: (state, action: PayloadAction<string>) => {
-      state.stoppedList.filter((container) => container.ID !== action.payload);
+      state.stoppedList = state.stoppedList.filter((container) => container.ID !== action.payload);
     },
     displayErrorModal: (state, action: PayloadAction<boolean>) => {
       state.errorModalOn = action.payload;
