@@ -7,27 +7,31 @@ import { setScrapeConfigs } from '../../reducers/configurationReducer';
 
 const JobConfigs = ({ index, setIsModified }: {index: number, setIsModified : Function }): React.JSX.Element => {
   const dispatch = useAppDispatch();
+  const global = useAppSelector((state) => state.configuration.global);
+  const scrapeConfigs = useAppSelector((state) => state.configuration.scrapeConfigs);
+  const [isEdit, setIsEdit]: [boolean, Function] = useState(false);
 
-  // grab specific scrape config job
-  const global = useAppSelector(state => state.configuration.global);
-  const scrapeConfigs = useAppSelector(state => state.configuration.scrapeConfigs);
-  const [isEdit, setIsEdit] = useState(false);
-  const [localSettings, setLocalSettings]: any = useState({})
+  // localSettings used when editing configurations
+  // starts empty but will grab redux scrape config settings upon editing mode (see handleEdit)
+  // Editable configurations should not be tied directly to redux global,
+  // since that would change prometheus configs without submit button
+  const [localSettings, setLocalSettings]: any = useState({});
+
+  // targets is given as array, so separate by space when displaying
   const job = scrapeConfigs[index];
-
-  // strings to display
   const jobName = job.job_name;
   const scrapeInterval = job.scrape_interval;
   let targets = '';
-  job.static_configs[0].targets.forEach(target => {
-    targets += (target + ' ')
-  })
+  job.static_configs[0].targets.forEach((target) => {
+    targets += target + ' ';
+  });
 
+  // handles users modifying local settings on Configuration page
   const handleEdit = (e) => {
     e.preventDefault();
     setLocalSettings(job);
     setIsEdit(true);
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +46,7 @@ const JobConfigs = ({ index, setIsModified }: {index: number, setIsModified : Fu
 
     setIsEdit(false);
     setIsModified(true);
-  }
+  };
 
   const handleDelete = async (e) => {
     e.preventDefault();
@@ -57,9 +61,7 @@ const JobConfigs = ({ index, setIsModified }: {index: number, setIsModified : Fu
 
     setIsEdit(false);
     setIsModified(true);
-  }
-
-  console.log('localSettings', localSettings);
+  };
 
   return (
     <div className={styles.containerCard}>
@@ -75,13 +77,13 @@ const JobConfigs = ({ index, setIsModified }: {index: number, setIsModified : Fu
         <strong>Targets: </strong>
         {isEdit ? (
           <input
-            style={{ color: "black", width: "400px" }}
+            style={{ color: 'black', width: '400px' }}
             value={localSettings.static_configs[0].targets}
-            type="text"
+            type='text'
             onChange={(e) =>
               setLocalSettings({
                 ...localSettings,
-                static_configs: [{ targets: e.target.value.split(",") }],
+                static_configs: [{ targets: e.target.value.split(',') }],
               })
             }
           />
@@ -92,27 +94,12 @@ const JobConfigs = ({ index, setIsModified }: {index: number, setIsModified : Fu
 
       <div className={styles.cardBtns}>
         {isEdit ? (
-          <input
-            className={styles.btn}
-            type="submit"
-            value="Submit"
-            onClick={handleSubmit}
-          />
+          <input className={styles.btn} type='submit' value='Submit' onClick={handleSubmit} />
         ) : (
-          <input
-            className={styles.btn}
-            type="button"
-            value="Edit"
-            onClick={handleEdit}
-          />
+          <input className={styles.btn} type='button' value='Edit' onClick={handleEdit} />
         )}
 
-        <button
-          className={styles.btn}
-          type="submit"
-          name="Submit"
-          onClick={handleDelete}
-        >
+        <button className={styles.btn} type='submit' name='Submit' onClick={handleDelete}>
           Delete
         </button>
       </div>

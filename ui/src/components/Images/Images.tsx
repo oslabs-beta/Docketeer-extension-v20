@@ -30,7 +30,6 @@ import { Theme } from '@mui/joy';
  **/
 
 const Images = (): React.JSX.Element => {
-	console.log('Rendering Images component');
 	const [scanDone, setScanDone] = useState<boolean>(false);
 	const [reset, setReset] = useState<boolean>(false);
 	const [isHovered, setIsHovered] = useState<string>('');
@@ -39,9 +38,10 @@ const Images = (): React.JSX.Element => {
 
 	const dispatch = useAppDispatch();
 
+  // Tracks which images have been fetched from Docker. 
 	const imagesList: ImageType[] = useAppSelector(
 		(state) => state.images.imagesList
-	);
+  );
 	const time: string = useAppSelector((state) => state.images.timeStamp);
 	const isSavedState: boolean = useAppSelector((state) => state.images.isSaved);
 	const totalVul: number = useAppSelector((state) => state.images.totalVul);
@@ -68,6 +68,7 @@ const Images = (): React.JSX.Element => {
 		}
 	};
 
+  // Asks users to confirm they want to Run image when run button is clicked on image card on the UI 'Images' tab
 	const runImageAlert = (imgObj: ImageType) => {
 		dispatch(
 			createPrompt(
@@ -91,6 +92,7 @@ const Images = (): React.JSX.Element => {
 		);
 	};
 
+  // Asks users to confirm they want to delete image when delete button is clicked on image card on the UI 'Images' tab
 	const removeImageAlert = (imgObj: ImageType) => {
 		dispatch(
 			createPrompt(
@@ -114,6 +116,7 @@ const Images = (): React.JSX.Element => {
 		);
 	};
 
+  // Saves scan of images to MongoDB
 	const saveScanHandler = async () => {
 		// get UserIP --> IPv4
 		const response = await fetch('https://api.ipify.org?format=json');
@@ -123,15 +126,8 @@ const Images = (): React.JSX.Element => {
 		const success: { printSavedScan: object; saved: boolean } =
 			await Client.ImageService.saveScan(imagesList, time, userIP);
 
-		//Example returned response: { printSavedScan: res.locals.savedScan, saved: true }
-
-		// print to check
-		if (success)
-			console.log('Scan saved: ', JSON.stringify(success.printSavedScan));
-
 		// update save button state in Redux
 		const isSaved: boolean = success.saved;
-		console.log('IS SAVED: ', isSaved);
 		dispatch(updateIsSaved({ isSaved }));
 	};
 

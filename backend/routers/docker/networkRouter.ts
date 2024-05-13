@@ -71,17 +71,4 @@ router.post('/container', networkController.connectContainerToNetwork, (req, res
   return res.sendStatus(201);
 });
 
-// /**
-//  * @abstract 
-//  * @todo 
-//  * @param 
-//  * @returns
-//  */
-// router.delete('/removeContainer', networkController.disconnectContainerFromNetwork, (req, res) => {
-//   return res.sendStatus(204);
-// });
-// router.delete('/removeContainer/?name', networkController.disconnectContainerFromNetwork, (req, res) => {
-//   return res.sendStatus(204);
-// });
-
 export default router;

@@ -97,6 +97,28 @@ services:
     depends_on:
       - prometheus
 
+  # Store metrics gathered from containers at localhost:5432
+  postgres:
+    # build:
+    #   context: ..
+    #   dockerfile: ./extension/dockerfile.postgres
+    # image: docketeer-postgres
+    image: postgres:16.0-alpine3.18
+    container_name: docketeer-ext-postgres
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+      - docketeer-ext-initsql:/docker-entrypoint-initdb.d/
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=docketeer
+    depends_on:
+      - docketeer
+
   # Setup memcached caching server at port 11211
   memcached:
     image: memcached:latest
@@ -109,3 +131,4 @@ volumes:
   docketeer-ext-prometheus-files:
   docketeer-ext-grafana-files:
   docketeer-ext-initsql:
+  postgres_volume:

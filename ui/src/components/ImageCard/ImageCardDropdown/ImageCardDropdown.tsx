@@ -29,7 +29,6 @@ const ImageCardDropdown = ({
   const capitalString: string = severity[0].toUpperCase() + severity.slice(1);
   const top3ObjFromStore: object | boolean =
     useAppSelector((state) => state.images.imagesList[index].Top3Obj) || false;
-  // console.log(`TOP3 FROM STORE ${scanName}: ${JSON.stringify(top3ObjFromStore)}`);
 
   return (
     <>

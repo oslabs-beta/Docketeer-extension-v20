@@ -4,7 +4,7 @@
 // See https://hub.docker.com/_/memcached for docker image
 const Memcached = require('memcached');
 
-//Connect to the Memcached server
+// Connect to the Memcached server
 const memcachedClient: any = new Memcached('memcached:11211', { retries: 1, retry: 5000 });
 
 export default memcachedClient;

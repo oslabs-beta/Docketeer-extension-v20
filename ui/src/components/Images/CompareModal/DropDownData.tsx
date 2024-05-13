@@ -37,7 +37,6 @@ export default function DropDownData({
 
 	const handleSelectChange = (selectedTime): void => {
 		setSelectedTime(selectedTime);
-		console.log('SELECT-TIME ARRAY: ', selectedTime);
 	};
 
 	return (
