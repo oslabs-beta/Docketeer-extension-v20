@@ -178,8 +178,6 @@ containerController.removeContainer = async (req, res, next) => {
     const { stdout, stderr } = await execAsync(`docker rm ${id}`);
     if (stderr.length) throw new Error(stderr);
 
-    // remove once verified
-    console.log(stdout);
     return next();
   } catch (error) {
     const errObj: ServerError = {
@@ -237,7 +235,7 @@ containerController.getAllLogs = async (req, res, next) => {
 }
 
 /**
- * @todo finish implementing
+ * @todo Partially built. Currently not integrated into codebase.
  */
 containerController.inspectContainer = async (req, res, next) => {
   try {

@@ -100,10 +100,6 @@ const ImageCard = ({
 
 			setDone(true);
 
-			console.log('scanObjectReturn JSON FOR GRYPE: ', scanObjectReturn);
-			console.log(`Success from getScan: ${scanName}`, vulnerabilityObj);
-			console.log(`TIMESTAMP FOR ${scanName}`, scanObjectReturn.timeStamp);
-
 			/* get the info from 5 levels
 			ex everything: [{ Package: "busybox", Severity: "Low", Version Installed: "1.36.1", Vulnerability ID: "CVE..." }]
 			-> filter each severity into an array of critical objects, array of high objects, etc */
@@ -180,7 +176,6 @@ const ImageCard = ({
 
 			// dispatch VulnerabilityPayload to update the imgObj in the store with the vulnerability info
 			dispatch(updateVulnerabilities(updateVul));
-			console.log('after reducuer invoked', imgObj);
 			return;
 		} catch (error) {
 			// Log error if failed

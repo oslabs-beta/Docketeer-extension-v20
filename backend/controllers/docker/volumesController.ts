@@ -72,8 +72,6 @@ volumeController.removeVolume = async(req, res, next) => {
     const { stdout, stderr } = await execAsync(`docker volume rm ${id}`);
     if (stderr.length) throw new Error(stderr);
 
-    /**@todo Remove this console log once verified */
-    console.log(stdout);
     return next();
   } catch (error) {
     const errObj: ServerError = {

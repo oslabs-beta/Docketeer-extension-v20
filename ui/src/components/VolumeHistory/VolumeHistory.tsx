@@ -25,7 +25,6 @@ const VolumeHistory = (props:any): JSX.Element => {
 
   useEffect(() => {
     dispatch(fetchAllContainersOnVolumes());
-    // console.log(props.volumeContainersList)
     setFilterVolumeList(volumeContainersList);
   }, []);
 

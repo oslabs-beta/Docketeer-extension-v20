@@ -6,13 +6,15 @@ import { setGlobal } from '../../reducers/configurationReducer';
 
 const GlobalConfigs = ({ setIsModified }): React.JSX.Element => {
 
-  //dispatch
   const dispatch = useAppDispatch();
-
-  // State
   const global = useAppSelector(state => state.configuration.global);
   const scrapeConfigs = useAppSelector(state => state.configuration.scrapeConfigs);
-  const [isEdit, setIsEdit] = useState(false);
+  const [isEdit, setIsEdit] : [boolean, Function]= useState(false);
+
+  // localSettings used when editing configurations
+  // starts empty but will grab redux global settings upon editing mode (see handleEdit)
+  // Editable configurations should not be tied directly to redux global, 
+  // since that would change prometheus configs without submit button
   const [localSettings, setLocalSettings] = useState({
     scrape_interval: '',
     evaluation_interval: '',
@@ -23,6 +25,7 @@ const GlobalConfigs = ({ setIsModified }): React.JSX.Element => {
     setLocalSettings(global);
     setIsEdit(true);
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await Client.ConfigService.updateYaml(localSettings, scrapeConfigs);

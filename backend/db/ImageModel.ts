@@ -1,3 +1,6 @@
+// Schema for image vulnerabilities
+// See save on Image tab after Grype completes scan of all images
+
 import mongoose, { Schema, Document } from "mongoose";
 
 interface ImageDocument extends Document {

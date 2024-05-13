@@ -5,6 +5,13 @@ import process from 'process';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import mongoose from "mongoose";
+import containerRouter from './routers/docker/containerRouter';
+import imageRouter from './routers/docker/imageRouter';
+import volumeRouter from './routers/docker/volumeRouter';
+import networkRouter from './routers/docker/networkRouter';
+import systemRouter from './routers/docker/systemRouter';
+import configRouter from './routers/prometheus/configRouter';
+import saveMetricsRouter from './routers/docker/saveMetricsRouter';
 
 // DO NOT USE CORS!
 // It will mess up the ddClientRequest!
@@ -63,18 +70,9 @@ mongoose
 
 const app = express();
 app.use(bodyParser.json({ limit: '50mb' })); // set file size limit to 50mb
-
 app.use(cookieParser());
 app.use(express.json({ limit: '50mb' })); // set file size limit to 50mb
 app.use(express.urlencoded({ extended: true, limit: '50mb' })); // set file size limit to 50mb
-
-import containerRouter from './routers/docker/containerRouter';
-import imageRouter from './routers/docker/imageRouter';
-import volumeRouter from './routers/docker/volumeRouter';
-import networkRouter from './routers/docker/networkRouter';
-import systemRouter from './routers/docker/systemRouter';
-import configRouter from './routers/prometheus/configRouter';
-import saveMetricsRouter from './routers/docker/saveMetricsRouter'
 
 app.use('/api/docker/container', containerRouter);
 app.use('/api/docker/image', imageRouter);
@@ -84,14 +82,14 @@ app.use('/api/docker/system', systemRouter);
 app.use('/api/prometheus/config', configRouter);
 app.use('/api/saveMetricsEntry', saveMetricsRouter);
 
-// Handling requests to unknown endpoints...
+// Catch-All Error Handler
 app.use('/', (req: Request, res: Response): Response => {
   return res
     .status(404)
     .json({ error: 'Endpoint does not exist' });
 });
 
-// Handling global errors...
+// Global Error Handler
 app.use(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (err: ServerError, req: Request, res: Response, next: NextFunction): Response => {

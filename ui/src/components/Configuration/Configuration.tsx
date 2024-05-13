@@ -12,19 +12,18 @@ import JobConfigs from './JobConfigs';
 const Configuration = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
-  // Set state of Prom Data Sources upon page load
+  // Set state of Prometheus Data Sources upon page load
   const runningList = useAppSelector(store => store.containers.runningList);
   const globalConfigs = useAppSelector(store => store.configuration.global);
   const scrapeConfigs = useAppSelector(store => store.configuration.scrapeConfigs);
   const [isModified, setIsModified] = useState(false);
 
+  // get Prometheus sources if first time loading
   useEffect(() => {
     loadPromSources();
   }, []);
 
-  console.log('scrapeConfigs', scrapeConfigs)
-
-  // config for toast
+  // Config for Toast (aka pop-ups)
   const toastConfig: ToastOptions<unknown> = {
     position: "top-right",
     autoClose: 3000,
@@ -37,12 +36,10 @@ const Configuration = (): React.JSX.Element => {
   };
 
   async function loadPromSources() {
-    // On load: clear datasource DB table
-    // await Client.ConfigService.clearDataSources();
-
     //  Grab new targets and parse into correctly formatted array
     const yaml = await Client.ConfigService.getYaml();
     
+    // set redux states
     dispatch(setGlobal(yaml.global));
     dispatch(setScrapeConfigs(yaml.scrape_configs));
   }
@@ -78,6 +75,7 @@ const Configuration = (): React.JSX.Element => {
     }
   }
 
+  // Array of each scrape config job on Prometheus
   const jobs: React.JSX.Element[] = [];
   for (let i = 0; i < scrapeConfigs.length; i++) {
     jobs.push(<JobConfigs key={`job_${i}`} index={i} setIsModified={setIsModified} />)

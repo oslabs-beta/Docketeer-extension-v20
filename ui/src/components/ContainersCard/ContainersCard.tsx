@@ -27,6 +27,8 @@ const ContainersCard = ({
   const dispatch = useAppDispatch();
   const [containerMetrics, setContainerMetrics] = useState<stats[]>();
 
+
+ // retrieves container data by fetching from Docker 
   let ddClient;
   useEffect(() => {
     async function displayMetrics() {
@@ -107,6 +109,7 @@ const ContainersCard = ({
     }
   }
 
+  // populates each container card with metrics 
   const RunningContainers = containerList.map((container: ContainerType, i: number) => {
     let metrics = null;
     if (containerMetrics !== undefined) {

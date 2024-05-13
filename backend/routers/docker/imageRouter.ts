@@ -94,8 +94,6 @@ router.post(
 				console.error(`exec error: ${error}`);
 				return;
 			}
-			console.log(`stdout: ${stdout}`);
-			console.error(`stderr: ${stderr}`);
     })
      return res.sendStatus(200);
   }
