@@ -37,7 +37,7 @@ const GlobalConfigs = ({ setIsModified }): React.JSX.Element => {
   return (
     <form action="" className={styles.containerCard}>
       <span>
-        <strong>Scrape Interval: </strong>
+        <strong style={{color: 'rgb(156, 171, 213)'}}>Scrape Interval: </strong>
         {isEdit ? (
           <input
             style={{ color: "black" }}
@@ -56,7 +56,7 @@ const GlobalConfigs = ({ setIsModified }): React.JSX.Element => {
       </span>
 
       <span>
-        <strong>Evaluation Interval: </strong>
+        <strong style={{color: 'rgb(156, 171, 213)'}}>Evaluation Interval: </strong>
         {isEdit ? (
           <input
             style={{ color: "black" }}

@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: column;
   margin: $default-page-margin;
-  backdrop-filter: blur(4px);
 }
 
 .configurationHeader {
@@ -100,8 +99,6 @@
   overflow-x: scroll;
   overflow-y: scroll;
   font-family: 'Roboto';
-
-  background-color: color(background, base);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border-radius: 10px;
