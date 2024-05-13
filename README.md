@@ -89,6 +89,7 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 | Users can now save newly modified Prometheus settings to MongoDB database                                                                   | ✅        |
 | Loading and error modals added to avoid waiting on potential crashes                                                                        | ✅        |
 | Updated color schemes for better readability, and high contrast mode for color-deficient users                                              | ✅        |
+| Consistent styles between pages for upgraded user experience                                                                                | ✅        |
 | Functional network and list reducer tests                                                                                                   | ✅        |
 
 - ✅ = Ready to use
@@ -99,23 +100,25 @@ Docketeer is an open source initiative comprising contributions from dozens of t
     <p>Container Page:</p>
     <img alt="Containers Page" src="assets\containerTab-new.gif" width="fit" height="auto">
     <p>Image Page:</p>
-    <img alt="Image Page 2" src="assets\vulnerabilities.gif" width="fit" height="auto">
-    <p>Image Page High Contrast:</p>
-    <img alt="Image Page 2" src="assets\highContrast.gif" width="fit" height="auto">
+    <img alt="Image Page 1" src="assets\vulnerabilities.gif" width="fit" height="auto">
     <p>Image Page - Pie Chart, Save & Rescan:</p>
     <img alt="Image Page 2" src="assets\imageTab2-new.gif" width="fit" height="auto">
     <p>Image Page - Time-series Graph:</p>
-    <img alt="Image Page 2" src="assets\imageTab3-new.gif" width="fit" height="auto">
+    <img alt="Image Page 3" src="assets\imageTab3-new.gif" width="fit" height="auto">
+    <p>Image Page High Contrast:</p>
+    <img alt="High Contrast" src="assets\highContrast.gif" width="fit" height="auto">
     <p>Container Metrics Page:</p>
     <img alt="Container Metrics Page" src="assets\metricTab-new.gif" width="fit" height="auto">
     <p>Configuration Page:</p>
-    <img alt="Container Metrics Page" src="assets\configGifs.gif" width="fit" height="auto">
+    <img alt="Configuration Page" src="assets\configGifs.gif" width="fit" height="auto">
     <p>Kubernetes Page (In Development):</p>
     <img alt="Kubernates Metrics Page" src="assets\k8Tab-new.gif" width="fit" height="auto">
+    <p>Volume Page:</p>
+    <img alt="Volume Page" src="assets\volumes.png" width="fit" height="auto">
     <p>Other Tab Demo:</p>
     <img alt="Others gif" src="assets\hamburgerTab-new.gif" width="fit" height="auto">
     <p>Spooler:</p>
-    <img alt="Others gif" src="assets\Spooler.gif" width="fit" height="auto">
+    <img alt="Spooler" src="assets\Spooler.gif" width="fit" height="auto">
   </div>
 <br />
 
