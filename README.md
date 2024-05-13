@@ -96,20 +96,26 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 <br />
   <div align="center">
-    <p>Container Page Demo:</p>
+    <p>Container Page:</p>
     <img alt="Containers Page" src="assets\containerTab-new.gif" width="fit" height="auto">
-    <p>Image Page Demo:</p>
-    <img alt="Image Page 2" src="assets\imageTab1-new.gif" width="fit" height="auto">
-    <p>Image Page Demo 2 - Pie Chart, Save & Rescan:</p>
+    <p>Image Page:</p>
+    <img alt="Image Page 2" src="assets\vulnerabilities.gif" width="fit" height="auto">
+    <p>Image Page High Contrast:</p>
+    <img alt="Image Page 2" src="assets\highContrast.gif" width="fit" height="auto">
+    <p>Image Page - Pie Chart, Save & Rescan:</p>
     <img alt="Image Page 2" src="assets\imageTab2-new.gif" width="fit" height="auto">
-    <p>Image Page Demo 3 - Time-series Graph:</p>
+    <p>Image Page - Time-series Graph:</p>
     <img alt="Image Page 2" src="assets\imageTab3-new.gif" width="fit" height="auto">
-    <p>Container Metrics Page Demo:</p>
+    <p>Container Metrics Page:</p>
     <img alt="Container Metrics Page" src="assets\metricTab-new.gif" width="fit" height="auto">
-    <p>Kubernetes Page Demo (In Development):</p>
+    <p>Configuration Page:</p>
+    <img alt="Container Metrics Page" src="assets\configGifs.gif" width="fit" height="auto">
+    <p>Kubernetes Page (In Development):</p>
     <img alt="Kubernates Metrics Page" src="assets\k8Tab-new.gif" width="fit" height="auto">
     <p>Other Tab Demo:</p>
     <img alt="Others gif" src="assets\hamburgerTab-new.gif" width="fit" height="auto">
+    <p>Spooler:</p>
+    <img alt="Others gif" src="assets\Spooler.gif" width="fit" height="auto">
   </div>
 <br />
 
