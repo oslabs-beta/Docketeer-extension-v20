@@ -66,15 +66,15 @@ const JobConfigs = ({ index, setIsModified }: {index: number, setIsModified : Fu
   return (
     <div className={styles.containerCard}>
       <span>
-        <strong>Job Name: </strong>
+        <strong style={{color: 'rgb(156, 171, 213)'}}>Job Name: </strong>
         {jobName}
       </span>
       <span>
-        <strong>Scrape Interval: </strong>
+        <strong style={{color: 'rgb(156, 171, 213)'}}>Scrape Interval: </strong>
         {scrapeInterval}
       </span>
       <span>
-        <strong>Targets: </strong>
+        <strong style={{color: 'rgb(156, 171, 213)'}}>Targets: </strong>
         {isEdit ? (
           <input
             style={{ color: 'black', width: '400px' }}
