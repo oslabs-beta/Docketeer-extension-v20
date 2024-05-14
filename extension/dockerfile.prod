@@ -59,8 +59,8 @@ LABEL org.opencontainers.image.title="Docketeer" \
   {"alt":"Metrics page","url":"https://i.ibb.co/Ms4FshF/metric-Tab-new.gif"}, \
   {"alt":"Configuration page","url":"https://i.ibb.co/FzBMBJG/config-Gif.gif"}, \
   {"alt":"Kubernetes page","url":"https://i.ibb.co/44Yq102/k8-Tab-new.gif"}, \
-  {"alt":"Other page","url":"https://i.ibb.co/7vMSNGQ/hamburger-Tab-new.gif"}]' \
-  com.docker.extension.detailed-description=" <h3>What's New In Version 19.0.0?</h3> \
+  {"alt":"Other page","url":"https://i.ibb.co/WgBD8nh/other.gif"}]' \
+  com.docker.extension.detailed-description=" <h3>What's New In Version 19?</h3> \
   <ul> \
   <li><strong>New updated UI and utilities.</strong></li> \
   <li>Continued functionality of vulnerability caching via Memcached.</li> \

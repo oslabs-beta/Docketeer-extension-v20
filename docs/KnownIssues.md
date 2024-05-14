@@ -8,6 +8,7 @@
 * Still no Kubernetes monitoring metrics. More specifically, no clear solution to replace current workaround of manually starting and port-forwarding Kubernetes (i.e. Minikube) to extension (see `docs/DevGettingStarted.md` for manual instructions). Was originally an MVP, but would not recommend future groups to tackle this as an MVP, as the purpose was more for a development environment rather than user experience. Ideally, user would spin up their own cluster for monitoring, as opposed to some template Minikube cluster.
 * Snapshots for Metrics do successfully save and load from SQL database. However, when selecting a date to retrieve, text does not appear after selection.
 * Refreshing while on the Volumes page causes volumes to disappear. Will reappear when going to another tab and coming back.
+* Docketeer header bar height is based on window size, which can tend to cover top elements at times. Recommend changing this height to something absolute.
 
 ***Pre Docketeer 19.0 Issues***
 * Container metrics in browser does not appear due to CLI configurations from a previous group (see DevGettingStarted).
