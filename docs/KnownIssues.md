@@ -7,6 +7,7 @@
 * Some imports (such as .scss) are flagged as errors because TS does not recognize them as modules. Method to fix this exists (see `declarations.d.ts`). However, implementing this causes build issues, since TS now checks for all errors on build. Best solution would be to fix errors that appear.
 * Still no Kubernetes monitoring metrics. More specifically, no clear solution to replace current workaround of manually starting and port-forwarding Kubernetes (i.e. Minikube) to extension (see `docs/DevGettingStarted.md` for manual instructions). Was originally an MVP, but would not recommend future groups to tackle this as an MVP, as the purpose was more for a development environment rather than user experience. Ideally, user would spin up their own cluster for monitoring, as opposed to some template Minikube cluster.
 * Snapshots for Metrics do successfully save and load from SQL database. However, when selecting a date to retrieve, text does not appear after selection.
+* Refreshing while on the Volumes page causes volumes to disappear. Will reappear when going to another tab and coming back.
 
 ***Pre Docketeer 19.0 Issues***
 * Container metrics in browser does not appear due to CLI configurations from a previous group (see DevGettingStarted).

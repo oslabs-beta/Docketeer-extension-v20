@@ -53,19 +53,21 @@ LABEL org.opencontainers.image.title="Docketeer" \
   com.docker.desktop.extension.icon="https://i.ibb.co/VqkYZPy/docketeer-logo-light.png" \
   # Change GIFs if needed --> Log into https://imgbb.com/ and update GIFs if needed!
   com.docker.extension.screenshots='[{"alt":"Containers page","url":"https://i.ibb.co/6HcTQzQ/container-Tab-new.gif"}, \
-  {"alt":"Image page 1","url":"https://i.ibb.co/VD3P6RG/image-Tab1-new.gif"}, \
-  {"alt":"Image page 2","url":"https://i.ibb.co/YWG5BCr/image-Tab2-new.gif"}, \
-  {"alt":"Image page 3","url":"https://i.ibb.co/wpVVNLj/image-Tab3-new.gif"}, \
+  {"alt":"Image page","url":"https://i.ibb.co/PmXMx30/images.gif"}, \
+  {"alt":"Image page - Visualization","url":"https://i.ibb.co/LtHq7BP/visualization.gif"}, \
+  {"alt":"Image page - Time Series","url":"https://i.ibb.co/mXwpp6S/Time-Series.gif"}, \
   {"alt":"Metrics page","url":"https://i.ibb.co/Ms4FshF/metric-Tab-new.gif"}, \
+  {"alt":"Configuration page","url":"https://i.ibb.co/FzBMBJG/config-Gif.gif"}, \
   {"alt":"Kubernetes page","url":"https://i.ibb.co/44Yq102/k8-Tab-new.gif"}, \
   {"alt":"Other page","url":"https://i.ibb.co/7vMSNGQ/hamburger-Tab-new.gif"}]' \
-  com.docker.extension.detailed-description=" <h3>What's New In Version 18.0.0?</h3> \
+  com.docker.extension.detailed-description=" <h3>What's New In Version 19.0.0?</h3> \
   <ul> \
   <li><strong>New updated UI and utilities.</strong></li> \
-  <li>More vulnerability info such as packages name & CVE ID with link.</li> \
-  <li>Data visualization graph for each image.</li> \
-  <li>Users can now <strong>Rescan</strong> to bypass Redis Caching from Version 17.</li> \
-  <li>Ability to <strong>Save Scan</strong> and retrieve history scans to compare on a time series graph.</li> \
+  <li>Continued functionality of vulnerability caching via Memcached.</li> \
+  <li>Configuration page to read, modify, apply, and save Prometheus configurations.</li> \
+  <li>Vulnerability info on package fix versions and links for both CVE and GHSA vulnerabilities.</li> \
+  <li>New color scheme for readability, and high contrast mode for color-deficient users.</li> \
+  <li>Bug fixes and standardize styling for a more consistent user experience.</li> \
   </ul> \
   <h3>Description</h3> \
   <p>Greetings, fellow space traveler! We're thrilled that you've chosen our application to help you navigate and explore the vast universe of Docker infrastructure. As a Docketeer, you know that real-time tracking of metrics and logs is essential for staying ahead of potential issues and optimizing your workflows. Our extension provides you with the tools you need to take control of your Docker images, containers, volumes, and logs. With an intuitive interface, you can easily make the necessary adjustments to ensure a smooth journey through the cosmos of your Docker environment.</p> \
@@ -75,7 +77,7 @@ LABEL org.opencontainers.image.title="Docketeer" \
   com.docker.extension.publisher-url="https://docketeer.io/" \
   com.docker.extension.additional-urls='[{"title":"Extension-Github","url":"https://github.com/open-source-labs/docketeer-extension"},{"title":"Email","url":"mailto:docketeerxii@gmail.com"},{"title":"LinkedIn","url":"https://www.linkedin.com/company/docketeer/"}]' \
   com.docker.extension.categories="utility-tools" \
-  com.docker.extension.changelog=" Visit: https://github.com/open-source-labs/Docketeer-extension/blob/master/docs/changelogs/docketeer18.notes.md"
+  com.docker.extension.changelog=" Visit: https://github.com/open-source-labs/Docketeer-extension/blob/master/docs/changelogs/docketeer19.notes.md"
 
 # Installs curl
 RUN apk --no-cache add curl
