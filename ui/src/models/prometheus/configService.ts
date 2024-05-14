@@ -1,54 +1,44 @@
 import { ddClientRequest } from "../ddClientRequest";
-import { PromDataSource, EndpointType } from "../../../../types";
+import { PromDataSourceType, EndpointType } from "../../../../types";
+// import { execAsync } from '../../../../backend/controllers/helper';
 
 export const ConfigService = {
-  async getDataSources(): Promise<PromDataSource[]> {
+
+  async getYaml(): Promise<any> {
     try {
-      return await ddClientRequest('/api/prometheus/config');
+      return await ddClientRequest('/api/prometheus/config/initial');
     } catch (error) {
-      console.error('Error getting configs: ', error);
+      console.error('Error getting initial configs: ', error);
       return [];
     }
   },
 
-  async getEndpointTypes(): Promise<EndpointType[]>{
+  async updateYaml(global, scrapeConfigs): Promise<any> {
+    const body = {
+      global: global,
+      scrape_configs: scrapeConfigs,
+    }
+
     try {
-      return await ddClientRequest('/api/prometheus/config/types');
+      return await ddClientRequest('/api/prometheus/config/update', 'POST', body);
     } catch (error) {
-      console.error('Error getting endpoint types:', error);
+      console.error('Error getting initial configs: ', error);
       return [];
     }
   },
 
-  async createDataSource(type_of_id: number, url: string, jobname: string, endpoint: string, match?: string, ssh_key?: string): Promise<number | null> {
-    try {
-      const body: PromDataSource = { type_of_id, url, jobname, endpoint, match, ssh_key }
-      const id: number = await ddClientRequest('/api/prometheus/config', 'POST', body);
-      return Number(id);
-    } catch (error) {
-      console.error('Could not create data source:', error);
-      return null;
+  async savePromConfigs(global: object, scrape_configs: any[]): Promise<any>{
+    const body = {
+      global,
+      scrape_configs,
     }
-  },
 
-  async updateDataSource(id: number, type_of_id?: number, url?: string, jobname?: string, endpoint?: string, match?: string, ssh_key?: string): Promise<boolean>{
     try {
-      const body: PromDataSource = { id, type_of_id, url, jobname, endpoint, match, ssh_key}
-      await ddClientRequest('/api/prometheus/config', 'PUT', body);
-      return true;
+      await ddClientRequest(`/api/prometheus/config/saveProm`, 'POST', body);
+      return;
     } catch (error) {
-      console.error(`Couldn\'t update data source ${id}:`, error);
-      return false;
-    }
-  },
-
-  async deleteDataSource(id: number): Promise<boolean>{
-    try{
-      await ddClientRequest(`/api/prometheus/config/${id}`, 'DELETE');
-      return true;
-    } catch (error) {
-      console.error(`Couldn't delete data source`, error);
-      return false;
+      console.error(`Couldn't add data source`, error);
+      return error;
     }
   }
 }

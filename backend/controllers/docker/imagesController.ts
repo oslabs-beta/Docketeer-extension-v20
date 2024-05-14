@@ -149,8 +149,6 @@ imageController.buildContainerFromImage = async (req, res, next) => {
     const { stdout, stderr } = await execAsync(`docker run --name ${containerName} ${imageName}:${tag}`);
     if (stderr.length) throw new Error(stderr);
 
-    //Remove once verified working
-    console.log(stdout);
     return next();
   } catch (error) {
     const errObj: ServerError = {

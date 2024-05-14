@@ -19,6 +19,7 @@ services:
       - docketeer-ext-prometheus-files:/prometheus
       - docketeer-ext-grafana-files:/grafana
       - backend_node:/backend/node_modules
+      - docketeer-ext-initsql:/extension
       - ui_node:/ui/node_modules
       - ${PWD}/backend:/backend
       - ${PWD}/ui:/ui
@@ -26,7 +27,7 @@ services:
       - 4000:4000
       - 3000:3000
     depends_on:
-      - redis
+      - memcached
 
   cadvisor:
     # Must use cadvisor v0.47.1 instead of latest, latest does not work for macOS
@@ -107,7 +108,6 @@ services:
       GF_PATHS_CONFIG: /etc/grafana/grafana.ini
     depends_on:
       - prometheus
-      - docketeer
 
   # Store metrics gathered from containers at localhost:5432
   postgres:
@@ -123,6 +123,7 @@ services:
       - 5432:5432
     volumes:
       - postgres_volume:/var/lib/postgresql/data
+      - docketeer-ext-initsql:/docker-entrypoint-initdb.d/
     environment:
       - POSTGRES_PASSWORD=admin
       - POSTGRES_USER=admin
@@ -130,17 +131,18 @@ services:
     depends_on:
       - docketeer
 
-    # Setup redis caching server at port 6379
-  redis:
-    image: redis/redis-stack-server:latest
-    container_name: docketeer-ext-redis
+  # Setup memcached caching server at port 11211
+  memcached:
+    image: memcached:latest
+    container_name: docketeer-ext-memcached
     ports:
-      - 49258:6379
+      - 49259:11211
 
 volumes:
   docketeer-ext-prometheus-data:
   docketeer-ext-prometheus-files:
   docketeer-ext-grafana-files:
+  docketeer-ext-initsql:
   backend_node:
   ui_node:
   postgres_volume:

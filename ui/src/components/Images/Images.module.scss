@@ -26,8 +26,20 @@
   justify-content: space-evenly;
 }
 
+.button-toggle-container {
+  display: flex;
+}
+
+.switch {
+  padding-top: 6px;
+  flex-direction: row;
+  justify-content: center;
+  align-Items: 'center';
+}
+
 .buttonDiv {
   display: flex;
+  padding-left: 110px;
   justify-content: center;
   margin: auto;
 }

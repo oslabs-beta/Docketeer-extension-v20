@@ -82,7 +82,7 @@ export const ImageService = {
 	},
 
 	async saveScan(
-		imagesList: any[],
+		imagesList: ImageType[],
 		time: string,
 		userIP: string
 	): Promise<{ printSavedScan: object; saved: boolean }> {

@@ -42,12 +42,13 @@ export interface StoppedListType extends ContainerType {
 //   RunningFor: string;
 // }
 
-export interface ContainerStateType {
-  runningList: ContainerType[];
-  stoppedList: StoppedListType[];
-  networkList: string[];
-  composeStack: any[];
-}
+// *UNUSED*
+// export interface ContainerStateType {
+//   runningList: ContainerType[];
+//   stoppedList: StoppedListType[];
+//   networkList: string[];
+//   composeStack: any[];
+// }
 
 // for container's being run
 export interface ContainerObj extends ContainerType {
@@ -68,10 +69,11 @@ export interface StoppedContainerObj extends ContainerType {
   ModalOpen?: boolean;
 }
 
-export interface containersList {
-  runningList: any[];
-  stoppedList: any[];
-}
+// *UNUSED*
+// export interface containersList {
+//   runningList: ContainerType[];
+//   stoppedList: StoppedListType[];
+// }
 
 export interface ConnectOrDisconnectProps {
   container: ContainerType;
@@ -127,10 +129,14 @@ export interface MetricsQuery {
 // ==============================================
 //Data generated from running GrypeScan on imageControllers.scanImages
 export interface GrypeScan {
-  Package: string;
+  'Package': string;
   'Version Installed'?: string;
+  'Fixed State'?: string;
+  'Fixed In'?: string;
+  'Description'?: string;
   'Vulnerability ID'?: string;
-  Severity?: string;
+  'Severity'?: string;
+  'Data Source'?: string;
 }
 
 export interface countVulnerability {

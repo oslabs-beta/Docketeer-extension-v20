@@ -16,28 +16,31 @@ router.get('/running', containerController.getContainers, (req, res) => {
  * @abstract 
  * @todo 
  * @param 
- * @returns
+ * @returns 
  */
 router.get('/stopped', containerController.getStoppedContainers, (req, res) => {
   return res.status(200).json(res.locals.containers);
 });
 
-router.post('/bashed', containerController.bashContainer, (req: any, res: any) => {
-  return res.status(201)
-})
-/**
- * 
- */
-router.get('/logs', containerController.getAllLogs, (req, res) => {
-  return res.status(200).json(res.locals.logs);
-})
 /**
  * @abstract 
  * @todo 
  * @param 
  * @returns
  */
-router.get('/:id/inspect');
+router.post('/bashed', containerController.bashContainer, (req: any, res: any) => {
+  return res.status(201)
+})
+
+/**
+ * @abstract 
+ * @todo 
+ * @param 
+ * @returns
+ */
+router.get('/logs', containerController.getAllLogs, (req, res) => {
+  return res.status(200).json(res.locals.logs);
+})
 
 /**
  * @abstract 

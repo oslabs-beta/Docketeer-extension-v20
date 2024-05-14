@@ -9,7 +9,7 @@ import ProcessLogs from './components/ProcessLogs/ProcessLogs';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 import Network from './components/Network/Network';
 import K8Metrics from './components/K8Metrics/K8Metrics'
-import Configuration from './containers/Configuration';
+import Configuration from './components/Configuration/Configuration';
 
 
 const App = (): React.JSX.Element => {

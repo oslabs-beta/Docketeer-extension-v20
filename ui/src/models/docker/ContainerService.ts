@@ -32,7 +32,7 @@ export const ContainerService = {
 
   async bashContainer(containerId: string): Promise<boolean> {
     try {
-      console.log(containerId)
+
       await ddClientRequest(`/api/docker/container/bashed`, 'POST', {id: containerId})
       return true
     } catch (error) {
@@ -51,17 +51,17 @@ export const ContainerService = {
     }
   },
 
-  async getLogs(containerList: string[], start?: string, stop?: string, offset?: number): Promise<{[key: string]: LogObject[]}>{
+  async getLogs(containerList: string[], start: string | null, stop: string | null, offset?: number): Promise<{[key: string]: LogObject[]}> {
     try {
       const containerString = containerList.join(",");
-      const query = encodeQuery({ containerNames: containerString, start, stop, offset: String(offset) })
+      const query = encodeQuery({ containerNames: containerString, start, stop, offset: String(offset) });
       const logs: {[key: string]: LogObject[]} = await ddClientRequest(`/api/docker/container/logs?${query}`);
-      return logs;
-    } catch (error) {
-      console.error(error);
-      return {stdout: [], stderr: []};
-    }
-  },
+    return logs;
+  } catch (error) {
+      console.error("Error fetching logs:", error);
+    throw new Error("Failed to fetch logs from server.");
+  }
+}
 }
 
 

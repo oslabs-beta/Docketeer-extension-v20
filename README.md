@@ -65,7 +65,6 @@
     <li><a href="#contributing">Contributing</a></li> 
     <li><a href="#license">License</a></li>
     <li><a href="#authors">Authors</a></li>
-    <li><a href="#troubleshooting">Troubleshooting</a></li>
   </ol>
 
 <!-- ABOUT THE PROJECT -->
@@ -80,35 +79,46 @@
 
 Docketeer is an open source initiative comprising contributions from dozens of talented and passionate software engineers. Our application provides a simple interface to manage Docker resources & visualize both host and container metric data. Docketeer is a containerized application that can be deployed alongside your application cluster with hardly any effort. To learn more about our application and how to get started, keep reading!
 
-### What's New in Version 18.0.0?
+### What's New in Version 19.0.0?
 
 | Feature                                                                                                                                     | Status    |
 |---------------------------------------------------------------------------------------------------------------------------------------------|-----------|
-| More vulnerability info such as packages name & CVE ID with link.                                                                           | ✅        |
-| Data visualization graph for each image.                                                                                                    | ✅        |
-| Users can now `Rescan` to bypass Redis Caching from Version 17.0.                                                                         | ✅        |
-| Ability to `Save Scan` and retrieve history scans to compare on a time series graph.                                                        | ✅        |
-| **New updated UI and utilities.**                                                                                                           | ✅        |
+| Image vulnerability scans utilizing Memcached to replace non-open source Redis                                                              | ✅        |
+| Added critical details to vulnerabilities, such as links to all vulnerability types and information on patched package versions             | ✅        |
+| Users can now use the Configuration Page to modify Prometheus target/metric settings, and restart Prometheus container within the app       | ✅        |
+| Users can now save newly modified Prometheus settings to MongoDB database                                                                   | ✅        |
+| Loading and error modals added to avoid waiting on potential crashes                                                                        | ✅        |
+| Updated color schemes for better readability, and high contrast mode for color-deficient users                                              | ✅        |
+| Consistent styles between pages for upgraded user experience                                                                                | ✅        |
+| Functional network and list reducer tests                                                                                                   | ✅        |
 
 - ✅ = Ready to use
 
 
 <br />
   <div align="center">
-    <p>Container Page Demo:</p>
+    <p>Container Page:</p>
     <img alt="Containers Page" src="assets\containerTab-new.gif" width="fit" height="auto">
-    <p>Image Page Demo:</p>
-    <img alt="Image Page 2" src="assets\imageTab1-new.gif" width="fit" height="auto">
-    <p>Image Page Demo 2 - Pie Chart, Save & Rescan:</p>
-    <img alt="Image Page 2" src="assets\imageTab2-new.gif" width="fit" height="auto">
-    <p>Image Page Demo 3 - Time-series Graph:</p>
-    <img alt="Image Page 2" src="assets\imageTab3-new.gif" width="fit" height="auto">
-    <p>Container Metrics Page Demo:</p>
+    <p>Image Page:</p>
+    <img alt="Image Page" src="assets\images.gif" width="fit" height="auto">
+    <p>Image Page - Visualization:</p>
+    <img alt="Image Page - Visualizatio" src="assets\visualization.gif" width="fit" height="auto">
+    <p>Image Page - Time Series:</p>
+    <img alt="Image Page - Time Series" src="assets\TimeSeries.gif" width="fit" height="auto">
+    <p>Image Page High Contrast:</p>
+    <img alt="High Contrast" src="assets\highContrast.gif" width="fit" height="auto">
+    <p>Container Metrics Page:</p>
     <img alt="Container Metrics Page" src="assets\metricTab-new.gif" width="fit" height="auto">
-    <p>Kubernetes Page Demo (In Development):</p>
+    <p>Configuration Page:</p>
+    <img alt="Configuration Page" src="assets\configGif.gif" width="fit" height="auto">
+    <p>Kubernetes Page (In Development):</p>
     <img alt="Kubernates Metrics Page" src="assets\k8Tab-new.gif" width="fit" height="auto">
+    <p>Volume Page:</p>
+    <img alt="Volume Page" src="assets\volumes.png" width="fit" height="auto">
     <p>Other Tab Demo:</p>
-    <img alt="Others gif" src="assets\hamburgerTab-new.gif" width="fit" height="auto">
+    <img alt="Others gif" src="assets\other.gif" width="fit" height="auto">
+    <p>Spooler:</p>
+    <img alt="Spooler" src="assets\Spooler.gif" width="fit" height="auto">
   </div>
 <br />
 
@@ -127,6 +137,7 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 - Docketeer offers the ability to create, delete, and attach containers to networks.
 - It's a community-maintained project, with frequent updates and bug fixes.
 - Docketeer is licensed under the MIT license, meaning it can be used and modified freely, even for commercial projects.
+- Read, modify, and save Prometheus configurations all within the extension
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -164,7 +175,6 @@ Dev & Contributors - See [DevGettingStarted](/docs/DevGettingStarted.md) & Contr
 
 | Feature                                                                                                                                     | Status    |
 |---------------------------------------------------------------------------------------------------------------------------------------------|-----------|
-| More advanced container configuration options within Docketeer.                                                                             | ⏳        |
 | CI/CD pipeline for Docketeer repo.                                                                                                          | ⏳        |
 | Improve test coverage with additional unit tests and integration tests.                                                                     | ⏳        |
 | Optimize frontend rendering performance with lazy loading to reduce initial bundle size and eliminating redundant re-renders.               | ⏳        |
@@ -172,15 +182,16 @@ Dev & Contributors - See [DevGettingStarted](/docs/DevGettingStarted.md) & Contr
 | Add the ability to control Docker containers deployed in AWS.                                                                               | ⏳        |
 | Develop aggregation service to collect and cache data from prometheus data sources.                                                         | ⏳        |
 | Implement endpoint scraping of any kubernetes cluster running prometheus. ([Read more](/docs/dev/features/Configuration(Alpha).md))         | ⏳        |
-| Work on improving the connect/disconnnect button under networks button in Containers Tab.                                                   | ⏳        |
+| Work on improving the connect/disconnect button under networks button in Containers Tab.                                                    | ⏳        |
 | Adding additional key metrics to the snapshot functionality.                                                                                | ⏳        |
 | Setup a error catcher to alert Users of errors that are in the Docker Container Log.                                                        | ⏳        |
 | Implement functionality that alerts users when certain metrics reach critical threshold.                                                    | ⏳        |
+| Add functionality to load previously saved Prometheus configurations to the current container                                               | ⏳        |
 
 - ✅ = Ready to use
 - ⏳ = In progress
 
-See the [Known Issues Docs](/docs/KnownIssues.md) and [open issues](https://github.com/open-source-labs/Docketeer/issues) for a list of known issues.
+See the [Known Issues Docs](/docs/KnownIssues.md) for a list of known issues.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -219,13 +230,16 @@ Don't forget to give the project a star! Thanks again!
 
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.
 
+Need ideas for improvement? Check our [known issues](/docs/KnownIssues.md) for possible improvements / fixes!
+
 <br />
 
 ## <b>Read More</b>
+- [Docketeer XIX: New Features in Uncharted Seas](https://medium.com/@ellissong/docketeer-xix-new-features-in-uncharted-seas-3baf72099488)
 - [Docketeer XVIII: A Whale of An Improvement](https://medium.com/@docketeerxii/announcing-docketeer-18-0-a-whale-of-an-improvement-67282fbbbe61)
 - [Docketeer XVII: Transforming with Security](https://medium.com/@docketeerxii/docketeer-xvii-transforming-with-security-45cd06da061d)
 - [Docketeer XVI: The Journey Continues](https://medium.com/@docketeerxii/introducing-docketeer-xvi-the-journey-continues-f34fc5bf7749)
-- [Docketeer XV: Naviating the Seas of Docker with Docketeer v15](https://medium.com/@christiandoescoding/navigating-the-seas-of-docker-with-docketeer-v15-0-ad5bd9540d14)
+- [Docketeer XV: Navigating the Seas of Docker with Docketeer v15](https://medium.com/@christiandoescoding/navigating-the-seas-of-docker-with-docketeer-v15-0-ad5bd9540d14)
 - [Docketeer XIV: Coming Home](https://medium.com/@grantschussler/docketeer-xiv-coming-home-6eb011990a34)
 - [Docketeer XIII: A Tool for Docker!](https://medium.com/@michael_kwon_liu/docketeer-a-tool-for-docker-273793014eb0)
 - [Docketeer XII: Now Ready for Launch!](https://medium.com/@jaenixlee/docketeer-xii-now-ready-for-launch-d06e8f26cd0f)
@@ -254,6 +268,11 @@ Please ⭐️ this project if you found it helpful, thank you!
 <br />
 
 ## Contributors
+- Aiden Carere [@AidenCarere](https://github.com/AidenCarere) | [Linkedin](https://www.linkedin.com/in/aidencarere/)
+- Chris Rodriguez [@chrisr0892](https://github.com/chrisr0892) | [Linkedin](https://www.linkedin.com/in/chris-kossky-rodriguez/)
+- Dylan Sterling [@dsterling7](https://github.com/dsterling7) | [Linkedin](https://www.linkedin.com/in/dylan-sterling-2b7256180/)
+- Ellis Song [@elsong86](https://github.com/elsong86) | [Linkedin](http://www.linkedin.com/in/ellissong)
+- Joseph Ahn [@joeahn95](https://github.com/joeahn95) | [Linkedin](https://www.linkedin.com/in/dohyun-joseph-ahn/)
 - Quan Nguyen [@ZinWR](https://github.com/ZinWR) | [Linkedin](https://www.linkedin.com/in/quan-nguyen27/)
 - Alexander David [@alexjosephdavid](https://github.com/alexjosephdavid) | [Linkedin](https://www.linkedin.com/in/alexander-joseph-david)
 - Andy White [@ComfyClicks](https://github.com/ComfyClicks) | [Linkedin](https://www.linkedin.com/in/andywhite5)

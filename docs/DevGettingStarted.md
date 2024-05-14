@@ -13,8 +13,8 @@ There are currently 3 ways to develop. If there are any issues around stale conf
 
 * Please Note that you can pull at most 50 images in 6 hours from docker hub, so don't delete images and the cache when you don't need to.
 
-#### 1. Browser (Recomended)
-* Allows running docketeer from your browser and opens all the apps ports (see docker-compose-browser.yaml for a list of opened ports)
+#### 1. Browser (Recommended)
+* Allows running Docketeer from your browser and opens all the apps ports (see docker-compose-browser.yaml for a list of opened ports)
 * This is recommended because ***both the frontend and backend hot reload when running in the browser***
 * Note: This is possible because there is a wrapper function to use fetch over docker extension api client when used in the browser. ***However***, there is a bug as an iteration group decided it was a good idea to stream data from running a docker cli command directly on the frontend. Therefore, when connected to the browser version, the container metrics cards don't populate with data since the frontend can't access the extension api client when running in the browser.
 
@@ -28,7 +28,8 @@ make browser-down
 ##### 2. Extension-Dev
 * This development mode launches docketeer as a Docker Desktop extension
 * This allows for hot reloading from changes made within the container, as the dev mode is still running from vite.
-* Note: Because this does not bind a volume on the development machine, it is not possible for local changes to be synced with container. Therefore, the changes made in the container must be manually made on the local machine of the user. Or the image must be rebuilt
+* **Note:** To access containers on extension, go to Docker Desktop Settings -> Extension -> Check "Show Docker Extensions System Containers". **FAILING TO DO SO WILL CAUSE EXTENSION TO APPEAR BLANK WITH NO CONTAINERS**
+* **Note:** Because this does not bind a volume on the development machine, it is not possible for local changes to be synced with container. Therefore, the changes made in the container must be manually made on the local machine of the user. Or the image must be rebuilt
 ```
 # To start in Docker Desktop
 make extension-dev
@@ -38,10 +39,12 @@ make remove-dev-extension
 ```
 
 ##### 3. Production
-* This is the minimilastic and production mode. Use for final testing and verification all of the componenets work. The frontend is built from vite, and the backend is converted from tsc to typescript before being copied to the image.
+* This is the minimalistic and production mode. Use for final testing and verification all of the components work. The frontend is built from vite, and the backend is converted from tsc to typescript before being copied to the image.
 ```
 make prod
 ```
+
+* No command to stop production extension. Instead, uninstall extension via Docker Desktop
 
 ## Kubernetes
 
