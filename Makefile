@@ -85,6 +85,7 @@ prepare-buildx: ## Create buildx builder for multi-arch build, if not exists
 
 
 ## DEPLOYMENT: type 'make help' and follow every single step before pushing up with 'make push-extension'
+## NOTE: validate-prod and prepare-buildx may fail during deployment steps. If so, ignore and move on to next steps in the 'make help' process
 
 ## Pushing one image will push all the others it references in the chain. push-extension will push everything to docker hub
 push-extension: prepare-buildx## Build & Upload extension image to hub. Do not push if VERSION already exists: make push-extension VERSION=0.1

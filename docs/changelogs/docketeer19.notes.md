@@ -7,6 +7,7 @@
 - **PostgreSQL to MongoDB for Prometheus:** Previously implemented SQL database for was initialized with dummy data and did not actually grab Prometheus configurations. Migrated Prometheus database to existing MongoDB and added functionality in Configuration page to save modified Prometheus configurations.
 - **Network and ListReducer Tests:** Revamped `Network` and `ListReducer` tests with updated endpoints and various bug fixes. Tests are now functional and pass.
 - **Updated Vulnerability Color Themes:** Updated color gradient to make vulnerability severity levels more intuitive.
+- **Standardized card styles:** Standardized styles across pages for a more professional look.
 - **High Contrast Mode:** Added the ability to toggle high contrast mode on and off for vulnerability scan snapshot to increase accessibility for users with red-green color deficiency.
 - **Expanded Vulnerability Info:** Added Fixed in version and link to more information to each Grype scan vulnerability.
 - **Loading Messages/Graphics** Adding loading messages as well as MUI CircularProgress component to 'Containers' and 'Images' pages on UI to indicate ongoing fetch request and avoid perceived inactivity.
