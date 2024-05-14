@@ -191,7 +191,7 @@ Dev & Contributors - See [DevGettingStarted](/docs/DevGettingStarted.md) & Contr
 - ✅ = Ready to use
 - ⏳ = In progress
 
-See the [Known Issues Docs](/docs/KnownIssues.md) and [open issues](https://github.com/open-source-labs/Docketeer/issues) for a list of known issues.
+See the [Known Issues Docs](/docs/KnownIssues.md) for a list of known issues.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -229,6 +229,8 @@ Don't forget to give the project a star! Thanks again!
 7. Create an issue on GitHub (as mentioned above!)
 
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.
+
+Need ideas for improvement? Check our [known issues](/docs/KnownIssues.md) for possible improvements / fixes!
 
 <br />
 
