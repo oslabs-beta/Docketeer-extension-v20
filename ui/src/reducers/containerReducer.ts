@@ -9,6 +9,7 @@ const initialState: ContainerStateType = {
   runningList: [],
   stoppedList: [],
   networkList: [],
+  errorModalOn: false,
 };
 
 /**
@@ -30,16 +31,16 @@ export const fetchStoppedContainers = createAsyncThunk(
   }
 )
 
-
-
 export const containerSlice = createSlice({
   name: 'containers',
   initialState,
   reducers: { 
     removeContainer: (state, action: PayloadAction<string>) => {
-      state.stoppedList.filter((container) => container.ID !== action.payload);
+      state.stoppedList = state.stoppedList.filter((container) => container.ID !== action.payload);
     },
-  
+    displayErrorModal: (state, action: PayloadAction<boolean>) => {
+      state.errorModalOn = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -53,17 +54,21 @@ export const containerSlice = createSlice({
           state.stoppedList = action.payload;
       }
     )
+      .addCase(
+        fetchRunningContainers.rejected, (state, action) => {
+          state.errorModalOn = true;
+       }
+     ) 
   },
 
 }
 );
 
-
-
 export const {
   // stopRunningContainer,
   // runStoppedContainer,
   removeContainer,
+  displayErrorModal,
 } = containerSlice.actions;
 
 export default containerSlice.reducer;

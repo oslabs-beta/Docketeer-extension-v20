@@ -4,7 +4,7 @@
 EXTENSION_IMAGE?=docketeerxiv/docketeer-extension
 
 # ONLY CHANGE THIS VERSION TO YOUR GROUP | ex: 18.0.0 or 19.0.0 so on
-VERSION?=18.0.0
+VERSION?=19.0.1
 
 DEV_EXTENSION_NAME=docketeer-extension-dev
 DOCKERFILEDIRECTORY=extension
@@ -63,8 +63,7 @@ reload:
 update: 
 	docker extension update docketeer-extension
 
-prod: 
-	install-prod debug-prod
+prod: install-prod debug-prod
 
 build-prod: ## Build service image to be deployed as a desktop extension
 	docker build --tag=$(EXTENSION_IMAGE):$(VERSION) -f ${DOCKERFILEDIRECTORY}/dockerfile.prod .
@@ -86,8 +85,10 @@ prepare-buildx: ## Create buildx builder for multi-arch build, if not exists
 
 
 ## DEPLOYMENT: type 'make help' and follow every single step before pushing up with 'make push-extension'
+## NOTE: validate-prod and prepare-buildx may fail during deployment steps. If so, ignore and move on to next steps in the 'make help' process
 
 ## Pushing one image will push all the others it references in the chain. push-extension will push everything to docker hub
+## NOTE: Pushing may take time (> 5 min). To verify push, login to docker hub with docketeer account. New docketeer extension version will take time to become available on Docker Desktop (~1-24 hours)
 push-extension: prepare-buildx## Build & Upload extension image to hub. Do not push if VERSION already exists: make push-extension VERSION=0.1
 	docker pull $(EXTENSION_IMAGE):$(VERSION) && echo "Failure: Tag already exists" || docker buildx build --push --builder=$(BUILDER) --platform=linux/amd64,linux/arm64 --build-arg TAG=$(VERSION) --tag=$(EXTENSION_IMAGE):$(VERSION) -f ${DOCKERFILEDIRECTORY}/dockerfile.prod .
 

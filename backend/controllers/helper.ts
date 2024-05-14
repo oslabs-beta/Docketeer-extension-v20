@@ -10,8 +10,14 @@ import { ContainerPS, LogObject, NetworkContainerType, NetworkInspect, NetworkTy
  */
 import util from 'util';
 import { exec } from 'child_process';
-export const execAsync = util.promisify(exec);
+import memcachedClient from "../cache/cache";
 
+// NOTE: exec, set, and get functions are not promises by default, promisify required to use await functionality
+// Promisify exec function
+export const execAsync = util.promisify(exec);
+// Promisify the set and get functions
+export const setAsync = util.promisify(memcachedClient.set).bind(memcachedClient);
+export const getAsync = util.promisify(memcachedClient.get).bind(memcachedClient);
 
 /**
  * @method

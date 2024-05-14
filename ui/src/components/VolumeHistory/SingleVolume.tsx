@@ -19,19 +19,19 @@ const SingleVolume = ({volName, onHover, removeClick, containers}: SVJSX): React
   return (
               <div className={`${styles.volumesCard}`}>
                 <div onMouseOver={onHover}>
-                  <h3>{`${volName.substring(0, 20)}...`}</h3>
+                  <h3 style={{ color: '#6cc6f0' }}>{`${volName.substring(0, 20)}...`}</h3>
                 </div>
                 <div>
                   {containers.length ? (
                     containers.map((container, j) => (
                       <div key={`vol-${j}`}>
-                        <strong>Container: </strong>
+                        <strong style={{color: 'rgb(156, 171, 213)'}}>Container: </strong>
                         {container.Names}
                         <br />
-                        <strong>Status: </strong>
+                        <strong style={{color: 'rgb(156, 171, 213)'}}>Status: </strong>
                         {container.State}
                         <br />
-                        <strong>Runtime: </strong>
+                        <strong style={{color: 'rgb(156, 171, 213)'}}>Runtime: </strong>
                         {container.Status}
                       </div>
                     ))

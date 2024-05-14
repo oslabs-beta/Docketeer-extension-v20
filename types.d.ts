@@ -1,19 +1,23 @@
+import { ScanObject, EverythingObj, Top3Obj } from './ui/ui-types';
+
+
 export interface ContainerPS {
   ID: string;
   Command?: string;
   CreatedAt?: string;
   Image?: string;
-  Labels?: string[];
+  Labels?: string | string[];
   LocalVolumes?: string;
   Mounts?: string;
   Names?: string;
-  Networks?: string[];
-  Ports?: string[];
+  Networks?: string | string[];
+  Ports?: string | string[];
   RunningFor?: string;
   Size?: string;
   State?: string; //tells if running
   Status?: string;
 }
+
 
 export interface LogObject {
   timeStamp: string;
@@ -106,6 +110,7 @@ export interface ImageCardProps {
   reset: boolean;
   setReset: (boolean) => void;
   isHovered: string;
+  highContrast: boolean;
 }
 
 export interface NetworkAndContainer{
@@ -113,15 +118,24 @@ export interface NetworkAndContainer{
   containers: NetworkContainerType[];
 }
 
-export interface PromDataSource {
+// export interface PromDataSource {
+//   id?: number;
+//   type_of?: string;
+//   type_of_id: number;
+//   url: string;
+//   endpoint: string;
+//   ssh_key?: string;
+//   match?: string;
+//   jobname: string;
+// }
+
+export interface PromDataSourceType {
   id?: number;
+  jobname?: string;
+  url?: string;
+  endpoint?: string;
   type_of?: string;
-  type_of_id: number;
-  url: string;
-  endpoint: string;
-  ssh_key?: string;
   match?: string;
-  jobname: string;
 }
 
 export interface EndpointType {

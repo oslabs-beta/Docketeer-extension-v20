@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+.configurationContainer {
+  display: flex;
+  flex-direction: column;
+  margin: $default-page-margin;
+}
+
+.configurationHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.configurationsTitle {
+  text-align: left;
+
+  @media screen and (max-width: $breakpoint-lg),
+  (max-width: $breakpoint-md),
+  (max-width: $breakpoint-sm) {
+    margin-top: 60px;
+  }
+}
+
+.headerBtns {
+  display: flex;
+}
+
+.headerBtns input {
+  margin-left: 10px;
+}
+
+.configColumns {
+  display: flex;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  margin-right: 100px;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+  margin-top: 26px;
+}
+
+.btn {
+  align-self: center;
+  color: white;
+  width: fit-content;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 10px;
+  display: flex;
+  min-height: 2rem;
+  border-radius: 4px;
+  overflow-x: none;
+  font-size: 12px;
+  background-color: rgba(112, 128, 144, 0.258);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
+  font-size: .75rem;
+  display: inline-flex;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.283);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-.5px);
+  }
+
+  &:active {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
+  }
+
+  color:white;
+}
+
+.containerCard {
+  transition: 0.2s;
+  font-size: 12px;
+  width: 300px;
+  height: 160px;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  gap: 10px;
+  padding-bottom: 40px;
+  padding-left: 20px;
+  padding-right: 10px;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  font-family: 'Roboto';
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: color(light, base);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.cardBtns {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+@media screen and (max-width: 1000px) {
+  .configurationContainer > * {
+    flex-direction: column;
+  }
+}

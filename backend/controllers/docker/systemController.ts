@@ -20,8 +20,6 @@ systemController.prune = async (req, res, next) => {
     const { stdout, stderr } = await execAsync('docker system prune --force');
     if (stderr.length) throw new Error(stderr);
 
-    // Print stdout for now
-    console.log(stdout);
     return next();
   } catch (error) {
     const errObj: ServerError = {

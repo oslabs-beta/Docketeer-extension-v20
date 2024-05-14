@@ -15,7 +15,7 @@ services:
     ports:
       - 4000:4000
     depends_on:
-      - redis
+      - memcached
 
   cadvisor:
     # Must use cadvisor v0.47.1 instead of latest, latest does not work for macOS
@@ -70,6 +70,7 @@ services:
     command:
       - --config.file=/etc/prometheus/prometheus.yml
     depends_on:
+      - docketeer
       - node-exporter
       - cadvisor
 
@@ -87,13 +88,13 @@ services:
       GF_PATHS_CONFIG: /etc/grafana/grafana.ini
     depends_on:
       - prometheus
-      - postgres
-
+  
   # Store metrics gathered from containers at localhost:5432
   postgres:
     # build:
-    #   context: .
+    #   context: ..
     #   dockerfile: ./extension/dockerfile.postgres
+    # image: docketeer-postgres
     image: postgres:16.0-alpine3.18
     container_name: docketeer-ext-postgres
     expose:
@@ -110,16 +111,16 @@ services:
     depends_on:
       - docketeer
 
-    # Setup redis caching server at port 6379
-  redis:
-    image: redis/redis-stack-server:latest
-    container_name: docketeer-ext-redis
+  # Setup memcached caching server at port 11211
+  memcached:
+    image: memcached:latest
+    container_name: docketeer-ext-memcached
     ports:
-      - 49258:6379
+      - 49259:11211
 
 volumes:
   docketeer-ext-prometheus-data:
   docketeer-ext-prometheus-files:
   docketeer-ext-grafana-files:
-  postgres_volume:
   docketeer-ext-initsql:
+  postgres_volume:

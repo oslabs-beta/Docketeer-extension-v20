@@ -7,7 +7,7 @@ import globalStyles from '../global.module.scss';
  * @module | Alert.tsx
  * @description | Manages alerts & prompts (i.e. Are you sure you want ...?)
  **/
-const Alert = (): JSX.Element => {
+const Alert = (): JSX.Element | string | null => {
   // useApp is pulling state from the alert reducer
   // state.alerts is used to access the alert reducer
   // alertList = [time, Redux type] : object

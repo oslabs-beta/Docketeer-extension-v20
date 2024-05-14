@@ -1,10 +1,19 @@
 // VARIABLES
-$criticalColor: rgb(255, 8, 0);
-$highColor: #AD312D;
-$medColor: #AE5944;
-$lowColor: #D99166;
-$negligible: #81876096;
+$criticalColor: #840803;
+$highColor: rgb(236, 0, 0);
+$medColor: #fb7431;
+$lowColor: #d9ca66;
+$negligible: #0a851896;
 $unknown: #59595996;
+
+// High Contrast Variables
+$criticalColor-HC: #791E89;
+$highColor-HC: #0072BC;
+$medColor-HC: #00B9F1;
+$lowColor-HC: #F7931D;
+$negligible-HC: #e4d800;
+$grayColor-HC: #59595996;
+$greenColor-HC: #59595996;
 
 .summaryCard {
   border: 1px solid rgba(0, 0, 0, 0.301);
@@ -61,6 +70,38 @@ $unknown: #59595996;
   border-bottom-right-radius: 20px;
   padding-right: 10px;
 }
+.high-contrast-critical {
+  background-color: $criticalColor-HC;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  padding-left: 10px;
+  margin-right: 3px;
+}
+.high-contrast-high {
+  background-color: $highColor-HC;
+  margin-right: 3px;
+}
+
+.high-contrast-med {
+  background-color: $medColor-HC;
+  margin-right: 3px;
+}
+
+.high-contrast-low {
+  background-color: $lowColor-HC;
+  margin-right: 3px;
+}
+
+.high-contrast-negligible {
+  background-color: $negligible-HC;
+  margin-right: 3px;
+}
+.high-contrast-unknown {
+  background-color: $unknown;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding-right: 10px;
+}
 
 
 .percentagesContainer {
@@ -73,6 +114,12 @@ $unknown: #59595996;
 
 .criticalPercent, .highPercent, .mediumPercent, .lowPercent, .negligiblePercent, .unknownPercent {
   background-color: $criticalColor;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+.high-contrast-criticalPercent, .high-contrast-highPercent, .high-contrast-mediumPercent, .high-contrast-lowPercent, .high-contrast-negligiblePercent, .high-contrast-unknownPercent {
+  background-color: $criticalColor-HC;
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -91,6 +138,21 @@ $unknown: #59595996;
   background-color: $negligible;
 }
 .unknownPercent {
+  background-color: $unknown;
+}
+.high-contrast-highPercent {
+  background-color: $highColor-HC;
+}
+.high-contrast-mediumPercent {
+  background-color: $medColor-HC;
+}
+.high-contrast-lowPercent {
+  background-color: $lowColor-HC;
+}
+.high-contrast-negligiblePercent {
+  background-color: $negligible-HC;
+}
+.high-contrast-unknownPercent {
   background-color: $unknown;
 }
 

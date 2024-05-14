@@ -13,10 +13,11 @@ import LinearProgress from '@mui/material/LinearProgress';
  **/
 
 interface ImagesSummaryProps {
-	setScanDone: (boolean) => void;
-	reset: boolean;
-	isHovered: string;
-	setIsHovered: (string) => void;
+  setScanDone: (boolean) => void;
+  reset: boolean;
+  isHovered: string;
+  setIsHovered: (string) => void;
+  highContrast: boolean;
 }
 
 const ImagesSummary = ({
@@ -24,245 +25,228 @@ const ImagesSummary = ({
 	reset,
 	isHovered,
 	setIsHovered,
+	highContrast,
 }: ImagesSummaryProps): React.JSX.Element => {
-	const [showInfo, setShowInfo] = useState<boolean>(false);
-	const [click, setClick] = useState<string>('');
-	const [summary, setSummary] = useState<object>({
-		c: 0,
-		h: 0,
-		m: 0,
-		l: 0,
-		n: 0,
-		u: 0,
-	});
+  const [showInfo, setShowInfo] = useState<boolean>(false);
+  const [click, setClick] = useState<string>('');
+  const [summary, setSummary] = useState<object>({
+    c: 0,
+    h: 0,
+    m: 0,
+    l: 0,
+    n: 0,
+    u: 0,
+  });
 
-	const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-	let makeSummary;
-	console.log('makeSummary outside useEffect: ', makeSummary);
-	const imagesList: ImageType[] = useAppSelector(
-		(state) => state.images.imagesList
-	);
+  let makeSummary;
+  const imagesList: ImageType[] = useAppSelector((state) => state.images.imagesList);
 
-	const handleHover = (level) => {
-		if (!click) setIsHovered(level);
-	};
+  // Handles mouse hover over a vulnerability level
+  const handleHover = (level) => {
+    if (!click) setIsHovered(level);
+  };
+  // Handles mouse exit from a vulnerability level
+  const handleHoverExit = () => {
+    if (!click) setIsHovered('');
+  };
+  // Handles click on a vulnerability level to lock the hover state
+  const handleHoverClick = (level) => {
+    if (!click || click !== level) {
+      setClick(level);
+      setIsHovered(level);
+    } else {
+      // click on same level
+      setClick('');
+      setIsHovered('');
+    }
+  };
 
-	const handleHoverExit = () => {
-		if (!click) setIsHovered('');
-	};
-
-	const handleHoverClick = (level) => {
-		if (!click || click !== level) {
-			setClick(level);
-			setIsHovered(level);
-		} else {
-			// click on same level
-			setClick('');
-			setIsHovered('');
-		}
-	};
-
-
-	// Looping until all cards are done
+  // Updates summary info based on image vulnerabilities when image list updates
 	useEffect(() => {
-		makeSummary = imagesList.every(
-			(imageObj) => imageObj.Vulnerabilities !== undefined
-		);
-		console.log('makeSummary: Are all vulnerabilities done?: ', makeSummary);
-
+    // Check if all images have vulnerabilities defined
+    makeSummary = imagesList.every((imageObj) => imageObj.Vulnerabilities !== undefined);
+    // Set scan completion based on all images processed
 		setScanDone(makeSummary);
+		
+    // If all images processed, calculate vulnerability summary
+    if (makeSummary) {
+      let critical = 0;
+      let high = 0;
+      let med = 0;
+      let low = 0;
+      let negligible = 0;
+      let unknown = 0;
 
-		if (makeSummary) {
-			let critical = 0;
-			let high = 0;
-			let med = 0;
-			let low = 0;
-			let negligible = 0;
-			let unknown = 0;
-
-			imagesList.forEach((imageObj) => {
-				critical +=
-					typeof imageObj.Vulnerabilities.Critical === 'number'
-						? imageObj.Vulnerabilities.Critical
-						: 0;
-				high +=
-					typeof imageObj.Vulnerabilities.High === 'number'
-						? imageObj.Vulnerabilities.High
-						: 0;
-				med +=
-					typeof imageObj.Vulnerabilities.Medium === 'number'
-						? imageObj.Vulnerabilities.Medium
-						: 0;
-				low +=
-					typeof imageObj.Vulnerabilities.Low === 'number'
-						? imageObj.Vulnerabilities.Low
-						: 0;
-				negligible +=
-					typeof imageObj.Vulnerabilities.Negligible === 'number'
-						? imageObj.Vulnerabilities.Negligible
-						: 0;
-				unknown +=
-					typeof imageObj.Vulnerabilities.Unknown === 'number'
-						? imageObj.Vulnerabilities.Unknown
-						: 0;
+      // Adding up each vulnerability type
+      imagesList.forEach((imageObj) => {
+        if (!imageObj.Vulnerabilities) return;
+        critical +=
+          typeof imageObj.Vulnerabilities.Critical === 'number'
+            ? imageObj.Vulnerabilities.Critical
+            : 0;
+        high +=
+          typeof imageObj.Vulnerabilities.High === 'number' ? imageObj.Vulnerabilities.High : 0;
+        med +=
+          typeof imageObj.Vulnerabilities.Medium === 'number' ? imageObj.Vulnerabilities.Medium : 0;
+        low += typeof imageObj.Vulnerabilities.Low === 'number' ? imageObj.Vulnerabilities.Low : 0;
+        negligible +=
+          typeof imageObj.Vulnerabilities.Negligible === 'number'
+            ? imageObj.Vulnerabilities.Negligible
+            : 0;
+        unknown +=
+          typeof imageObj.Vulnerabilities.Unknown === 'number'
+            ? imageObj.Vulnerabilities.Unknown
+            : 0;
 			});
+			
+      // Compute total and percentages for each level
+      const total = critical + high + med + low + negligible + unknown;
 
-			console.log(
-				`high: ${high}, med: ${med}, low: ${low}, critical: ${critical}, negligble: ${negligible}, unknown: ${unknown}`
-			);
+      if (total !== 0) {
+        setSummary({
+          c: (critical / total) * 100,
+          h: (high / total) * 100,
+          m: (med / total) * 100,
+          l: (low / total) * 100,
+          n: (negligible / total) * 100,
+          u: (unknown / total) * 100,
+        });
+        setShowInfo(true);
+        // Update the total vulnerabilities in the state
+        dispatch(updateTotalVul({ totalVul: total }));
+      }
+    }
+  }, [imagesList]);
 
-			const total = critical + high + med + low + negligible + unknown;
-			console.log('total vulnerabilities: ', total);
+  const levels: string[] = ['Critical', 'High', 'Medium', 'Low', 'Negligible', 'Unknown'];
+  const printPercent: React.JSX.Element[] = levels.map((el, i) => {
+    return (
+      <div className={styles.boxPercent} key={i}>
+        <div
+          className={
+            highContrast
+              ? styles[`high-contrast-${el.toLowerCase()}Percent`]
+              : styles[`${el.toLowerCase()}Percent`]
+          }
+          style={isHovered === el ? { filter: 'brightness(1.3)' } : undefined}></div>
+        <p className={`${styles.textColor}`}>
+          {`${el.toUpperCase()} `}
+          {showInfo && (
+            <span className={styles.percentNumber}>
+              {summary[el[0].toLowerCase()].toFixed(2) + '%'}
+            </span>
+          )}
+        </p>
+      </div>
+    );
+  });
 
-			if (total !== 0) {
-				setSummary({
-					c: (critical / total) * 100,
-					h: (high / total) * 100,
-					m: (med / total) * 100,
-					l: (low / total) * 100,
-					n: (negligible / total) * 100,
-					u: (unknown / total) * 100,
-				});
-				setShowInfo(true);
-				dispatch(updateTotalVul({ totalVul: total }));
-			}
-		}
-	}, [imagesList]);
+  // Rescan Image Summary
+  useEffect(() => {
+    if (reset) {
+      setSummary({
+        c: 0,
+        h: 0,
+        m: 0,
+        l: 0,
+        n: 0,
+        u: 0,
+      });
+      setShowInfo(false);
+    }
+  }, [reset]);
 
-	const levels: string[] = [
-		'Critical',
-		'High',
-		'Medium',
-		'Low',
-		'Negligible',
-		'Unknown',
-	];
-	const printPercent: React.JSX.Element[] = levels.map((el, i) => {
-		return (
-			<div className={styles.boxPercent} key={i}>
-				<div
-					className={styles[`${el.toLowerCase()}Percent`]}
-					style={
-						isHovered === el ? { filter: 'brightness(1.3)' } : undefined
-					}></div>
-				<p className={`${styles.textColor}`}>
-					{`${el.toUpperCase()} `}
-					{showInfo && (
-						<span className={styles.percentNumber}>
-							{summary[el[0].toLowerCase()].toFixed(2) + '%'}
-						</span>
-					)}
-				</p>
-			</div>
-		);
-	});
+  return (
+    <div className={highContrast ? styles.highContrast : ''}>
+      <div className={showInfo && styles.summaryCard}>
+        {/* Show Loading message when vulnerabilities have not yet completed */}
+        {!showInfo && (
+          <Box sx={{ width: '100%', height: 10, borderRadius: 20 }}>
+            <LinearProgress sx={{ height: '100%', borderRadius: 20 }} />
+          </Box>
+        )}
 
+        {/* PERCENT BAR */}
+        {showInfo && (
+          <div
+            className={highContrast ? styles['high-contrast-critical'] : styles.critical}
+            style={
+              click === 'Critical'
+                ? { width: summary['c'] + '%', filter: 'brightness(1.3)' }
+                : { width: summary['c'] + '%' }
+            }
+            onMouseEnter={() => handleHover('Critical')}
+            onMouseLeave={handleHoverExit}
+            onClick={() => handleHoverClick('Critical')}></div>
+        )}
+        {showInfo && (
+          <div
+            className={highContrast ? styles['high-contrast-high'] : styles.high}
+            style={
+              click === 'High'
+                ? { width: summary['h'] + '%', filter: 'brightness(1.3)' }
+                : { width: summary['h'] + '%' }
+            }
+            onMouseEnter={() => handleHover('High')}
+            onMouseLeave={handleHoverExit}
+            onClick={() => handleHoverClick('High')}></div>
+        )}
+        {showInfo && (
+          <div
+            className={highContrast ? styles['high-contrast-med'] : styles.med}
+            style={
+              click === 'Medium'
+                ? { width: summary['m'] + '%', filter: 'brightness(1.3)' }
+                : { width: summary['m'] + '%' }
+            }
+            onMouseEnter={() => handleHover('Medium')}
+            onMouseLeave={handleHoverExit}
+            onClick={() => handleHoverClick('Medium')}></div>
+        )}
+        {showInfo && (
+          <div
+            className={highContrast ? styles['high-contrast-low'] : styles.low}
+            style={
+              click === 'Low'
+                ? { width: summary['l'] + '%', filter: 'brightness(1.3)' }
+                : { width: summary['l'] + '%' }
+            }
+            onMouseEnter={() => handleHover('Low')}
+            onMouseLeave={handleHoverExit}
+            onClick={() => handleHoverClick('Low')}></div>
+        )}
+        {showInfo && (
+          <div
+            className={highContrast ? styles['high-contrast-negligible'] : styles.negligible}
+            style={
+              click === 'Negligile'
+                ? { width: summary['n'] + '%', filter: 'brightness(1.3)' }
+                : { width: summary['n'] + '%' }
+            }
+            onMouseEnter={() => handleHover('Negligible')}
+            onMouseLeave={handleHoverExit}
+            onClick={() => handleHoverClick('Negligible')}></div>
+        )}
+        {showInfo && (
+          <div
+            className={highContrast ? styles['high-contrast-unknown'] : styles.unknown}
+            style={
+              click === 'Unknown'
+                ? { width: summary['u'] + '%', filter: 'brightness(1.3)' }
+                : { width: summary['u'] + '%' }
+            }
+            onMouseEnter={() => handleHover('Unknown')}
+            onMouseLeave={handleHoverExit}
+            onClick={() => handleHoverClick('Unknown')}></div>
+        )}
+      </div>
 
-	// Rescan Image Summary
-	useEffect(() => {
-		if (reset) {
-			setSummary({
-				c: 0,
-				h: 0,
-				m: 0,
-				l: 0,
-				n: 0,
-				u: 0,
-			});
-			setShowInfo(false);
-		}
-	}, [reset]);
-
-	return (
-		<div>
-			<div className={showInfo && styles.summaryCard}>
-				{/* Show Loading message when vulnerabilities have not yet completed */}
-				{!showInfo && (
-					<Box sx={{ width: '100%', height: 10, borderRadius: 20 }}>
-						<LinearProgress sx={{ height: '100%', borderRadius: 20 }} />
-					</Box>
-				)}
-
-				{/* PERCENT BAR */}
-				{showInfo && (
-					<div
-						className={styles.critical}
-						style={
-							click === 'Critical'
-								? { width: summary['c'] + '%', filter: 'brightness(1.3)' }
-								: { width: summary['c'] + '%' }
-						}
-						onMouseEnter={() => handleHover('Critical')}
-						onMouseLeave={handleHoverExit}
-						onClick={() => handleHoverClick('Critical')}></div>
-				)}
-				{showInfo && (
-					<div
-						className={styles.high}
-						style={
-							click === 'High'
-								? { width: summary['h'] + '%', filter: 'brightness(1.3)' }
-								: { width: summary['h'] + '%' }
-						}
-						onMouseEnter={() => handleHover('High')}
-						onMouseLeave={handleHoverExit}
-						onClick={() => handleHoverClick('High')}></div>
-				)}
-				{showInfo && (
-					<div
-						className={styles.med}
-						style={
-							click === 'Medium'
-								? { width: summary['m'] + '%', filter: 'brightness(1.3)' }
-								: { width: summary['m'] + '%' }
-						}
-						onMouseEnter={() => handleHover('Medium')}
-						onMouseLeave={handleHoverExit}
-						onClick={() => handleHoverClick('Medium')}></div>
-				)}
-				{showInfo && (
-					<div
-						className={styles.low}
-						style={
-							click === 'Low'
-								? { width: summary['l'] + '%', filter: 'brightness(1.3)' }
-								: { width: summary['l'] + '%' }
-						}
-						onMouseEnter={() => handleHover('Low')}
-						onMouseLeave={handleHoverExit}
-						onClick={() => handleHoverClick('Low')}></div>
-				)}
-				{showInfo && (
-					<div
-						className={styles.negligible}
-						style={
-							click === 'Negligile'
-								? { width: summary['n'] + '%', filter: 'brightness(1.3)' }
-								: { width: summary['n'] + '%' }
-						}
-						onMouseEnter={() => handleHover('Negligible')}
-						onMouseLeave={handleHoverExit}
-						onClick={() => handleHoverClick('Negligible')}></div>
-				)}
-				{showInfo && (
-					<div
-						className={styles.unknown}
-						style={
-							click === 'Unknown'
-								? { width: summary['u'] + '%', filter: 'brightness(1.3)' }
-								: { width: summary['u'] + '%' }
-						}
-						onMouseEnter={() => handleHover('Unknown')}
-						onMouseLeave={handleHoverExit}
-						onClick={() => handleHoverClick('Unknown')}></div>
-				)}
-			</div>
-
-			{/* PERCENT LABELS */}
-			<div className={styles.percentagesContainer}>{printPercent}</div>
-		</div>
-	);
+      {/* PERCENT LABELS */}
+      <div className={styles.percentagesContainer}>{printPercent}</div>
+    </div>
+  );
 };
 
 export default ImagesSummary;

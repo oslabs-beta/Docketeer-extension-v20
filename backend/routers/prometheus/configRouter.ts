@@ -1,44 +1,37 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import configController from '../../controllers/prometheus/configController';
-import { EndpointType, PromDataSource } from '../../../types';
+import { EndpointType, PromDataSourceType } from '../../../types';
+import mongoController from '../../controllers/docker/mongoController';
 const router = Router();
 
 /**
  * @abstract
  * @todo
  * @param
- * @returns {PromDataSource[]}
+ * @returns {any}
  */
-router.get('/', configController.getDataSources, (req: Request, res: Response) => {
-  return res.status(200).json(res.locals.datasources);
+router.get('/initial', configController.getYaml, (req: Request, res: Response) => {
+  return res.status(200).json(res.locals.yaml);
 });
 
 /**
  * @abstract
- * @returns {EndpointType[]}
+ * @todo
+ * @param
+ * @returns {any}
  */
-router.get('/types', configController.getTypeOptions, (req: Request, res: Response) => {
-  return res.status(200).json(res.locals.types);
-})
-
-/**
- * @abstract
- * @returns {string}
- */
-router.post('/', configController.createDataSource, (req: Request, res: Response) => {
-  return res.status(201).json(res.locals.id);
-})
-
-/**
- * @abstract
- */
-router.put('/', configController.updateDataSource, (req: Request, res: Response) => {
-  return res.sendStatus(204);
+router.post('/saveProm', mongoController.savePromConfigs, (req: Request, res: Response) => {
+  return res.status(200).json(res.locals.success);
 });
 
-
-router.delete('/:id', configController.deleteDataSource, (req: Request, res: Response) => {
-  return res.sendStatus(204);
-})
+/**
+ * @abstract
+ * @todo
+ * @param
+ * @returns {any}
+ */
+router.post('/update', configController.updateYaml, configController.getYaml, (req: Request, res: Response) => {
+  return res.status(200).json(res.locals.yaml);
+});
 
 export default router;

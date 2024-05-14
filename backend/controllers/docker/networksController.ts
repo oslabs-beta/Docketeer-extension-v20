@@ -90,8 +90,6 @@ networkController.createNetwork = async (req, res, next) => {
     const { networkName } = req.body;
     const { stdout, stderr } = await execAsync(`docker network create ${networkName}`);
     if (stderr) throw new Error(stderr);
-    //Remove once verified working
-    // console.log('this is stdout:', stdout);
     res.locals.result = { hash: stdout };
     return next();
   } catch (error) {
@@ -107,12 +105,10 @@ networkController.createNetwork = async (req, res, next) => {
 
 networkController.removeNetwork = async (req, res, next) => {
   try {
-    // console.log('remove container test is coming here')
     const { id } = req.params;
     const { stdout, stderr } = await execAsync(`docker network rm ${id}`);
     if (stderr.length) throw new Error(stderr);
     //Delete once verified
-    // console.log('this is:', stdout);
     res.locals.result = { hash: stdout };
     return next();
   } catch (error) {
@@ -130,8 +126,6 @@ networkController.connectContainerToNetwork = async (req, res, next) => {
     const { networkName, containerName } = req.body;
     const { stdout, stderr } = await execAsync(`docker network connect ${networkName} ${containerName}`);
     if (stderr.length) throw new Error(stderr);
-    // Delete below once verified working
-    // console.log('this is stdout in connectContainerNetworl', stdout);
 
     return next();
   } catch (error) {
@@ -150,8 +144,6 @@ networkController.disconnectContainerFromNetwork = async (req, res, next)=> {
     const { stdout, stderr } = await execAsync(`docker network disconnect ${networkName} ${containerName}`);
     if (stderr.length) throw new Error(stderr);
 
-    // Delete console log when confirmed working
-    // console.log('this is disconnect container network middleware stdout:', stdout);
     return next();
   } catch (error) {
     const errObj: ServerError = {
@@ -195,8 +187,6 @@ networkController.prune = async (req, res, next) => {
     const { stdout, stderr } = await execAsync('docker network prune --force');
     if (stderr.length) throw new Error(stderr);
 
-    // Print stdout for now
-    console.log(stdout);
     return next();
   } catch (error) {
     const errObj: ServerError = {
