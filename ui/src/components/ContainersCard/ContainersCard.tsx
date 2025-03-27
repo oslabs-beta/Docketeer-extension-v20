@@ -35,7 +35,8 @@ const ContainersCard = ({
       try {
         let newData: stats[] = [];
         // This is unicode by the way
-        const TERMINAL_CLEAR_CODE = '\x1B[2J[H';
+        // const TERMINAL_CLEAR_CODE = '\x1B[2J[H';
+        const TERMINAL_CLEAR_CODE = /\x1B[[0-9;]*[a-zA-Z]/g;
         const { createDockerDesktopClient } = await import("@docker/extension-api-client");
         ddClient = createDockerDesktopClient();
         ddClient.docker.cli.exec(
@@ -44,8 +45,14 @@ const ContainersCard = ({
           {
             stream: {
               onOutput(data) {
-                if (data.stdout?.includes(TERMINAL_CLEAR_CODE)) {
+                // console.log("data", data)
+                // if (data.stdout?.includes(TERMINAL_CLEAR_CODE)) {
+                // removed above if statement in favor of the one below because of an issue with
+                // the JSON.parse line (was previously testing to see if TERMINAL_CLEAR_CODE)
+                // TODO finish this ^
+                if(TERMINAL_CLEAR_CODE.test(data.stdout)) {
                   setContainerMetrics(newData);
+                  console.log('containerMetrics', containerMetrics)
                   newData = [];
                   newData.push(JSON.parse(data.stdout.replace(TERMINAL_CLEAR_CODE, '')));
                 } else {
@@ -110,6 +117,9 @@ const ContainersCard = ({
   }
 
   // populates each container card with metrics 
+  console.log("sdfsfs", containerList)
+  // TODO containerList.map isn't a function or something error popped up before
+  // TODO try to get this error to pop up again and then fix it somehow
   const RunningContainers = containerList.map((container: ContainerType, i: number) => {
     let metrics = null;
     if (containerMetrics !== undefined) {

@@ -24,6 +24,7 @@ const Containers = (): JSX.Element => {
   // Redux dispatch and selector hooks
   const dispatch = useAppDispatch();
   const { runningList, stoppedList } = useAppSelector((state) => state.containers);
+  console.log('runningList', runningList)
   const errorModalOn = useAppSelector((state) => state.containers.errorModalOn);
   const handleClose = () => dispatch(displayErrorModal(false));
 
