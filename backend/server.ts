@@ -62,7 +62,9 @@ mongoose
   )
   .then(() => {
     console.log("Connected to Mongo DB.");
-    // Start metrics monitoring after successful database connection
+    // Initialize the metrics alert monitoring system
+    // This service will continuously monitor Docker metrics and trigger alerts
+    // when certain thresholds are exceeded (e.g., high CPU usage, memory consumption)
     metricsAlertService.startMonitoring();
   })
   .catch((err) => console.log(err));
@@ -140,7 +142,9 @@ app.listen(SOCKETFILE, (): void => {
   console.log(`Listening on socket: ${SOCKETFILE}`);
 });
 
-// Add cleanup for metrics monitoring when the server shuts down
+// Graceful shutdown handlers for the metrics alert system
+// These ensure that the monitoring service is properly stopped
+// when the server receives termination signals
 process.on('SIGTERM', () => {
   metricsAlertService.stopMonitoring();
   console.log('Stopped metrics monitoring');
