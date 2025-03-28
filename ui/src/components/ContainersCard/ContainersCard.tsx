@@ -24,56 +24,105 @@ const ContainersCard = ({
   status,
 }: ContainersCardsProps): JSX.Element => {
 
+  //initialize containerMetrics state with an empty array
   const dispatch = useAppDispatch();
-  const [containerMetrics, setContainerMetrics] = useState<stats[]>();
+  const [containerMetrics, setContainerMetrics] = useState<stats[]>([]);
 
+  /**
+   * Cleans ANSI escape codes from the Docker stats output
+   */
+  const cleanAnsiCodes = (str: string): string => {
+    return str.replace(/\x1B\[[0-9;]*[a-zA-Z]/g, '');
+  };
 
- // retrieves container data by fetching from Docker 
-  let ddClient;
+  //useEffect hook to fetch container metrics
   useEffect(() => {
+    //move the ddclient declaration inside the useEffect to prevent scope issues
+    let ddClient: any;
+    let isSubscribed = true;
+
     async function displayMetrics() {
       try {
-        let newData: stats[] = [];
-        // This is unicode by the way
-        // const TERMINAL_CLEAR_CODE = '\x1B[2J[H';
-        const TERMINAL_CLEAR_CODE = /\x1B[[0-9;]*[a-zA-Z]/g;
         const { createDockerDesktopClient } = await import("@docker/extension-api-client");
         ddClient = createDockerDesktopClient();
+        
         ddClient.docker.cli.exec(
           'stats',
           ['--all', '--no-trunc', '--format', '{{ json . }}'],
           {
             stream: {
               onOutput(data) {
-                // console.log("data", data)
-                // if (data.stdout?.includes(TERMINAL_CLEAR_CODE)) {
-                // removed above if statement in favor of the one below because of an issue with
-                // the JSON.parse line (was previously testing to see if TERMINAL_CLEAR_CODE)
-                // TODO finish this ^
-                if(TERMINAL_CLEAR_CODE.test(data.stdout)) {
-                  setContainerMetrics(newData);
-                  console.log('containerMetrics', containerMetrics)
-                  newData = [];
-                  newData.push(JSON.parse(data.stdout.replace(TERMINAL_CLEAR_CODE, '')));
-                } else {
-                  newData.push(JSON.parse(data.stdout ?? ''));
+                // Prevent state updates if component has unmounted
+                // This avoids memory leaks and prevents errors from updating unmounted component
+                if (!isSubscribed) return;
+                
+                try {
+                  // Check if we have any output data from Docker stats
+                  if (data.stdout) {
+                    // Clean the output by:
+                    // 1. Removing ANSI escape codes (terminal formatting)
+                    // 2. Trimming whitespace from both ends
+                    const cleanedData = cleanAnsiCodes(data.stdout).trim();
+                    
+                    // Skip processing if:
+                    // 1. The data is empty after cleaning
+                    // 2. The data doesn't start with '{' (indicating it's not valid JSON)
+                    if (!cleanedData || !cleanedData.startsWith('{')) {
+                      return;
+                    }
+                    
+                    // Parse the cleaned string into a JavaScript object
+                    const parsedData = JSON.parse(cleanedData);
+                    
+                    // Update the containerMetrics state using functional update
+                    // This ensures we're working with the latest state
+                    setContainerMetrics(prevMetrics => {
+                      // Find if we already have metrics for this container
+                      // by matching the Container ID from the parsed data
+                      const existingIndex = prevMetrics.findIndex(m => m.Container === parsedData.Container);
+                      
+                      if (existingIndex >= 0) {
+                        // If we found existing metrics for this container:
+                        // 1. Create a copy of the previous metrics array
+                        // 2. Update the metrics for this specific container
+                        // 3. Keep all other container metrics unchanged
+                        const newMetrics = [...prevMetrics];
+                        newMetrics[existingIndex] = parsedData;
+                        return newMetrics;
+                      }
+                      
+                      // If this is a new container, add its metrics to the array
+                      return [...prevMetrics, parsedData];
+                    });
+                  }
+                } catch (error) {
+                  // Log any parsing errors and the raw data for debugging
+                  // This helps identify issues with the Docker stats output
+                  console.error('Error parsing container stats:', error);
+                  console.log('Raw data:', data.stdout);
                 }
               },
               onError(error) {
-                console.error(error);
+                console.error('Error in container stats stream:', error);
               },
               splitOutputLines: true,
             },
           }
         );
       } catch (error) {
-        console.log(`Can't import ddClient`);
+        console.error('Error initializing Docker client:', error);
       }
     }
+
     displayMetrics();
 
-  
-  }, [ddClient]);
+    return () => {
+      isSubscribed = false;
+      if (ddClient) {
+        ddClient.close?.();
+      }
+    };
+  }, []);
 
   async function connectToNetwork(
     networkName: string,
@@ -116,10 +165,6 @@ const ContainersCard = ({
     }
   }
 
-  // populates each container card with metrics 
-  console.log("sdfsfs", containerList)
-  // TODO containerList.map isn't a function or something error popped up before
-  // TODO try to get this error to pop up again and then fix it somehow
   const RunningContainers = containerList.map((container: ContainerType, i: number) => {
     let metrics = null;
     if (containerMetrics !== undefined) {
@@ -148,7 +193,6 @@ const ContainersCard = ({
   );
   const [currentPage, setPage] = useState(1);
   const COUNT_PER_PAGE = 5;
-  // index of last container on each page
   const lastContainerI = COUNT_PER_PAGE * currentPage;
   const firstContainerI = lastContainerI - COUNT_PER_PAGE;
   const slicedRunningContainers = RunningContainers.slice(firstContainerI, lastContainerI);
