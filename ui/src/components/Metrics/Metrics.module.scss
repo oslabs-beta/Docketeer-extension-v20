@@ -142,13 +142,13 @@
 .toast {
   visibility: hidden;
   min-width: 200px;
-  background-color: #4caf50;
+  //background-color: #2279f3;
   color: white;
   text-align: center;
   border-radius: 4px;
   padding: 10px;
   position: fixed;
-  bottom: 30px;
+  top: 170px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
