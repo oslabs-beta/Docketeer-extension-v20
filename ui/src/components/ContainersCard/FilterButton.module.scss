@@ -1,0 +1,142 @@
+.modal-button-container {
+  position: relative;
+
+  * {
+    overflow: visible;
+  }
+
+  .primary-button {
+    padding: 10px 16px;
+    background-color: #4a6cf7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #3a5ce7;
+    }
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .modal-content {
+    background-color: white;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    animation: modal-appear 0.3s ease-out;
+  }
+
+  @keyframes modal-appear {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .modal-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .close-button {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #999;
+
+      &:hover {
+        color: #333;
+      }
+    }
+  }
+
+  .modal-body {
+    padding: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+
+      input[type="checkbox"] {
+        margin-right: 10px;
+        cursor: pointer;
+        width: 18px;
+        height: 18px;
+      }
+
+      label {
+        cursor: pointer;
+        font-size: 16px;
+        color: #444;
+      }
+    }
+  }
+
+  .modal-footer {
+    padding: 16px 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    button {
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .cancel-button {
+      background-color: #f1f1f1;
+      border: none;
+      color: #555;
+
+      &:hover {
+        background-color: #e5e5e5;
+      }
+    }
+
+    .submit-button {
+      background-color: #4a6cf7;
+      border: none;
+      color: white;
+
+      &:hover {
+        background-color: #3a5ce7;
+      }
+    }
+  }
+}
