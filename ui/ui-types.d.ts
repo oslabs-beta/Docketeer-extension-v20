@@ -27,7 +27,7 @@ export interface CheckboxState {
 export interface ContainerType {
   ID: string;
   metrics?: stats;
-  Names: string;
+  Names?: string;
   Image?: string;
   RunningFor?: string;
   Networks: string[];

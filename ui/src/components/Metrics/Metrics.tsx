@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './Metrics.module.scss';
 import { Metric, MetricsEntry, metricData } from 'types';
 import Client from '../../models/Client'
+import MetricFilterButton from './MetricFilterButton';
 
 const Metrics = (): JSX.Element => {
   const [messageVisible, setMessageVisible] = useState<boolean>(false);
@@ -56,6 +57,51 @@ const Metrics = (): JSX.Element => {
     }, 3000); 
   }
 
+
+
+
+
+
+
+  const actions = [
+    {
+      id: "action1",
+      label: "CPU %",
+      handler: () => console.log("Email notification sent"),
+    },
+    {
+      id: "action2",
+      label: "MEMORY USAGE",
+      handler: () => console.log("Database updated"),
+    },
+    {
+      id: "action3",
+      label: "MEM %",
+      handler: () => console.log("Report generated"),
+    },
+    {
+      id: "action4",
+      label: "NET I/O",
+      handler: () => console.log("Records archived"),
+    },
+    {
+      id: "action5",
+      label: "BLOCK I/O",
+      handler: () => console.log("Cloud sync completed"),
+    },
+    {
+      id: "action6",
+      label: "PID",
+      handler: () => console.log("Cache cleared"),
+    },
+  ];
+
+
+
+
+
+  
+
   return (
     <div>
       <div className={styles.iframeHeader}>
@@ -67,6 +113,7 @@ const Metrics = (): JSX.Element => {
           <button className={styles.button} onClick={getMetrics}>
             SAVE METRICS
           </button>
+          <MetricFilterButton buttonText={"test"} actions={actions} />
         </div>
       </div>
 
