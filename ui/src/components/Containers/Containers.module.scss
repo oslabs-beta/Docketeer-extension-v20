@@ -55,6 +55,18 @@ iframe {
 	margin-bottom: 1rem;
 }
 
+.filterButton {
+	background-color: white;
+	color: black;
+	padding-left: 3px;
+	padding-right: 3px;
+	margin-bottom: 5px;
+}
+
+.filterButtHolder {
+	display: flex;
+	justify-content: center;
+}
 .containerList {
 	display: grid;
 	gap: 1rem;
