@@ -10,7 +10,7 @@ import NetworkListModal from '../NetworkListModal/NetworkListModal';
  * @description | This component renders each container, and if a container is currently running, it passes the modal component for network configuration.
  **/
 
-const RunningContainer = ({
+const RunningContainer = React.forwardRef(({
   container,
   metrics,
   stopContainer,
@@ -20,12 +20,14 @@ const RunningContainer = ({
   bashContainer,
   disconnectFromNetwork,
   status
-}: ContainersCardsProps): JSX.Element => {
+}: ContainersCardsProps, ref): JSX.Element => {
   // Using useAppSelector for accessing to networkList state
   const { networkContainerList } = useAppSelector((state) => state.networks);
   // const networkContainerList = [{ networkName: 'testnetwork', containers: [{ containerName: 'testname', containerIP: 'testip' }]}]
   // create state that will use as toggle to show the modal or not
-  const [isOpen, setIsOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
+	 const [loading, setLoading] = useState(false); 
+  const [containers, setContainers] = useState([container]);
   // function for opening the modal
   const openNetworkList = () => {
     setIsOpen(true);
@@ -37,13 +39,34 @@ const RunningContainer = ({
   };
   if (!container) return (<p>no container</p>);
   
+     
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const bottom = e.currentTarget.scrollHeight === e.currentTarget.scrollTop + e.currentTarget.clientHeight;
+    if (bottom && !loading) {
+      loadMoreContainers();
+    }
+  };
+
+  
+  const loadMoreContainers = () => {
+    setLoading(true);
+    setTimeout(() => {
+      const newContainers = [{ /* new container data */ }];
+      setContainers(prev => [...prev, ...newContainers]);
+      setLoading(false);
+    }, 1000);
+  };
+
   return (
 		<div
+			ref={ref}
 			className={
 				status === 'running'
 					? styles.containerCard
 					: styles.containerCardStopped
-			}>
+			}
+      onScroll={handleScroll}
+		>
 			<div className={styles.containerTextHolder}>
 				<h2 className={styles.textSpacing} style={{ color: '#6cc6f0' }}>
 					{container.Names}
@@ -151,6 +174,6 @@ const RunningContainer = ({
 			)}
 		</div>
 	);
-};
+});
         
 export default RunningContainer;

@@ -116,7 +116,7 @@ const Containers = (): JSX.Element => {
     );
   };
 
-  const actions = [
+     const actions = [
     {
       id: "action1",
       label: "CPU %",
@@ -150,6 +150,7 @@ const Containers = (): JSX.Element => {
   ];
 
 
+
   return (
     <div className={styles.topMargin}>
       <div className={styles.wrapper}>
@@ -159,53 +160,42 @@ const Containers = (): JSX.Element => {
             <div>
               {activeButton === 1 && (
                 <iframe
-                  src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=81"
-                  width="100%"
-                  height="200"
-                ></iframe>
+                  src='http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=81'
+                  width='100%'
+                  height='200'></iframe>
               )}
               {activeButton === 2 && (
                 <iframe
-                  src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=7"
-                  width="100%"
-                ></iframe>
+                  src='http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=7'
+                  width='100%'></iframe>
               )}
               {activeButton === 3 && (
                 <iframe
-                  src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=8"
-                  width="100%"
-                ></iframe>
+                  src='http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=8'
+                  width='100%'></iframe>
               )}
             </div>
             <div className={styles.buttons}>
               <button
-                className={
-                  activeButton === 1 ? styles.active : styles.notActive
-                }
-                onClick={() => setActiveButton(1)}
-              >
+                className={activeButton === 1 ? styles.active : styles.notActive}
+                onClick={() => setActiveButton(1)}>
                 Memory
               </button>
               <button
-                className={
-                  activeButton === 2 ? styles.active : styles.notActive
-                }
-                onClick={() => setActiveButton(2)}
-              >
+                className={activeButton === 2 ? styles.active : styles.notActive}
+                onClick={() => setActiveButton(2)}>
                 Block I/O
               </button>
               <button
-                className={
-                  activeButton === 3 ? styles.active : styles.notActive
-                }
-                onClick={() => setActiveButton(3)}
-              >
+                className={activeButton === 3 ? styles.active : styles.notActive}
+                onClick={() => setActiveButton(3)}>
                 Net I/O
               </button>
             </div>
           </div>
 
-          <h2 style={{ color: "#33bf2c" }}>RUNNING CONTAINERS</h2>
+          <h2 style={{ color: '#33bf2c' }}>RUNNING CONTAINERS</h2>
+          <FilterButton buttonText={"filter"} actions={actions} />
           <p className={styles.count}>Count: {runningList.length}</p>
           
           
@@ -225,18 +215,18 @@ const Containers = (): JSX.Element => {
                 runContainer={runContainer}
                 bashContainer={bashContainer}
                 removeContainer={removeContainer}
-                status="running"
+                status='running'
               />
             )}
             {runningList.length === 0 && (
-              <Box sx={{ display: "flex", justifyContent: "center", mt: "1%" }}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: '1%' }}>
                 <CircularProgress />
               </Box>
             )}
           </div>
         </div>
         <div className={styles.listHolderStopped}>
-          <h2 style={{ color: "#eb3d68" }}>STOPPED CONTAINERS</h2>
+          <h2 style={{ color: '#eb3d68' }}>STOPPED CONTAINERS</h2>
           <p className={styles.count}>Count: {stoppedList.length}</p>
           <div className={styles.containerList}>
             <ContainersCard
@@ -245,7 +235,7 @@ const Containers = (): JSX.Element => {
               runContainer={runContainer}
               bashContainer={bashContainer}
               removeContainer={removeContainer}
-              status="stopped"
+              status='stopped'
             />
           </div>
         </div>
