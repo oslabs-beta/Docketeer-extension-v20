@@ -56,11 +56,13 @@ iframe {
 }
 
 .filterButton {
-	background-color: white;
+	background-color: transparent;
+	height: 2rem;
+	width: 2rem;
 	color: black;
-	padding-left: 3px;
-	padding-right: 3px;
-	margin-bottom: 5px;
+	padding: 0rem;
+	
+	
 }
 
 .filterButtHolder {
@@ -110,9 +112,9 @@ iframe {
 	}
 }
 .active {
-	background-color: rgba(13, 123, 241, 0.794);
+	background-color: #123458;
 	&:hover {
-		box-shadow: 1px 1px 10px rgba(13, 123, 241, 0.794);
+		box-shadow: 1px 1px 10px #123458;
 		text-shadow: 0 0 1px white;
 	}
 }

@@ -12,6 +12,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import FilterButton from '../ContainersCard/FilterButton';
 
+
 /**
  * @module | Containers.tsx
  * @description | Provides information and management over both running & stopped Docker containers
@@ -209,7 +210,7 @@ const Containers = (): JSX.Element => {
           
           
           
-          <FilterButton buttonText={"test"} actions={actions} /> 
+          <FilterButton buttonText={<img src='https://cdn-icons-png.flaticon.com/512/107/107799.png' className={styles.filterButton} />} actions={actions}  /> 
           
 
 
