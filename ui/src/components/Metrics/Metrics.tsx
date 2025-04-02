@@ -5,7 +5,7 @@ import Client from '../../models/Client'
 import MetricFilterButton from './MetricFilterButton';
 
 const Metrics = (): JSX.Element => {
-
+  const [messageVisible, setMessageVisible] = useState<boolean>(false);
   const [resetIframe, setResetIframe] = useState<boolean>(true);
   //Refreshing the page back to home 
   const handleHome = (): void => {
@@ -50,6 +50,11 @@ const Metrics = (): JSX.Element => {
 
     await Promise.all(fetchPromises);
     const data = await Client.MetricService.createMetrics(metricsEntry)
+
+    setMessageVisible(true); 
+     setTimeout(() => {
+      setMessageVisible(false); 
+    }, 3000); 
   }
 
 
@@ -111,6 +116,13 @@ const Metrics = (): JSX.Element => {
           <MetricFilterButton buttonText={"test"} actions={actions} />
         </div>
       </div>
+
+         
+      {messageVisible && (
+         <div className={`${styles.toast} ${styles.visible}`}>Metrics Saved!</div>
+      )}
+
+
       <div className={styles.iframeDiv}>
         <iframe
           key={resetIframe}
