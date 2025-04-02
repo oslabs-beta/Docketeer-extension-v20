@@ -1,9 +1,20 @@
+// .modal-button-container {
+//   position: relative;
+
 .modal-button-container {
-  position: relative;
+   display: flex; 
+  justify-content: flex-end; 
+  position: relative; 
+ 
 
   * {
     overflow: visible;
   }
+
+.button-icon {
+  width: 20px;
+  height: 20px; 
+}
 
   .primary-button {
     padding: 10px 16px;

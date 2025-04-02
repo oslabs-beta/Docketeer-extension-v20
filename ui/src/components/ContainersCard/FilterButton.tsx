@@ -46,6 +46,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({ buttonText, actions }) => {
   return (
     <div className={styles["modal-button-container"]}>
       <button className={styles["primary-button"]} onClick={toggleModal}>
+        <img src='../../assets/107799.png' alt="icon" className="button-icon" />
         {buttonText}
       </button>
 
