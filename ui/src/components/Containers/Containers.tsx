@@ -20,6 +20,15 @@ import FilterButton from '../ContainersCard/FilterButton';
 const Containers = (): JSX.Element => {
   // State to manage the currently active button for displaying container stats
   const [activeButton, setActiveButton] = useState(1);
+  // State to manage currently 
+  const [filters, setFilters] = useState({
+    cpuPerc: true,
+    memUsage: true,
+    memPerc: true,
+    netIO: true,
+    blockIO: true,
+    PID: true,
+  });
 
   // Redux dispatch and selector hooks
   const dispatch = useAppDispatch();
@@ -119,32 +128,68 @@ const Containers = (): JSX.Element => {
     {
       id: "action1",
       label: "CPU %",
-      handler: () => console.log("Email notification sent"),
+      handler: () => {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          cpuPerc: !prevFilters.cpuPerc,
+        }));
+        console.log("CPU% removed from view")
+      }
     },
     {
       id: "action2",
       label: "MEMORY USAGE",
-      handler: () => console.log("Database updated"),
+      handler: () => {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          memUsage: !prevFilters.memUsage,
+        }));
+        console.log("Memory usage removed from view")
+      }
     },
     {
       id: "action3",
       label: "MEM %",
-      handler: () => console.log("Report generated"),
+      handler: () => {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          memPerc: !prevFilters.memPerc,
+        }));
+        console.log("Memory % removed from view")
+      }
     },
     {
       id: "action4",
       label: "NET I/O",
-      handler: () => console.log("Records archived"),
+      handler: () => {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          netIO: !prevFilters.netIO,
+        }));
+        console.log("Net I/O removed from view")
+      }
     },
     {
       id: "action5",
       label: "BLOCK I/O",
-      handler: () => console.log("Cloud sync completed"),
+      handler: () => {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          blockIO: !prevFilters.blockIO,
+        }));
+        console.log("Block I/O removed from view")
+      }
     },
     {
       id: "action6",
       label: "PID",
-      handler: () => console.log("Cache cleared"),
+      handler: () => {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          PID: !prevFilters.PID,
+        }));
+        console.log("PID removed from view")
+      }
     },
   ];
 
@@ -209,8 +254,13 @@ const Containers = (): JSX.Element => {
           
           
           
+
+
           <FilterButton buttonText={"test"} actions={actions} /> 
           
+
+          
+
 
 
           <ErrorModal open={errorModalOn} handleClose={handleClose} />
@@ -225,6 +275,7 @@ const Containers = (): JSX.Element => {
                 bashContainer={bashContainer}
                 removeContainer={removeContainer}
                 status="running"
+                filters={filters}
               />
             )}
             {runningList.length === 0 && (
@@ -245,6 +296,7 @@ const Containers = (): JSX.Element => {
               bashContainer={bashContainer}
               removeContainer={removeContainer}
               status="stopped"
+              filters={filters}
             />
           </div>
         </div>

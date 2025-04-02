@@ -22,6 +22,7 @@ const ContainersCard = ({
   removeContainer,
   bashContainer,
   status,
+  filters,
 }: ContainersCardsProps): JSX.Element => {
 
   const dispatch = useAppDispatch();
@@ -132,7 +133,9 @@ const ContainersCard = ({
         bashContainer = {bashContainer}
         connectToNetwork={connectToNetwork}
         disconnectFromNetwork={disconnectFromNetwork}
-        status={status}/>
+        status={status}
+        filters={filters}
+      />
     );
   }
   );
