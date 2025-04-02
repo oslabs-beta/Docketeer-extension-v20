@@ -10,7 +10,7 @@ import { fetchRunningContainers, fetchStoppedContainers, displayErrorModal } fro
 import ErrorModal from './ErrorModal/ErrorModal';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-
+import FilterButton from '../ContainersCard/FilterButton';
 
 /**
  * @module | Containers.tsx
@@ -115,6 +115,41 @@ const Containers = (): JSX.Element => {
     );
   };
 
+     const actions = [
+    {
+      id: "action1",
+      label: "CPU %",
+      handler: () => console.log("Email notification sent"),
+    },
+    {
+      id: "action2",
+      label: "MEMORY USAGE",
+      handler: () => console.log("Database updated"),
+    },
+    {
+      id: "action3",
+      label: "MEM %",
+      handler: () => console.log("Report generated"),
+    },
+    {
+      id: "action4",
+      label: "NET I/O",
+      handler: () => console.log("Records archived"),
+    },
+    {
+      id: "action5",
+      label: "BLOCK I/O",
+      handler: () => console.log("Cloud sync completed"),
+    },
+    {
+      id: "action6",
+      label: "PID",
+      handler: () => console.log("Cache cleared"),
+    },
+  ];
+
+
+
   return (
     <div className={styles.topMargin}>
       <div className={styles.wrapper}>
@@ -159,6 +194,7 @@ const Containers = (): JSX.Element => {
           </div>
 
           <h2 style={{ color: '#33bf2c' }}>RUNNING CONTAINERS</h2>
+          <FilterButton buttonText={"filter"} actions={actions} />
           <p className={styles.count}>Count: {runningList.length}</p>
           <ErrorModal open={errorModalOn} handleClose={handleClose} />
           <div className={styles.containerList}>
