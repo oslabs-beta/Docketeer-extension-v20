@@ -92,7 +92,7 @@ const RunningContainer = React.forwardRef<HTMLDivElement, ContainersCardsProps>(
 					</p>
 					{status === 'running' && (
 						<p>
-							<strong style={{ color: '#7ee696' }}>Running since: </strong>{' '}
+							<strong style={{ color: '#6cc6f0' }}>Running since: </strong>{' '}
 							{container.RunningFor}
 						</p>
 					)}
