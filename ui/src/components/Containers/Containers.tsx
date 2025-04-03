@@ -11,6 +11,7 @@ import ErrorModal from './ErrorModal/ErrorModal';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import FilterButton from '../ContainersCard/FilterButton';
+import filter from '../../../assets/filter.png'
 
 /**
  * @module | Containers.tsx
@@ -240,9 +241,13 @@ const Containers = (): JSX.Element => {
           </div>
 
           <h2 style={{ color: '#33bf2c' }}>RUNNING CONTAINERS</h2>
+          <FilterButton
+            buttonText={<img src = {filter} alt="Filter" />} className={styles.filterButton}
+            actions={actions}
+          />
           <p className={styles.count}>Count: {runningList.length}</p>
           
-          <FilterButton buttonText={"test"} actions={actions} /> 
+          
     
           <ErrorModal open={errorModalOn} handleClose={handleClose} />
           <div className={styles.containerList}>
