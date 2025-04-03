@@ -11,6 +11,7 @@ import ErrorModal from './ErrorModal/ErrorModal';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import FilterButton from '../ContainersCard/FilterButton';
+import filter from '../../../assets/filter.png'
 
 /**
  * @module | Containers.tsx
@@ -239,10 +240,14 @@ const Containers = (): JSX.Element => {
             </div>
           </div>
 
-          <h2 style={{ color: '#33bf2c' }}>RUNNING CONTAINERS</h2>
+          <h2 style={{ color: '#F1EFEC' }}>RUNNING CONTAINERS</h2>
+          <FilterButton
+            buttonText= {<img src = {filter} alt="Filter" height = '27px' width = '27px'/>} className={styles.filterButton} 
+            actions={actions}
+          />
           <p className={styles.count}>Count: {runningList.length}</p>
           
-          <FilterButton buttonText={"test"} actions={actions} /> 
+          
     
           <ErrorModal open={errorModalOn} handleClose={handleClose} />
           <div className={styles.containerList}>
@@ -267,7 +272,7 @@ const Containers = (): JSX.Element => {
           </div>
         </div>
         <div className={styles.listHolderStopped}>
-          <h2 style={{ color: '#eb3d68' }}>STOPPED CONTAINERS</h2>
+          <h2 style={{ color: '#F1EFEC' }}>STOPPED CONTAINERS</h2>
           <p className={styles.count}>Count: {stoppedList.length}</p>
           <div className={styles.containerList}>
             <ContainersCard
