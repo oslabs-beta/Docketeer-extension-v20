@@ -10,7 +10,7 @@ import NetworkListModal from '../NetworkListModal/NetworkListModal';
  * @description | This component renders each container, and if a container is currently running, it passes the modal component for network configuration.
  **/
 
-const RunningContainer = ({
+const RunningContainer = React.forwardRef(({
   container,
   metrics,
   stopContainer,
@@ -29,7 +29,9 @@ const RunningContainer = ({
   const { networkContainerList } = useAppSelector((state) => state.networks);
   // const networkContainerList = [{ networkName: 'testnetwork', containers: [{ containerName: 'testname', containerIP: 'testip' }]}]
   // create state that will use as toggle to show the modal or not
-  const [isOpen, setIsOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
+	 const [loading, setLoading] = useState(false); 
+  const [containers, setContainers] = useState([container]);
   // function for opening the modal
   const openNetworkList = () => {
     setIsOpen(true);
@@ -39,42 +41,41 @@ const RunningContainer = ({
   const closeNetworkList = () => {
     setIsOpen(false);
   };
-  if (!container) return <p>no container</p>;
-
+  if (!container) return (<p>no container</p>);
+  
   return (
-    <div
-      className={
-        status === "running"
-          ? styles.containerCard
-          : styles.containerCardStopped
-      }
-    >
-      <div className={styles.containerTextHolder}>
-        <h2 className={styles.textSpacing} style={{ color: "#6cc6f0" }}>
-          {container.Names}
-        </h2>
-        <div className={styles.flexSpacing}>
-          <p className={styles.textSpacing}>
-            <strong style={{ color: "#bfc1e0" }}>Image:</strong>{" "}
-            {container.Image}
-          </p>
-          <p className={styles.textSpacing}>
-            <strong style={{ color: "#bfc1e0" }}>ID:</strong> {container.ID}
-          </p>
-          {status === "running" && (
-            <p>
-              <strong style={{ color: "#7ee696" }}>Running since: </strong>{" "}
-              {container.RunningFor}
-            </p>
-          )}
-          {status === "stopped" && (
-            <p>
-              <strong style={{ color: "#e34f61" }}>Stopped: </strong>{" "}
-              {container.RunningFor}
-            </p>
-          )}
-        </div>
-      </div>
+		<div
+			className={
+				status === 'running'
+					? styles.containerCard
+					: styles.containerCardStopped
+			}>
+			<div className={styles.containerTextHolder}>
+				<h2 className={styles.textSpacing} style={{ color: '#6cc6f0' }}>
+					{container.Names}
+				</h2>
+				<div className={styles.flexSpacing}>
+					<p className={styles.textSpacing}>
+						<strong style={{ color: '#bfc1e0' }}>Image:</strong>{' '}
+						{container.Image}
+					</p>
+					<p className={styles.textSpacing}>
+						<strong style={{ color: '#bfc1e0' }}>ID:</strong> {container.ID}
+					</p>
+					{status === 'running' && (
+						<p>
+							<strong style={{ color: '#7ee696' }}>Running since: </strong>{' '}
+							{container.RunningFor}
+						</p>
+					)}
+					{status === 'stopped' && (
+						<p>
+							<strong style={{ color: '#e34f61' }}>Stopped: </strong>{' '}
+							{container.RunningFor}
+						</p>
+					)}
+				</div>
+			</div>
 
       {status === "running" && (
         <div className={styles.containerMetricHolder}>
@@ -143,19 +144,19 @@ const RunningContainer = ({
         </div>
       </div>
 
-      {container.Names && connectToNetwork && disconnectFromNetwork && (
-        <NetworkListModal
-          Names={container.Names}
-          isOpen={isOpen}
-          closeNetworkList={closeNetworkList}
-          networkContainerList={networkContainerList}
-          connectToNetwork={connectToNetwork}
-          disconnectFromNetwork={disconnectFromNetwork}
-          container={container}
-        />
-      )}
-    </div>
-  );
+			{container.Names && connectToNetwork && disconnectFromNetwork && (
+				<NetworkListModal
+					Names={container.Names}
+					isOpen={isOpen}
+					closeNetworkList={closeNetworkList}
+					networkContainerList={networkContainerList}
+					connectToNetwork={connectToNetwork}
+					disconnectFromNetwork={disconnectFromNetwork}
+					container={container}
+				/>
+			)}
+		</div>
+	);
 };
         
 export default RunningContainer;

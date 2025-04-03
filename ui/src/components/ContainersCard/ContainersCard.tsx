@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useRef, useCallback } from 'react';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
 import { ContainerType, ContainersCardsProps, stats } from '../../../ui-types';
@@ -27,6 +28,29 @@ const ContainersCard = ({
 
   //initialize containerMetrics state with an empty array
   const dispatch = useAppDispatch();
+   const scrollPosition = useRef(0); 
+
+ 
+  useEffect(() => {
+    const handleScroll = () => {
+      scrollPosition.current = window.scrollY;
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Restore scroll position after data load (with a delay to avoid instant reset)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      window.scrollTo(0, scrollPosition.current);
+    }, 200); // Delay to avoid reset during data loading (you can adjust the delay)
+
+    return () => clearTimeout(timer); // Cleanup timer on component unmount or when containerList changes
+  }, [containerList]); 
+
+
+ // retrieves container data by fetching from Docker 
+  let ddClient;
   const [containerMetrics, setContainerMetrics] = useState<stats[]>([]);
 
   /**
@@ -166,6 +190,47 @@ const ContainersCard = ({
     }
   }
 
+    const [visibleCount, setVisibleCount] = useState(3);
+    const observer = useRef<IntersectionObserver | null>(null);
+     
+const lastContainerRef = useCallback((node) => {
+  if (observer.current) observer.current.disconnect();
+
+  observer.current = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      const previousScrollY = window.scrollY; 
+
+      setVisibleCount((prevCount) => {
+        const newCount = Math.min(prevCount + 3, containerList.length);
+
+        requestAnimationFrame(() => {
+          window.scrollTo(0, previousScrollY);
+        });
+
+        return newCount;
+      });
+    }
+  });
+
+  if (node) observer.current.observe(node);
+}, [containerList.length]);
+  
+  useEffect(() => {
+  requestAnimationFrame(() => {
+    window.scrollTo(0, scrollPosition.current); 
+  });
+}, [containerList]);
+  
+//   const lastContainerRef = useCallback((node) => {
+//   if (observer.current) observer.current.disconnect(); 
+//   observer.current = new IntersectionObserver((entries) => {
+//     if (entries[0].isIntersecting) {
+//       setVisibleCount((prevCount) => Math.min(prevCount + 2, containerList.length));
+//     }
+//   });
+//   if (node) observer.current.observe(node);
+// }, [containerList.length]);
+  // populates each container card with metrics 
   const RunningContainers = containerList.map((container: ContainerType, i: number) => {
     let metrics = null;
     if (containerMetrics !== undefined) {
@@ -189,21 +254,25 @@ const ContainersCard = ({
         connectToNetwork={connectToNetwork}
         disconnectFromNetwork={disconnectFromNetwork}
         status={status}
-        filters={filters}
+        ref={i === visibleCount - 1 ? lastContainerRef : null}
       />
     );
   }
   );
-  const [currentPage, setPage] = useState(1);
-  const COUNT_PER_PAGE = 5;
-  const lastContainerI = COUNT_PER_PAGE * currentPage;
-  const firstContainerI = lastContainerI - COUNT_PER_PAGE;
-  const slicedRunningContainers = RunningContainers.slice(firstContainerI, lastContainerI);
+
+   const VisibleRunningContainers = RunningContainers.slice(0, visibleCount);
+  // const [currentPage, setPage] = useState(1);
+  // const COUNT_PER_PAGE = 5;
+  // // index of last container on each page
+  // const lastContainerI = COUNT_PER_PAGE * currentPage;
+  // const firstContainerI = lastContainerI - COUNT_PER_PAGE;
+  // const slicedRunningContainers = RunningContainers.slice(firstContainerI, lastContainerI);
   return (
-    <>
-      {slicedRunningContainers}
-      <PageSwitch totalContainers = {RunningContainers.length} setPage = {setPage} contPerPage = {COUNT_PER_PAGE}/>
-    </>
+    // <>
+    //   {slicedRunningContainers}
+    //   <PageSwitch totalContainers = {RunningContainers.length} setPage = {setPage} contPerPage = {COUNT_PER_PAGE}/>
+    // </>
+    <>{VisibleRunningContainers}</>
   );
 };
 
