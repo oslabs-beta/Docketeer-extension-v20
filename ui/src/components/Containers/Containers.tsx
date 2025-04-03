@@ -240,20 +240,10 @@ const Containers = (): JSX.Element => {
           </div>
 
           <h2 style={{ color: '#33bf2c' }}>RUNNING CONTAINERS</h2>
-          <FilterButton buttonText={"filter"} actions={actions} />
           <p className={styles.count}>Count: {runningList.length}</p>
           
-          
-          
-
-
           <FilterButton buttonText={"test"} actions={actions} /> 
-          
-
-          
-
-
-
+    
           <ErrorModal open={errorModalOn} handleClose={handleClose} />
           <div className={styles.containerList}>
             {runningList.length === 0 && stoppedList.length === 0 ? (

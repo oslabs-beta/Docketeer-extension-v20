@@ -10,7 +10,7 @@ import NetworkListModal from '../NetworkListModal/NetworkListModal';
  * @description | This component renders each container, and if a container is currently running, it passes the modal component for network configuration.
  **/
 
-const RunningContainer = React.forwardRef(({
+const RunningContainer = React.forwardRef<HTMLDivElement, ContainersCardsProps>(({
   container,
   metrics,
   stopContainer,
@@ -20,17 +20,17 @@ const RunningContainer = React.forwardRef(({
   bashContainer,
   disconnectFromNetwork,
   status,
-  filters,
+	filters,
 }: ContainersCardsProps & {
   filters: Record<string, boolean>;
-	}): JSX.Element => {
+	}, ref): JSX.Element => {
 	//TODO: make sure that filters type (the Record<string, boolean> thing) is necessary
   // Using useAppSelector for accessing to networkList state
   const { networkContainerList } = useAppSelector((state) => state.networks);
   // const networkContainerList = [{ networkName: 'testnetwork', containers: [{ containerName: 'testname', containerIP: 'testip' }]}]
   // create state that will use as toggle to show the modal or not
 	const [isOpen, setIsOpen] = useState(false);
-	 const [loading, setLoading] = useState(false); 
+	const [loading, setLoading] = useState(false); 
   const [containers, setContainers] = useState([container]);
   // function for opening the modal
   const openNetworkList = () => {
@@ -40,11 +40,39 @@ const RunningContainer = React.forwardRef(({
   // function for closing the modal
   const closeNetworkList = () => {
     setIsOpen(false);
-  };
+	};
+
+	const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const bottom =
+      e.currentTarget.scrollHeight ===
+      e.currentTarget.scrollTop + e.currentTarget.clientHeight;
+    if (bottom && !loading) {
+      loadMoreContainers();
+    }
+	};
+	
+	const loadMoreContainers = () => {
+		setLoading(true);
+		setTimeout(() => {
+			const newContainers = [
+				{
+					ID: '',
+					Names: '',
+					Image: '',
+					RunningFor: '',
+					Networks: []
+				},
+			];
+			setContainers((prev) => [...prev, ...newContainers]);
+			setLoading(false);
+		}, 1000);
+	};
+
   if (!container) return (<p>no container</p>);
   
   return (
 		<div
+			ref={ref}
 			className={
 				status === 'running'
 					? styles.containerCard
@@ -157,6 +185,6 @@ const RunningContainer = React.forwardRef(({
 			)}
 		</div>
 	);
-};
+});
         
 export default RunningContainer;

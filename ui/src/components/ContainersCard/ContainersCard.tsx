@@ -28,9 +28,9 @@ const ContainersCard = ({
 
   //initialize containerMetrics state with an empty array
   const dispatch = useAppDispatch();
-   const scrollPosition = useRef(0); 
 
- 
+   const scrollPosition = useRef(0); 
+  
   useEffect(() => {
     const handleScroll = () => {
       scrollPosition.current = window.scrollY;
@@ -254,6 +254,7 @@ const lastContainerRef = useCallback((node) => {
         connectToNetwork={connectToNetwork}
         disconnectFromNetwork={disconnectFromNetwork}
         status={status}
+        filters={filters}
         ref={i === visibleCount - 1 ? lastContainerRef : null}
       />
     );
