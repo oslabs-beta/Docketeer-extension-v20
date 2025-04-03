@@ -10,7 +10,7 @@ import { fetchRunningContainers, fetchStoppedContainers, displayErrorModal } fro
 import ErrorModal from './ErrorModal/ErrorModal';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-
+import FilterButton from '../ContainersCard/FilterButton';
 
 /**
  * @module | Containers.tsx
@@ -20,6 +20,15 @@ import Box from '@mui/material/Box';
 const Containers = (): JSX.Element => {
   // State to manage the currently active button for displaying container stats
   const [activeButton, setActiveButton] = useState(1);
+  // State to manage currently 
+  const [filters, setFilters] = useState({
+    cpuPerc: true,
+    memUsage: true,
+    memPerc: true,
+    netIO: true,
+    blockIO: true,
+    PID: true,
+  });
 
   // Redux dispatch and selector hooks
   const dispatch = useAppDispatch();
@@ -116,6 +125,76 @@ const Containers = (): JSX.Element => {
     );
   };
 
+  const actions = [
+    {
+      id: "action1",
+      label: "CPU %",
+      handler: () => {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          cpuPerc: !prevFilters.cpuPerc,
+        }));
+        console.log("CPU% removed from view")
+      }
+    },
+    {
+      id: "action2",
+      label: "MEMORY USAGE",
+      handler: () => {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          memUsage: !prevFilters.memUsage,
+        }));
+        console.log("Memory usage removed from view")
+      }
+    },
+    {
+      id: "action3",
+      label: "MEM %",
+      handler: () => {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          memPerc: !prevFilters.memPerc,
+        }));
+        console.log("Memory % removed from view")
+      }
+    },
+    {
+      id: "action4",
+      label: "NET I/O",
+      handler: () => {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          netIO: !prevFilters.netIO,
+        }));
+        console.log("Net I/O removed from view")
+      }
+    },
+    {
+      id: "action5",
+      label: "BLOCK I/O",
+      handler: () => {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          blockIO: !prevFilters.blockIO,
+        }));
+        console.log("Block I/O removed from view")
+      }
+    },
+    {
+      id: "action6",
+      label: "PID",
+      handler: () => {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          PID: !prevFilters.PID,
+        }));
+        console.log("PID removed from view")
+      }
+    },
+  ];
+
+
   return (
     <div className={styles.topMargin}>
       <div className={styles.wrapper}>
@@ -125,42 +204,66 @@ const Containers = (): JSX.Element => {
             <div>
               {activeButton === 1 && (
                 <iframe
-                  src='http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=81'
-                  width='100%'
-                  height='200'></iframe>
+                  src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=81"
+                  width="100%"
+                  height="200"
+                ></iframe>
               )}
               {activeButton === 2 && (
                 <iframe
-                  src='http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=7'
-                  width='100%'></iframe>
+                  src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=7"
+                  width="100%"
+                ></iframe>
               )}
               {activeButton === 3 && (
                 <iframe
-                  src='http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=8'
-                  width='100%'></iframe>
+                  src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=8"
+                  width="100%"
+                ></iframe>
               )}
             </div>
             <div className={styles.buttons}>
               <button
-                className={activeButton === 1 ? styles.active : styles.notActive}
-                onClick={() => setActiveButton(1)}>
+                className={
+                  activeButton === 1 ? styles.active : styles.notActive
+                }
+                onClick={() => setActiveButton(1)}
+              >
                 Memory
               </button>
               <button
-                className={activeButton === 2 ? styles.active : styles.notActive}
-                onClick={() => setActiveButton(2)}>
+                className={
+                  activeButton === 2 ? styles.active : styles.notActive
+                }
+                onClick={() => setActiveButton(2)}
+              >
                 Block I/O
               </button>
               <button
-                className={activeButton === 3 ? styles.active : styles.notActive}
-                onClick={() => setActiveButton(3)}>
+                className={
+                  activeButton === 3 ? styles.active : styles.notActive
+                }
+                onClick={() => setActiveButton(3)}
+              >
                 Net I/O
               </button>
             </div>
           </div>
 
-          <h2 style={{ color: '#33bf2c' }}>RUNNING CONTAINERS</h2>
+          <h2 style={{ color: "#33bf2c" }}>RUNNING CONTAINERS</h2>
           <p className={styles.count}>Count: {runningList.length}</p>
+          
+          
+          
+
+
+          <FilterButton buttonText={"test"} actions={actions} /> 
+          
+
+          
+
+
+
           <ErrorModal open={errorModalOn} handleClose={handleClose} />
           <div className={styles.containerList}>
             {runningList.length === 0 && stoppedList.length === 0 ? (
@@ -172,18 +275,19 @@ const Containers = (): JSX.Element => {
                 runContainer={runContainer}
                 bashContainer={bashContainer}
                 removeContainer={removeContainer}
-                status='running'
+                status="running"
+                filters={filters}
               />
             )}
             {runningList.length === 0 && (
-              <Box sx={{ display: 'flex', justifyContent: 'center', mt: '1%' }}>
+              <Box sx={{ display: "flex", justifyContent: "center", mt: "1%" }}>
                 <CircularProgress />
               </Box>
             )}
           </div>
         </div>
         <div className={styles.listHolderStopped}>
-          <h2 style={{ color: '#eb3d68' }}>STOPPED CONTAINERS</h2>
+          <h2 style={{ color: "#eb3d68" }}>STOPPED CONTAINERS</h2>
           <p className={styles.count}>Count: {stoppedList.length}</p>
           <div className={styles.containerList}>
             <ContainersCard
@@ -192,7 +296,8 @@ const Containers = (): JSX.Element => {
               runContainer={runContainer}
               bashContainer={bashContainer}
               removeContainer={removeContainer}
-              status='stopped'
+              status="stopped"
+              filters={filters}
             />
           </div>
         </div>

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styles from './Metrics.module.scss';
 import { Metric, MetricsEntry, metricData } from 'types';
 import Client from '../../models/Client'
+import MetricFilterButton from './MetricFilterButton';
 
-const Metrics = (): JSX.Element => {
+const Metrics = ({ filters, setFilters}): JSX.Element => {
 
   const [resetIframe, setResetIframe] = useState<boolean>(true);
   //Refreshing the page back to home 
@@ -51,6 +52,51 @@ const Metrics = (): JSX.Element => {
     const data = await Client.MetricService.createMetrics(metricsEntry)
   }
 
+
+
+
+
+
+
+  const actions = [
+    {
+      id: "action1",
+      label: "CPU %",
+      handler: () => console.log("Email notification sent"),
+    },
+    {
+      id: "action2",
+      label: "MEMORY USAGE",
+      handler: () => console.log("Database updated"),
+    },
+    {
+      id: "action3",
+      label: "MEM %",
+      handler: () => console.log("Report generated"),
+    },
+    {
+      id: "action4",
+      label: "NET I/O",
+      handler: () => console.log("Records archived"),
+    },
+    {
+      id: "action5",
+      label: "BLOCK I/O",
+      handler: () => console.log("Cloud sync completed"),
+    },
+    {
+      id: "action6",
+      label: "PID",
+      handler: () => console.log("Cache cleared"),
+    },
+  ];
+
+
+
+
+
+
+
   return (
     <div>
       <div className={styles.iframeHeader}>
@@ -62,6 +108,7 @@ const Metrics = (): JSX.Element => {
           <button className={styles.button} onClick={getMetrics}>
             SAVE METRICS
           </button>
+          <MetricFilterButton buttonText={"FILTER"} actions={actions} />
         </div>
       </div>
       <div className={styles.iframeDiv}>
@@ -71,6 +118,7 @@ const Metrics = (): JSX.Element => {
           className={styles.metrics}
           src="http://localhost:49155/d/metrics_monitoring/docker-and-system-monitoring?orgId=1&refresh=5s&kiosk"
         />
+        
       </div>
     </div>
   );
