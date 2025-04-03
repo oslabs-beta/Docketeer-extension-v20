@@ -8,7 +8,7 @@
 
   .primary-button {
     padding: 10px 16px;
-    background-color: #4a6cf7;
+    background-color: #123458;
     color: white;
     border: none;
     border-radius: 4px;
@@ -17,7 +17,7 @@
     transition: background-color 0.2s;
 
     &:hover {
-      background-color: #3a5ce7;
+      background-color: grey;
     }
   }
 
@@ -131,12 +131,12 @@
     }
 
     .submit-button {
-      background-color: #4a6cf7;
+      background-color: #123458;
       border: none;
       color: white;
 
       &:hover {
-        background-color: #3a5ce7;
+        background-color: grey;
       }
     }
   }

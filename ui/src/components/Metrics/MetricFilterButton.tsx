@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./MetricFilterButton.module.scss";
+import global from "../global.module.scss";
 
 // This is the same modal button as FilterButton.tsx, but with different options for Container Metrics specifically
 
@@ -60,7 +61,7 @@ const MetricFilterButton: React.FC<MetricFilterButtonProps> = ({ buttonText, act
 
   return (
     <div className={styles["modal-button-container"]}>
-      <button className={styles["primary-button"]} onClick={toggleModal}>
+      <button className={global["button1"]} onClick={toggleModal}>
         {buttonText}
       </button>
 
