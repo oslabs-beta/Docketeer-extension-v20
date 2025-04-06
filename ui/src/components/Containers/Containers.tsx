@@ -198,7 +198,6 @@ const Containers = (): JSX.Element => {
 
 
   return (
-    <div className={styles.topMargin}>
       <div className={styles.wrapper}>
         <h1 className={styles.containersTitle}>CONTAINERS</h1>
         <div className={styles.listHolder}>
@@ -243,7 +242,7 @@ const Containers = (): JSX.Element => {
           <h2 style={{ color: '#F1EFEC' }}>RUNNING CONTAINERS</h2>
           <FilterButton
             buttonText= {<img src = {filter} alt="Filter" height = '27px' width = '27px'/>} className={styles.filterButton} 
-            actions={actions}
+            actions={actions} 
           />
           <p className={styles.count}>Count: {runningList.length}</p>
           
@@ -287,7 +286,7 @@ const Containers = (): JSX.Element => {
           </div>
         </div>
       </div>
-    </div>
+    
   );
 };
 

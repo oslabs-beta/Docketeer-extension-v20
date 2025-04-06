@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './FilterButton.module.scss';
 
 // Type definitions
@@ -6,7 +6,9 @@ type ActionType = {
   id: string;
   label: string;
   handler: () => void;
+  isApplied: boolean;
 };
+// TODO MIGHT HAVE TO ADD A ? TO THE END OF ISAPPLIED
 
 interface FilterButtonProps {
   buttonText: string;
@@ -16,16 +18,24 @@ interface FilterButtonProps {
 const FilterButton: React.FC<FilterButtonProps> = ({ buttonText, actions }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedActions, setSelectedActions] = useState<{ [key: string]: boolean }>({});
+  const [appliedActions, setAppliedActions] = useState<{ [key: string]: boolean }>({});
 
+  // useEffect initializes selections of the filter button based on applied actions
+  // aka: if CPU% was set to be invisible, clicking the filtration button will have the 
+  // "CPU%" checkbox to show up in the modal as unclicked
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedActions({ ...appliedActions })
+    }
+  }, [isOpen, appliedActions]);
+
+  // sets the state of the button modal to be "open" or "closed"
   const toggleModal = () => {
     console.log("opening modal:", isOpen)
     setIsOpen(!isOpen);
-    if (!isOpen) {
-      // Reset selections when opening
-      setSelectedActions({});
-    }
   };
 
+  // handles the state of each checkbox to determine which action has been selected
   const handleCheckboxChange = (id: string) => {
     setSelectedActions({
       ...selectedActions,
@@ -33,6 +43,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({ buttonText, actions }) => {
     });
   };
 
+  // handles the submit button's actions and executes accordingly
   const handleSubmit = () => {
     // Execute all selected actions
     actions.forEach(action => {
@@ -40,45 +51,47 @@ const FilterButton: React.FC<FilterButtonProps> = ({ buttonText, actions }) => {
         action.handler();
       }
     });
+    // creates state for all the selected actions for future reference the next time the modal is opened
+    setAppliedActions({...selectedActions})
     toggleModal();
   };
 
   return (
-    <div className={styles["modal-button-container"]}>
-      <button className={styles["primary-button"]} onClick={toggleModal}>
+    <div className={styles.modalButtonContainer}>
+      <button className={styles.primaryButton} onClick={toggleModal}>
         {buttonText}
       </button>
 
       {isOpen && (
-        <div className={styles["modal-overlay"]}>
-          <div className={styles["modal-content"]}>
-            <div className={styles["modal-header"]}>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <div className={styles.modalHeader}>
               <h2>Filter Metrics</h2>
-              <button className={styles["close-button"]} onClick={toggleModal}>
+              <button className={styles.closeButton} onClick={toggleModal}>
                 ×
               </button>
             </div>
 
-            <div className={styles["modal-body"]}>
+            <div className={styles.modalBody}>
               {actions.map((action) => (
-                <div className={styles["checkbox-item"]} key={action.id}>
+                <div className={styles.checkboxItem} key={action.id}>
                   <input
                     type="checkbox"
                     id={action.id}
-                    checked={!!selectedActions[action.id]}
+                    checked={!selectedActions[action.id]}
                     onChange={() => handleCheckboxChange(action.id)}
                   />
-                  <label htmlFor={action.id}>{action.label}</label>
+                  <label htmlFor={action.id}>{action.label} {appliedActions[action.id]}</label>
                 </div>
               ))}
             </div>
 
-            <div className={styles["modal-footer"]}>
-              <button className={styles["cancel-button"]} onClick={toggleModal}>
+            <div className={styles.modalFooter}>
+              <button className={styles.cancelButton} onClick={toggleModal}>
                 Cancel
               </button>
               <button
-                className={styles["submit-button"]}
+                className={styles.submitButton}
                 onClick={handleSubmit}
               >
                 Apply Selected
