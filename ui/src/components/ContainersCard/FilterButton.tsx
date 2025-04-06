@@ -17,7 +17,14 @@ interface FilterButtonProps {
 
 const FilterButton: React.FC<FilterButtonProps> = ({ buttonText, actions }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedActions, setSelectedActions] = useState<{ [key: string]: boolean }>({});
+  // const [selectedActions, setSelectedActions] = useState<{ [key: string]: boolean }>({});
+  //initiate all actions to true
+  const [selectedActions, setSelectedActions] = useState(
+    actions.reduce((acc, action) => {
+      acc[action.id] = true; // Set all actions to true initially
+      return acc;
+    }, {} as { [key: string]: boolean })
+  );
   const [appliedActions, setAppliedActions] = useState<{ [key: string]: boolean }>({});
 
   // useEffect initializes selections of the filter button based on applied actions
@@ -78,7 +85,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({ buttonText, actions }) => {
                   <input
                     type="checkbox"
                     id={action.id}
-                    checked={!selectedActions[action.id]}
+                    checked={selectedActions[action.id]}
                     onChange={() => handleCheckboxChange(action.id)}
                   />
                   <label htmlFor={action.id}>{action.label} {appliedActions[action.id]}</label>

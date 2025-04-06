@@ -57,12 +57,10 @@ iframe {
 
 .filterButton {
 	background-color: transparent;
-	height: 2rem;
-	width: 2rem;
+	height: 5rem;
+	width: 5rem;
 	color: black;
 	padding: 0rem;
-	
-	
 }
 
 .filterButtHolder {
@@ -130,6 +128,11 @@ iframe {
 	}
 }
 
+.counterDiv {
+	display:flex;
+	justify-content: space-between;
+}
+
 @media screen and (max-width: $breakpoint-lg) {
 	.wrapper {
 		display: flex;
@@ -148,3 +151,4 @@ iframe {
 		grid-template-columns: minmax(480px, 1fr);
 	}
 }
+
