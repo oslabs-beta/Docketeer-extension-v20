@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './FilterButton.module.scss';
 
 // Type definitions
@@ -17,15 +17,19 @@ interface FilterButtonProps {
 
 const FilterButton: React.FC<FilterButtonProps> = ({ buttonText, actions }) => {
   const [isOpen, setIsOpen] = useState(false);
-  // const [selectedActions, setSelectedActions] = useState<{ [key: string]: boolean }>({});
+  const [selectedActions, setSelectedActions] = useState<{ [key: string]: boolean }>({});
   //initiate all actions to true
-  const [selectedActions, setSelectedActions] = useState(
-    actions.reduce((acc, action) => {
-      acc[action.id] = true; // Set all actions to true initially
-      return acc;
-    }, {} as { [key: string]: boolean })
-  );
+  // const [selectedActions, setSelectedActions] = useState(
+  //   actions.reduce((acc, action) => {
+  //     acc[action.id] = true; // Set all actions to true initially
+  //     return acc;
+  //   }, {} as { [key: string]: boolean })
+  // );
   const [appliedActions, setAppliedActions] = useState<{ [key: string]: boolean }>({});
+  // defined a previous state variable- this was added retroactively to fix a bug where
+  // if the user didn't make any changes in a modal and pressed "Apply Changes" in the
+  // app, it would select any unselected boxes
+  let prevActionsRef = useRef<{ [key: string]: boolean }>({});
 
   // useEffect initializes selections of the filter button based on applied actions
   // aka: if CPU% was set to be invisible, clicking the filtration button will have the 
@@ -54,12 +58,13 @@ const FilterButton: React.FC<FilterButtonProps> = ({ buttonText, actions }) => {
   const handleSubmit = () => {
     // Execute all selected actions
     actions.forEach(action => {
-      if (selectedActions[action.id]) {
+      if (selectedActions[action.id] !== prevActionsRef[action.id]) {
         action.handler();
       }
     });
     // creates state for all the selected actions for future reference the next time the modal is opened
-    setAppliedActions({...selectedActions})
+    setAppliedActions({ ...selectedActions })
+    // prevActionsRef.current = selectedActions;
     toggleModal();
   };
 
@@ -85,7 +90,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({ buttonText, actions }) => {
                   <input
                     type="checkbox"
                     id={action.id}
-                    checked={selectedActions[action.id]}
+                    checked={!selectedActions[action.id]}
                     onChange={() => handleCheckboxChange(action.id)}
                   />
                   <label htmlFor={action.id}>{action.label} {appliedActions[action.id]}</label>

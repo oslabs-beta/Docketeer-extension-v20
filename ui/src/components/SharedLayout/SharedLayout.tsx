@@ -20,6 +20,7 @@ import {
 import Client from '../../models/Client';
 import Switch, { switchClasses } from '@mui/joy/Switch';
 import { Theme } from '@mui/joy';
+import { set } from 'mongoose';
 
 /**
  * @module | SharedLayout.tsx
@@ -30,6 +31,7 @@ function SharedLayout(): JSX.Element {
   // navBar useState
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [checked, setChecked] = useState<boolean>(false);
+  const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
   const buttonRef = useRef<HTMLImageElement>(null);
   const dropdownRef = useRef(null);
   const dispatch = useAppDispatch();
@@ -39,20 +41,21 @@ function SharedLayout(): JSX.Element {
     setIsOpen(!isOpen);
   };
 
-  // hover hamburger will trigger onclick
-  const handleHover = () => {
-		buttonRef.current.click();
-  };
-  
-  // click outside to close hamburger
-  const handleOutsideClick = (e: MouseEvent) => {
-		if (
-			dropdownRef.current &&
-			!dropdownRef.current.contains(e.target as Node)
-		) {
-			setIsOpen(false);
-		}
-	};
+    const handleMouseOn = () => {
+  if (hoverTimeout) {
+  clearTimeout (hoverTimeout);
+  setHoverTimeout(null);
+  }
+      setIsOpen(true);
+}
+
+  const handleMouseOff = () => {
+  const timeout = setTimeout(()=> {
+  setIsOpen(false);
+  },1000);
+  setHoverTimeout(timeout)
+};
+
 
   const handleNetworkPrune = async (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -127,12 +130,6 @@ function SharedLayout(): JSX.Element {
     dispatch(fetchAllContainersOnVolumes());
   }, [volumes]);
 
-  useEffect(() => {
-		document.addEventListener('mousedown', handleOutsideClick);
-		return () => {
-			document.removeEventListener('mousedown', handleOutsideClick);
-		};
-	}, []);
 
   return (
     <div>
@@ -212,12 +209,15 @@ function SharedLayout(): JSX.Element {
               </NavLink>
             </li>
           </ul>
-          <div className={styles.hamburgerIcon} ref={dropdownRef}>
+          <div className={styles.hamburgerIcon}
+            ref={dropdownRef}
+            onMouseEnter={handleMouseOn}
+            onMouseLeave={handleMouseOff}
+          >
             <img
               src={MenuIcon}
               onClick={toggleSidebar}
               ref={buttonRef}
-              onMouseOver={handleHover}
             ></img>
             {isOpen && (
               <SideBar
@@ -228,8 +228,8 @@ function SharedLayout(): JSX.Element {
             )}
           </div>
         </div>
-			</nav>
-			<div className = {styles.navMargin}></div>
+      </nav>
+      <div className={styles.navMargin}></div>
       <Alert />
       <Outlet />
     </div>
