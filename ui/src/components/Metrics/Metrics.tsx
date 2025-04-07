@@ -4,7 +4,7 @@ import { Metric, MetricsEntry, metricData } from 'types';
 import Client from '../../models/Client'
 import MetricFilterButton from './MetricFilterButton';
 
-const Metrics = (): JSX.Element => {
+const Metrics = ({ filters, setFilters}): JSX.Element => {
   const [messageVisible, setMessageVisible] = useState<boolean>(false);
   const [resetIframe, setResetIframe] = useState<boolean>(true);
   //Refreshing the page back to home 
@@ -100,7 +100,7 @@ const Metrics = (): JSX.Element => {
 
 
 
-  
+
 
   return (
     <div>
@@ -113,7 +113,7 @@ const Metrics = (): JSX.Element => {
           <button className={styles.button} onClick={getMetrics}>
             SAVE METRICS
           </button>
-          <MetricFilterButton buttonText={"test"} actions={actions} />
+          <MetricFilterButton buttonText={"FILTER"} actions={actions} />
         </div>
       </div>
 
@@ -130,6 +130,7 @@ const Metrics = (): JSX.Element => {
           className={styles.metrics}
           src="http://localhost:49155/d/metrics_monitoring/docker-and-system-monitoring?orgId=1&refresh=5s&kiosk"
         />
+        
       </div>
     </div>
   );

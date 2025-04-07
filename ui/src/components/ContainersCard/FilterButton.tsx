@@ -46,7 +46,6 @@ const FilterButton: React.FC<FilterButtonProps> = ({ buttonText, actions }) => {
   return (
     <div className={styles["modal-button-container"]}>
       <button className={styles["primary-button"]} onClick={toggleModal}>
-        <img src='../../assets/107799.png' alt="icon" className="button-icon" />
         {buttonText}
       </button>
 
@@ -54,10 +53,12 @@ const FilterButton: React.FC<FilterButtonProps> = ({ buttonText, actions }) => {
         <div className={styles["modal-overlay"]}>
           <div className={styles["modal-content"]}>
             <div className={styles["modal-header"]}>
-              <h2>Select Actions</h2>
-              <button className={styles["close-button"]} onClick={toggleModal}>×</button>
+              <h2>Filter Metrics</h2>
+              <button className={styles["close-button"]} onClick={toggleModal}>
+                ×
+              </button>
             </div>
-            
+
             <div className={styles["modal-body"]}>
               {actions.map((action) => (
                 <div className={styles["checkbox-item"]} key={action.id}>
@@ -71,12 +72,15 @@ const FilterButton: React.FC<FilterButtonProps> = ({ buttonText, actions }) => {
                 </div>
               ))}
             </div>
-            
+
             <div className={styles["modal-footer"]}>
               <button className={styles["cancel-button"]} onClick={toggleModal}>
                 Cancel
               </button>
-              <button className={styles["submit-button"]} onClick={handleSubmit}>
+              <button
+                className={styles["submit-button"]}
+                onClick={handleSubmit}
+              >
                 Apply Selected
               </button>
             </div>

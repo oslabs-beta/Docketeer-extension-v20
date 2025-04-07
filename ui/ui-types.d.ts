@@ -339,7 +339,7 @@ export interface ToggleDisplayProps {
 export interface DataFromBackend {
   hash?: string;
   error?: string;
-}
+}Record<string, boolean>;
 
 export interface ContainersCardsProps {
   containerList?: ContainerType[];
@@ -353,6 +353,7 @@ export interface ContainersCardsProps {
   bashContainer: (container: any) => void;
   status: string;
   key?: string | number;
+  filters: Record<string, boolean>;
 }
 
 export interface NetworkModal {

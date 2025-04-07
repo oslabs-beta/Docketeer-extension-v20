@@ -45,8 +45,8 @@
 }
 
 .button, .buttonLoad {
-  background-color: #2351d1;
-  text-shadow: 1px 1px 2px #2351d1;
+  background-color: #123458;
+  text-shadow: 1px 1px 2px #123458;
   border: none;
   color: white;
   text-align: center;
@@ -63,9 +63,9 @@
 }
 
 .button {
-  box-shadow: 1px 1px 10px #2351d1;
+  box-shadow: 1px 1px 10px #123458;
   &:hover {
-    background-color: #9ab4fbc7;
+    background-color: grey;
   }
 }
 

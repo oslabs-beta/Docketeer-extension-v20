@@ -13,6 +13,8 @@ type ActionType = {
 interface MetricFilterButtonProps {
   buttonText: string;
   actions: ActionType[];
+  // filters: Record<string, boolean>;
+  // setFilters: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
 }
 
 const MetricFilterButton: React.FC<MetricFilterButtonProps> = ({ buttonText, actions }) => {
@@ -20,6 +22,14 @@ const MetricFilterButton: React.FC<MetricFilterButtonProps> = ({ buttonText, act
   const [selectedActions, setSelectedActions] = useState<{
     [key: string]: boolean;
   }>({});
+  const [filters, setFilters] = useState({
+    cpuPerc: true,
+    memUsage: true,
+    memPerc: true,
+    netIO: true,
+    blockIO: true,
+    PID: true,
+  });
 
   const toggleModal = () => {
     console.log("opening modal:", !isOpen);
@@ -30,11 +40,12 @@ const MetricFilterButton: React.FC<MetricFilterButtonProps> = ({ buttonText, act
     }
   };
 
-  const handleCheckboxChange = (id: string) => {
-    setSelectedActions({
-      ...selectedActions,
-      [id]: !selectedActions[id],
-    });
+  const handleCheckboxChange = (label: string) => {
+    const key = label.toLowerCase().replace(/[^a-z]/g, ""); // normalize keys like "MEMORY USAGE" -> "memoryusage"
+    setFilters((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
   };
 
   const handleSubmit = () => {
