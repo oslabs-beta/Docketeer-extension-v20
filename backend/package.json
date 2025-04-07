@@ -24,8 +24,7 @@
     "memcached": "^2.2.2",
     "mongodb": "^6.5.0",
     "mongoose": "^8.2.1",
-    "pg": "^8.11.3",
-    "redis": "^4.6.12"
+    "pg": "^8.11.3"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.4",

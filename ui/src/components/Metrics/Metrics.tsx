@@ -3,6 +3,7 @@ import styles from './Metrics.module.scss';
 import { Metric, MetricsEntry, metricData } from 'types';
 import Client from '../../models/Client'
 import MetricFilterButton from './MetricFilterButton';
+import global from '../global.module.scss'
 
 const Metrics = ({ filters, setFilters}): JSX.Element => {
   const [messageVisible, setMessageVisible] = useState<boolean>(false);
@@ -107,10 +108,10 @@ const Metrics = ({ filters, setFilters}): JSX.Element => {
       <div className={styles.iframeHeader}>
         <h1 className={styles.metricsTitle}>METRICS DASHBOARD</h1>
         <div className={styles.buttonDiv}>
-          <button className={styles.button} onClick={handleHome}>
+          <button className={global.button1} onClick={handleHome}>
             HOME
           </button>
-          <button className={styles.button} onClick={getMetrics}>
+          <button className={global.button1} onClick={getMetrics}>
             SAVE METRICS
           </button>
           <MetricFilterButton buttonText={"FILTER"} actions={actions} />
