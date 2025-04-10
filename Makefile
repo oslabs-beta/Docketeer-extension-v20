@@ -19,6 +19,9 @@ NO_COLOR   = \033[m
 browser-new:
 	docker compose -f extension/docker-compose-browser.yaml up --build -d
 
+browser-new-dep:
+	docker compose -f extension/docker-compose-browser-dependencies.yaml up --build -d
+
 # RECOMMENDED
 browser-dev:
 	docker compose -f ${DOCKERFILEDIRECTORY}/docker-compose-browser.yaml up -d
