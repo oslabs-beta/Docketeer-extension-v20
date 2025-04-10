@@ -20,7 +20,7 @@ import {
 import Client from '../../models/Client';
 import Switch, { switchClasses } from '@mui/joy/Switch';
 import { Theme } from '@mui/joy';
-import { set } from 'mongoose';
+
 
 /**
  * @module | SharedLayout.tsx
