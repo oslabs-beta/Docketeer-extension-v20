@@ -137,7 +137,7 @@ function SharedLayout(): JSX.Element {
         <div style={{ marginLeft: "50px" }}>
           {/* LOGO */}
           <NavLink to="/" className={styles.logoDiv}>
-            <h1>Dogkerteer</h1>
+            <h1>Docketeer</h1>
             <img
               className={styles.logo}
               src={docketeerLogo}

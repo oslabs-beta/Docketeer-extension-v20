@@ -33,7 +33,7 @@
     <img src="assets/extended-dark.png" alt="Logo" width="550" height="auto">
   </a>
   <br />
-  https://docketeer.io/
+  https://dogketeer.com/<br>
 <br/>
   
    <br /> 
@@ -60,7 +60,7 @@
     <li>
     <a href="#about-the-project">About Docketeer</a></li>
     <li><a href="#installation">Installation</a></li>
-    <li><a href="#in-development">In Development</a></li>
+    <li><a href="#features">Features</a></li>
     <li><a href="#documentation">Documentation</a></li>
     <li><a href="#contributing">Contributing</a></li> 
     <li><a href="#license">License</a></li>
@@ -73,27 +73,62 @@
 
 <div align="center" width="100%">
             
-[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Redis][Redis]][Redis-url][![MongoDB][MongoDB]][MongoDB-url][![Postgres][Postgres]][Postgres-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url][![D3][D3]][D3-url][![MUI][MUI]][MUI-URL][![Git][Git]][Git-url]
+[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![MongoDB][MongoDB]][MongoDB-url][![Postgres][Postgres]][Postgres-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url][![D3][D3]][D3-url][![MUI][MUI]][MUI-URL][![Git][Git]][Git-url]
 
 </div>
 
-Docketeer is an open source initiative comprising contributions from dozens of talented and passionate software engineers. Our application provides a simple interface to manage Docker resources & visualize both host and container metric data. Docketeer is a containerized application that can be deployed alongside your application cluster with hardly any effort. To learn more about our application and how to get started, keep reading!
+Docketeer is an open source initiative comprised of contributions from dozens of talented and passionate software engineers. Our application provides a simple interface to manage Docker resources & visualize both host and container metrics. Docketeer is a containerized application that can be deployed alongside your application cluster with hardly any effort. To learn more about Docketeer and how to get started, continue reading!
 
-### What's New in Version 19.0.0?
+<!-- FEATURES -->
 
-| Feature                                                                                                                                     | Status    |
+## Features
+
+- Docketeer is a Docker developer tool that's available as an open-source project on GitHub or as an extension on Docker Desktop.
+- It aims to simplify the development process for projects that use Docker containers.
+- Visualize and compare previously saved health metric snapshots to offer users a comprehensive understanding of historical performance.
+- Allows you to filter through both your running and stopped container logs.
+- Provides image vulnerability data for each image for enhanced understanding of the security of used images
+- Docketeer provides an easy-to-use GUI for managing Docker containers, images, and networks.
+- With Docketeer, developers can quickly start, stop, and delete containers, as well as manage run Docker images.
+- Docketeer offers the ability to create, delete, and attach containers to networks.
+- It's a community-maintained project, with frequent updates and bug fixes.
+- Docketeer is licensed under the MIT license, meaning it can be used and modified freely, even for commercial projects.
+- Read, modify, and save Prometheus configurations all within the extension
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### What's New in Version 20.0.0?
+
+| New Features                                                                                                                                     | Status    |
 |---------------------------------------------------------------------------------------------------------------------------------------------|-----------|
-| Image vulnerability scans utilizing Memcached to replace non-open source Redis                                                              | ✅        |
-| Added critical details to vulnerabilities, such as links to all vulnerability types and information on patched package versions             | ✅        |
-| Users can now use the Configuration Page to modify Prometheus target/metric settings, and restart Prometheus container within the app       | ✅        |
-| Users can now save newly modified Prometheus settings to MongoDB database                                                                   | ✅        |
-| Loading and error modals added to avoid waiting on potential crashes                                                                        | ✅        |
-| Updated color schemes for better readability, and high contrast mode for color-deficient users                                              | ✅        |
-| Consistent styles between pages for upgraded user experience                                                                                | ✅        |
-| Functional network and list reducer tests                                                                                                   | ✅        |
+| Setup a error catcher to alert Users of errors that are in the Docker Container Log.                                                        | ✅        |
+| Optimize frontend rendering performance with lazy loading to reduce initial bundle size and eliminating redundant re-renders.               | ✅        |   
+| Complete update of all dependencies. Docketeer v20.0.0 is now fully compatible with Docker Desktop v4.40 as of 04/16/25.                    | ✅        |
+|                | ✅        |
 
 - ✅ = Ready to use
 
+
+| In Development                                                                                                                                    | Status    |
+|---------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| CI/CD pipeline for Docketeer repo.                                                                                                          | ⏳        |
+| Improve test coverage with additional unit tests and integration tests.                                                                     | ⏳        |
+| Optimize frontend rendering performance with lazy loading to reduce initial bundle size and eliminating redundant re-renders.               | ⏳        |
+| Add support for more advanced Docker features, like multi-stage builds or Docker secrets, to expand the capabilities of Docketeer.          | ⏳        |
+| Add the ability to control Docker containers deployed in AWS.                                                                               | ⏳        |
+| Develop aggregation service to collect and cache data from prometheus data sources.                                                         | ⏳        |
+| Implement endpoint scraping of any kubernetes cluster running prometheus. ([Read more](/docs/dev/features/Configuration(Alpha).md))         | ⏳        |
+| Work on improving the connect/disconnect button under networks button in Containers Tab.                                                    | ⏳        |
+| Adding additional key metrics to the snapshot functionality.                                                                                | ⏳        |
+| Implement functionality that alerts users when certain metrics reach critical threshold.                                                    | ⏳        |
+| Add functionality to load previously saved Prometheus configurations to the current container                                               | ⏳        |
+| Reduce memory consumption of the application                                                                                                | ⏳        |
+
+- ⏳ = In progress
+
+See the [Known Issues Docs](/docs/KnownIssues.md) for a list of known issues.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <br />
   <div align="center">
@@ -117,29 +152,12 @@ Docketeer is an open source initiative comprising contributions from dozens of t
     <img alt="Volume Page" src="assets\volumes.png" width="fit" height="auto">
     <p>Other Tab Demo:</p>
     <img alt="Others gif" src="assets\other.gif" width="fit" height="auto">
-    <p>Spooler:</p>
-    <img alt="Spooler" src="assets\Spooler.gif" width="fit" height="auto">
   </div>
 <br />
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Features:
-
-- Docketeer is a Docker developer tool that's available as an open-source project on GitHub or as an extension on Docker Desktop.
-- It aims to simplify the development process for projects that use Docker containers.
-- Visualize and compare previously saved health metric snapshots to offer users a comprehensive understanding of historical performance.
-- Allows you to filter through both your running and stopped container logs.
-- Provides image vulnerability data for each image for enhanced understanding of the security of used images
-- Docketeer provides an easy-to-use GUI for managing Docker containers, images, and networks.
-- With Docketeer, developers can quickly start, stop, and delete containers, as well as manage run Docker images.
-- Docketeer offers the ability to create, delete, and attach containers to networks.
-- It's a community-maintained project, with frequent updates and bug fixes.
-- Docketeer is licensed under the MIT license, meaning it can be used and modified freely, even for commercial projects.
-- Read, modify, and save Prometheus configurations all within the extension
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- INSTALLATION -->
 
@@ -148,7 +166,10 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 Dev & Contributors - See [DevGettingStarted](/docs/DevGettingStarted.md) & Contributing section below!
 
+
+**Need to improve the readability and make sure that the steps are sequentially read out, this is an awful. Should also include Download Docker Desktop as first step since the browser does not contain any metrics
 <br/>
+
 
 `Notes:` If you encounter any `<dependency/package> not found by vite`: 
 
@@ -169,31 +190,6 @@ Dev & Contributors - See [DevGettingStarted](/docs/DevGettingStarted.md) & Contr
 
 <br/>
 
-<!-- IN DEVELOPMENT -->
-
-## In Development
-
-| Feature                                                                                                                                     | Status    |
-|---------------------------------------------------------------------------------------------------------------------------------------------|-----------|
-| CI/CD pipeline for Docketeer repo.                                                                                                          | ⏳        |
-| Improve test coverage with additional unit tests and integration tests.                                                                     | ⏳        |
-| Optimize frontend rendering performance with lazy loading to reduce initial bundle size and eliminating redundant re-renders.               | ⏳        |
-| Add support for more advanced Docker features, like multi-stage builds or Docker secrets, to expand the capabilities of Docketeer.          | ⏳        |
-| Add the ability to control Docker containers deployed in AWS.                                                                               | ⏳        |
-| Develop aggregation service to collect and cache data from prometheus data sources.                                                         | ⏳        |
-| Implement endpoint scraping of any kubernetes cluster running prometheus. ([Read more](/docs/dev/features/Configuration(Alpha).md))         | ⏳        |
-| Work on improving the connect/disconnect button under networks button in Containers Tab.                                                    | ⏳        |
-| Adding additional key metrics to the snapshot functionality.                                                                                | ⏳        |
-| Setup a error catcher to alert Users of errors that are in the Docker Container Log.                                                        | ⏳        |
-| Implement functionality that alerts users when certain metrics reach critical threshold.                                                    | ⏳        |
-| Add functionality to load previously saved Prometheus configurations to the current container                                               | ⏳        |
-
-- ✅ = Ready to use
-- ⏳ = In progress
-
-See the [Known Issues Docs](/docs/KnownIssues.md) for a list of known issues.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- IN DEVELOPMENT -->
 
@@ -202,7 +198,7 @@ For more details, please read the ***docs*** folder, which covers the following:
 
 - API 
 - Assets
-- Changelogs (V1-V18)
+- Changelogs (V1-V20)
 - Features 
   - Configuration.md
   - Models.md
@@ -211,6 +207,36 @@ For more details, please read the ***docs*** folder, which covers the following:
 - KnownIssues.md
 
 When you are ready to launch, make sure to follow the instructions under ***Makefile***.
+
+
+<br />
+
+## <b>Read More</b>
+- [Docketeer XX: Foundation Restoration](https://medium.com) **{add Medium Link}
+- [Docketeer XIX: New Features in Uncharted Seas](https://medium.com/@ellissong/docketeer-xix-new-features-in-uncharted-seas-3baf72099488)
+- [Docketeer XVIII: A Whale of An Improvement](https://medium.com/@docketeerxii/announcing-docketeer-18-0-a-whale-of-an-improvement-67282fbbbe61)
+- [Docketeer XVII: Transforming with Security](https://medium.com/@docketeerxii/docketeer-xvii-transforming-with-security-45cd06da061d)
+- [Docketeer XVI: The Journey Continues](https://medium.com/@docketeerxii/introducing-docketeer-xvi-the-journey-continues-f34fc5bf7749)
+- [Docketeer XV: Navigating the Seas of Docker with Docketeer v15](https://medium.com/@christiandoescoding/navigating-the-seas-of-docker-with-docketeer-v15-0-ad5bd9540d14)
+- [Docketeer XIV: Coming Home](https://medium.com/@grantschussler/docketeer-xiv-coming-home-6eb011990a34)
+- [Docketeer XIII: A Tool for Docker!](https://medium.com/@michael_kwon_liu/docketeer-a-tool-for-docker-273793014eb0)
+- [Docketeer XII: Now Ready for Launch!](https://medium.com/@jaenixlee/docketeer-xii-now-ready-for-launch-d06e8f26cd0f)
+- [Introducing Docketeer XI | The Latest Version Ready for Takeoff with a Splash!](https://medium.com/@saadh123/introducing-docketeer-xi-the-latest-version-ready-for-takeoff-with-a-splash-d5f40eacb29d)
+- [Enjoy the sleek new look of Docketeer X](https://medium.com/@ajschmidt225/enjoy-the-sleek-new-look-of-docketeer-x-34c1ccf8bb2b)
+- [Docketeer is here to make a splash!](https://medium.com/@garima41/docketeer-9-0-is-here-to-make-a-splash-134336923d3d)
+- [Docketeer is here! You’re WHALEcome!](https://medium.com/@dfeldman24/docketeer-5-0-is-here-youre-whalecome-6f9d72ec3b58)
+- [Docketeer! What's new?](https://medium.com/@hultzentre/docketeer-5-0-whats-new-358a5f107ac4)
+- [Docketeer: An Innovative Tool to Manage Docker Containers](https://griffinsilver.medium.com/docketeer-3-0-an-innovative-tool-to-manage-docker-containers-723ea5be6220a)
+- [Whale Hello There, Docketeer 4.0 is Here!](https://msscloudy.medium.com/whale-hello-there-docketeer-4-0-is-here-b78bd9d1df01)
+- [Our Journey Building Docketeer](https://betterprogramming.pub/our-journey-building-docketeer-an-open-source-docker-container-monitoring-and-visualization-tool-fb6c26d8908a)
+
+<br />
+
+
+## Show Your Support
+
+Please ⭐️ this project if you found it helpful, thank you!
+<br />
 
 <!-- CONTRIBUTING -->
 
@@ -231,43 +257,11 @@ Don't forget to give the project a star! Thanks again!
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.
 
 Need ideas for improvement? Check our [known issues](/docs/KnownIssues.md) for possible improvements / fixes!
-
-<br />
-
-## <b>Read More</b>
-- [Docketeer XIX: New Features in Uncharted Seas](https://medium.com/@ellissong/docketeer-xix-new-features-in-uncharted-seas-3baf72099488)
-- [Docketeer XVIII: A Whale of An Improvement](https://medium.com/@docketeerxii/announcing-docketeer-18-0-a-whale-of-an-improvement-67282fbbbe61)
-- [Docketeer XVII: Transforming with Security](https://medium.com/@docketeerxii/docketeer-xvii-transforming-with-security-45cd06da061d)
-- [Docketeer XVI: The Journey Continues](https://medium.com/@docketeerxii/introducing-docketeer-xvi-the-journey-continues-f34fc5bf7749)
-- [Docketeer XV: Navigating the Seas of Docker with Docketeer v15](https://medium.com/@christiandoescoding/navigating-the-seas-of-docker-with-docketeer-v15-0-ad5bd9540d14)
-- [Docketeer XIV: Coming Home](https://medium.com/@grantschussler/docketeer-xiv-coming-home-6eb011990a34)
-- [Docketeer XIII: A Tool for Docker!](https://medium.com/@michael_kwon_liu/docketeer-a-tool-for-docker-273793014eb0)
-- [Docketeer XII: Now Ready for Launch!](https://medium.com/@jaenixlee/docketeer-xii-now-ready-for-launch-d06e8f26cd0f)
-- [Introducing Docketeer XI | The Latest Version Ready for Takeoff with a Splash!](https://medium.com/@saadh123/introducing-docketeer-xi-the-latest-version-ready-for-takeoff-with-a-splash-d5f40eacb29d)
-- [Enjoy the sleek new look of Docketeer X](https://medium.com/@ajschmidt225/enjoy-the-sleek-new-look-of-docketeer-x-34c1ccf8bb2b)
-- [Docketeer is here to make a splash!](https://medium.com/@garima41/docketeer-9-0-is-here-to-make-a-splash-134336923d3d)
-- [Docketeer is here! You’re WHALEcome!](https://medium.com/@dfeldman24/docketeer-5-0-is-here-youre-whalecome-6f9d72ec3b58)
-- [Docketeer! What's new?](https://medium.com/@hultzentre/docketeer-5-0-whats-new-358a5f107ac4)
-- [Docketeer: An Innovative Tool to Manage Docker Containers](https://griffinsilver.medium.com/docketeer-3-0-an-innovative-tool-to-manage-docker-containers-723ea5be6220a)
-- [Whale Hello There, Docketeer 4.0 is Here!](https://msscloudy.medium.com/whale-hello-there-docketeer-4-0-is-here-b78bd9d1df01)
-- [Our Journey Building Docketeer](https://betterprogramming.pub/our-journey-building-docketeer-an-open-source-docker-container-monitoring-and-visualization-tool-fb6c26d8908a)
-
-<br />
-
-<!-- LICENSE -->
-
-## License
-
-Distributed under the MIT License. See [License](/LICENSE) for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Show Your Support
-
-Please ⭐️ this project if you found it helpful, thank you!
-<br />
-
 ## Contributors
+- Rachel Baek [@rsbaek](https://github.com/rsbaek) | [Linkedin](https://www.linkedin.com/in/rachel-baek/)
+- Nika Mamaladze [@nikamamaladze92](https://github.com/nikamamaladze92) | [Linkedin](https://www.linkedin.com/in/nika-mamaladze-b06b53326/)
+- Chris Schiro [@cschiro](https://github.com/cschiro) | [Linkedin](https://www.linkedin.com/in/chris-schiro/)
+- Arthur Jin [@ArthurJZL](https://github.com/ArthurJZL) | [Linkedin](https://www.linkedin.com/in/arthur-jin/)
 - Aiden Carere [@AidenCarere](https://github.com/AidenCarere) | [Linkedin](https://www.linkedin.com/in/aidencarere/)
 - Chris Rodriguez [@chrisr0892](https://github.com/chrisr0892) | [Linkedin](https://www.linkedin.com/in/chris-kossky-rodriguez/)
 - Dylan Sterling [@dsterling7](https://github.com/dsterling7) | [Linkedin](https://www.linkedin.com/in/dylan-sterling-2b7256180/)
@@ -352,6 +346,13 @@ Please ⭐️ this project if you found it helpful, thank you!
 - Gabriela Pleitez Gomez [@gabyspg](https://github.com/gabyspg) | [LinkedIn](https://www.linkedin.com/in/gabriela-pleitez-gomez)
 - Peter Chung [@peterchung](https://github.com/peterchung) | [LinkedIn](https://www.linkedin.com/in/peterminkichung/)
 
+<!-- LICENSE -->
+
+## License
+
+Distributed under the MIT License. See [License](/LICENSE) for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

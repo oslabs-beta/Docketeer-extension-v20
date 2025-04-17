@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './Metrics.module.scss';
 import { Metric, MetricsEntry, metricData } from 'types';
 import Client from '../../models/Client'
-import MetricFilterButton from './MetricFilterButton';
+
 import global from '../global.module.scss'
 
 const Metrics = ({ filters, setFilters}): JSX.Element => {
@@ -58,51 +58,6 @@ const Metrics = ({ filters, setFilters}): JSX.Element => {
     }, 3000); 
   }
 
-
-
-
-
-
-
-  const actions = [
-    {
-      id: "action1",
-      label: "CPU %",
-      handler: () => console.log("Email notification sent"),
-    },
-    {
-      id: "action2",
-      label: "MEMORY USAGE",
-      handler: () => console.log("Database updated"),
-    },
-    {
-      id: "action3",
-      label: "MEM %",
-      handler: () => console.log("Report generated"),
-    },
-    {
-      id: "action4",
-      label: "NET I/O",
-      handler: () => console.log("Records archived"),
-    },
-    {
-      id: "action5",
-      label: "BLOCK I/O",
-      handler: () => console.log("Cloud sync completed"),
-    },
-    {
-      id: "action6",
-      label: "PID",
-      handler: () => console.log("Cache cleared"),
-    },
-  ];
-
-
-
-
-
-
-
   return (
     <div>
       <div className={styles.iframeHeader}>
@@ -114,7 +69,6 @@ const Metrics = ({ filters, setFilters}): JSX.Element => {
           <button className={global.button1} onClick={getMetrics}>
             SAVE METRICS
           </button>
-          <MetricFilterButton buttonText={"FILTER"} actions={actions} />
         </div>
       </div>
 
