@@ -162,24 +162,26 @@ Dev & Contributors - See [DevGettingStarted](/docs/DevGettingStarted.md) & Contr
 
 <br />
   <div align="center">
-    <p>Navigation</p>
-    <img alt="Navigation" src="./assets/Navigation_v20.gif" width="fit" height="auto">
     <p>Container Page:</p>
-    <img alt="Containers Page" src="./assets/ContainersFilters_v20.gif" width="fit" height="auto">
+    <img alt="Containers Page" src="assets\containerTab-new.gif" width="fit" height="auto">
     <p>Image Page:</p>
-    <img alt="Image Page" src="./assets/Images_v20.gif" width="fit" height="auto">
-    <p>Snapshot Metrics:</p>
-    <img alt="Snapshot Metrics" src="./assets/SnapshotMetrics_v20.gif" width="fit" height="auto">
+    <img alt="Image Page" src="assets\images.gif" width="fit" height="auto">
+    <p>Image Page - Visualization:</p>
+    <img alt="Image Page - Visualizatio" src="assets\visualization.gif" width="fit" height="auto">
+    <p>Image Page - Time Series:</p>
+    <img alt="Image Page - Time Series" src="assets\TimeSeries.gif" width="fit" height="auto">
+    <p>Image Page High Contrast:</p>
+    <img alt="High Contrast" src="assets\highContrast.gif" width="fit" height="auto">
     <p>Container Metrics Page:</p>
-    <img alt="Container Metrics Page" src="./assets/ContainersMetrics_v20.gif" width="fit" height="auto">
-    <p>Process Logs:</p>
-    <img alt="Process Logs" src="./assets/ProcessLogs_v20.gif" width="fit" height="auto">
-    <p>Kubernetes Page (In Development):</p>
-    <img alt="Kubernates Metrics Page" src="./assets/KubernetesClusterHealthMetrics_v20.gif" width="fit" height="auto">
-    <p>Network:</p>
-    <img alt="Network" src="./assets/Network_v20.png" width="fit" height="auto">
+    <img alt="Container Metrics Page" src="assets\metricTab-new.gif" width="fit" height="auto">
     <p>Configuration Page:</p>
-    <img alt="Configuration Page" src="./assets/Configurations_v20.png" width="fit" height="auto">
+    <img alt="Configuration Page" src="assets\configGif.gif" width="fit" height="auto">
+    <p>Kubernetes Page (In Development):</p>
+    <img alt="Kubernates Metrics Page" src="assets\k8Tab-new.gif" width="fit" height="auto">
+    <p>Volume Page:</p>
+    <img alt="Volume Page" src="assets\volumes.png" width="fit" height="auto">
+    <p>Other Tab Demo:</p>
+    <img alt="Others gif" src="assets\other.gif" width="fit" height="auto">
   </div>
 <br />
 
@@ -413,3 +415,131 @@ Distributed under the MIT License. See [License](/LICENSE) for more information.
 [D3-url]: https://d3js.org/
 [MUI]:https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white
 [MUI-url]: https://mui.com/
+
+## 🚀 Installation Guide for Docketeer v20.0.0
+
+Docketeer is a Docker Desktop Extension for real-time container monitoring using Prometheus, Grafana, and cAdvisor. With updated dependencies, Docketeer v20.0.0 is now compatible with Docker Desktop v4.40+.
+
+---
+
+### ✅ Prerequisites
+
+1. **Install Docker Desktop**
+   - [Download Docker Desktop](https://www.docker.com/products/docker-desktop/)
+   - Follow the install steps for macOS or Windows.
+   - Verify installation:
+     ```bash
+     docker --version
+     ```
+
+---
+
+## 🧩 Install Docketeer as an Extension
+
+1. Open Docker Desktop.
+2. Go to the **Extensions** tab.
+3. Search for `Docketeer`.
+4. Click **Install**.
+
+> For local development or contributing, follow the steps below.
+
+---
+
+## 🛠 Local Development: Browser Mode
+
+### 🔧 1. Enable Docker Extension Developer Mode
+
+- Open Docker Desktop → **Settings > Extensions** → Enable `Developer Mode`
+
+---
+
+### 🌐 2. Run Docketeer in Browser Mode
+
+This will launch the full environment (frontend, backend, Postgres, Prometheus, Grafana, cAdvisor, etc.)
+
+#### To run clean with no cache:
+
+```bash
+make browser-new
+```
+
+- Docketeer UI → `http://localhost:4000`
+- Grafana → `http://localhost:49155`
+- Prometheus → `http://localhost:49156`
+- cAdvisor → `http://localhost:49158`
+
+---
+
+### 🛑 3. Power Down
+
+Stop and clean up all containers and volumes:
+
+```bash
+make browser-down
+```
+
+If needed, clear all dangling resources:
+
+```bash
+docker system prune -af
+```
+
+---
+
+### ⚠️ Troubleshooting (e.g. Vite package not found)
+
+```bash
+make browser-down
+docker system prune -af
+make browser-new
+```
+
+---
+
+## 📦 Building & Packaging the Extension
+
+If you want to distribute or test the Docker Desktop extension (not browser mode), follow these steps:
+
+### 🔨 1. Build the extension
+
+```bash
+docker extension build -f extension/dockerfile.dev -t docketeer-ext .
+```
+
+> Replace `dockerfile.dev` with `dockerfile.prod` for production.
+
+### 🧪 2. Install the extension locally
+
+```bash
+docker extension install docketeer-ext
+```
+
+If you’ve already installed it before:
+
+```bash
+docker extension uninstall docketeer-ext
+docker extension install docketeer-ext
+```
+
+### 🧼 3. Uninstall Extension
+
+```bash
+docker extension uninstall docketeer-ext
+```
+
+---
+
+## 🗂 Project Structure
+
+| File                          | Purpose                                        |
+|-------------------------------|------------------------------------------------|
+| `docker-compose-browser.yaml` | Full browser-mode dev environment              |
+| `docker-compose-dev.yaml`     | Minimal extension test in dev mode             |
+| `docker-compose-prod.yaml`    | Production-ready extension deployment config   |
+| `dockerfile.dev`              | Dockerfile for dev builds (hot reload support) |
+| `dockerfile.prod`             | Dockerfile for production extension build      |
+| `Makefile`                    | CLI automation: build, run, down, clean        |
+
+---
+
+Need help? Open an issue or reach out to a maintainer. Happy hacking!
