@@ -4,12 +4,11 @@
   align-items: stretch;
   justify-content: flex-start;
   text-align: center;
-  height: 290px;
   position: fixed;
   right: 5%;
   top: 60px;
   background-color: color(background, base);
-  border-radius: 10px;
+  border-radius: 7px;
   gap:0;
 }
 
@@ -48,6 +47,7 @@
 .active {
   color: whitesmoke;
   background-color: #123458;
+  border-radius: 7px;
   
   
 
