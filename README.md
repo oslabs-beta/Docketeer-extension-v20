@@ -100,10 +100,10 @@ Docketeer is an open source initiative comprised of contributions from dozens of
 
 | New Features                                                                                                                                     | Status    |
 |---------------------------------------------------------------------------------------------------------------------------------------------|-----------|
-| Setup a error catcher to alert Users of errors that are in the Docker Container Log.                                                        | ✅        |
+| Setup an error catch to alert Users of errors that are in the Docker Container Log.                                                         | ✅        |
 | Optimize frontend rendering performance with lazy loading to reduce initial bundle size and eliminating redundant re-renders.               | ✅        |   
 | Complete update of all dependencies. Docketeer v20.0.0 is now fully compatible with Docker Desktop v4.40 as of 04/16/25.                    | ✅        |
-|                | ✅        |
+| Improved frontend styling and global styling making it easier to make future improvements                                                 | ✅        |
 
 - ✅ = Ready to use
 
@@ -129,33 +129,141 @@ See the [Known Issues Docs](/docs/KnownIssues.md) for a list of known issues.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 <!-- INSTALLATION -->
 
-## Installation
-#### Open your Docker Desktop and search `Docketeer` and install the extension!
 
-Dev & Contributors - See [DevGettingStarted](/docs/DevGettingStarted.md) & Contributing section below!
+## 🚀 Installation Guide for Docketeer v20.0.0
 
+Docketeer is a Docker Desktop Extension for real-time container monitoring using Prometheus, Grafana, and cAdvisor. With updated dependencies, Docketeer v20.0.0 is now compatible with Docker Desktop v4.40 as of 04/18/25.
 
-**Need to improve the readability and make sure that the steps are sequentially read out, this is an awful. Should also include Download Docker Desktop as first step since the browser does not contain any metrics
-<br/>
+---
 
+### ✅ Prerequisites
 
+1. **Install Docker Desktop**
+   - [Download Docker Desktop](https://www.docker.com/products/docker-desktop/)
+   - Follow the install steps for macOS or Windows.
+   - Verify installation:
+     ```bash
+     docker --version
+     ```
 
-`Notes:` If you encounter any `<dependency/package> not found by vite`: 
+---
 
-- Turn off the server such as 
+## 🧩 Install Docketeer as an Extension
+
+1. Open Docker Desktop.
+2. Go to the **Extensions** tab.
+3. Search for `Docketeer`.
+4. Click **Install**.
+
+> For local development or contributing, follow the steps below.
+
+---
+
+## 🛠 Local Development: Browser Mode
+
+### 🔧 1. Enable Docker Extension Developer Mode
+
+- Open Docker Desktop → **Settings > Extensions** → Enable `Developer Mode`
+
+---
+
+### 🌐 2. Run Docketeer in Browser Mode
+
+This will launch the full environment (frontend, backend, Postgres, Prometheus, Grafana, cAdvisor, etc.)
+
+#### To run clean with no cache:
+
+```bash
+make browser-new
 ```
-# Example: stop Browser Dev environment
-  make browser-down
-```
-- Delete everything Docketeer related - images, volumes, containers (should be deleted when you "make browser-down")
 
-- Run Docker compose without cache using this Makefile command:
-```
-# Example: To build without cached image layers
-  make browser-new
+- Docketeer UI → `http://localhost:4000`
+- Grafana → `http://localhost:49155`
+- Prometheus → `http://localhost:49156`
+- cAdvisor → `http://localhost:49158`
+
+---
+
+### 🛑 3. Power Down
+
+Stop and clean up all containers and volumes in Docker Desktop first before running ' make browser-down'
+
+Run in terminal:
+
+```bash
+make browser-down
 ```
 
-- See [Makefile](/Makefile) for more info!
+This will clear all dangling resources
+
+Run in terminal:
+
+```bash
+make pruneAll
+```
+
+---
+
+### ⚠️ Troubleshooting (e.g. Vite package not found)
+
+If connnection to docker daemon is lost, may have to restart computer for a full reset. But, try running this sequence of Makefile commands
+
+Run in terminal:
+```bash
+make browser-down
+```
+
+Run in terminal:
+```bash
+make pruneAll
+```
+
+Check Docker Desktop to make sure Containers, Images, Volumes, Builds are cleared. If not cleared may have to quit and re-open Docker Desktop.
+
+Run in terminal:
+```bash
+make browser-new
+```
+---
+
+## 📦 Running the Docker Desktop Extension
+
+
+### 🧪 1. Install the extension locally
+
+```bash
+make extension-dev
+```
+
+
+### 🛑 3. Uninstall Extension
+
+Run in terminal:
+```bash
+make remove-dev-extension
+```
+
+Run in terminal:
+```bash
+make pruneAll
+```
+---
+
+## 🗂 Project Structuring
+- [Dev Getting Started](./docs/DevGettingStarted.md)
+- [Makefile](/Makefile)
+
+| File                          | Purpose                                        |
+|-------------------------------|------------------------------------------------|
+| `docker-compose-browser.yaml` | Full browser-mode dev environment              |
+| `docker-compose-dev.yaml`     | Minimal extension test in dev mode             |
+| `docker-compose-prod.yaml`    | Production-ready extension deployment config   |
+| `dockerfile.dev`              | Dockerfile for dev builds (hot reload support) |
+| `dockerfile.prod`             | Dockerfile for production extension build      |
+| `Makefile`                    | CLI automation: build, run, down, clean        |
+
+---
+
 
 <br/>
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

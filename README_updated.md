@@ -472,64 +472,67 @@ make browser-new
 
 ### 🛑 3. Power Down
 
-Stop and clean up all containers and volumes:
+Stop and clean up all containers and volumes in Docker Desktop first before running ' make browser-down'
+
+Run in terminal:
 
 ```bash
 make browser-down
 ```
 
-If needed, clear all dangling resources:
+This will clear all dangling resources
+
+Run in terminal:
 
 ```bash
-docker system prune -af
+make pruneAll
 ```
 
 ---
 
 ### ⚠️ Troubleshooting (e.g. Vite package not found)
 
+If connnection to docker daemon is lost, may have to restart computer for a full reset. But, try running this sequence of Makefile commands
+
+Run in terminal:
 ```bash
 make browser-down
-docker system prune -af
+```
+
+Run in terminal:
+```bash
+make pruneAll
+```
+
+Check Docker Desktop to make sure Containers, Images, Volumes, Builds are cleared. If not cleared may have to quit and re-open Docker Desktopo.
+
+Run in terminal:
+```bash
 make browser-new
 ```
-
 ---
 
-## 📦 Building & Packaging the Extension
+## 📦 Running the Extension
 
-If you want to distribute or test the Docker Desktop extension (not browser mode), follow these steps:
 
-### 🔨 1. Build the extension
-
-```bash
-docker extension build -f extension/dockerfile.dev -t docketeer-ext .
-```
-
-> Replace `dockerfile.dev` with `dockerfile.prod` for production.
-
-### 🧪 2. Install the extension locally
+### 🧪 1. Install the extension locally
 
 ```bash
-docker extension install docketeer-ext
+make extension-dev
 ```
 
-If you’ve already installed it before:
-
-```bash
-docker extension uninstall docketeer-ext
-docker extension install docketeer-ext
-```
 
 ### 🧼 3. Uninstall Extension
 
 ```bash
-docker extension uninstall docketeer-ext
+make remove-dev-extension
 ```
 
 ---
 
-## 🗂 Project Structure
+## 🗂 Project Structuring
+- [Dev Getting Started](./docs/DevGettingStarted.md)
+- [Makefile](/Makefile)
 
 | File                          | Purpose                                        |
 |-------------------------------|------------------------------------------------|
@@ -542,4 +545,4 @@ docker extension uninstall docketeer-ext
 
 ---
 
-Need help? Open an issue or reach out to a maintainer. Happy hacking!
+
