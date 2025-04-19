@@ -68,16 +68,10 @@
 
 <!-- ABOUT THE PROJECT -->
 
-## About The Project
-
-<div align="center" width="100%">
-            
-[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![MongoDB][MongoDB]][MongoDB-url][![Postgres][Postgres]][Postgres-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url][![D3][D3]][D3-url][![MUI][MUI]][MUI-URL][![Git][Git]][Git-url]
-
+## About The Project     
 </div>
 
 Docketeer is an open source initiative comprised of contributions from dozens of talented and passionate software engineers. Our application provides a simple interface to manage Docker resources & visualize both host and container metrics. Docketeer is a containerized application that can be deployed alongside your application cluster with hardly any effort. To learn more about Docketeer and how to get started, continue reading!
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 <!-- FEATURES -->
 
 ## Features
@@ -145,7 +139,7 @@ Docketeer is a Docker Desktop Extension for real-time container monitoring using
      ```bash
      docker --version
      ```
-
+   - Latest stable version of Docker Desktop is 4.40
 ---
 
 ## 🧩 Install Docketeer as an Extension
@@ -271,23 +265,23 @@ make pruneAll
 <br />
   <div align="center">
     <p>Navigation</p>
-    <img alt="Navigation" src="./assets/Navigation_v20.gif" width="fit" height="auto">
+    <img alt="Navigation" src="./assets/Navigation_v20.gif" width="1000" height="auto">
     <p>Container Page:</p>
-    <img alt="Containers Page" src="./assets/ContainersFilters_v20.gif" width="fit" height="auto">
+    <img alt="Containers Page" src="./assets/ContainersFilters_v20.gif" width="1000" height="auto">
     <p>Image Page:</p>
-    <img alt="Image Page" src="./assets/Images_v20.gif" width="fit" height="auto">
+    <img alt="Image Page" src="./assets/Images_v20.gif" width="1000" height="auto">
     <p>Snapshot Metrics:</p>
-    <img alt="Snapshot Metrics" src="./assets/SnapshotMetrics_v20.gif" width="fit" height="auto">
+    <img alt="Snapshot Metrics" src="./assets/SnapshotMetrics_v20.gif" width="1000" height="auto">
     <p>Container Metrics Page:</p>
-    <img alt="Container Metrics Page" src="./assets/ContainersMetrics_v20.gif" width="fit" height="auto">
+    <img alt="Container Metrics Page" src="./assets/ContainersMetrics_v20.gif" width="1000" height="auto">
     <p>Process Logs:</p>
-    <img alt="Process Logs" src="./assets/ProcessLogs_v20.gif" width="fit" height="auto">
+    <img alt="Process Logs" src="./assets/ProcessLogs_v20.gif" width="1000" height="auto">
     <p>Kubernetes Page (In Development):</p>
-    <img alt="Kubernates Metrics Page" src="./assets/KubernetesClusterHealthMetrics_v20.gif" width="fit" height="auto">
+    <img alt="Kubernates Metrics Page" src="./assets/KubernetesClusterHealthMetrics_v20.gif" width="1000" height="auto">
     <p>Network:</p>
-    <img alt="Network" src="./assets/Network_v20.png" width="fit" height="auto">
+    <img alt="Network" src="./assets/Network_v20.png" width="1000" height="auto">
     <p>Configuration Page:</p>
-    <img alt="Configuration Page" src="./assets/Configurations_v20.png" width="fit" height="auto">
+    <img alt="Configuration Page" src="./assets/Configurations_v20.png" width="1000" height="auto">
   </div>
 <br />
 
@@ -359,6 +353,7 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 
 Need ideas for improvement? Check our [known issues](/docs/KnownIssues.md) for possible improvements / fixes!
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Contributors
 
 - Rachel Baek [@rsbaek](https://github.com/rsbaek) | [Linkedin](https://www.linkedin.com/in/rachel-baek/)
@@ -471,53 +466,3 @@ Distributed under the MIT License. See [License](/LICENSE) for more information.
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/company/docketeer
 [product-screenshot]: images/screenshot.png
-[React.js]: https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB
-[React-url]: https://reactjs.org/
-[TS.js]: https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white
-[TS-url]: https://www.typescriptlang.org/
-[Grafana]: https://img.shields.io/badge/grafana-%23F46800.svg?style=for-the-badge&logo=grafana&logoColor=white
-[Grafana-url]: https://grafana.com/
-[Prometheus]: https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white
-[Prometheus-url]: https://prometheus.io/
-[JavaScript]: https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E
-[JavaScript-url]: https://www.javascript.com/
-[Node.js]: https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white
-[Node-url]: https://nodejs.org/en/
-[Vite]: https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white
-[Vite-url]: https://vitejs.dev/
-[Express]: https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB
-[Express-url]: https://expressjs.com/
-[Redis]: https://img.shields.io/badge/redis-%23DD0031.svg?&style=for-the-badge&logo=redis&logoColor=white
-[Redis-url]: https://redis.com/
-[MongoDB]: https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white
-[MongoDB-url]: https://www.mongodb.com
-[Redux]: https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white
-[Redux-url]: https://redux.js.org/
-[Postgres]: https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white
-[Postgres-url]: https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white](https://www.postgresql.org/)
-[Jest]: https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white
-[Jest-url]: https://jestjs.io/
-[Styled Components]: https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white
-[Styled Components-url]: https://styled-components.com/
-[Docker]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
-[Docker-url]: https://www.docker.com/
-[Git]: https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white
-[Git-url]: https://git-scm.com/
-[CSS3]: https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white
-[CSS3-url]: https://www.w3schools.com/css/
-[HTML5]: https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white
-[HTML5-url]: https://www.w3schools.com/html/
-[MySQL]: https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white
-[MySQL-url]: https://www.mysql.com/
-[SASS]: https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white
-[SASS-url]: https://sass-lang.com/
-[RTK]: https://img.shields.io/badge/RTK-563D7C?style=for-the-badge&logo=redux&logoColor=white
-[RTK-url]: https://redux-toolkit.js.org/
-[Helm]: https://img.shields.io/badge/helm-navy?style=for-the-badge&logo=helm&logoColor=white
-[Helm-url]: https://helm.sh/
-[Kubernetes]: https://img.shields.io/badge/kubernetes-3371e3?style=for-the-badge&logo=kubernetes&logoColor=white
-[Kubernetes-url]: https://kubernetes.io/
-[D3]: https://img.shields.io/badge/d3-red?style=for-the-badge&logo=d3.js
-[D3-url]: https://d3js.org/
-[MUI]:https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white
-[MUI-url]: https://mui.com/
