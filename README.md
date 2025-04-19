@@ -324,7 +324,7 @@ When you are ready to launch, make sure to follow the instructions under [Makefi
 
 
 ## <b>Read More</b>
-- [Docketeer XX: Foundation Restoration](https://medium.com/@docketeer/5c8820afa836)
+- [Docketeer XX: Foundation Restoration](https://medium.com/@docketeer/docketeer-xx-foundation-restoration-5c8820afa836)
 - [Docketeer XIX: New Features in Uncharted Seas](https://medium.com/@ellissong/docketeer-xix-new-features-in-uncharted-seas-3baf72099488)
 - [Docketeer XVIII: A Whale of An Improvement](https://medium.com/@docketeerxii/announcing-docketeer-18-0-a-whale-of-an-improvement-67282fbbbe61)
 - [Docketeer XVII: Transforming with Security](https://medium.com/@docketeerxii/docketeer-xvii-transforming-with-security-45cd06da061d)
