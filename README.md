@@ -33,16 +33,13 @@
     <img src="assets/extended-dark.png" alt="Logo" width="550" height="auto">
   </a>
   <br />
-  https://dogketeer.com/<br>
-<br/>
-  
+  <a href="https://dogketeer.com/"><strong>https://dogketeer.com/</strong></a><br>
    <br /> 
   <p align="center">
   Docketeer is a developer-friendly application that provides a single interface for container and network management as well as metric visualization.  
     <br />
-    <a href="https://github.com/open-source-labs/Docketeer"><strong>Explore the code & contribute here!»</strong></a><br />
-    <a href="https://github.com/open-source-labs/docketeer-extension"><strong>See the extension version's code here!»</strong></a>
     <br />
+    <a href="https://github.com/open-source-labs/Docketeer"><strong>Docketeer Web App</strong></a><br />
     <br />
     <a href="https://github.com/open-source-labs/Docketeer/issues">Report Bug</a>
     ·
@@ -62,6 +59,7 @@
     <li><a href="#features">Features</a></li>
     <li><a href="#installation">Installation</a></li>
     <li><a href="#documentation">Documentation</a></li>
+    <li><a href="#demo">Demo</a></li>
     <li><a href="#contributing">Contributing</a></li> 
     <li><a href="#license">License</a></li>
   </ol>
@@ -150,15 +148,16 @@ Docketeer is a Docker Desktop Extension for real-time container monitoring using
 4. Click **Install**.
 
 > For local development or contributing, follow the steps below.
-
+<li><a href="#documentation">Documentation</a></li>
 ---
 
 ## 🛠 Local Development: Browser Mode
 
 ### 🔧 1. Enable Docker Extension Developer Mode
 
-- Open Docker Desktop → **Settings > Extensions** → Enable `Developer Mode`
+- Open Docker Desktop → **Settings > Extensions** → Disable `Allow only extensions distributed through the Docker Marketplace`
 
+<img alt="Docker Settings" src="./assets/DockerSettings_v20.png" width="750" height="auto">
 ---
 
 ### 🌐 2. Run Docketeer in Browser Mode
@@ -223,7 +222,7 @@ make browser-new
 ## 📦 Running the Docker Desktop Extension
 
 
-### 🧪 1. Install the extension locally
+### 🧩 1. Install the extension locally
 
 ```bash
 make extension-dev
@@ -242,6 +241,34 @@ Run in terminal:
 make pruneAll
 ```
 ---
+
+## Documentation
+For more details, please read the ***docs*** folder, which covers the following:
+
+- [API](./docs/api/openapi.yml) 
+- Changelogs (V14-V20)
+  - [v14.0.0](./docs/changelogs/docketeer14.notes.md)
+  - [v15.0.0](./docs/changelogs/docketeer15.notes.md)  
+  - [v16.0.0](./docs/changelogs/docketeer16.notes.md)  
+  - [v17.0.0](./docs/changelogs/docketeer17.notes.md)  
+  - [v18.0.0](./docs/changelogs/docketeer18.notes.md)  
+  - [v19.0.0](./docs/changelogs/docketeer19.notes.md)   
+  - [v20.0.0](./docs/changelogs/docketeer20.notes.md)   
+- Features 
+  - [Configuration.md](./docs/features/Configuration(Alpha).md)
+  - [Models.md](./docs/features/Models.md) 
+
+Helpful Development Documents
+
+- [DevGettingStarted.md](./docs/DevGettingStarted.md)
+- [DevWorkingWithGrafana.md](./docs/DevWorkingWithGrafana.md)
+- [KnownIssues.md](./docs/KnownIssues.md)
+
+When you are ready to launch, make sure to follow the instructions under [Makefile](Makefile).
+
+
+<br />
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 🗂 Project Structuring
 - [Dev Getting Started](./docs/DevGettingStarted.md)
@@ -263,23 +290,31 @@ make pruneAll
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <br />
+
+
+## Demo
+
   <div align="center">
     <p>Navigation</p>
     <img alt="Navigation" src="./assets/Navigation_v20.gif" width="1000" height="auto">
     <p>Container Page:</p>
     <img alt="Containers Page" src="./assets/ContainersFilters_v20.gif" width="1000" height="auto">
+    <p align="right">(<a href="#readme-top">back to top</a>)</p>
     <p>Image Page:</p>
     <img alt="Image Page" src="./assets/Images_v20.gif" width="1000" height="auto">
     <p>Snapshot Metrics:</p>
     <img alt="Snapshot Metrics" src="./assets/SnapshotMetrics_v20.gif" width="1000" height="auto">
+    <p align="right">(<a href="#readme-top">back to top</a>)</p>
     <p>Container Metrics Page:</p>
     <img alt="Container Metrics Page" src="./assets/ContainersMetrics_v20.gif" width="1000" height="auto">
     <p>Process Logs:</p>
     <img alt="Process Logs" src="./assets/ProcessLogs_v20.gif" width="1000" height="auto">
+    <p align="right">(<a href="#readme-top">back to top</a>)</p>
     <p>Kubernetes Page (In Development):</p>
     <img alt="Kubernates Metrics Page" src="./assets/KubernetesClusterHealthMetrics_v20.gif" width="1000" height="auto">
     <p>Network:</p>
     <img alt="Network" src="./assets/Network_v20.png" width="1000" height="auto">
+    <p align="right">(<a href="#readme-top">back to top</a>)</p>
     <p>Configuration Page:</p>
     <img alt="Configuration Page" src="./assets/Configurations_v20.png" width="1000" height="auto">
   </div>
@@ -287,27 +322,9 @@ make pruneAll
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Documentation
-For more details, please read the ***docs*** folder, which covers the following:
-
-- API 
-- Assets
-- Changelogs (V1-V20)
-- Features 
-  - Configuration.md
-  - Models.md
-- DevGettingStarted.md
-- DevWorkingWithGrafana.md
-- KnownIssues.md
-
-When you are ready to launch, make sure to follow the instructions under ***Makefile***.
-
-
-<br />
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## <b>Read More</b>
-- [Docketeer XX: Foundation Restoration](https://medium.com) **{add Medium Link}
+- [Docketeer XX: Foundation Restoration](https://medium.com/@docketeer/5c8820afa836)
 - [Docketeer XIX: New Features in Uncharted Seas](https://medium.com/@ellissong/docketeer-xix-new-features-in-uncharted-seas-3baf72099488)
 - [Docketeer XVIII: A Whale of An Improvement](https://medium.com/@docketeerxii/announcing-docketeer-18-0-a-whale-of-an-improvement-67282fbbbe61)
 - [Docketeer XVII: Transforming with Security](https://medium.com/@docketeerxii/docketeer-xvii-transforming-with-security-45cd06da061d)
